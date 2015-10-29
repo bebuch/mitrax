@@ -76,18 +76,6 @@ namespace mitrax{
 		/// \brief Type of the data that administrates the matrix
 		using value_type = T;
 
-		/// \brief Unsigned integral type (std::size_t)
-		using size_type = std::size_t;
-
-		/// \brief Signed integer type (std::ptrdiff_t)
-		using difference_type = std::ptrdiff_t;
-
-		/// \brief Type of points in the matrix
-		using point_type = point< std::size_t >;
-
-		/// \brief Type of matrix dimensions (cols and rows)
-		using dimension_type = size< std::size_t >;
-
 		/// \brief Type of a iterator for data
 		using iterator = typename
 			std::array< value_type, Cols * Rows >::iterator;
@@ -103,18 +91,6 @@ namespace mitrax{
 		/// \brief Type of a reverse iterator for const data
 		using const_reverse_iterator = typename
 			std::array< value_type, Cols * Rows >::const_reverse_iterator;
-
-		/// \brief Type of a reference to data
-		using reference = value_type&;
-
-		/// \brief Type of a reference to const data
-		using const_reference = value_type const&;
-
-		/// \brief Type of a pointer to data
-		using pointer = value_type*;
-
-		/// \brief Type of a pointer to const data
-		using const_pointer = value_type const*;
 
 
 
@@ -141,11 +117,11 @@ namespace mitrax{
 
 
 
-		static constexpr std::size_t width(){
+		static constexpr std::size_t cols(){
 			return Cols;
 		}
 
-		static constexpr std::size_t height(){
+		static constexpr std::size_t rows(){
 			return Rows;
 		}
 

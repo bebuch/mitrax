@@ -35,6 +35,12 @@ int main()try{
 
 	constexpr auto cv3 = to_col_vector< int, 3 >({0, 1, 2});
 	(void)cv3;
+
+	constexpr auto v = to_square_matrix< int, 1 >({{0}});
+	(void)v;
+
+	constexpr int i = v;
+	(void)i;
 }catch(std::exception const& e){
 	std::cerr
 		<< "Exit with exception: ["
