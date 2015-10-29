@@ -23,6 +23,13 @@ int main()try{
 	});
 	(void)m3x3;
 
+	constexpr auto ms3x3 = to_square_matrix< int, 3 >({
+		{0, 1, 2},
+		{3, 4, 5},
+		{6, 7, 8}
+	});
+	(void)ms3x3;
+
 	constexpr auto rv3 = to_row_vector< int, 3 >({0, 1, 2});
 	(void)rv3;
 

@@ -17,7 +17,7 @@
 namespace mitrax{
 
 
-	template < typename ValueType, std::size_t Cols, std::size_t Rows >
+	template < typename T, std::size_t Cols, std::size_t Rows >
 	class matrix;
 
 	template < typename T, std::size_t N >
@@ -28,34 +28,6 @@ namespace mitrax{
 
 	template < typename T, std::size_t Rows >
 	using row_vector = matrix< T, 1, Rows >;
-
-
-
-	template < typename ValueType, std::size_t Cols, std::size_t Rows >
-	constexpr matrix< ValueType, Cols, Rows >
-	to_matrix(ValueType(&&values)[Rows][Cols]);
-
-	template < typename ValueType, std::size_t Cols, std::size_t Rows >
-	constexpr matrix< ValueType, Cols, Rows >
-	to_matrix(ValueType const(&values)[Rows][Cols]);
-
-
-	template < typename ValueType, std::size_t Cols >
-	constexpr col_vector< ValueType, Cols >
-	to_col_vector(ValueType(&&values)[Cols]);
-
-	template < typename ValueType, std::size_t Cols >
-	constexpr col_vector< ValueType, Cols >
-	to_col_vector(ValueType const(&values)[Cols]);
-
-
-	template < typename ValueType, std::size_t Rows >
-	constexpr row_vector< ValueType, Rows >
-	to_row_vector(ValueType(&&values)[Rows]);
-
-	template < typename ValueType, std::size_t Rows >
-	constexpr row_vector< ValueType, Rows >
-	to_row_vector(ValueType const(&values)[Rows]);
 
 
 
@@ -97,11 +69,11 @@ namespace mitrax{
 
 
 
-	template < typename ValueType, std::size_t Cols, std::size_t Rows >
+	template < typename T, std::size_t Cols, std::size_t Rows >
 	class matrix{
 	public:
 		/// \brief Type of the data that administrates the matrix
-		using value_type = ValueType;
+		using value_type = T;
 
 		/// \brief Unsigned integral type (std::size_t)
 		using size_type = std::size_t;
@@ -144,24 +116,14 @@ namespace mitrax{
 		using const_pointer = value_type const*;
 
 
+
 		constexpr matrix():
 			values_{{0}} {}
-
-		constexpr matrix(value_type(&&values)[Rows][Cols]):
-			values_(detail::to_array(
-				std::move(values),
-				std::make_index_sequence< Cols * Rows >()
-			)){}
-
-		constexpr matrix(value_type const(&values)[Rows][Cols]):
-			values_(detail::to_array(
-				values,
-				std::make_index_sequence< Cols * Rows >()
-			)){}
 
 		constexpr matrix(matrix&&) = default;
 
 		constexpr matrix(matrix const&) = default;
+
 
 
 		constexpr value_type& operator()(
@@ -177,6 +139,7 @@ namespace mitrax{
 		}
 
 
+
 		static constexpr std::size_t width(){
 			return Cols;
 		}
@@ -186,9 +149,23 @@ namespace mitrax{
 		}
 
 
+
 	private:
 		std::array< value_type, Cols * Rows > values_;
 
+
+
+		constexpr matrix(value_type(&&values)[Rows][Cols]):
+			values_(detail::to_array(
+				std::move(values),
+				std::make_index_sequence< Cols * Rows >()
+			)){}
+
+		constexpr matrix(value_type const(&values)[Rows][Cols]):
+			values_(detail::to_array(
+				values,
+				std::make_index_sequence< Cols * Rows >()
+			)){}
 
 		template < std::size_t N >
 		constexpr matrix(value_type(&&values)[N]):
@@ -199,62 +176,81 @@ namespace mitrax{
 			values_(to_array(values)){}
 
 
-		template < typename T, std::size_t N >
-		friend constexpr col_vector< T, N >
-		to_col_vector(T const(&values)[N]);
 
-		template < typename T, std::size_t N >
-		friend constexpr col_vector< T, N >
-		to_col_vector(T(&&values)[N]);
+		template < typename U, std::size_t C, std::size_t R >
+		friend constexpr matrix< U, C, R > to_matrix(U(&&values)[R][C]);
+
+		template < typename U, std::size_t C, std::size_t R >
+		friend constexpr matrix< U, C, R > to_matrix(U const(&values)[R][C]);
 
 
-		template < typename T, std::size_t N >
-		friend constexpr row_vector< T, N >
-		to_row_vector(T const(&values)[N]);
+		template < typename U, std::size_t N >
+		friend constexpr col_vector< U, N >
+		to_col_vector(U const(&values)[N]);
 
-		template < typename T, std::size_t N >
-		friend constexpr row_vector< T, N >
-		to_row_vector(T(&&values)[N]);
+		template < typename U, std::size_t N >
+		friend constexpr col_vector< U, N >
+		to_col_vector(U(&&values)[N]);
+
+
+		template < typename U, std::size_t N >
+		friend constexpr row_vector< U, N >
+		to_row_vector(U const(&values)[N]);
+
+		template < typename U, std::size_t N >
+		friend constexpr row_vector< U, N >
+		to_row_vector(U(&&values)[N]);
 	};
 
 
 
-	template < typename ValueType, std::size_t Cols, std::size_t Rows >
-	constexpr matrix< ValueType, Cols, Rows >
-	to_matrix(ValueType(&&values)[Rows][Cols]){
-		return matrix< ValueType, Cols, Rows >(std::move(values));
+	template < typename T, std::size_t Cols, std::size_t Rows >
+	constexpr matrix< T, Cols, Rows > to_matrix(T(&&values)[Rows][Cols]){
+		return matrix< T, Cols, Rows >(std::move(values));
 	}
 
-	template < typename ValueType, std::size_t Cols, std::size_t Rows >
-	constexpr matrix< ValueType, Cols, Rows >
-	to_matrix(ValueType const(&values)[Rows][Cols]){
-		return matrix< ValueType, Cols, Rows >(values);
-	}
-
-
-	template < typename ValueType, std::size_t Cols >
-	constexpr col_vector< ValueType, Cols >
-	to_col_vector(ValueType(&&values)[Cols]){
-		return col_vector< ValueType, Cols >(std::move(values));
-	}
-
-	template < typename ValueType, std::size_t Cols >
-	constexpr col_vector< ValueType, Cols >
-	to_col_vector(ValueType const(&values)[Cols]){
-		return col_vector< ValueType, Cols >(values);
+	template < typename T, std::size_t Cols, std::size_t Rows >
+	constexpr matrix< T, Cols, Rows > to_matrix(T const(&values)[Rows][Cols]){
+		return matrix< T, Cols, Rows >(values);
 	}
 
 
-	template < typename ValueType, std::size_t Rows >
-	constexpr row_vector< ValueType, Rows >
-	to_row_vector(ValueType(&&values)[Rows]){
-		return row_vector< ValueType, Rows >(std::move(values));
+	template < typename T, std::size_t N >
+	constexpr matrix< T, N, N >
+	to_square_matrix(T(&&values)[N][N]){
+		return to_matrix< T, N, N >(std::move(values));
 	}
 
-	template < typename ValueType, std::size_t Rows >
-	constexpr row_vector< ValueType, Rows >
-	to_row_vector(ValueType const(&values)[Rows]){
-		return row_vector< ValueType, Rows >(values);
+	template < typename T, std::size_t N >
+	constexpr matrix< T, N, N >
+	to_square_matrix(T const(&values)[N][N]){
+		return to_matrix< T, N, N >(values);
+	}
+
+
+	template < typename T, std::size_t N >
+	constexpr col_vector< T, N >
+	to_col_vector(T(&&values)[N]){
+		return col_vector< T, N >(std::move(values));
+	}
+
+	template < typename T, std::size_t N >
+	constexpr col_vector< T, N >
+	to_col_vector(T const(&values)[N]){
+		return col_vector< T, N >(values);
+	}
+
+
+	template < typename T, std::size_t N >
+	constexpr row_vector< T, N >
+	to_row_vector(T(&&values)[N]){
+		return row_vector< T, N >(std::move(values));
+	}
+
+	template < typename T, std::size_t N >
+	constexpr row_vector< T, N >
+	to_row_vector(T const(&values)[N]){
+		return row_vector< T, N >(values);
 	}
 
 
