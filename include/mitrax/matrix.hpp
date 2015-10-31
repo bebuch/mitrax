@@ -9,9 +9,10 @@
 #ifndef _mitrax__matrix__hpp_INCLUDED_
 #define _mitrax__matrix__hpp_INCLUDED_
 
-#include "to_array.hpp"
 #include "point.hpp"
 #include "size.hpp"
+
+#include <utility>
 
 
 namespace mitrax{
@@ -81,6 +82,55 @@ namespace mitrax{
 			std::size_t x, std::size_t y
 		)const{
 			return m_(x, y);
+		}
+
+
+		constexpr iterator begin(){
+			return m_.begin();
+		}
+
+		constexpr const_iterator begin()const{
+			return m_.begin();
+		}
+
+		constexpr iterator end(){
+			return m_.end();
+		}
+
+		constexpr const_iterator end()const{
+			return m_.end();
+		}
+
+		constexpr reverse_iterator rbegin(){
+			return m_.rbegin();
+		}
+
+		constexpr const_reverse_iterator rbegin()const{
+			return m_.rbegin();
+		}
+
+		constexpr reverse_iterator rend(){
+			return m_.rend();
+		}
+
+		constexpr const_reverse_iterator rend()const{
+			return m_.rend();
+		}
+
+		constexpr const_iterator cbegin()const{
+			return begin();
+		}
+
+		constexpr const_iterator cend()const{
+			return end();
+		}
+
+		constexpr const_reverse_iterator crbegin()const{
+			return rbegin();
+		}
+
+		constexpr const_reverse_iterator crend()const{
+			return rend();
 		}
 
 

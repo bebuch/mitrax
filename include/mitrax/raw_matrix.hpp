@@ -10,6 +10,8 @@
 #define _mitrax__raw_matrix__hpp_INCLUDED_
 
 #include "matrix.hpp"
+#include "to_array.hpp"
+#include "to_vector.hpp"
 
 
 namespace mitrax{
@@ -66,6 +68,37 @@ namespace mitrax{
 		}
 
 
+		template <
+			typename T,
+			std::size_t Cols,
+			std::size_t Rows,
+			std::size_t ... I
+		>
+		constexpr auto to_vector(
+			T(&&values)[Rows][Cols],
+			std::index_sequence< I ... >
+		){
+			return boost::container::vector< T >{
+				std::move(values[I / Cols][I % Cols]) ...
+			};
+		}
+
+		template <
+			typename T,
+			std::size_t Cols,
+			std::size_t Rows,
+			std::size_t ... I
+		>
+		constexpr auto to_vector(
+			T const(&values)[Rows][Cols],
+			std::index_sequence< I ... >
+		){
+			return boost::container::vector< T >{
+				values[I / Cols][I % Cols] ...
+			};
+		}
+
+
 	}
 
 
@@ -106,13 +139,13 @@ namespace mitrax{
 		constexpr value_type& operator()(
 			std::size_t x, std::size_t y
 		){
-			return values_[y * Cols + x];
+			return values_[y * cols() + x];
 		}
 
 		constexpr value_type const& operator()(
 			std::size_t x, std::size_t y
 		)const{
-			return values_[y * Cols + x];
+			return values_[y * cols() + x];
 		}
 
 
@@ -123,6 +156,40 @@ namespace mitrax{
 
 		static constexpr std::size_t rows(){
 			return Rows;
+		}
+
+
+
+		constexpr iterator begin(){
+			return values_.begin();
+		}
+
+		constexpr const_iterator begin()const{
+			return values_.begin();
+		}
+
+		constexpr iterator end(){
+			return values_.end();
+		}
+
+		constexpr const_iterator end()const{
+			return values_.end();
+		}
+
+		constexpr reverse_iterator rbegin(){
+			return values_.rbegin();
+		}
+
+		constexpr const_reverse_iterator rbegin()const{
+			return values_.rbegin();
+		}
+
+		constexpr reverse_iterator rend(){
+			return values_.rend();
+		}
+
+		constexpr const_reverse_iterator rend()const{
+			return values_.rend();
 		}
 
 
@@ -182,6 +249,255 @@ namespace mitrax{
 	};
 
 
+	template < typename T >
+	class dynamic_raw_matrix_impl_base{
+	public:
+		/// \brief Type of the data that administrates the matrix
+		using value_type = T;
+
+		/// \brief Type of a iterator for data
+		using iterator = typename
+			boost::container::vector< value_type >::iterator;
+
+		/// \brief Type of a iterator for const data
+		using const_iterator = typename
+			boost::container::vector< value_type >::const_iterator;
+
+		/// \brief Type of a reverse iterator for data
+		using reverse_iterator = typename
+			boost::container::vector< value_type >::reverse_iterator;
+
+		/// \brief Type of a reverse iterator for const data
+		using const_reverse_iterator = typename
+			boost::container::vector< value_type >::const_reverse_iterator;
+
+
+		dynamic_raw_matrix_impl_base() = default;
+
+		dynamic_raw_matrix_impl_base(dynamic_raw_matrix_impl_base&&) = default;
+
+		dynamic_raw_matrix_impl_base(dynamic_raw_matrix_impl_base const&)
+			= default;
+
+
+		iterator begin(){
+			return values_.begin();
+		}
+
+		const_iterator begin()const{
+			return values_.begin();
+		}
+
+		iterator end(){
+			return values_.end();
+		}
+
+		const_iterator end()const{
+			return values_.end();
+		}
+
+		reverse_iterator rbegin(){
+			return values_.rbegin();
+		}
+
+		const_reverse_iterator rbegin()const{
+			return values_.rbegin();
+		}
+
+		reverse_iterator rend(){
+			return values_.rend();
+		}
+
+		const_reverse_iterator rend()const{
+			return values_.rend();
+		}
+
+
+	protected:
+		boost::container::vector< value_type > values_;
+
+
+		template < typename InputIt >
+		dynamic_raw_matrix_impl_base(InputIt first, InputIt last):
+			values_(first, last) {}
+	};
+
+
+	template < typename T, std::size_t Cols >
+	class raw_matrix_impl< T, Cols, 0 >:
+		public dynamic_raw_matrix_impl_base< T >{
+	public:
+		using typename dynamic_raw_matrix_impl_base< T >::value_type;
+
+
+		using dynamic_raw_matrix_impl_base< T >::dynamic_raw_matrix_impl_base;
+
+
+		value_type& operator()(
+			std::size_t x, std::size_t y
+		){
+			return values_[y * cols() + x];
+		}
+
+		value_type const& operator()(
+			std::size_t x, std::size_t y
+		)const{
+			return values_[y * cols() + x];
+		}
+
+
+		static constexpr std::size_t cols(){
+			return Cols;
+		}
+
+		std::size_t rows()const{
+			return values_.size() / cols();
+		}
+
+
+	private:
+		using dynamic_raw_matrix_impl_base< T >::values_;
+
+
+		template < std::size_t R >
+		raw_matrix_impl(raw_matrix< T, Cols, R >&& m):
+			dynamic_raw_matrix_impl_base< T >(
+				std::make_move_iterator(m.begin()),
+				std::make_move_iterator(m.end())
+			){}
+
+		template < std::size_t R >
+		raw_matrix_impl(raw_matrix< T, Cols, R > const& m):
+			dynamic_raw_matrix_impl_base< T >(m.begin(), m.end()) {}
+
+
+		template < typename U, std::size_t C, std::size_t R >
+		friend raw_matrix< U, C, 0 >
+		with_dynamic_rows(raw_matrix< U, C, R >&& m);
+
+		template < typename U, std::size_t C, std::size_t R >
+		friend raw_matrix< U, C, 0 >
+		with_dynamic_rows(raw_matrix< U, C, R > const& m);
+	};
+
+
+	template < typename T, std::size_t Rows >
+	class raw_matrix_impl< T, 0, Rows >:
+		public dynamic_raw_matrix_impl_base< T >{
+	public:
+		using typename dynamic_raw_matrix_impl_base< T >::value_type;
+
+
+		using dynamic_raw_matrix_impl_base< T >::dynamic_raw_matrix_impl_base;
+
+
+		value_type& operator()(
+			std::size_t x, std::size_t y
+		){
+			return values_[y * cols() + x];
+		}
+
+		value_type const& operator()(
+			std::size_t x, std::size_t y
+		)const{
+			return values_[y * cols() + x];
+		}
+
+
+		std::size_t cols()const{
+			return values_.size() / rows();
+		}
+
+		static constexpr std::size_t rows(){
+			return Rows;
+		}
+
+
+	private:
+		using dynamic_raw_matrix_impl_base< T >::values_;
+
+
+		template < std::size_t C >
+		raw_matrix_impl(raw_matrix< T, C, Rows >&& m):
+			dynamic_raw_matrix_impl_base< T >(
+				std::make_move_iterator(m.begin()),
+				std::make_move_iterator(m.end())
+			){}
+
+		template < std::size_t C >
+		raw_matrix_impl(raw_matrix< T, C, Rows > const& m):
+			dynamic_raw_matrix_impl_base< T >(m.begin(), m.end()) {}
+
+
+		template < typename U, std::size_t C, std::size_t R >
+		friend raw_matrix< U, 0, R >
+		with_dynamic_cols(raw_matrix< U, C, R >&& m);
+
+		template < typename U, std::size_t C, std::size_t R >
+		friend raw_matrix< U, 0, R >
+		with_dynamic_cols(raw_matrix< U, C, R > const& m);
+	};
+
+	template < typename T >
+	class raw_matrix_impl< T, 0, 0 >:
+		public dynamic_raw_matrix_impl_base< T >{
+	public:
+		using typename dynamic_raw_matrix_impl_base< T >::value_type;
+
+
+		using dynamic_raw_matrix_impl_base< T >::dynamic_raw_matrix_impl_base;
+
+
+		value_type& operator()(
+			std::size_t x, std::size_t y
+		){
+			return values_[y * cols() + x];
+		}
+
+		value_type const& operator()(
+			std::size_t x, std::size_t y
+		)const{
+			return values_[y * cols() + x];
+		}
+
+
+		std::size_t cols()const{
+			return cols_;
+		}
+
+		std::size_t rows()const{
+			return values_.size() / cols();
+		}
+
+
+	private:
+		using dynamic_raw_matrix_impl_base< T >::values_;
+		std::size_t cols_;
+
+
+		template < std::size_t C, std::size_t R >
+		raw_matrix_impl(raw_matrix< T, C, R >&& m):
+			dynamic_raw_matrix_impl_base< T >(
+				std::make_move_iterator(m.begin()),
+				std::make_move_iterator(m.end())
+			), cols_(m.cols()) {}
+
+		template < std::size_t C, std::size_t R >
+		raw_matrix_impl(raw_matrix< T, C, R > const& m):
+			dynamic_raw_matrix_impl_base< T >(m.begin(), m.end()),
+			cols_(m.cols()) {}
+
+
+		template < typename U, std::size_t C, std::size_t R >
+		friend raw_matrix< U, 0, 0 >
+		with_dynamic_dims(raw_matrix< U, C, R >&& m);
+
+		template < typename U, std::size_t C, std::size_t R >
+		friend raw_matrix< U, 0, 0 >
+		with_dynamic_dims(raw_matrix< U, C, R > const& m);
+	};
+
+
 
 	template < typename T, std::size_t C, std::size_t R >
 	constexpr raw_matrix< T, C, R > to_matrix(T(&&values)[R][C]){
@@ -224,6 +540,40 @@ namespace mitrax{
 	template < typename T, std::size_t N >
 	constexpr raw_row_vector< T, N > to_row_vector(T const(&values)[N]){
 		return raw_matrix_impl< T, 1, N >(values);
+	}
+
+
+
+	template < typename T, std::size_t C, std::size_t R >
+	raw_matrix< T, 0, R > with_dynamic_cols(raw_matrix< T, C, R >&& m){
+		return raw_matrix< T, 0, R >(m);
+	}
+
+	template < typename T, std::size_t C, std::size_t R >
+	raw_matrix< T, 0, R > with_dynamic_cols(raw_matrix< T, C, R > const& m){
+		return raw_matrix< T, 0, R >(m);
+	}
+
+
+	template < typename T, std::size_t C, std::size_t R >
+	raw_matrix< T, C, 0 > with_dynamic_rows(raw_matrix< T, C, R >&& m){
+		return raw_matrix< T, C, 0 >(m);
+	}
+
+	template < typename T, std::size_t C, std::size_t R >
+	raw_matrix< T, C, 0 > with_dynamic_rows(raw_matrix< T, C, R > const& m){
+		return raw_matrix< T, C, 0 >(m);
+	}
+
+
+	template < typename T, std::size_t C, std::size_t R >
+	raw_matrix< T, 0, 0 > with_dynamic_dims(raw_matrix< T, C, R >&& m){
+		return raw_matrix< T, 0, 0 >(m);
+	}
+
+	template < typename T, std::size_t C, std::size_t R >
+	raw_matrix< T, 0, 0 > with_dynamic_dims(raw_matrix< T, C, R > const& m){
+		return raw_matrix< T, 0, 0 >(m);
 	}
 
 
