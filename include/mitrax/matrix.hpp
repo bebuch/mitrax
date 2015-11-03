@@ -13,6 +13,7 @@
 #include "size.hpp"
 
 #include <utility>
+#include <cassert>
 
 
 namespace mitrax{
@@ -75,12 +76,16 @@ namespace mitrax{
 		constexpr value_type& operator()(
 			std::size_t x, std::size_t y
 		){
+			assert(x < m_.cols());
+			assert(y < m_.rows());
 			return m_(x, y);
 		}
 
 		constexpr value_type const& operator()(
 			std::size_t x, std::size_t y
 		)const{
+			assert(x < m_.cols());
+			assert(y < m_.rows());
 			return m_(x, y);
 		}
 
