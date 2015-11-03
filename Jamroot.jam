@@ -39,4 +39,5 @@ project mitrax_test
 exe mitrax_test
 	:
 	[ glob *.cpp ]
+	/boost//unit_test_framework
 	;
