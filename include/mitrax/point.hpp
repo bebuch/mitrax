@@ -29,43 +29,43 @@ namespace mitrax{
 	} }
 
 
-	/// \brief A class for manipulating points
+	/// \brief A class for representing points
 	/// \tparam TX Type of the x position data
 	/// \tparam TY Type of the y position data
 	template < typename TX, typename TY = TX >
 	class point: public detail::point::point_base< TX, TY >{
 	public:
 		/// \brief Type of the x positions
-		using value_type_x = TX;
+		using x_value_type = TX;
 
 		/// \brief Type of the y positions
-		using value_type_y = TY;
+		using y_value_type = TY;
 
 
 		/// \brief The x
-		constexpr value_type_x& x(){
+		constexpr x_value_type& x(){
 			return x_;
 		}
 
 		/// \brief The y
-		constexpr value_type_y& y(){
+		constexpr y_value_type& y(){
 			return y_;
 		}
 
 
 		/// \brief The x
-		constexpr value_type_x const& x()const{
+		constexpr x_value_type const& x()const{
 			return x_;
 		}
 
 		/// \brief The y
-		constexpr value_type_y const& y()const{
+		constexpr y_value_type const& y()const{
 			return y_;
 		}
 
 
 		/// \brief Set x and y
-		constexpr void set(value_type_x const& x, value_type_y const& y){
+		constexpr void set(x_value_type const& x, y_value_type const& y){
 			x_ = x;
 			y_ = y;
 		}
@@ -81,7 +81,7 @@ namespace mitrax{
 		constexpr point(point&&) = default;
 
 		/// \brief Constructs a point by (x, y)
-		constexpr point(value_type_x const& x, value_type_y const& y):
+		constexpr point(x_value_type const& x, y_value_type const& y):
 			x_(x), y_(y)
 			{}
 
@@ -95,13 +95,13 @@ namespace mitrax{
 
 		/// \brief Get true, if width and height are positiv
 		constexpr bool is_positive()const{
-			return x() >= value_type_x() && y() >= value_type_y();
+			return x() >= x_value_type() && y() >= y_value_type();
 		}
 
 
 	private:
-		value_type_x x_;
-		value_type_y y_;
+		x_value_type x_;
+		y_value_type y_;
 	};
 
 
