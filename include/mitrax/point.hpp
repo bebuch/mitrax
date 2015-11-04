@@ -104,6 +104,113 @@ namespace mitrax{
 		y_value_type y_;
 	};
 
+	template < typename TX, typename TY >
+	constexpr bool operator==(
+		point< TX, TY > const& a,
+		point< TX, TY > const& b
+	){
+		return a.x() == b.x() && a.y() == b.y();
+	}
+
+	template < typename TX, typename TY >
+	constexpr bool operator!=(
+		point< TX, TY > const& a,
+		point< TX, TY > const& b
+	){
+		return !(a == b);
+	}
+
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY >& operator+=(
+		point< TX, TY >& a,
+		point< TX, TY > const& b
+	){
+		a.x() += b.x();
+		a.y() += b.y();
+		return a;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY >& operator-=(
+		point< TX, TY >& a,
+		point< TX, TY > const& b
+	){
+		a.x() -= b.x();
+		a.y() -= b.y();
+		return a;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY >& operator*=(
+		point< TX, TY >& a,
+		point< TX, TY > const& b
+	){
+		a.x() *= b.x();
+		a.y() *= b.y();
+		return a;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY >& operator/=(
+		point< TX, TY >& a,
+		point< TX, TY > const& b
+	){
+		a.x() /= b.x();
+		a.y() /= b.y();
+		return a;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY >& operator%=(
+		point< TX, TY >& a,
+		point< TX, TY > const& b
+	){
+		a.x() %= b.x();
+		a.y() %= b.y();
+		return a;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY > operator+(
+		point< TX, TY > a,
+		point< TX, TY > const& b
+	){
+		return a += b;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY > operator-(
+		point< TX, TY > a,
+		point< TX, TY > const& b
+	){
+		return a -= b;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY > operator*(
+		point< TX, TY > a,
+		point< TX, TY > const& b
+	){
+		return a *= b;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY > operator/(
+		point< TX, TY > a,
+		point< TX, TY > const& b
+	){
+		return a /= b;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY > operator%(
+		point< TX, TY > a,
+		point< TX, TY > const& b
+	){
+		return a %= b;
+	}
+
 
 }
 
