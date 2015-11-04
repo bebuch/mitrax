@@ -10,7 +10,7 @@
 #define _mitrax__matrix__hpp_INCLUDED_
 
 #include "point.hpp"
-#include "size.hpp"
+#include "dimension.hpp"
 
 #include <utility>
 #include <cassert>
@@ -35,7 +35,7 @@ namespace mitrax{
 		using point_type = point< std::size_t >;
 
 		/// \brief Type of matrix dimensions (cols and rows)
-		using dimension_type = size< std::size_t >;
+		using dimension_type = dimension< std::size_t >;
 
 		/// \brief Type of a reference to data
 		using reference = value_type&;

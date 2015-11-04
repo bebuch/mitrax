@@ -351,7 +351,7 @@ namespace mitrax{
 		}
 
 		std::size_t rows()const{
-			return values_.size() / cols();
+			return values_.dimension() / cols();
 		}
 
 
@@ -405,7 +405,7 @@ namespace mitrax{
 
 
 		std::size_t cols()const{
-			return values_.size() / rows();
+			return values_.dimension() / rows();
 		}
 
 		static constexpr std::size_t rows(){
@@ -466,7 +466,7 @@ namespace mitrax{
 		}
 
 		std::size_t rows()const{
-			return values_.size() / cols();
+			return values_.dimension() / cols();
 		}
 
 

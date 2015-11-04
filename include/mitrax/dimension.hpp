@@ -6,17 +6,17 @@
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 //-----------------------------------------------------------------------------
-#ifndef _mitrax__size__hpp_INCLUDED_
-#define _mitrax__size__hpp_INCLUDED_
+#ifndef _mitrax__dimension__hpp_INCLUDED_
+#define _mitrax__dimension__hpp_INCLUDED_
 
 
 namespace mitrax{
 
 
-	/// \brief A class for manipulating sizes
-	/// \tparam ValueType Type of the size data
+	/// \brief A class for manipulating dimensions
+	/// \tparam ValueType Type of the dimension data
 	template < typename ValueType >
-	class size{
+	class dimension{
 	public:
 		/// \brief Type of the positions
 		using value_type = ValueType;
@@ -51,25 +51,25 @@ namespace mitrax{
 		}
 
 
-		/// \brief Constructs a size with width 0 and height 0
-		constexpr size() = default;
+		/// \brief Constructs a dimension with width 0 and height 0
+		constexpr dimension() = default;
 
 		/// \brief Constructs a copy
-		constexpr size(size const&) = default;
+		constexpr dimension(dimension const&) = default;
 
 		/// \brief Constructs a copy
-		constexpr size(size&&) = default;
+		constexpr dimension(dimension&&) = default;
 
-		/// \brief Constructs a size width width and height
-		constexpr size(value_type const& width, value_type const& height):
+		/// \brief Constructs a dimension width width and height
+		constexpr dimension(value_type const& width, value_type const& height):
 			width_(width), height_(height) {}
 
 
 		/// \brief Copy assignment
-		constexpr size& operator=(size const&) = default;
+		constexpr dimension& operator=(dimension const&) = default;
 
 		/// \brief Move assignment
-		constexpr size& operator=(size&&) = default;
+		constexpr dimension& operator=(dimension&&) = default;
 
 
 		/// \brief Get true, if width and height are positiv
@@ -90,25 +90,25 @@ namespace mitrax{
 
 	template < typename ValueType >
 	constexpr bool operator==(
-		size< ValueType > const& a,
-		size< ValueType > const& b
+		dimension< ValueType > const& a,
+		dimension< ValueType > const& b
 	){
 		return a.width() == b.width() && a.height() == b.height();
 	}
 
 	template < typename ValueType >
 	constexpr bool operator!=(
-		size< ValueType > const& a,
-		size< ValueType > const& b
+		dimension< ValueType > const& a,
+		dimension< ValueType > const& b
 	){
 		return !(a == b);
 	}
 
 
 	template < typename ValueType >
-	constexpr size< ValueType >& operator+=(
-		size< ValueType >& a,
-		size< ValueType > const& b
+	constexpr dimension< ValueType >& operator+=(
+		dimension< ValueType >& a,
+		dimension< ValueType > const& b
 	){
 		a.width()  += b.width();
 		a.height() += b.height();
@@ -116,9 +116,9 @@ namespace mitrax{
 	}
 
 	template < typename ValueType >
-	constexpr size< ValueType >& operator-=(
-		size< ValueType >& a,
-		size< ValueType > const& b
+	constexpr dimension< ValueType >& operator-=(
+		dimension< ValueType >& a,
+		dimension< ValueType > const& b
 	){
 		a.width()  -= b.width();
 		a.height() -= b.height();
@@ -126,9 +126,9 @@ namespace mitrax{
 	}
 
 	template < typename ValueType >
-	constexpr size< ValueType >& operator*=(
-		size< ValueType >& a,
-		size< ValueType > const& b
+	constexpr dimension< ValueType >& operator*=(
+		dimension< ValueType >& a,
+		dimension< ValueType > const& b
 	){
 		a.width()  *= b.width();
 		a.height() *= b.height();
@@ -136,9 +136,9 @@ namespace mitrax{
 	}
 
 	template < typename ValueType >
-	constexpr size< ValueType >& operator/=(
-		size< ValueType >& a,
-		size< ValueType > const& b
+	constexpr dimension< ValueType >& operator/=(
+		dimension< ValueType >& a,
+		dimension< ValueType > const& b
 	){
 		a.width()  /= b.width();
 		a.height() /= b.height();
@@ -146,9 +146,9 @@ namespace mitrax{
 	}
 
 	template < typename ValueType >
-	constexpr size< ValueType >& operator%=(
-		size< ValueType >& a,
-		size< ValueType > const& b
+	constexpr dimension< ValueType >& operator%=(
+		dimension< ValueType >& a,
+		dimension< ValueType > const& b
 	){
 		a.width()  %= b.width();
 		a.height() %= b.height();
@@ -156,41 +156,41 @@ namespace mitrax{
 	}
 
 	template < typename ValueType >
-	constexpr size< ValueType > operator+(
-		size< ValueType > a,
-		size< ValueType > const& b
+	constexpr dimension< ValueType > operator+(
+		dimension< ValueType > a,
+		dimension< ValueType > const& b
 	){
 		return a += b;
 	}
 
 	template < typename ValueType >
-	constexpr size< ValueType > operator-(
-		size< ValueType > a,
-		size< ValueType > const& b
+	constexpr dimension< ValueType > operator-(
+		dimension< ValueType > a,
+		dimension< ValueType > const& b
 	){
 		return a -= b;
 	}
 
 	template < typename ValueType >
-	constexpr size< ValueType > operator*(
-		size< ValueType > a,
-		size< ValueType > const& b
+	constexpr dimension< ValueType > operator*(
+		dimension< ValueType > a,
+		dimension< ValueType > const& b
 	){
 		return a *= b;
 	}
 
 	template < typename ValueType >
-	constexpr size< ValueType > operator/(
-		size< ValueType > a,
-		size< ValueType > const& b
+	constexpr dimension< ValueType > operator/(
+		dimension< ValueType > a,
+		dimension< ValueType > const& b
 	){
 		return a /= b;
 	}
 
 	template < typename ValueType >
-	constexpr size< ValueType > operator%(
-		size< ValueType > a,
-		size< ValueType > const& b
+	constexpr dimension< ValueType > operator%(
+		dimension< ValueType > a,
+		dimension< ValueType > const& b
 	){
 		return a %= b;
 	}
