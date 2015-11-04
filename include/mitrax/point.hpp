@@ -12,39 +12,60 @@
 
 namespace mitrax{
 
+
+	namespace detail{ namespace point{
+
+
+		template < typename TX, typename TY >
+		struct point_base{};
+
+		template < typename T >
+		struct point_base< T, T >{
+			/// \brief Type of the positions
+			using value_type = T;
+		};
+
+
+	} }
+
+
 	/// \brief A class for manipulating points
-	/// \tparam ValueType Type of the position data
-	template < typename ValueType >
-	class point{
+	/// \tparam TX Type of the x position data
+	/// \tparam TY Type of the y position data
+	template < typename TX, typename TY = TX >
+	class point: public detail::point::point_base< TX, TY >{
 	public:
-		/// \brief Type of the positions
-		using value_type = ValueType;
+		/// \brief Type of the x positions
+		using value_type_x = TX;
+
+		/// \brief Type of the y positions
+		using value_type_y = TY;
 
 
 		/// \brief The x
-		constexpr value_type& x(){
+		constexpr value_type_x& x(){
 			return x_;
 		}
 
 		/// \brief The y
-		constexpr value_type& y(){
+		constexpr value_type_y& y(){
 			return y_;
 		}
 
 
 		/// \brief The x
-		constexpr value_type const& x()const{
+		constexpr value_type_x const& x()const{
 			return x_;
 		}
 
 		/// \brief The y
-		constexpr value_type const& y()const{
+		constexpr value_type_y const& y()const{
 			return y_;
 		}
 
 
 		/// \brief Set x and y
-		constexpr void set(value_type const& x, value_type const& y){
+		constexpr void set(value_type_x const& x, value_type_y const& y){
 			x_ = x;
 			y_ = y;
 		}
@@ -60,7 +81,7 @@ namespace mitrax{
 		constexpr point(point&&) = default;
 
 		/// \brief Constructs a point by (x, y)
-		constexpr point(value_type const& x, value_type const& y):
+		constexpr point(value_type_x const& x, value_type_y const& y):
 			x_(x), y_(y)
 			{}
 
@@ -74,13 +95,13 @@ namespace mitrax{
 
 		/// \brief Get true, if width and height are positiv
 		constexpr bool is_positive()const{
-			return x() >= value_type() && y() >= value_type();
+			return x() >= value_type_x() && y() >= value_type_y();
 		}
 
 
 	private:
-		value_type x_;
-		value_type y_;
+		value_type_x x_;
+		value_type_y y_;
 	};
 
 
