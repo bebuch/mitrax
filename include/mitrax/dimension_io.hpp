@@ -18,21 +18,21 @@
 namespace mitrax{
 
 
-	template < typename charT, typename traits, typename T >
+	template < typename charT, typename traits, typename TX, typename TY >
 	std::basic_ostream< charT, traits >& operator<<(
 		std::basic_ostream< charT, traits >& os,
-		dimension< T > const& data
+		dimension< TX, TY > const& data
 	){
 		return os << data.width() << "x" << data.height();
 	}
 
 
-	template < typename charT, typename traits, typename T >
+	template < typename charT, typename traits, typename TX, typename TY >
 	std::basic_istream< charT, traits >& operator>>(
 		std::basic_istream< charT, traits >& is,
-		dimension< T >& data
+		dimension< TX, TY >& data
 	){
-		dimension< T > tmp;
+		dimension< TX, TY > tmp;
 		is >> tmp.width();
 		if(!io::equal(is, 'x')) return is;
 		is >> tmp.height();

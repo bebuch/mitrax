@@ -13,45 +13,87 @@
 namespace mitrax{
 
 
-	/// \brief A class for manipulating dimensions
-	/// \tparam ValueType Type of the dimension data
-	template < typename ValueType >
-	class dimension{
+	namespace detail{ namespace dimension{
+
+
+		template < typename TX, typename TY >
+		struct dimension_base{};
+
+		template < typename T >
+		struct dimension_base< T, T >{
+			/// \brief Type of the dimension
+			using value_type = T;
+		};
+
+
+	} }
+
+
+	/// \brief A class for representing dimensions
+	/// \tparam TX Type of the x dimension data
+	/// \tparam TY Type of the y dimension data
+	template < typename TX, typename TY = TX >
+	class dimension: public detail::dimension::dimension_base< TX, TY >{
 	public:
-		/// \brief Type of the positions
-		using value_type = ValueType;
+		/// \brief Type of the x positions
+		using x_value_type = TX;
+
+		/// \brief Type of the y positions
+		using y_value_type = TY;
 
 
-		/// \brief The width
-		constexpr value_type& width(){
-			return width_;
+		/// \brief The cols
+		constexpr x_value_type& width(){
+			return cols_;
 		}
 
-		/// \brief The height
-		constexpr value_type& height(){
-			return height_;
-		}
-
-
-		/// \brief The width
-		constexpr value_type const& width()const{
-			return width_;
-		}
-
-		/// \brief The height
-		constexpr value_type const& height()const{
-			return height_;
+		/// \brief The rows
+		constexpr y_value_type& height(){
+			return rows_;
 		}
 
 
-		/// \brief Set width and height
-		constexpr void set(value_type const& width, value_type const& height){
-			width_ = width;
-			height_ = height;
+		/// \brief The cols
+		constexpr x_value_type& cols(){
+			return cols_;
+		}
+
+		/// \brief The rows
+		constexpr y_value_type& rows(){
+			return rows_;
 		}
 
 
-		/// \brief Constructs a dimension with width 0 and height 0
+		/// \brief The cols
+		constexpr x_value_type const& width()const{
+			return cols_;
+		}
+
+		/// \brief The rows
+		constexpr y_value_type const& height()const{
+			return rows_;
+		}
+
+
+		/// \brief The cols
+		constexpr x_value_type const& cols()const{
+			return cols_;
+		}
+
+		/// \brief The rows
+		constexpr y_value_type const& rows()const{
+			return rows_;
+		}
+
+
+		/// \brief Set cols and rows
+		constexpr void set(x_value_type const& cols, y_value_type const& rows){
+			cols_ = cols;
+			rows_ = rows;
+		}
+
+
+		/// \brief Constructs a dimension with cols 0 and rows 0
 		constexpr dimension() = default;
 
 		/// \brief Constructs a copy
@@ -60,9 +102,9 @@ namespace mitrax{
 		/// \brief Constructs a copy
 		constexpr dimension(dimension&&) = default;
 
-		/// \brief Constructs a dimension width width and height
-		constexpr dimension(value_type const& width, value_type const& height):
-			width_(width), height_(height) {}
+		/// \brief Constructs a dimension cols and rows
+		constexpr dimension(x_value_type const& cols, y_value_type const& rows):
+			cols_(cols), rows_(rows) {}
 
 
 		/// \brief Copy assignment
@@ -72,125 +114,125 @@ namespace mitrax{
 		constexpr dimension& operator=(dimension&&) = default;
 
 
-		/// \brief Get true, if width and height are positiv
+		/// \brief Get true, if cols and rows are positiv
 		constexpr bool is_positive()const{
-			return width() >= value_type() && height() >= value_type();
+			return cols() >= x_value_type() && rows() >= y_value_type();
 		}
 
 
-		/// \brief Get width * height
-		constexpr value_type const point_count()const{
-			return width() * height();
+		/// \brief Get cols * rows
+		constexpr auto point_count()const{
+			return cols() * rows();
 		}
 
 	private:
-		value_type width_;
-		value_type height_;
+		x_value_type cols_;
+		y_value_type rows_;
 	};
 
-	template < typename ValueType >
+	template < typename TX, typename TY >
 	constexpr bool operator==(
-		dimension< ValueType > const& a,
-		dimension< ValueType > const& b
+		dimension< TX, TY > const& a,
+		dimension< TX, TY > const& b
 	){
-		return a.width() == b.width() && a.height() == b.height();
+		return a.cols() == b.cols() && a.rows() == b.rows();
 	}
 
-	template < typename ValueType >
+	template < typename TX, typename TY >
 	constexpr bool operator!=(
-		dimension< ValueType > const& a,
-		dimension< ValueType > const& b
+		dimension< TX, TY > const& a,
+		dimension< TX, TY > const& b
 	){
 		return !(a == b);
 	}
 
 
-	template < typename ValueType >
-	constexpr dimension< ValueType >& operator+=(
-		dimension< ValueType >& a,
-		dimension< ValueType > const& b
+	template < typename TX, typename TY >
+	constexpr dimension< TX, TY >& operator+=(
+		dimension< TX, TY >& a,
+		dimension< TX, TY > const& b
 	){
-		a.width()  += b.width();
-		a.height() += b.height();
+		a.cols() += b.cols();
+		a.rows() += b.rows();
 		return a;
 	}
 
-	template < typename ValueType >
-	constexpr dimension< ValueType >& operator-=(
-		dimension< ValueType >& a,
-		dimension< ValueType > const& b
+	template < typename TX, typename TY >
+	constexpr dimension< TX, TY >& operator-=(
+		dimension< TX, TY >& a,
+		dimension< TX, TY > const& b
 	){
-		a.width()  -= b.width();
-		a.height() -= b.height();
+		a.cols() -= b.cols();
+		a.rows() -= b.rows();
 		return a;
 	}
 
-	template < typename ValueType >
-	constexpr dimension< ValueType >& operator*=(
-		dimension< ValueType >& a,
-		dimension< ValueType > const& b
+	template < typename TX, typename TY >
+	constexpr dimension< TX, TY >& operator*=(
+		dimension< TX, TY >& a,
+		dimension< TX, TY > const& b
 	){
-		a.width()  *= b.width();
-		a.height() *= b.height();
+		a.cols() *= b.cols();
+		a.rows() *= b.rows();
 		return a;
 	}
 
-	template < typename ValueType >
-	constexpr dimension< ValueType >& operator/=(
-		dimension< ValueType >& a,
-		dimension< ValueType > const& b
+	template < typename TX, typename TY >
+	constexpr dimension< TX, TY >& operator/=(
+		dimension< TX, TY >& a,
+		dimension< TX, TY > const& b
 	){
-		a.width()  /= b.width();
-		a.height() /= b.height();
+		a.cols() /= b.cols();
+		a.rows() /= b.rows();
 		return a;
 	}
 
-	template < typename ValueType >
-	constexpr dimension< ValueType >& operator%=(
-		dimension< ValueType >& a,
-		dimension< ValueType > const& b
+	template < typename TX, typename TY >
+	constexpr dimension< TX, TY >& operator%=(
+		dimension< TX, TY >& a,
+		dimension< TX, TY > const& b
 	){
-		a.width()  %= b.width();
-		a.height() %= b.height();
+		a.cols() %= b.cols();
+		a.rows() %= b.rows();
 		return a;
 	}
 
-	template < typename ValueType >
-	constexpr dimension< ValueType > operator+(
-		dimension< ValueType > a,
-		dimension< ValueType > const& b
+	template < typename TX, typename TY >
+	constexpr dimension< TX, TY > operator+(
+		dimension< TX, TY > a,
+		dimension< TX, TY > const& b
 	){
 		return a += b;
 	}
 
-	template < typename ValueType >
-	constexpr dimension< ValueType > operator-(
-		dimension< ValueType > a,
-		dimension< ValueType > const& b
+	template < typename TX, typename TY >
+	constexpr dimension< TX, TY > operator-(
+		dimension< TX, TY > a,
+		dimension< TX, TY > const& b
 	){
 		return a -= b;
 	}
 
-	template < typename ValueType >
-	constexpr dimension< ValueType > operator*(
-		dimension< ValueType > a,
-		dimension< ValueType > const& b
+	template < typename TX, typename TY >
+	constexpr dimension< TX, TY > operator*(
+		dimension< TX, TY > a,
+		dimension< TX, TY > const& b
 	){
 		return a *= b;
 	}
 
-	template < typename ValueType >
-	constexpr dimension< ValueType > operator/(
-		dimension< ValueType > a,
-		dimension< ValueType > const& b
+	template < typename TX, typename TY >
+	constexpr dimension< TX, TY > operator/(
+		dimension< TX, TY > a,
+		dimension< TX, TY > const& b
 	){
 		return a /= b;
 	}
 
-	template < typename ValueType >
-	constexpr dimension< ValueType > operator%(
-		dimension< ValueType > a,
-		dimension< ValueType > const& b
+	template < typename TX, typename TY >
+	constexpr dimension< TX, TY > operator%(
+		dimension< TX, TY > a,
+		dimension< TX, TY > const& b
 	){
 		return a %= b;
 	}
