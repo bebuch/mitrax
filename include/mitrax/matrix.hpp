@@ -274,7 +274,7 @@ namespace mitrax{
 		using matrix_types< M >::matrix_types;
 
 
-		constexpr std::size_t cols(){
+		constexpr std::size_t cols()const{
 			return m_.cols();
 		}
 
@@ -296,7 +296,7 @@ namespace mitrax{
 		using matrix_types< M >::matrix_types;
 
 
-		constexpr std::size_t cols(){
+		constexpr std::size_t cols()const{
 			return m_.cols();
 		}
 
@@ -318,11 +318,11 @@ namespace mitrax{
 		using matrix_types< M >::matrix_types;
 
 
-		constexpr std::size_t cols(){
+		constexpr std::size_t cols()const{
 			return m_.cols();
 		}
 
-		constexpr std::size_t rows(){
+		constexpr std::size_t rows()const{
 			return m_.rows();
 		}
 
@@ -344,7 +344,7 @@ namespace mitrax{
 			return M::cols();
 		}
 
-		constexpr std::size_t rows(){
+		constexpr std::size_t rows()const{
 			return m_.rows();
 		}
 
@@ -371,7 +371,7 @@ namespace mitrax{
 		using matrix_types< M >::matrix_types;
 
 
-		constexpr std::size_t cols(){
+		constexpr std::size_t cols()const{
 			return m_.cols();
 		}
 
