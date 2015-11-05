@@ -277,11 +277,13 @@ namespace mitrax{
 		}
 
 
-		constexpr value_type& operator[](std::size_t){
+		constexpr value_type& operator[](std::size_t i){
+			assert(i == 0); (void)i;
 			return m_(0, 0);
 		}
 
-		constexpr value_type const& operator[](std::size_t)const{
+		constexpr value_type const& operator[](std::size_t i)const{
+			assert(i == 0); (void)i;
 			return m_(0, 0);
 		}
 
