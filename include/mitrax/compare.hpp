@@ -28,6 +28,7 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
+		// Compiler should skip these for compile time dimensions
 		if(m1.cols() != m2.cols() || m1.rows() != m2.rows()){
 			throw std::logic_error(
 				"matrix dimensions not compatible while comparing"
