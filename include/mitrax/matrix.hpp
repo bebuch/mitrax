@@ -160,14 +160,6 @@ namespace mitrax{
 			return m_.rows();
 		}
 
-		static constexpr std::size_t width(){
-			return m_.cols();
-		}
-
-		static constexpr std::size_t height(){
-			return m_.rows();
-		}
-
 
 	private:
 		using matrix_types< M >::m_;
@@ -187,14 +179,6 @@ namespace mitrax{
 		}
 
 		static constexpr std::size_t rows(){
-			return m_.rows();
-		}
-
-		static constexpr std::size_t width(){
-			return m_.cols();
-		}
-
-		static constexpr std::size_t height(){
 			return m_.rows();
 		}
 
@@ -229,14 +213,6 @@ namespace mitrax{
 			return m_.rows();
 		}
 
-		static constexpr std::size_t width(){
-			return m_.cols();
-		}
-
-		static constexpr std::size_t height(){
-			return m_.rows();
-		}
-
 
 		constexpr value_type& operator[](std::size_t i){
 			return m_(i, 0);
@@ -265,14 +241,6 @@ namespace mitrax{
 		}
 
 		static constexpr std::size_t rows(){
-			return m_.rows();
-		}
-
-		static constexpr std::size_t width(){
-			return m_.cols();
-		}
-
-		static constexpr std::size_t height(){
 			return m_.rows();
 		}
 
@@ -314,14 +282,6 @@ namespace mitrax{
 			return m_.rows();
 		}
 
-		constexpr std::size_t width(){
-			return m_.cols();
-		}
-
-		static constexpr std::size_t height(){
-			return m_.rows();
-		}
-
 
 	private:
 		using matrix_types< M >::m_;
@@ -341,14 +301,6 @@ namespace mitrax{
 		}
 
 		static constexpr std::size_t rows(){
-			return m_.rows();
-		}
-
-		constexpr std::size_t width(){
-			return m_.cols();
-		}
-
-		static constexpr std::size_t height(){
 			return m_.rows();
 		}
 
@@ -374,14 +326,6 @@ namespace mitrax{
 			return m_.rows();
 		}
 
-		constexpr std::size_t width(){
-			return m_.cols();
-		}
-
-		constexpr std::size_t height(){
-			return m_.rows();
-		}
-
 
 	private:
 		using matrix_types< M >::m_;
@@ -401,14 +345,6 @@ namespace mitrax{
 		}
 
 		constexpr std::size_t rows(){
-			return m_.rows();
-		}
-
-		static constexpr std::size_t width(){
-			return m_.cols();
-		}
-
-		constexpr std::size_t height(){
 			return m_.rows();
 		}
 
@@ -440,14 +376,6 @@ namespace mitrax{
 		}
 
 		static constexpr std::size_t rows(){
-			return m_.rows();
-		}
-
-		constexpr std::size_t width(){
-			return m_.cols();
-		}
-
-		static constexpr std::size_t height(){
 			return m_.rows();
 		}
 

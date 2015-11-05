@@ -93,7 +93,7 @@ namespace mitrax{
 		constexpr point& operator=(point&&) = default;
 
 
-		/// \brief Get true, if width and height are positiv
+		/// \brief Get true, if x and y are positiv
 		constexpr bool is_positive()const{
 			return x() >= x_value_type() && y() >= y_value_type();
 		}

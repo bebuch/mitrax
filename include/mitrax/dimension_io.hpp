@@ -23,7 +23,7 @@ namespace mitrax{
 		std::basic_ostream< charT, traits >& os,
 		dimension< TX, TY > const& data
 	){
-		return os << data.width() << "x" << data.height();
+		return os << data.cols() << "x" << data.rows();
 	}
 
 
@@ -33,9 +33,9 @@ namespace mitrax{
 		dimension< TX, TY >& data
 	){
 		dimension< TX, TY > tmp;
-		is >> tmp.width();
+		is >> tmp.cols();
 		if(!io::equal(is, 'x')) return is;
-		is >> tmp.height();
+		is >> tmp.rows();
 
 		data = std::move(tmp);
 

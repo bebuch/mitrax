@@ -43,34 +43,12 @@ namespace mitrax{
 
 
 		/// \brief The cols
-		constexpr x_value_type& width(){
-			return cols_;
-		}
-
-		/// \brief The rows
-		constexpr y_value_type& height(){
-			return rows_;
-		}
-
-
-		/// \brief The cols
 		constexpr x_value_type& cols(){
 			return cols_;
 		}
 
 		/// \brief The rows
 		constexpr y_value_type& rows(){
-			return rows_;
-		}
-
-
-		/// \brief The cols
-		constexpr x_value_type const& width()const{
-			return cols_;
-		}
-
-		/// \brief The rows
-		constexpr y_value_type const& height()const{
 			return rows_;
 		}
 
