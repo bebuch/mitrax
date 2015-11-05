@@ -38,10 +38,10 @@ BOOST_AUTO_TEST_CASE(test_raw_square_matrix){
 	auto type2 = type_id< matrix< raw_matrix_impl< int, 3, 3 >, 3, 3 > >();
 	BOOST_TEST(type_id_runtime(m1) == type2);
 
-	auto eq = m1 == m2;
+	constexpr auto eq = m1 == m2;
 	BOOST_TEST(eq);
 
-	auto neq = m1 != m2;
+	constexpr auto neq = m1 != m2;
 	BOOST_TEST(!neq);
 
 	BOOST_TEST(m1(0, 0) == 0);
@@ -69,10 +69,10 @@ BOOST_AUTO_TEST_CASE(test_raw_col_vector){
 	auto type2 = type_id< raw_col_vector< int, 3 > >();
 	BOOST_TEST(type_id_runtime(m) == type2);
 
-	auto eq = m == v;
+	constexpr auto eq = m == v;
 	BOOST_TEST(eq);
 
-	auto neq = m != v;
+	constexpr auto neq = m != v;
 	BOOST_TEST(!neq);
 
 	BOOST_TEST(m(0, 0) == 0);
@@ -98,10 +98,10 @@ BOOST_AUTO_TEST_CASE(test_raw_row_vector){
 	auto type2 = type_id< raw_row_vector< int, 3 > >();
 	BOOST_TEST(type_id_runtime(m) == type2);
 
-	auto eq = m == v;
+	constexpr auto eq = m == v;
 	BOOST_TEST(eq);
 
-	auto neq = m != v;
+	constexpr auto neq = m != v;
 	BOOST_TEST(!neq);
 
 	BOOST_TEST(m(0, 0) == 0);
@@ -145,22 +145,22 @@ BOOST_AUTO_TEST_CASE(test_one_element_matrix){
 	BOOST_TEST(type_id_runtime(m1) == type4);
 
 
-	auto eq1 = m1 == m2;
+	constexpr auto eq1 = m1 == m2;
 	BOOST_TEST(eq1);
 
-	auto eq2 = m1 == cv;
+	constexpr auto eq2 = m1 == cv;
 	BOOST_TEST(eq2);
 
-	auto eq3 = m1 == rv;
+	constexpr auto eq3 = m1 == rv;
 	BOOST_TEST(eq3);
 
-	auto neq1 = m1 != m2;
+	constexpr auto neq1 = m1 != m2;
 	BOOST_TEST(!neq1);
 
-	auto neq2 = m1 != cv;
+	constexpr auto neq2 = m1 != cv;
 	BOOST_TEST(!neq2);
 
-	auto neq3 = m1 != rv;
+	constexpr auto neq3 = m1 != rv;
 	BOOST_TEST(!neq3);
 
 
