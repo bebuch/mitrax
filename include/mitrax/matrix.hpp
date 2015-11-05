@@ -153,11 +153,11 @@ namespace mitrax{
 
 
 		static constexpr std::size_t cols(){
-			return m_.cols();
+			return M::cols();
 		}
 
 		static constexpr std::size_t rows(){
-			return m_.rows();
+			return M::rows();
 		}
 
 
@@ -175,11 +175,11 @@ namespace mitrax{
 
 
 		static constexpr std::size_t cols(){
-			return m_.cols();
+			return M::cols();
 		}
 
 		static constexpr std::size_t rows(){
-			return m_.rows();
+			return M::rows();
 		}
 
 
@@ -206,11 +206,11 @@ namespace mitrax{
 
 
 		static constexpr std::size_t cols(){
-			return m_.cols();
+			return M::cols();
 		}
 
 		static constexpr std::size_t rows(){
-			return m_.rows();
+			return M::rows();
 		}
 
 
@@ -237,11 +237,11 @@ namespace mitrax{
 
 
 		static constexpr std::size_t cols(){
-			return m_.cols();
+			return M::cols();
 		}
 
 		static constexpr std::size_t rows(){
-			return m_.rows();
+			return M::rows();
 		}
 
 
@@ -279,7 +279,7 @@ namespace mitrax{
 		}
 
 		static constexpr std::size_t rows(){
-			return m_.rows();
+			return M::rows();
 		}
 
 
@@ -301,7 +301,7 @@ namespace mitrax{
 		}
 
 		static constexpr std::size_t rows(){
-			return m_.rows();
+			return M::rows();
 		}
 
 
@@ -341,7 +341,7 @@ namespace mitrax{
 
 
 		static constexpr std::size_t cols(){
-			return m_.cols();
+			return M::cols();
 		}
 
 		constexpr std::size_t rows(){
@@ -376,7 +376,7 @@ namespace mitrax{
 		}
 
 		static constexpr std::size_t rows(){
-			return m_.rows();
+			return M::rows();
 		}
 
 
