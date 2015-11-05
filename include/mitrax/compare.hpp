@@ -28,6 +28,12 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
+		static_assert(
+			(C1 == 0 || C2 == 0 || C1 == C2) &&
+			(R1 == 0 || R2 == 0 || R1 == R2),
+			"Matrix dimensions not compatible"
+		);
+
 		// Compiler should skip this for compile time dimensions
 		if(m1.cols() != m2.cols() || m1.rows() != m2.rows()){
 			throw std::logic_error(
