@@ -28,7 +28,7 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		// Compiler should skip these for compile time dimensions
+		// Compiler should skip this for compile time dimensions
 		if(m1.cols() != m2.cols() || m1.rows() != m2.rows()){
 			throw std::logic_error(
 				"matrix dimensions not compatible while comparing"
@@ -48,10 +48,16 @@ namespace mitrax{
 		return true;
 	}
 
-	template < typename M1, typename M2, std::size_t C, std::size_t R >
-	constexpr bool operator!=(
-		matrix< M1, C, R > const& m1,
-		matrix< M2, C, R > const& m2
+	template <
+		typename M1,
+		typename M2,
+		std::size_t C1,
+		std::size_t R1,
+		std::size_t C2,
+		std::size_t R2
+	> constexpr bool operator!=(
+		matrix< M1, C1, R1 > const& m1,
+		matrix< M2, C2, R2 > const& m2
 	){
 		return !(m1 == m2);
 	}
