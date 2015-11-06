@@ -108,6 +108,7 @@ namespace mitrax{
 		y_value_type rows_;
 	};
 
+
 	template < typename TX, typename TY >
 	constexpr bool operator==(
 		dimension< TX, TY > const& a,
@@ -174,6 +175,7 @@ namespace mitrax{
 		a.rows() %= b.rows();
 		return a;
 	}
+
 
 	template < typename TX, typename TY >
 	constexpr dimension< TX, TY > operator+(

@@ -104,6 +104,7 @@ namespace mitrax{
 		y_value_type y_;
 	};
 
+
 	template < typename TX, typename TY >
 	constexpr bool operator==(
 		point< TX, TY > const& a,
@@ -170,6 +171,7 @@ namespace mitrax{
 		a.y() %= b.y();
 		return a;
 	}
+
 
 	template < typename TX, typename TY >
 	constexpr point< TX, TY > operator+(
