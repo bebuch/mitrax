@@ -19,7 +19,45 @@
 namespace mitrax{
 
 
-	template < typename M >
+	template < typename M, std::size_t Cols, std::size_t Rows >
+	class matrix;
+
+	template < typename T, std::size_t Cols, std::size_t Rows >
+	class raw_matrix_impl;
+
+	template < typename T, std::size_t Cols, std::size_t Rows >
+	using raw_matrix = matrix< raw_matrix_impl< T, Cols, Rows >, Cols, Rows >;
+
+
+	namespace detail{
+
+
+		template <
+			typename T,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		> constexpr raw_matrix< T, C1, R1 >
+		convert(matrix< M, C2, R2 >&& m);
+
+		template <
+			typename T,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		> constexpr raw_matrix< T, C1, R1 >
+		convert(matrix< M, C2, R2 > const& m);
+
+
+	}
+
+
+
+	template < typename M, std::size_t Cols, std::size_t Rows >
 	class matrix_types{
 	public:
 		/// \brief Type of the data that administrates the matrix
@@ -139,17 +177,32 @@ namespace mitrax{
 		}
 
 
+		template < typename T, std::size_t C, std::size_t R >
+		constexpr raw_matrix< T, C, R > as_raw_matrix()&&{
+			return detail::convert< T, C, R >(
+				static_cast< matrix< M, Cols, Rows >&& >(*this)
+			);
+		}
+
+		template < typename T, std::size_t C, std::size_t R >
+		constexpr raw_matrix< T, C, R > as_raw_matrix()const&{
+			return detail::convert< T, C, R >(
+				static_cast< matrix< M, Cols, Rows > const& >(*this)
+			);
+		}
+
+
 	protected:
 		M m_;
 	};
 
 
 	template < typename M, std::size_t Cols, std::size_t Rows >
-	class matrix: public matrix_types< M >{
+	class matrix: public matrix_types< M, Cols, Rows >{
 	public:
-		using typename matrix_types< M >::value_type;
+		using typename matrix_types< M, Cols, Rows >::value_type;
 
-		using matrix_types< M >::matrix_types;
+		using matrix_types< M, Cols, Rows >::matrix_types;
 
 
 		static constexpr std::size_t cols(){
@@ -162,16 +215,16 @@ namespace mitrax{
 
 
 	private:
-		using matrix_types< M >::m_;
+		using matrix_types< M, Cols, Rows >::m_;
 	};
 
 
 	template < typename M, std::size_t Rows >
-	class matrix< M, 1, Rows >: public matrix_types< M >{
+	class matrix< M, 1, Rows >: public matrix_types< M, 1, Rows >{
 	public:
-		using typename matrix_types< M >::value_type;
+		using typename matrix_types< M, 1, Rows >::value_type;
 
-		using matrix_types< M >::matrix_types;
+		using matrix_types< M, 1, Rows >::matrix_types;
 
 
 		static constexpr std::size_t cols(){
@@ -193,16 +246,16 @@ namespace mitrax{
 
 
 	private:
-		using matrix_types< M >::m_;
+		using matrix_types< M, 1, Rows >::m_;
 	};
 
 
 	template < typename M, std::size_t Cols >
-	class matrix< M, Cols, 1 >: public matrix_types< M >{
+	class matrix< M, Cols, 1 >: public matrix_types< M, Cols, 1 >{
 	public:
-		using typename matrix_types< M >::value_type;
+		using typename matrix_types< M, Cols, 1 >::value_type;
 
-		using matrix_types< M >::matrix_types;
+		using matrix_types< M, Cols, 1 >::matrix_types;
 
 
 		static constexpr std::size_t cols(){
@@ -224,16 +277,16 @@ namespace mitrax{
 
 
 	private:
-		using matrix_types< M >::m_;
+		using matrix_types< M, Cols, 1 >::m_;
 	};
 
 
 	template < typename M >
-	class matrix< M, 1, 1 >: public matrix_types< M >{
+	class matrix< M, 1, 1 >: public matrix_types< M, 1, 1 >{
 	public:
-		using typename matrix_types< M >::value_type;
+		using typename matrix_types< M, 1, 1 >::value_type;
 
-		using matrix_types< M >::matrix_types;
+		using matrix_types< M, 1, 1 >::matrix_types;
 
 
 		static constexpr std::size_t cols(){
@@ -262,16 +315,16 @@ namespace mitrax{
 
 
 	private:
-		using matrix_types< M >::m_;
+		using matrix_types< M, 1, 1 >::m_;
 	};
 
 
 	template < typename M, std::size_t Rows >
-	class matrix< M, 0, Rows >: public matrix_types< M >{
+	class matrix< M, 0, Rows >: public matrix_types< M, 0, Rows >{
 	public:
-		using typename matrix_types< M >::value_type;
+		using typename matrix_types< M, 0, Rows >::value_type;
 
-		using matrix_types< M >::matrix_types;
+		using matrix_types< M, 0, Rows >::matrix_types;
 
 
 		constexpr std::size_t cols()const{
@@ -284,16 +337,16 @@ namespace mitrax{
 
 
 	private:
-		using matrix_types< M >::m_;
+		using matrix_types< M, 0, Rows >::m_;
 	};
 
 
 	template < typename M, std::size_t Cols >
-	class matrix< M, Cols, 0 >: public matrix_types< M >{
+	class matrix< M, Cols, 0 >: public matrix_types< M, Cols, 0 >{
 	public:
-		using typename matrix_types< M >::value_type;
+		using typename matrix_types< M, Cols, 0 >::value_type;
 
-		using matrix_types< M >::matrix_types;
+		using matrix_types< M, Cols, 0 >::matrix_types;
 
 
 		static constexpr std::size_t cols(){
@@ -306,16 +359,16 @@ namespace mitrax{
 
 
 	private:
-		using matrix_types< M >::m_;
+		using matrix_types< M, Cols, 0 >::m_;
 	};
 
 
 	template < typename M >
-	class matrix< M, 0, 0 >: public matrix_types< M >{
+	class matrix< M, 0, 0 >: public matrix_types< M, 0, 0 >{
 	public:
-		using typename matrix_types< M >::value_type;
+		using typename matrix_types< M, 0, 0 >::value_type;
 
-		using matrix_types< M >::matrix_types;
+		using matrix_types< M, 0, 0 >::matrix_types;
 
 
 		constexpr std::size_t cols()const{
@@ -328,16 +381,16 @@ namespace mitrax{
 
 
 	private:
-		using matrix_types< M >::m_;
+		using matrix_types< M, 0, 0 >::m_;
 	};
 
 
 	template < typename M >
-	class matrix< M, 1, 0 >: public matrix_types< M >{
+	class matrix< M, 1, 0 >: public matrix_types< M, 1, 0 >{
 	public:
-		using typename matrix_types< M >::value_type;
+		using typename matrix_types< M, 1, 0 >::value_type;
 
-		using matrix_types< M >::matrix_types;
+		using matrix_types< M, 1, 0 >::matrix_types;
 
 
 		static constexpr std::size_t cols(){
@@ -359,16 +412,16 @@ namespace mitrax{
 
 
 	private:
-		using matrix_types< M >::m_;
+		using matrix_types< M, 1, 0 >::m_;
 	};
 
 
 	template < typename M >
-	class matrix< M, 0, 1 >: public matrix_types< M >{
+	class matrix< M, 0, 1 >: public matrix_types< M, 0, 1 >{
 	public:
-		using typename matrix_types< M >::value_type;
+		using typename matrix_types< M, 0, 1 >::value_type;
 
-		using matrix_types< M >::matrix_types;
+		using matrix_types< M, 0, 1 >::matrix_types;
 
 
 		constexpr std::size_t cols()const{
@@ -390,7 +443,7 @@ namespace mitrax{
 
 
 	private:
-		using matrix_types< M >::m_;
+		using matrix_types< M, 0, 1 >::m_;
 	};
 
 

@@ -18,12 +18,6 @@ namespace mitrax{
 
 
 
-	template < typename T, std::size_t Cols, std::size_t Rows >
-	class raw_matrix_impl;
-
-	template < typename T, std::size_t Cols, std::size_t Rows >
-	using raw_matrix = matrix< raw_matrix_impl< T, Cols, Rows >, Cols, Rows >;
-
 	template < typename T, std::size_t N >
 	using raw_square_matrix = matrix< raw_matrix_impl< T, N, N >, N, N >;
 
@@ -70,6 +64,55 @@ namespace mitrax{
 
 		template <
 			typename T,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2,
+			std::size_t ... I
+		>
+		constexpr std::array< T, C1 * R1 > matrix_to_array(
+			matrix< M, C2, R2 >&& m,
+			std::index_sequence< I ... >
+		){
+			if(C1 != m.cols() || R1 != m.rows()){
+				throw std::logic_error(
+					"matrix dimensions not compatible while converting"
+				);
+			}
+
+			return std::array< T, C1 * R1 >{{
+				static_cast< T >(std::move(m(I % C1, I / C1))) ...
+			}};
+		}
+
+		template <
+			typename T,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2,
+			std::size_t ... I
+		>
+		constexpr std::array< T, C1 * R1 > matrix_to_array(
+			matrix< M, C2, R2 > const& m,
+			std::index_sequence< I ... >
+		){
+			if(C1 != m.cols() || R1 != m.rows()){
+				throw std::logic_error(
+					"matrix dimensions not compatible while converting"
+				);
+			}
+
+			return std::array< T, C1 * R1 >{{
+				static_cast< T >(m(I % C1, I / C1)) ...
+			}};
+		}
+
+
+		template <
+			typename T,
 			std::size_t Cols,
 			std::size_t Rows,
 			std::size_t ... I
@@ -96,6 +139,52 @@ namespace mitrax{
 			return boost::container::vector< T >{
 				values[I / Cols][I % Cols] ...
 			};
+		}
+
+
+		template <
+			typename T,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2,
+			std::size_t ... I
+		>
+		boost::container::vector< T > matrix_to_vector(
+			matrix< M, C2, R2 >&& m
+		){
+			if(!(C1 == 0 || C1 == m.cols()) || !(R1 == 0 || R1 == m.rows())){
+				throw std::logic_error(
+					"matrix dimensions not compatible while converting"
+				);
+			}
+
+			return {
+				std::make_move_iterator(m.begin()),
+				std::make_move_iterator(m.end())
+			};
+		}
+
+		template <
+			typename T,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2,
+			std::size_t ... I
+		>
+		boost::container::vector< T > matrix_to_vector(
+			matrix< M, C2, R2 > const& m
+		){
+			if(!(C1 == 0 || C1 == m.cols()) || !(R1 == 0 || R1 == m.rows())){
+				throw std::logic_error(
+					"matrix dimensions not compatible while converting"
+				);
+			}
+
+			return {m.begin(), m.end()};
 		}
 
 
@@ -126,14 +215,12 @@ namespace mitrax{
 			std::array< value_type, Cols * Rows >::const_reverse_iterator;
 
 
-
 		constexpr raw_matrix_impl():
 			values_{{0}} {}
 
 		constexpr raw_matrix_impl(raw_matrix_impl&&) = default;
 
 		constexpr raw_matrix_impl(raw_matrix_impl const&) = default;
-
 
 
 		constexpr value_type& operator()(
@@ -149,7 +236,6 @@ namespace mitrax{
 		}
 
 
-
 		static constexpr std::size_t cols(){
 			return Cols;
 		}
@@ -157,7 +243,6 @@ namespace mitrax{
 		static constexpr std::size_t rows(){
 			return Rows;
 		}
-
 
 
 		constexpr iterator begin(){
@@ -193,10 +278,44 @@ namespace mitrax{
 		}
 
 
-
 	private:
 		std::array< value_type, Cols * Rows > values_;
 
+
+		template <
+			typename V,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		> friend constexpr raw_matrix< V, C1, R1 >
+		detail::convert(matrix< M, C2, R2 >&& m);
+
+		template <
+			typename V,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		> friend constexpr raw_matrix< V, C1, R1 >
+		detail::convert(matrix< M, C2, R2 > const& m);
+
+
+		template < typename M, std::size_t C, std::size_t R >
+		constexpr raw_matrix_impl(matrix< M, C, R >&& m):
+			values_(detail::matrix_to_array< T, Cols, Rows >(
+				std::move(m),
+				std::make_index_sequence< Cols * Rows >()
+			)){}
+
+		template < typename M, std::size_t C, std::size_t R >
+		constexpr raw_matrix_impl(matrix< M, C, R > const& m):
+			values_(detail::matrix_to_array< T, Cols, Rows >(
+				m,
+				std::make_index_sequence< Cols * Rows >()
+			)){}
 
 
 		constexpr raw_matrix_impl(value_type(&&values)[Rows][Cols]):
@@ -218,7 +337,6 @@ namespace mitrax{
 		template < std::size_t N >
 		constexpr raw_matrix_impl(value_type const(&values)[N]):
 			values_(to_array(values)){}
-
 
 
 		template < typename U, std::size_t C, std::size_t R >
@@ -317,9 +435,11 @@ namespace mitrax{
 		boost::container::vector< value_type > values_;
 
 
-		template < typename InputIt >
-		dynamic_raw_matrix_impl_base(InputIt first, InputIt last):
-			values_(first, last) {}
+		dynamic_raw_matrix_impl_base(
+			boost::container::vector< value_type >&& values
+		):
+			values_(std::move(values))
+			{}
 	};
 
 
@@ -328,6 +448,13 @@ namespace mitrax{
 		public dynamic_raw_matrix_impl_base< T >{
 	public:
 		using typename dynamic_raw_matrix_impl_base< T >::value_type;
+
+
+		raw_matrix_impl() = default;
+
+		raw_matrix_impl(raw_matrix_impl&&) = default;
+
+		raw_matrix_impl(raw_matrix_impl const&) = default;
 
 
 		using dynamic_raw_matrix_impl_base< T >::dynamic_raw_matrix_impl_base;
@@ -359,25 +486,38 @@ namespace mitrax{
 		using dynamic_raw_matrix_impl_base< T >::values_;
 
 
-		template < std::size_t R >
-		raw_matrix_impl(raw_matrix< T, Cols, R >&& m):
+		template < typename M, std::size_t C, std::size_t R >
+		raw_matrix_impl(matrix< M, C, R >&& m):
 			dynamic_raw_matrix_impl_base< T >(
-				std::make_move_iterator(m.begin()),
-				std::make_move_iterator(m.end())
-			){}
+				detail::matrix_to_vector< T, Cols, 0 >(std::move(m))
+			) {}
 
-		template < std::size_t R >
-		raw_matrix_impl(raw_matrix< T, Cols, R > const& m):
-			dynamic_raw_matrix_impl_base< T >(m.begin(), m.end()) {}
+		template < typename M, std::size_t C, std::size_t R >
+		raw_matrix_impl(matrix< M, C, R > const& m):
+			dynamic_raw_matrix_impl_base< T >(
+				detail::matrix_to_vector< T, Cols, 0 >(m)
+			) {}
 
 
-		template < typename U, std::size_t C, std::size_t R >
-		friend raw_matrix< U, C, 0 >
-		with_dynamic_rows(raw_matrix< U, C, R >&& m);
+		template <
+			typename V,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		> friend constexpr raw_matrix< V, C1, R1 >
+		detail::convert(matrix< M, C2, R2 >&& m);
 
-		template < typename U, std::size_t C, std::size_t R >
-		friend raw_matrix< U, C, 0 >
-		with_dynamic_rows(raw_matrix< U, C, R > const& m);
+		template <
+			typename V,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		> friend constexpr raw_matrix< V, C1, R1 >
+		detail::convert(matrix< M, C2, R2 > const& m);
 	};
 
 
@@ -386,6 +526,13 @@ namespace mitrax{
 		public dynamic_raw_matrix_impl_base< T >{
 	public:
 		using typename dynamic_raw_matrix_impl_base< T >::value_type;
+
+
+		raw_matrix_impl() = default;
+
+		raw_matrix_impl(raw_matrix_impl&&) = default;
+
+		raw_matrix_impl(raw_matrix_impl const&) = default;
 
 
 		using dynamic_raw_matrix_impl_base< T >::dynamic_raw_matrix_impl_base;
@@ -417,25 +564,38 @@ namespace mitrax{
 		using dynamic_raw_matrix_impl_base< T >::values_;
 
 
-		template < std::size_t C >
-		raw_matrix_impl(raw_matrix< T, C, Rows >&& m):
+		template < typename M, std::size_t C, std::size_t R >
+		raw_matrix_impl(matrix< M, C, R >&& m):
 			dynamic_raw_matrix_impl_base< T >(
-				std::make_move_iterator(m.begin()),
-				std::make_move_iterator(m.end())
-			){}
+				detail::matrix_to_vector< T, 0, Rows >(std::move(m))
+			) {}
 
-		template < std::size_t C >
-		raw_matrix_impl(raw_matrix< T, C, Rows > const& m):
-			dynamic_raw_matrix_impl_base< T >(m.begin(), m.end()) {}
+		template < typename M, std::size_t C, std::size_t R >
+		raw_matrix_impl(matrix< M, C, R > const& m):
+			dynamic_raw_matrix_impl_base< T >(
+				detail::matrix_to_vector< T, 0, Rows >(m)
+			) {}
 
 
-		template < typename U, std::size_t C, std::size_t R >
-		friend raw_matrix< U, 0, R >
-		with_dynamic_cols(raw_matrix< U, C, R >&& m);
+		template <
+			typename V,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		> friend constexpr raw_matrix< V, C1, R1 >
+		detail::convert(matrix< M, C2, R2 >&& m);
 
-		template < typename U, std::size_t C, std::size_t R >
-		friend raw_matrix< U, 0, R >
-		with_dynamic_cols(raw_matrix< U, C, R > const& m);
+		template <
+			typename V,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		> friend constexpr raw_matrix< V, C1, R1 >
+		detail::convert(matrix< M, C2, R2 > const& m);
 	};
 
 	template < typename T >
@@ -443,6 +603,13 @@ namespace mitrax{
 		public dynamic_raw_matrix_impl_base< T >{
 	public:
 		using typename dynamic_raw_matrix_impl_base< T >::value_type;
+
+
+		raw_matrix_impl(): cols_{0} {}
+
+		raw_matrix_impl(raw_matrix_impl&&) = default;
+
+		raw_matrix_impl(raw_matrix_impl const&) = default;
 
 
 		using dynamic_raw_matrix_impl_base< T >::dynamic_raw_matrix_impl_base;
@@ -475,44 +642,38 @@ namespace mitrax{
 		std::size_t cols_;
 
 
-		template < std::size_t C, std::size_t R >
-		raw_matrix_impl(raw_matrix< T, C, R >&& m):
+		template < typename M, std::size_t C, std::size_t R >
+		raw_matrix_impl(matrix< M, C, R >&& m):
 			dynamic_raw_matrix_impl_base< T >(
-				std::make_move_iterator(m.begin()),
-				std::make_move_iterator(m.end())
+				detail::matrix_to_vector< T, 0, 0 >(std::move(m))
 			), cols_(m.cols()) {}
 
-		template < std::size_t C, std::size_t R >
-		raw_matrix_impl(raw_matrix< T, C, R > const& m):
-			dynamic_raw_matrix_impl_base< T >(m.begin(), m.end()),
-			cols_(m.cols()) {}
+		template < typename M, std::size_t C, std::size_t R >
+		raw_matrix_impl(matrix< M, C, R > const& m):
+			dynamic_raw_matrix_impl_base< T >(
+				detail::matrix_to_vector< T, 0, 0 >(m)
+			), cols_(m.cols()) {}
 
 
-		template < typename U, std::size_t C, std::size_t R >
-		friend raw_matrix< U, C, 0 >
-		with_dynamic_rows(raw_matrix< U, C, R >&& m);
+		template <
+			typename V,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		> friend constexpr raw_matrix< V, C1, R1 >
+		detail::convert(matrix< M, C2, R2 >&& m);
 
-		template < typename U, std::size_t C, std::size_t R >
-		friend raw_matrix< U, C, 0 >
-		with_dynamic_rows(raw_matrix< U, C, R > const& m);
-
-
-		template < typename U, std::size_t C, std::size_t R >
-		friend raw_matrix< U, 0, R >
-		with_dynamic_cols(raw_matrix< U, C, R >&& m);
-
-		template < typename U, std::size_t C, std::size_t R >
-		friend raw_matrix< U, 0, R >
-		with_dynamic_cols(raw_matrix< U, C, R > const& m);
-
-
-		template < typename U, std::size_t C, std::size_t R >
-		friend raw_matrix< U, 0, 0 >
-		with_dynamic_dims(raw_matrix< U, C, R >&& m);
-
-		template < typename U, std::size_t C, std::size_t R >
-		friend raw_matrix< U, 0, 0 >
-		with_dynamic_dims(raw_matrix< U, C, R > const& m);
+		template <
+			typename V,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		> friend constexpr raw_matrix< V, C1, R1 >
+		detail::convert(matrix< M, C2, R2 > const& m);
 	};
 
 
@@ -561,37 +722,73 @@ namespace mitrax{
 	}
 
 
+	template <
+		typename T,
+		std::size_t C1,
+		std::size_t R1,
+		typename M,
+		std::size_t C2,
+		std::size_t R2
+	> constexpr raw_matrix< T, C1, R1 >
+	detail::convert(matrix< M, C2, R2 >&& m){
+		static_assert(
+			(C1 == 0 || C2 == 0 || C1 == C2) &&
+			(R1 == 0 || R2 == 0 || R1 == R2),
+			"Matrix dimensions not compatible"
+		);
+
+		return raw_matrix_impl< T, C1, R1 >(std::move(m));
+	}
+
+	template <
+		typename T,
+		std::size_t C1,
+		std::size_t R1,
+		typename M,
+		std::size_t C2,
+		std::size_t R2
+	> constexpr raw_matrix< T, C1, R1 >
+	detail::convert(matrix< M, C2, R2 > const& m){
+		static_assert(
+			(C1 == 0 || C2 == 0 || C1 == C2) &&
+			(R1 == 0 || R2 == 0 || R1 == R2),
+			"Matrix dimensions not compatible"
+		);
+
+		return raw_matrix_impl< T, C1, R1 >(m);
+	}
+
 
 	template < typename T, std::size_t C, std::size_t R >
 	raw_matrix< T, 0, R > with_dynamic_cols(raw_matrix< T, C, R >&& m){
-		return raw_matrix< T, 0, R >(m);
+		return std::move(m).template as_raw_matrix< T, 0, R >();
 	}
 
 	template < typename T, std::size_t C, std::size_t R >
 	raw_matrix< T, 0, R > with_dynamic_cols(raw_matrix< T, C, R > const& m){
-		return raw_matrix< T, 0, R >(m);
+		return m.template as_raw_matrix< T, 0, R >();
 	}
 
 
 	template < typename T, std::size_t C, std::size_t R >
 	raw_matrix< T, C, 0 > with_dynamic_rows(raw_matrix< T, C, R >&& m){
-		return raw_matrix< T, C, 0 >(m);
+		return std::move(m).template as_raw_matrix< T, C, 0 >();
 	}
 
 	template < typename T, std::size_t C, std::size_t R >
 	raw_matrix< T, C, 0 > with_dynamic_rows(raw_matrix< T, C, R > const& m){
-		return raw_matrix< T, C, 0 >(m);
+		return m.template as_raw_matrix< T, C, 0 >();
 	}
 
 
 	template < typename T, std::size_t C, std::size_t R >
 	raw_matrix< T, 0, 0 > with_dynamic_dims(raw_matrix< T, C, R >&& m){
-		return raw_matrix< T, 0, 0 >(m);
+		return std::move(m).template as_raw_matrix< T, 0, 0 >();
 	}
 
 	template < typename T, std::size_t C, std::size_t R >
 	raw_matrix< T, 0, 0 > with_dynamic_dims(raw_matrix< T, C, R > const& m){
-		return raw_matrix< T, 0, 0 >(m);
+		return m.template as_raw_matrix< T, 0, 0 >();
 	}
 
 
