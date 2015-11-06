@@ -296,12 +296,12 @@ namespace mitrax{
 		using matrix_types< M >::matrix_types;
 
 
-		constexpr std::size_t cols()const{
-			return m_.cols();
+		static constexpr std::size_t cols(){
+			return M::cols();
 		}
 
-		static constexpr std::size_t rows(){
-			return M::rows();
+		constexpr std::size_t rows()const{
+			return m_.rows();
 		}
 
 
