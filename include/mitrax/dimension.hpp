@@ -81,7 +81,10 @@ namespace mitrax{
 		constexpr dimension(dimension&&) = default;
 
 		/// \brief Constructs a dimension cols and rows
-		constexpr dimension(x_value_type const& cols, y_value_type const& rows):
+		constexpr dimension(
+			x_value_type const& cols,
+			y_value_type const& rows
+		):
 			cols_(cols), rows_(rows) {}
 
 
