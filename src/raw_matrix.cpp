@@ -306,15 +306,3 @@ BOOST_AUTO_TEST_CASE(test_dynamic_square_matrix){
 	BOOST_TEST(m1(1, 2) == 7);
 	BOOST_TEST(m1(2, 2) == 8);
 }
-
-
-
-
-// 	auto ms0x3 = with_dynamic_cols(m3x3);
-// 	std::cout << type_id_runtime(ms0x3).pretty_name() << std::endl;
-// 
-// 	auto ms3x0 = with_dynamic_rows(m3x3);
-// 	std::cout << type_id_runtime(ms3x0).pretty_name() << std::endl;
-// 
-// 	auto ms0x0 = with_dynamic_dims(m3x3);
-// 	std::cout << type_id_runtime(ms0x0).pretty_name() << std::endl;
