@@ -251,6 +251,63 @@ BOOST_AUTO_TEST_CASE(test_dynamic_raw_row_vector){
 }
 
 
+BOOST_AUTO_TEST_CASE(test_dynamic_square_matrix){
+	auto m1 = with_dynamic_dims(to_square_matrix< int, 3 >({
+		{0, 1, 2},
+		{3, 4, 5},
+		{6, 7, 8}
+	}));
+
+	auto m2 = with_dynamic_rows(with_dynamic_cols(to_square_matrix< int, 3 >({
+		{0, 1, 2},
+		{3, 4, 5},
+		{6, 7, 8}
+	})));
+
+	auto m3 = with_dynamic_cols(with_dynamic_rows(to_square_matrix< int, 3 >({
+		{0, 1, 2},
+		{3, 4, 5},
+		{6, 7, 8}
+	})));
+
+
+	BOOST_TEST(type_id_runtime(m1) == type_id_runtime(m2));
+
+	BOOST_TEST(type_id_runtime(m1) == type_id_runtime(m3));
+
+
+	auto type1 = type_id< raw_matrix< int, 0, 0 > >();
+	BOOST_TEST(type_id_runtime(m1) == type1);
+
+	auto type2 = type_id< matrix< raw_matrix_impl< int, 0, 0 >, 0, 0 > >();
+	BOOST_TEST(type_id_runtime(m1) == type2);
+
+
+	auto eq1 = m1 == m2;
+	BOOST_TEST(eq1);
+
+	auto eq2 = m1 == m3;
+	BOOST_TEST(eq2);
+
+	auto neq1 = m1 != m2;
+	BOOST_TEST(!neq1);
+
+	auto neq2 = m1 != m3;
+	BOOST_TEST(!neq2);
+
+
+	BOOST_TEST(m1(0, 0) == 0);
+	BOOST_TEST(m1(1, 0) == 1);
+	BOOST_TEST(m1(2, 0) == 2);
+	BOOST_TEST(m1(0, 1) == 3);
+	BOOST_TEST(m1(1, 1) == 4);
+	BOOST_TEST(m1(2, 1) == 5);
+	BOOST_TEST(m1(0, 2) == 6);
+	BOOST_TEST(m1(1, 2) == 7);
+	BOOST_TEST(m1(2, 2) == 8);
+}
+
+
 
 
 // 	auto ms0x3 = with_dynamic_cols(m3x3);
