@@ -489,6 +489,24 @@ namespace mitrax{
 
 
 		template < typename U, std::size_t C, std::size_t R >
+		friend raw_matrix< U, C, 0 >
+		with_dynamic_rows(raw_matrix< U, C, R >&& m);
+
+		template < typename U, std::size_t C, std::size_t R >
+		friend raw_matrix< U, C, 0 >
+		with_dynamic_rows(raw_matrix< U, C, R > const& m);
+
+
+		template < typename U, std::size_t C, std::size_t R >
+		friend raw_matrix< U, 0, R >
+		with_dynamic_cols(raw_matrix< U, C, R >&& m);
+
+		template < typename U, std::size_t C, std::size_t R >
+		friend raw_matrix< U, 0, R >
+		with_dynamic_cols(raw_matrix< U, C, R > const& m);
+
+
+		template < typename U, std::size_t C, std::size_t R >
 		friend raw_matrix< U, 0, 0 >
 		with_dynamic_dims(raw_matrix< U, C, R >&& m);
 
