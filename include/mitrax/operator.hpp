@@ -17,7 +17,7 @@
 namespace mitrax{
 
 
-	namespace detail{ namespace operation{
+	namespace detail{
 
 
 		struct plus_assign{
@@ -113,7 +113,7 @@ namespace mitrax{
 		}
 
 
-	} }
+	}
 
 
 	template <
@@ -125,7 +125,7 @@ namespace mitrax{
 		matrix< M, C, R >& m,
 		T const& v
 	){
-		detail::operation::m1op(m, v, detail::operation::plus_assign());
+		detail::m1op(m, v, detail::plus_assign());
 		return m;
 	}
 
@@ -139,7 +139,7 @@ namespace mitrax{
 		matrix< M, C, R >& m,
 		T const& v
 	){
-		detail::operation::m1op(m, v, detail::operation::minus_assign());
+		detail::m1op(m, v, detail::minus_assign());
 		return m;
 	}
 
@@ -153,7 +153,7 @@ namespace mitrax{
 		matrix< M, C, R >& m,
 		T const& v
 	){
-		detail::operation::m1op(m, v, detail::operation::multiplies_assign());
+		detail::m1op(m, v, detail::multiplies_assign());
 		return m;
 	}
 
@@ -167,7 +167,7 @@ namespace mitrax{
 		matrix< M, C, R >& m,
 		T const& v
 	){
-		detail::operation::m1op(m, v, detail::operation::divides_assign());
+		detail::m1op(m, v, detail::divides_assign());
 		return m;
 	}
 
@@ -181,9 +181,10 @@ namespace mitrax{
 		matrix< M, C, R >& m,
 		T const& v
 	){
-		detail::operation::m1op(m, v, detail::operation::modulus_assign());
+		detail::m1op(m, v, detail::modulus_assign());
 		return m;
 	}
+
 
 
 	template <
@@ -197,7 +198,7 @@ namespace mitrax{
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		detail::operation::m2op(m1, m2, detail::operation::plus_assign());
+		detail::m2op(m1, m2, detail::plus_assign());
 		return m1;
 	}
 
@@ -213,7 +214,7 @@ namespace mitrax{
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		detail::operation::m2op(m1, m2, detail::operation::minus_assign());
+		detail::m2op(m1, m2, detail::minus_assign());
 		return m1;
 	}
 
@@ -229,7 +230,7 @@ namespace mitrax{
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		detail::operation::m2op(m1, m2, detail::operation::multiplies_assign());
+		detail::m2op(m1, m2, detail::multiplies_assign());
 		return m1;
 	}
 
@@ -245,7 +246,7 @@ namespace mitrax{
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		detail::operation::m2op(m1, m2, detail::operation::divides_assign());
+		detail::m2op(m1, m2, detail::divides_assign());
 		return m1;
 	}
 
@@ -261,9 +262,84 @@ namespace mitrax{
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		detail::operation::m2op(m1, m2, detail::operation::modulus_assign());
+		detail::m2op(m1, m2, detail::modulus_assign());
 		return m1;
 	}
+
+
+
+// 	template <
+// 		typename M,
+// 		typename T,
+// 		std::size_t C,
+// 		std::size_t R
+// 	> constexpr auto& element_plus(
+// 		matrix< M, C, R > const& m,
+// 		T const& v
+// 	){
+// 		return element_plus_assign(
+// 			static_cast< std::common_t<
+// 				typename matrix< M, C, R >::value_type,
+// 				T
+// 			> >(m), v);
+// 	}
+// 
+// 
+// 	template <
+// 		typename M,
+// 		typename T,
+// 		std::size_t C,
+// 		std::size_t R
+// 	> constexpr auto& element_minus(
+// 		matrix< M, C, R > const& m,
+// 		T const& v
+// 	){
+// 		detail::m1op(m, v, detail::minus_assign());
+// 		return m;
+// 	}
+// 
+// 
+// 	template <
+// 		typename M,
+// 		typename T,
+// 		std::size_t C,
+// 		std::size_t R
+// 	> constexpr auto& operator*(
+// 		matrix< M, C, R > const& m,
+// 		T const& v
+// 	){
+// 		detail::m1op(m, v, detail::multiplies_assign());
+// 		return m;
+// 	}
+// 
+// 
+// 	template <
+// 		typename M,
+// 		typename T,
+// 		std::size_t C,
+// 		std::size_t R
+// 	> constexpr auto& operator/(
+// 		matrix< M, C, R > const& m,
+// 		T const& v
+// 	){
+// 		detail::m1op(m, v, detail::divides_assign());
+// 		return m;
+// 	}
+// 
+// 
+// 	template <
+// 		typename M,
+// 		typename T,
+// 		std::size_t C,
+// 		std::size_t R
+// 	> constexpr auto& operator%(
+// 		matrix< M, C, R > const& m,
+// 		T const& v
+// 	){
+// 		detail::m1op(m, v, detail::modulus_assign());
+// 		return m;
+// 	}
+
 
 
 }
