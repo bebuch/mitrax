@@ -18,13 +18,13 @@ namespace mitrax{
 
 
 
-	template < typename T, std::size_t N >
+	template < typename T, size_t N >
 	using raw_square_matrix = matrix< raw_matrix_impl< T, N, N >, N, N >;
 
-	template < typename T, std::size_t Cols >
+	template < typename T, size_t Cols >
 	using raw_col_vector = matrix< raw_matrix_impl< T, Cols, 1 >, Cols, 1 >;
 
-	template < typename T, std::size_t Rows >
+	template < typename T, size_t Rows >
 	using raw_row_vector = matrix< raw_matrix_impl< T, 1, Rows >, 1, Rows >;
 
 
@@ -33,9 +33,9 @@ namespace mitrax{
 
 		template <
 			typename T,
-			std::size_t Cols,
-			std::size_t Rows,
-			std::size_t ... I
+			size_t Cols,
+			size_t Rows,
+			size_t ... I
 		>
 		constexpr auto to_array(
 			T(&&values)[Rows][Cols],
@@ -48,9 +48,9 @@ namespace mitrax{
 
 		template <
 			typename T,
-			std::size_t Cols,
-			std::size_t Rows,
-			std::size_t ... I
+			size_t Cols,
+			size_t Rows,
+			size_t ... I
 		>
 		constexpr auto to_array(
 			T const(&values)[Rows][Cols],
@@ -64,12 +64,12 @@ namespace mitrax{
 
 		template <
 			typename T,
-			std::size_t C1,
-			std::size_t R1,
+			size_t C1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2,
-			std::size_t ... I
+			size_t C2,
+			size_t R2,
+			size_t ... I
 		>
 		constexpr std::array< T, C1 * R1 > matrix_to_array(
 			matrix< M, C2, R2 >&& m,
@@ -88,12 +88,12 @@ namespace mitrax{
 
 		template <
 			typename T,
-			std::size_t C1,
-			std::size_t R1,
+			size_t C1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2,
-			std::size_t ... I
+			size_t C2,
+			size_t R2,
+			size_t ... I
 		>
 		constexpr std::array< T, C1 * R1 > matrix_to_array(
 			matrix< M, C2, R2 > const& m,
@@ -112,17 +112,17 @@ namespace mitrax{
 
 		template <
 			typename T,
-			std::size_t C1,
-			std::size_t R1,
+			size_t C1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2,
-			std::size_t ... I
+			size_t C2,
+			size_t R2,
+			size_t ... I
 		>
 		constexpr std::array< T, C1 * R1 > sub_matrix_to_array(
 			matrix< M, C2, R2 > const& m,
-			std::size_t x,
-			std::size_t y,
+			size_t x,
+			size_t y,
 			std::index_sequence< I ... >
 		){
 			return std::array< T, C1 * R1 >{{
@@ -133,20 +133,20 @@ namespace mitrax{
 		template <
 			typename T,
 			typename M,
-			std::size_t C,
-			std::size_t R
+			size_t C,
+			size_t R
 		>
 		constexpr boost::container::vector< T > sub_matrix_to_vector(
 			matrix< M, C, R > const& m,
-			std::size_t x,
-			std::size_t y,
-			std::size_t cols,
-			std::size_t rows
+			size_t x,
+			size_t y,
+			size_t cols,
+			size_t rows
 		){
 			boost::container::vector< T > result;
 			result.reserve(cols * rows);
-			for(std::size_t yi = 0; yi < rows; ++yi){
-				for(std::size_t xi = 0; xi < cols; ++xi){
+			for(size_t yi = 0; yi < rows; ++yi){
+				for(size_t xi = 0; xi < cols; ++xi){
 					result.emplace_back(m(x + xi, y + yi));
 				}
 			}
@@ -156,9 +156,9 @@ namespace mitrax{
 
 		template <
 			typename T,
-			std::size_t Cols,
-			std::size_t Rows,
-			std::size_t ... I
+			size_t Cols,
+			size_t Rows,
+			size_t ... I
 		>
 		constexpr auto to_vector(
 			T(&&values)[Rows][Cols],
@@ -171,9 +171,9 @@ namespace mitrax{
 
 		template <
 			typename T,
-			std::size_t Cols,
-			std::size_t Rows,
-			std::size_t ... I
+			size_t Cols,
+			size_t Rows,
+			size_t ... I
 		>
 		constexpr auto to_vector(
 			T const(&values)[Rows][Cols],
@@ -187,12 +187,12 @@ namespace mitrax{
 
 		template <
 			typename T,
-			std::size_t C1,
-			std::size_t R1,
+			size_t C1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2,
-			std::size_t ... I
+			size_t C2,
+			size_t R2,
+			size_t ... I
 		>
 		boost::container::vector< T > matrix_to_vector(
 			matrix< M, C2, R2 >&& m
@@ -211,12 +211,12 @@ namespace mitrax{
 
 		template <
 			typename T,
-			std::size_t C1,
-			std::size_t R1,
+			size_t C1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2,
-			std::size_t ... I
+			size_t C2,
+			size_t R2,
+			size_t ... I
 		>
 		boost::container::vector< T > matrix_to_vector(
 			matrix< M, C2, R2 > const& m
@@ -235,7 +235,7 @@ namespace mitrax{
 
 
 
-	template < typename T, std::size_t Cols, std::size_t Rows >
+	template < typename T, size_t Cols, size_t Rows >
 	class raw_matrix_impl{
 	public:
 		/// \brief Type of the data that administrates the matrix
@@ -267,23 +267,23 @@ namespace mitrax{
 
 
 		constexpr value_type& operator()(
-			std::size_t x, std::size_t y
+			size_t x, size_t y
 		){
 			return values_[y * cols() + x];
 		}
 
 		constexpr value_type const& operator()(
-			std::size_t x, std::size_t y
+			size_t x, size_t y
 		)const{
 			return values_[y * cols() + x];
 		}
 
 
-		static constexpr std::size_t cols(){
+		static constexpr size_t cols(){
 			return Cols;
 		}
 
-		static constexpr std::size_t rows(){
+		static constexpr size_t rows(){
 			return Rows;
 		}
 
@@ -327,59 +327,59 @@ namespace mitrax{
 
 		template <
 			typename V,
-			std::size_t C1,
-			std::size_t R1,
+			size_t C1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2
+			size_t C2,
+			size_t R2
 		> friend constexpr raw_matrix< V, C1, R1 >
 		detail::convert(matrix< M, C2, R2 >&& m);
 
 		template <
 			typename V,
-			std::size_t C1,
-			std::size_t R1,
+			size_t C1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2
+			size_t C2,
+			size_t R2
 		> friend constexpr raw_matrix< V, C1, R1 >
 		detail::convert(matrix< M, C2, R2 > const& m);
 
 		template <
 			typename V,
-			std::size_t C1,
-			std::size_t R1,
+			size_t C1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2
+			size_t C2,
+			size_t R2
 		> friend constexpr raw_matrix< V, C1, R1 > detail::sub_matrix(
 			matrix< M, C2, R2 > const& m,
-			std::size_t x,
-			std::size_t y,
+			size_t x,
+			size_t y,
 			size_ct< C1 > /*cols*/,
 			size_ct< R1 > /*rows*/
 		);
 
 
-		template < typename M, std::size_t C, std::size_t R >
+		template < typename M, size_t C, size_t R >
 		constexpr raw_matrix_impl(matrix< M, C, R >&& m):
 			values_(detail::matrix_to_array< T, Cols, Rows >(
 				std::move(m),
 				std::make_index_sequence< Cols * Rows >()
 			)){}
 
-		template < typename M, std::size_t C, std::size_t R >
+		template < typename M, size_t C, size_t R >
 		constexpr raw_matrix_impl(matrix< M, C, R > const& m):
 			values_(detail::matrix_to_array< T, Cols, Rows >(
 				m,
 				std::make_index_sequence< Cols * Rows >()
 			)){}
 
-		template < typename M, std::size_t C, std::size_t R >
+		template < typename M, size_t C, size_t R >
 		constexpr raw_matrix_impl(
 			matrix< M, C, R > const& m,
-			std::size_t x,
-			std::size_t y
+			size_t x,
+			size_t y
 		):
 			values_(detail::sub_matrix_to_array< T, Cols, Rows >(
 				m, x, y,
@@ -399,38 +399,38 @@ namespace mitrax{
 				std::make_index_sequence< Cols * Rows >()
 			)){}
 
-		template < std::size_t N >
+		template < size_t N >
 		constexpr raw_matrix_impl(value_type(&&values)[N]):
 			values_(to_array(std::move(values))){}
 
-		template < std::size_t N >
+		template < size_t N >
 		constexpr raw_matrix_impl(value_type const(&values)[N]):
 			values_(to_array(values)){}
 
 
-		template < typename U, std::size_t C, std::size_t R >
+		template < typename U, size_t C, size_t R >
 		friend constexpr raw_matrix< U, C, R >
 		to_matrix(U(&&values)[R][C]);
 
-		template < typename U, std::size_t C, std::size_t R >
+		template < typename U, size_t C, size_t R >
 		friend constexpr raw_matrix< U, C, R >
 		to_matrix(U const(&values)[R][C]);
 
 
-		template < typename U, std::size_t N >
+		template < typename U, size_t N >
 		friend constexpr raw_col_vector< U, N >
 		to_col_vector(U(&&values)[N]);
 
-		template < typename U, std::size_t N >
+		template < typename U, size_t N >
 		friend constexpr raw_col_vector< U, N >
 		to_col_vector(U const(&values)[N]);
 
 
-		template < typename U, std::size_t N >
+		template < typename U, size_t N >
 		friend constexpr raw_row_vector< U, N >
 		to_row_vector(U(&&values)[N]);
 
-		template < typename U, std::size_t N >
+		template < typename U, size_t N >
 		friend constexpr raw_row_vector< U, N >
 		to_row_vector(U const(&values)[N]);
 	};
@@ -512,7 +512,7 @@ namespace mitrax{
 	};
 
 
-	template < typename T, std::size_t Cols >
+	template < typename T, size_t Cols >
 	class raw_matrix_impl< T, Cols, 0 >:
 		public dynamic_raw_matrix_impl_base< T >{
 	public:
@@ -530,23 +530,23 @@ namespace mitrax{
 
 
 		value_type& operator()(
-			std::size_t x, std::size_t y
+			size_t x, size_t y
 		){
 			return values_[y * cols() + x];
 		}
 
 		value_type const& operator()(
-			std::size_t x, std::size_t y
+			size_t x, size_t y
 		)const{
 			return values_[y * cols() + x];
 		}
 
 
-		static constexpr std::size_t cols(){
+		static constexpr size_t cols(){
 			return Cols;
 		}
 
-		std::size_t rows()const{
+		size_t rows()const{
 			return values_.size() / cols();
 		}
 
@@ -555,24 +555,24 @@ namespace mitrax{
 		using dynamic_raw_matrix_impl_base< T >::values_;
 
 
-		template < typename M, std::size_t C, std::size_t R >
+		template < typename M, size_t C, size_t R >
 		raw_matrix_impl(matrix< M, C, R >&& m):
 			dynamic_raw_matrix_impl_base< T >(
 				detail::matrix_to_vector< T, Cols, 0 >(std::move(m))
 			) {}
 
-		template < typename M, std::size_t C, std::size_t R >
+		template < typename M, size_t C, size_t R >
 		raw_matrix_impl(matrix< M, C, R > const& m):
 			dynamic_raw_matrix_impl_base< T >(
 				detail::matrix_to_vector< T, Cols, 0 >(m)
 			) {}
 
-		template < typename M, std::size_t C, std::size_t R >
+		template < typename M, size_t C, size_t R >
 		constexpr raw_matrix_impl(
 			matrix< M, C, R > const& m,
-			std::size_t x,
-			std::size_t y,
-			std::size_t rows
+			size_t x,
+			size_t y,
+			size_t rows
 		):
 			dynamic_raw_matrix_impl_base< T >(
 				detail::sub_matrix_to_vector< T >(m, x, y, Cols, rows)
@@ -581,41 +581,41 @@ namespace mitrax{
 
 		template <
 			typename V,
-			std::size_t C1,
-			std::size_t R1,
+			size_t C1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2
+			size_t C2,
+			size_t R2
 		> friend constexpr raw_matrix< V, C1, R1 >
 		detail::convert(matrix< M, C2, R2 >&& m);
 
 		template <
 			typename V,
-			std::size_t C1,
-			std::size_t R1,
+			size_t C1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2
+			size_t C2,
+			size_t R2
 		> friend constexpr raw_matrix< V, C1, R1 >
 		detail::convert(matrix< M, C2, R2 > const& m);
 
 		template <
 			typename V,
-			std::size_t C1,
+			size_t C1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2
+			size_t C2,
+			size_t R2
 		> friend raw_matrix< V, C1, 0 > detail::sub_matrix(
 			matrix< M, C2, R2 > const& m,
-			std::size_t x,
-			std::size_t y,
+			size_t x,
+			size_t y,
 			size_ct< C1 > cols,
-			std::size_t rows
+			size_t rows
 		);
 	};
 
 
-	template < typename T, std::size_t Rows >
+	template < typename T, size_t Rows >
 	class raw_matrix_impl< T, 0, Rows >:
 		public dynamic_raw_matrix_impl_base< T >{
 	public:
@@ -633,23 +633,23 @@ namespace mitrax{
 
 
 		value_type& operator()(
-			std::size_t x, std::size_t y
+			size_t x, size_t y
 		){
 			return values_[y * cols() + x];
 		}
 
 		value_type const& operator()(
-			std::size_t x, std::size_t y
+			size_t x, size_t y
 		)const{
 			return values_[y * cols() + x];
 		}
 
 
-		std::size_t cols()const{
+		size_t cols()const{
 			return values_.size() / rows();
 		}
 
-		static constexpr std::size_t rows(){
+		static constexpr size_t rows(){
 			return Rows;
 		}
 
@@ -658,24 +658,24 @@ namespace mitrax{
 		using dynamic_raw_matrix_impl_base< T >::values_;
 
 
-		template < typename M, std::size_t C, std::size_t R >
+		template < typename M, size_t C, size_t R >
 		raw_matrix_impl(matrix< M, C, R >&& m):
 			dynamic_raw_matrix_impl_base< T >(
 				detail::matrix_to_vector< T, 0, Rows >(std::move(m))
 			) {}
 
-		template < typename M, std::size_t C, std::size_t R >
+		template < typename M, size_t C, size_t R >
 		raw_matrix_impl(matrix< M, C, R > const& m):
 			dynamic_raw_matrix_impl_base< T >(
 				detail::matrix_to_vector< T, 0, Rows >(m)
 			) {}
 
-		template < typename M, std::size_t C, std::size_t R >
+		template < typename M, size_t C, size_t R >
 		constexpr raw_matrix_impl(
 			matrix< M, C, R > const& m,
-			std::size_t x,
-			std::size_t y,
-			std::size_t cols
+			size_t x,
+			size_t y,
+			size_t cols
 		):
 			dynamic_raw_matrix_impl_base< T >(
 				detail::sub_matrix_to_vector< T >(m, x, y, cols, Rows)
@@ -684,35 +684,35 @@ namespace mitrax{
 
 		template <
 			typename V,
-			std::size_t C1,
-			std::size_t R1,
+			size_t C1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2
+			size_t C2,
+			size_t R2
 		> friend constexpr raw_matrix< V, C1, R1 >
 		detail::convert(matrix< M, C2, R2 >&& m);
 
 		template <
 			typename V,
-			std::size_t C1,
-			std::size_t R1,
+			size_t C1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2
+			size_t C2,
+			size_t R2
 		> friend constexpr raw_matrix< V, C1, R1 >
 		detail::convert(matrix< M, C2, R2 > const& m);
 
 		template <
 			typename V,
-			std::size_t R1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2
+			size_t C2,
+			size_t R2
 		> friend raw_matrix< V, 0, R1 > detail::sub_matrix(
 			matrix< M, C2, R2 > const& m,
-			std::size_t x,
-			std::size_t y,
-			std::size_t cols,
+			size_t x,
+			size_t y,
+			size_t cols,
 			size_ct< R1 > rows
 		);
 	};
@@ -735,51 +735,51 @@ namespace mitrax{
 
 
 		value_type& operator()(
-			std::size_t x, std::size_t y
+			size_t x, size_t y
 		){
 			return values_[y * cols() + x];
 		}
 
 		value_type const& operator()(
-			std::size_t x, std::size_t y
+			size_t x, size_t y
 		)const{
 			return values_[y * cols() + x];
 		}
 
 
-		std::size_t cols()const{
+		size_t cols()const{
 			return cols_;
 		}
 
-		std::size_t rows()const{
+		size_t rows()const{
 			return values_.size() / cols();
 		}
 
 
 	private:
 		using dynamic_raw_matrix_impl_base< T >::values_;
-		std::size_t cols_;
+		size_t cols_;
 
 
-		template < typename M, std::size_t C, std::size_t R >
+		template < typename M, size_t C, size_t R >
 		raw_matrix_impl(matrix< M, C, R >&& m):
 			dynamic_raw_matrix_impl_base< T >(
 				detail::matrix_to_vector< T, 0, 0 >(std::move(m))
 			), cols_(m.cols()) {}
 
-		template < typename M, std::size_t C, std::size_t R >
+		template < typename M, size_t C, size_t R >
 		raw_matrix_impl(matrix< M, C, R > const& m):
 			dynamic_raw_matrix_impl_base< T >(
 				detail::matrix_to_vector< T, 0, 0 >(m)
 			), cols_(m.cols()) {}
 
-		template < typename M, std::size_t C, std::size_t R >
+		template < typename M, size_t C, size_t R >
 		constexpr raw_matrix_impl(
 			matrix< M, C, R > const& m,
-			std::size_t x,
-			std::size_t y,
-			std::size_t cols,
-			std::size_t rows
+			size_t x,
+			size_t y,
+			size_t cols,
+			size_t rows
 		):
 			dynamic_raw_matrix_impl_base< T >(
 				detail::sub_matrix_to_vector< T >(m, x, y, cols, rows)
@@ -788,79 +788,79 @@ namespace mitrax{
 
 		template <
 			typename V,
-			std::size_t C1,
-			std::size_t R1,
+			size_t C1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2
+			size_t C2,
+			size_t R2
 		> friend constexpr raw_matrix< V, C1, R1 >
 		detail::convert(matrix< M, C2, R2 >&& m);
 
 		template <
 			typename V,
-			std::size_t C1,
-			std::size_t R1,
+			size_t C1,
+			size_t R1,
 			typename M,
-			std::size_t C2,
-			std::size_t R2
+			size_t C2,
+			size_t R2
 		> friend constexpr raw_matrix< V, C1, R1 >
 		detail::convert(matrix< M, C2, R2 > const& m);
 
 		template <
 			typename V,
 			typename M,
-			std::size_t C2,
-			std::size_t R2
+			size_t C2,
+			size_t R2
 		> friend raw_matrix< V, 0, 0 > detail::sub_matrix(
 			matrix< M, C2, R2 > const& m,
-			std::size_t x,
-			std::size_t y,
-			std::size_t cols,
-			std::size_t rows
+			size_t x,
+			size_t y,
+			size_t cols,
+			size_t rows
 		);
 	};
 
 
 
-	template < typename T, std::size_t C, std::size_t R >
+	template < typename T, size_t C, size_t R >
 	constexpr raw_matrix< T, C, R > to_matrix(T(&&values)[R][C]){
 		return raw_matrix_impl< T, C, R >(std::move(values));
 	}
 
-	template < typename T, std::size_t C, std::size_t R >
+	template < typename T, size_t C, size_t R >
 	constexpr raw_matrix< T, C, R > to_matrix(T const(&values)[R][C]){
 		return raw_matrix_impl< T, C, R >(values);
 	}
 
 
-	template < typename T, std::size_t N >
+	template < typename T, size_t N >
 	constexpr raw_matrix< T, N, N > to_square_matrix(T(&&values)[N][N]){
 		return to_matrix< T, N, N >(std::move(values));
 	}
 
-	template < typename T, std::size_t N >
+	template < typename T, size_t N >
 	constexpr raw_matrix< T, N, N > to_square_matrix(T const(&values)[N][N]){
 		return to_matrix< T, N, N >(values);
 	}
 
 
-	template < typename T, std::size_t N >
+	template < typename T, size_t N >
 	constexpr raw_col_vector< T, N > to_col_vector(T(&&values)[N]){
 		return raw_matrix_impl< T, N, 1 >(std::move(values));
 	}
 
-	template < typename T, std::size_t N >
+	template < typename T, size_t N >
 	constexpr raw_col_vector< T, N > to_col_vector(T const(&values)[N]){
 		return raw_matrix_impl< T, N, 1 >(values);
 	}
 
 
-	template < typename T, std::size_t N >
+	template < typename T, size_t N >
 	constexpr raw_row_vector< T, N > to_row_vector(T(&&values)[N]){
 		return raw_matrix_impl< T, 1, N >(std::move(values));
 	}
 
-	template < typename T, std::size_t N >
+	template < typename T, size_t N >
 	constexpr raw_row_vector< T, N > to_row_vector(T const(&values)[N]){
 		return raw_matrix_impl< T, 1, N >(values);
 	}
@@ -868,11 +868,11 @@ namespace mitrax{
 
 	template <
 		typename T,
-		std::size_t C1,
-		std::size_t R1,
+		size_t C1,
+		size_t R1,
 		typename M,
-		std::size_t C2,
-		std::size_t R2
+		size_t C2,
+		size_t R2
 	> constexpr raw_matrix< T, C1, R1 >
 	detail::convert(matrix< M, C2, R2 >&& m){
 		static_assert(
@@ -886,11 +886,11 @@ namespace mitrax{
 
 	template <
 		typename T,
-		std::size_t C1,
-		std::size_t R1,
+		size_t C1,
+		size_t R1,
 		typename M,
-		std::size_t C2,
-		std::size_t R2
+		size_t C2,
+		size_t R2
 	> constexpr raw_matrix< T, C1, R1 >
 	detail::convert(matrix< M, C2, R2 > const& m){
 		static_assert(
@@ -905,16 +905,16 @@ namespace mitrax{
 
 	template <
 		typename T,
-		std::size_t C1,
-		std::size_t R1,
+		size_t C1,
+		size_t R1,
 		typename M,
-		std::size_t C2,
-		std::size_t R2
+		size_t C2,
+		size_t R2
 	>
 	constexpr raw_matrix< T, C1, R1 > detail::sub_matrix(
 		matrix< M, C2, R2 > const& m,
-		std::size_t x,
-		std::size_t y,
+		size_t x,
+		size_t y,
 		size_ct< C1 > /*cols*/,
 		size_ct< R1 > /*rows*/
 	){
@@ -927,16 +927,16 @@ namespace mitrax{
 
 	template <
 		typename T,
-		std::size_t R1,
+		size_t R1,
 		typename M,
-		std::size_t C2,
-		std::size_t R2
+		size_t C2,
+		size_t R2
 	>
 	raw_matrix< T, 0, R1 > detail::sub_matrix(
 		matrix< M, C2, R2 > const& m,
-		std::size_t x,
-		std::size_t y,
-		std::size_t cols,
+		size_t x,
+		size_t y,
+		size_t cols,
 		size_ct< R1 > /*rows*/
 	){
 		static_assert(R1 > 0, "Matrix rows must be greater than 0");
@@ -945,17 +945,17 @@ namespace mitrax{
 
 	template <
 		typename T,
-		std::size_t C1,
+		size_t C1,
 		typename M,
-		std::size_t C2,
-		std::size_t R2
+		size_t C2,
+		size_t R2
 	>
 	raw_matrix< T, C1, 0 > detail::sub_matrix(
 		matrix< M, C2, R2 > const& m,
-		std::size_t x,
-		std::size_t y,
+		size_t x,
+		size_t y,
 		size_ct< C1 > /*cols*/,
-		std::size_t rows
+		size_t rows
 	){
 		static_assert(C1 > 0, "Matrix cols must be greater than 0");
 		return raw_matrix_impl< T, C1, 0 >(m, x, y, rows);
@@ -964,48 +964,48 @@ namespace mitrax{
 	template <
 		typename T,
 		typename M,
-		std::size_t C2,
-		std::size_t R2
+		size_t C2,
+		size_t R2
 	>
 	raw_matrix< T, 0, 0 > detail::sub_matrix(
 		matrix< M, C2, R2 > const& m,
-		std::size_t x,
-		std::size_t y,
-		std::size_t cols,
-		std::size_t rows
+		size_t x,
+		size_t y,
+		size_t cols,
+		size_t rows
 	){
 		return raw_matrix_impl< T, 0, 0 >(m, x, y, cols, rows);
 	}
 
 
-	template < typename T, std::size_t C, std::size_t R >
+	template < typename T, size_t C, size_t R >
 	raw_matrix< T, 0, R > with_dynamic_cols(raw_matrix< T, C, R >&& m){
 		return std::move(m).template as_raw_matrix< T, 0, R >();
 	}
 
-	template < typename T, std::size_t C, std::size_t R >
+	template < typename T, size_t C, size_t R >
 	raw_matrix< T, 0, R > with_dynamic_cols(raw_matrix< T, C, R > const& m){
 		return m.template as_raw_matrix< T, 0, R >();
 	}
 
 
-	template < typename T, std::size_t C, std::size_t R >
+	template < typename T, size_t C, size_t R >
 	raw_matrix< T, C, 0 > with_dynamic_rows(raw_matrix< T, C, R >&& m){
 		return std::move(m).template as_raw_matrix< T, C, 0 >();
 	}
 
-	template < typename T, std::size_t C, std::size_t R >
+	template < typename T, size_t C, size_t R >
 	raw_matrix< T, C, 0 > with_dynamic_rows(raw_matrix< T, C, R > const& m){
 		return m.template as_raw_matrix< T, C, 0 >();
 	}
 
 
-	template < typename T, std::size_t C, std::size_t R >
+	template < typename T, size_t C, size_t R >
 	raw_matrix< T, 0, 0 > with_dynamic_dims(raw_matrix< T, C, R >&& m){
 		return std::move(m).template as_raw_matrix< T, 0, 0 >();
 	}
 
-	template < typename T, std::size_t C, std::size_t R >
+	template < typename T, size_t C, size_t R >
 	raw_matrix< T, 0, 0 > with_dynamic_dims(raw_matrix< T, C, R > const& m){
 		return m.template as_raw_matrix< T, 0, 0 >();
 	}
