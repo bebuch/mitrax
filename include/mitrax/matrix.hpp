@@ -111,7 +111,7 @@ namespace mitrax{
 		constexpr matrix_types(matrix_types const&) = default;
 
 
-		constexpr value_type& operator()(
+		constexpr decltype(auto) operator()(
 			std::size_t x, std::size_t y
 		){
 			assert(x < m_.cols());
@@ -119,7 +119,7 @@ namespace mitrax{
 			return m_(x, y);
 		}
 
-		constexpr value_type const& operator()(
+		constexpr decltype(auto) operator()(
 			std::size_t x, std::size_t y
 		)const{
 			assert(x < m_.cols());
@@ -236,11 +236,11 @@ namespace mitrax{
 		}
 
 
-		constexpr value_type& operator[](std::size_t i){
+		constexpr decltype(auto) operator[](std::size_t i){
 			return m_(0, i);
 		}
 
-		constexpr value_type const& operator[](std::size_t i)const{
+		constexpr decltype(auto) operator[](std::size_t i)const{
 			return m_(0, i);
 		}
 
@@ -267,11 +267,11 @@ namespace mitrax{
 		}
 
 
-		constexpr value_type& operator[](std::size_t i){
+		constexpr decltype(auto) operator[](std::size_t i){
 			return m_(i, 0);
 		}
 
-		constexpr value_type const& operator[](std::size_t i)const{
+		constexpr decltype(auto) operator[](std::size_t i)const{
 			return m_(i, 0);
 		}
 
@@ -298,12 +298,12 @@ namespace mitrax{
 		}
 
 
-		constexpr value_type& operator[](std::size_t i){
+		constexpr decltype(auto) operator[](std::size_t i){
 			assert(i == 0); (void)i;
 			return m_(0, 0);
 		}
 
-		constexpr value_type const& operator[](std::size_t i)const{
+		constexpr decltype(auto) operator[](std::size_t i)const{
 			assert(i == 0); (void)i;
 			return m_(0, 0);
 		}
@@ -402,11 +402,11 @@ namespace mitrax{
 		}
 
 
-		constexpr value_type& operator[](std::size_t i){
+		constexpr decltype(auto) operator[](std::size_t i){
 			return m_(0, i);
 		}
 
-		constexpr value_type const& operator[](std::size_t i)const{
+		constexpr decltype(auto) operator[](std::size_t i)const{
 			return m_(0, i);
 		}
 
@@ -433,11 +433,11 @@ namespace mitrax{
 		}
 
 
-		constexpr value_type& operator[](std::size_t i){
+		constexpr decltype(auto) operator[](std::size_t i){
 			return m_(i, 0);
 		}
 
-		constexpr value_type const& operator[](std::size_t i)const{
+		constexpr decltype(auto) operator[](std::size_t i)const{
 			return m_(i, 0);
 		}
 
