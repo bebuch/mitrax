@@ -268,77 +268,173 @@ namespace mitrax{
 
 
 
-// 	template <
-// 		typename M,
-// 		typename T,
-// 		size_t C,
-// 		size_t R
-// 	> constexpr auto& element_plus(
-// 		matrix< M, C, R > const& m,
-// 		T const& v
-// 	){
-// 		return element_plus_assign(
-// 			static_cast< std::common_t<
-// 				typename matrix< M, C, R >::value_type,
-// 				T
-// 			> >(m), v);
-// 	}
-// 
-// 
-// 	template <
-// 		typename M,
-// 		typename T,
-// 		size_t C,
-// 		size_t R
-// 	> constexpr auto& element_minus(
-// 		matrix< M, C, R > const& m,
-// 		T const& v
-// 	){
-// 		detail::m1op(m, v, detail::minus_assign());
-// 		return m;
-// 	}
-// 
-// 
-// 	template <
-// 		typename M,
-// 		typename T,
-// 		size_t C,
-// 		size_t R
-// 	> constexpr auto& operator*(
-// 		matrix< M, C, R > const& m,
-// 		T const& v
-// 	){
-// 		detail::m1op(m, v, detail::multiplies_assign());
-// 		return m;
-// 	}
-// 
-// 
-// 	template <
-// 		typename M,
-// 		typename T,
-// 		size_t C,
-// 		size_t R
-// 	> constexpr auto& operator/(
-// 		matrix< M, C, R > const& m,
-// 		T const& v
-// 	){
-// 		detail::m1op(m, v, detail::divides_assign());
-// 		return m;
-// 	}
-// 
-// 
-// 	template <
-// 		typename M,
-// 		typename T,
-// 		size_t C,
-// 		size_t R
-// 	> constexpr auto& operator%(
-// 		matrix< M, C, R > const& m,
-// 		T const& v
-// 	){
-// 		detail::m1op(m, v, detail::modulus_assign());
-// 		return m;
-// 	}
+	template <
+		typename M,
+		typename T,
+		size_t C,
+		size_t R
+	> constexpr auto element_plus(
+		matrix< M, C, R > const& m,
+		T const& v
+	){
+		auto t = m.template as_raw_matrix< std::common_type_t<
+				typename matrix< M, C, R >::value_type, T
+			>, C, R >();
+		return element_plus_assign(t, v);
+	}
+
+	template <
+		typename M,
+		typename T,
+		size_t C,
+		size_t R
+	> constexpr auto element_minus(
+		matrix< M, C, R > const& m,
+		T const& v
+	){
+		auto t = m.template as_raw_matrix< std::common_type_t<
+				typename matrix< M, C, R >::value_type, T
+			>, C, R >();
+		return element_minus_assign(t, v);
+	}
+
+	template <
+		typename M,
+		typename T,
+		size_t C,
+		size_t R
+	> constexpr auto operator*(
+		matrix< M, C, R > const& m,
+		T const& v
+	){
+		auto t = m.template as_raw_matrix< std::common_type_t<
+				typename matrix< M, C, R >::value_type, T
+			>, C, R >();
+		return t *= v;
+	}
+
+	template <
+		typename M,
+		typename T,
+		size_t C,
+		size_t R
+	> constexpr auto operator/(
+		matrix< M, C, R > const& m,
+		T const& v
+	){
+		auto t = m.template as_raw_matrix< std::common_type_t<
+				typename matrix< M, C, R >::value_type, T
+			>, C, R >();
+		return t /= v;
+	}
+
+	template <
+		typename M,
+		typename T,
+		size_t C,
+		size_t R
+	> constexpr auto operator%(
+		matrix< M, C, R > const& m,
+		T const& v
+	){
+		auto t = m.template as_raw_matrix< std::common_type_t<
+				typename matrix< M, C, R >::value_type, T
+			>, C, R >();
+		return t %= v;
+	}
+
+
+
+	template <
+		typename M1,
+		typename M2,
+		size_t C1,
+		size_t R1,
+		size_t C2,
+		size_t R2
+	> constexpr auto operator+(
+		matrix< M1, C1, R1 > const& m1,
+		matrix< M2, C2, R2 > const& m2
+	){
+		auto t = m1.template as_raw_matrix< std::common_type_t<
+				typename matrix< M1, C1, R1 >::value_type,
+				typename matrix< M2, C2, R2 >::value_type
+			>, C1, R1 >();
+		return t += m2;
+	}
+
+	template <
+		typename M1,
+		typename M2,
+		size_t C1,
+		size_t R1,
+		size_t C2,
+		size_t R2
+	> constexpr auto operator-(
+		matrix< M1, C1, R1 > const& m1,
+		matrix< M2, C2, R2 > const& m2
+	){
+		auto t = m1.template as_raw_matrix< std::common_type_t<
+				typename matrix< M1, C1, R1 >::value_type,
+				typename matrix< M2, C2, R2 >::value_type
+			>, C1, R1 >();
+		return t -= m2;
+	}
+
+	template <
+		typename M1,
+		typename M2,
+		size_t C1,
+		size_t R1,
+		size_t C2,
+		size_t R2
+	> constexpr auto element_multiplies(
+		matrix< M1, C1, R1 > const& m1,
+		matrix< M2, C2, R2 > const& m2
+	){
+		auto t = m1.template as_raw_matrix< std::common_type_t<
+				typename matrix< M1, C1, R1 >::value_type,
+				typename matrix< M2, C2, R2 >::value_type
+			>, C1, R1 >();
+		return element_multiplies_assign(t, m2);
+	}
+
+	template <
+		typename M1,
+		typename M2,
+		size_t C1,
+		size_t R1,
+		size_t C2,
+		size_t R2
+	> constexpr auto element_divides(
+		matrix< M1, C1, R1 > const& m1,
+		matrix< M2, C2, R2 > const& m2
+	){
+		auto t = m1.template as_raw_matrix< std::common_type_t<
+				typename matrix< M1, C1, R1 >::value_type,
+				typename matrix< M2, C2, R2 >::value_type
+			>, C1, R1 >();
+		return element_divides_assign(t, m2);
+	}
+
+	template <
+		typename M1,
+		typename M2,
+		size_t C1,
+		size_t R1,
+		size_t C2,
+		size_t R2
+	> constexpr auto element_modulus(
+		matrix< M1, C1, R1 > const& m1,
+		matrix< M2, C2, R2 > const& m2
+	){
+		auto t = m1.template as_raw_matrix< std::common_type_t<
+				typename matrix< M1, C1, R1 >::value_type,
+				typename matrix< M2, C2, R2 >::value_type
+			>, C1, R1 >();
+		return element_modulus_assign(t, m2);
+	}
+
 
 
 
