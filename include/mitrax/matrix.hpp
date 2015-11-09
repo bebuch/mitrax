@@ -9,6 +9,7 @@
 #ifndef _mitrax__matrix__hpp_INCLUDED_
 #define _mitrax__matrix__hpp_INCLUDED_
 
+#include "integer.hpp"
 #include "point.hpp"
 #include "dimension.hpp"
 
@@ -51,6 +52,67 @@ namespace mitrax{
 			std::size_t R2
 		> constexpr raw_matrix< T, C1, R1 >
 		convert(matrix< M, C2, R2 > const& m);
+
+
+		template <
+			typename T,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		>
+		constexpr raw_matrix< T, C1, R1 > sub_matrix(
+			matrix< M, C2, R2 > const& m,
+			std::size_t x,
+			std::size_t y,
+			size_ct< C1 > cols,
+			size_ct< R1 > rows
+		);
+
+		template <
+			typename T,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		>
+		raw_matrix< T, 0, R1 > sub_matrix(
+			matrix< M, C2, R2 > const& m,
+			std::size_t x,
+			std::size_t y,
+			std::size_t cols,
+			size_ct< R1 > rows
+		);
+
+		template <
+			typename T,
+			std::size_t C1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		>
+		raw_matrix< T, C1, 0 > sub_matrix(
+			matrix< M, C2, R2 > const& m,
+			std::size_t x,
+			std::size_t y,
+			size_ct< C1 > cols,
+			std::size_t rows
+		);
+
+		template <
+			typename T,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		>
+		raw_matrix< T, 0, 0 > sub_matrix(
+			matrix< M, C2, R2 > const& m,
+			std::size_t x,
+			std::size_t y,
+			std::size_t cols,
+			std::size_t rows
+		);
 
 
 	}
@@ -188,6 +250,58 @@ namespace mitrax{
 		constexpr raw_matrix< T, C, R > as_raw_matrix()const&{
 			return detail::convert< T, C, R >(
 				static_cast< matrix< M, Cols, Rows > const& >(*this)
+			);
+		}
+
+
+		template < std::size_t C, std::size_t R >
+		constexpr raw_matrix< value_type, C, R > sub_matrix(
+			std::size_t x,
+			std::size_t y,
+			size_ct< C > cols,
+			size_ct< R > rows
+		)const{
+			return detail::sub_matrix< value_type >(
+				static_cast< matrix< M, Cols, Rows > const& >(*this),
+				x, y, cols, rows
+			);
+		}
+
+		template < std::size_t R >
+		raw_matrix< value_type, 0, R > sub_matrix(
+			std::size_t x,
+			std::size_t y,
+			std::size_t cols,
+			size_ct< R > rows
+		)const{
+			return detail::sub_matrix< value_type >(
+				static_cast< matrix< M, Cols, Rows > const& >(*this),
+				x, y, cols, rows
+			);
+		}
+
+		template < std::size_t C >
+		raw_matrix< value_type, C, 0 > sub_matrix(
+			std::size_t x,
+			std::size_t y,
+			size_ct< C > cols,
+			std::size_t rows
+		)const{
+			return detail::sub_matrix< value_type >(
+				static_cast< matrix< M, Cols, Rows > const& >(*this),
+				x, y, cols, rows
+			);
+		}
+
+		raw_matrix< value_type, 0, 0 > sub_matrix(
+			std::size_t x,
+			std::size_t y,
+			std::size_t cols,
+			std::size_t rows
+		)const{
+			return detail::sub_matrix< value_type >(
+				static_cast< matrix< M, Cols, Rows > const& >(*this),
+				x, y, cols, rows
 			);
 		}
 

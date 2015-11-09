@@ -110,6 +110,49 @@ namespace mitrax{
 			}};
 		}
 
+		template <
+			typename T,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2,
+			std::size_t ... I
+		>
+		constexpr std::array< T, C1 * R1 > sub_matrix_to_array(
+			matrix< M, C2, R2 > const& m,
+			std::size_t x,
+			std::size_t y,
+			std::index_sequence< I ... >
+		){
+			return std::array< T, C1 * R1 >{{
+				static_cast< T >(m(x + I % C1, y + I / C1)) ...
+			}};
+		}
+
+		template <
+			typename T,
+			typename M,
+			std::size_t C,
+			std::size_t R
+		>
+		constexpr boost::container::vector< T > sub_matrix_to_vector(
+			matrix< M, C, R > const& m,
+			std::size_t x,
+			std::size_t y,
+			std::size_t cols,
+			std::size_t rows
+		){
+			boost::container::vector< T > result;
+			result.reserve(cols * rows);
+			for(std::size_t yi = 0; yi < rows; ++yi){
+				for(std::size_t xi = 0; xi < cols; ++xi){
+					result.emplace_back(m(x + xi, y + yi));
+				}
+			}
+			return result;
+		}
+
 
 		template <
 			typename T,
@@ -302,6 +345,21 @@ namespace mitrax{
 		> friend constexpr raw_matrix< V, C1, R1 >
 		detail::convert(matrix< M, C2, R2 > const& m);
 
+		template <
+			typename V,
+			std::size_t C1,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		> friend constexpr raw_matrix< V, C1, R1 > detail::sub_matrix(
+			matrix< M, C2, R2 > const& m,
+			std::size_t x,
+			std::size_t y,
+			size_ct< C1 > /*cols*/,
+			size_ct< R1 > /*rows*/
+		);
+
 
 		template < typename M, std::size_t C, std::size_t R >
 		constexpr raw_matrix_impl(matrix< M, C, R >&& m):
@@ -314,6 +372,17 @@ namespace mitrax{
 		constexpr raw_matrix_impl(matrix< M, C, R > const& m):
 			values_(detail::matrix_to_array< T, Cols, Rows >(
 				m,
+				std::make_index_sequence< Cols * Rows >()
+			)){}
+
+		template < typename M, std::size_t C, std::size_t R >
+		constexpr raw_matrix_impl(
+			matrix< M, C, R > const& m,
+			std::size_t x,
+			std::size_t y
+		):
+			values_(detail::sub_matrix_to_array< T, Cols, Rows >(
+				m, x, y,
 				std::make_index_sequence< Cols * Rows >()
 			)){}
 
@@ -498,6 +567,17 @@ namespace mitrax{
 				detail::matrix_to_vector< T, Cols, 0 >(m)
 			) {}
 
+		template < typename M, std::size_t C, std::size_t R >
+		constexpr raw_matrix_impl(
+			matrix< M, C, R > const& m,
+			std::size_t x,
+			std::size_t y,
+			std::size_t rows
+		):
+			dynamic_raw_matrix_impl_base< T >(
+				detail::sub_matrix_to_vector< T >(m, x, y, Cols, rows)
+			) {}
+
 
 		template <
 			typename V,
@@ -518,6 +598,20 @@ namespace mitrax{
 			std::size_t R2
 		> friend constexpr raw_matrix< V, C1, R1 >
 		detail::convert(matrix< M, C2, R2 > const& m);
+
+		template <
+			typename V,
+			std::size_t C1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		> friend raw_matrix< V, C1, 0 > detail::sub_matrix(
+			matrix< M, C2, R2 > const& m,
+			std::size_t x,
+			std::size_t y,
+			size_ct< C1 > cols,
+			std::size_t rows
+		);
 	};
 
 
@@ -576,6 +670,17 @@ namespace mitrax{
 				detail::matrix_to_vector< T, 0, Rows >(m)
 			) {}
 
+		template < typename M, std::size_t C, std::size_t R >
+		constexpr raw_matrix_impl(
+			matrix< M, C, R > const& m,
+			std::size_t x,
+			std::size_t y,
+			std::size_t cols
+		):
+			dynamic_raw_matrix_impl_base< T >(
+				detail::sub_matrix_to_vector< T >(m, x, y, cols, Rows)
+			) {}
+
 
 		template <
 			typename V,
@@ -596,6 +701,20 @@ namespace mitrax{
 			std::size_t R2
 		> friend constexpr raw_matrix< V, C1, R1 >
 		detail::convert(matrix< M, C2, R2 > const& m);
+
+		template <
+			typename V,
+			std::size_t R1,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		> friend raw_matrix< V, 0, R1 > detail::sub_matrix(
+			matrix< M, C2, R2 > const& m,
+			std::size_t x,
+			std::size_t y,
+			std::size_t cols,
+			size_ct< R1 > rows
+		);
 	};
 
 	template < typename T >
@@ -654,6 +773,18 @@ namespace mitrax{
 				detail::matrix_to_vector< T, 0, 0 >(m)
 			), cols_(m.cols()) {}
 
+		template < typename M, std::size_t C, std::size_t R >
+		constexpr raw_matrix_impl(
+			matrix< M, C, R > const& m,
+			std::size_t x,
+			std::size_t y,
+			std::size_t cols,
+			std::size_t rows
+		):
+			dynamic_raw_matrix_impl_base< T >(
+				detail::sub_matrix_to_vector< T >(m, x, y, cols, rows)
+			), cols_(cols) {}
+
 
 		template <
 			typename V,
@@ -674,6 +805,19 @@ namespace mitrax{
 			std::size_t R2
 		> friend constexpr raw_matrix< V, C1, R1 >
 		detail::convert(matrix< M, C2, R2 > const& m);
+
+		template <
+			typename V,
+			typename M,
+			std::size_t C2,
+			std::size_t R2
+		> friend raw_matrix< V, 0, 0 > detail::sub_matrix(
+			matrix< M, C2, R2 > const& m,
+			std::size_t x,
+			std::size_t y,
+			std::size_t cols,
+			std::size_t rows
+		);
 	};
 
 
@@ -756,6 +900,81 @@ namespace mitrax{
 		);
 
 		return raw_matrix_impl< T, C1, R1 >(m);
+	}
+
+
+	template <
+		typename T,
+		std::size_t C1,
+		std::size_t R1,
+		typename M,
+		std::size_t C2,
+		std::size_t R2
+	>
+	constexpr raw_matrix< T, C1, R1 > detail::sub_matrix(
+		matrix< M, C2, R2 > const& m,
+		std::size_t x,
+		std::size_t y,
+		size_ct< C1 > /*cols*/,
+		size_ct< R1 > /*rows*/
+	){
+		static_assert(
+			C1 > 0 && R1 > 0,
+			"Matrix dimension must be greater than 0"
+		);
+		return raw_matrix_impl< T, C1, R1 >(m, x, y);
+	}
+
+	template <
+		typename T,
+		std::size_t R1,
+		typename M,
+		std::size_t C2,
+		std::size_t R2
+	>
+	raw_matrix< T, 0, R1 > detail::sub_matrix(
+		matrix< M, C2, R2 > const& m,
+		std::size_t x,
+		std::size_t y,
+		std::size_t cols,
+		size_ct< R1 > /*rows*/
+	){
+		static_assert(R1 > 0, "Matrix rows must be greater than 0");
+		return raw_matrix_impl< T, 0, R1 >(m, x, y, cols);
+	}
+
+	template <
+		typename T,
+		std::size_t C1,
+		typename M,
+		std::size_t C2,
+		std::size_t R2
+	>
+	raw_matrix< T, C1, 0 > detail::sub_matrix(
+		matrix< M, C2, R2 > const& m,
+		std::size_t x,
+		std::size_t y,
+		size_ct< C1 > /*cols*/,
+		std::size_t rows
+	){
+		static_assert(C1 > 0, "Matrix cols must be greater than 0");
+		return raw_matrix_impl< T, C1, 0 >(m, x, y, rows);
+	}
+
+	template <
+		typename T,
+		typename M,
+		std::size_t C2,
+		std::size_t R2
+	>
+	raw_matrix< T, 0, 0 > detail::sub_matrix(
+		matrix< M, C2, R2 > const& m,
+		std::size_t x,
+		std::size_t y,
+		std::size_t cols,
+		std::size_t rows
+	){
+		return raw_matrix_impl< T, 0, 0 >(m, x, y, cols, rows);
 	}
 
 
