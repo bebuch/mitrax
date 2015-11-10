@@ -113,7 +113,7 @@ namespace mitrax{
 
 			for(size_t i = 0; i < m1.rows(); ++i){
 				using std::swap;
-				swap(m1(i, i1), m2(i, i2));
+				swap(m1(i1, i), m2(i2, i));
 			}
 		}
 
