@@ -9,6 +9,8 @@
 #ifndef _mitrax__to_vector__hpp_INCLUDED_
 #define _mitrax__to_vector__hpp_INCLUDED_
 
+#include "integer.hpp"
+
 #include <boost/container/vector.hpp>
 
 #include <type_traits>
@@ -21,17 +23,32 @@ namespace mitrax{
 	namespace detail{
 
 
-		template < typename T, std::size_t N, std::size_t ... I >
-		constexpr auto to_vector(T(&&arr)[N], std::index_sequence< I ... >){
+		template < typename T, size_t N, size_t ... I >
+		auto to_vector(T(&&v)[N], std::index_sequence< I ... >){
 			return boost::container::vector< std::remove_cv_t< T > >{
-				std::move(arr[I]) ...
+				std::move(v[I]) ...
 			};
 		}
 
-		template < typename T, std::size_t N, std::size_t ... I >
-		constexpr auto to_vector(T(&arr)[N], std::index_sequence< I ... >){
+		template < typename T, size_t N, size_t ... I >
+		auto to_vector(T(&v)[N], std::index_sequence< I ... >){
 			return boost::container::vector< std::remove_cv_t< T > >{
-				arr[I] ...
+				v[I] ...
+			};
+		}
+
+
+		template < typename T, size_t C, size_t R, size_t ... I >
+		auto to_vector(T(&&v)[R][C], std::index_sequence< I ... >){
+			return boost::container::vector< std::remove_cv_t< T > >{
+				std::move(v[I / C][I % C]) ...
+			};
+		}
+
+		template < typename T, size_t C, size_t R, size_t ... I >
+		auto to_vector(T(&v)[R][C], std::index_sequence< I ... >){
+			return boost::container::vector< std::remove_cv_t< T > >{
+				v[I / C][I % C] ...
 			};
 		}
 
@@ -39,16 +56,33 @@ namespace mitrax{
 	}
 
 
-	template < typename T, std::size_t N >
-	constexpr auto to_vector(T(&&arr)[N]){
+	template < typename T, size_t N >
+	auto to_vector(T(&&v)[N]){
 		return detail::to_vector(
-			std::move(arr), std::make_index_sequence< N >()
+			std::move(v), std::make_index_sequence< N >()
 		);
 	}
 
-	template < typename T, std::size_t N >
-	constexpr auto to_vector(T(&arr)[N]){
-		return detail::to_vector(arr, std::make_index_sequence< N >());
+	template < typename T, size_t N >
+	auto to_vector(T(&v)[N]){
+		return detail::to_vector(
+			v, std::make_index_sequence< N >()
+		);
+	}
+
+
+	template < typename T, size_t C, size_t R >
+	auto to_vector(T(&&v)[R][C]){
+		return detail::to_vector(
+			std::move(v), std::make_index_sequence< C * R >()
+		);
+	}
+
+	template < typename T, size_t C, size_t R >
+	auto to_vector(T(&v)[R][C]){
+		return detail::to_vector(
+			v, std::make_index_sequence< C * R >()
+		);
 	}
 
 

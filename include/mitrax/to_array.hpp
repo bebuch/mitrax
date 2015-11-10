@@ -9,6 +9,8 @@
 #ifndef _mitrax__to_array__hpp_INCLUDED_
 #define _mitrax__to_array__hpp_INCLUDED_
 
+#include "integer.hpp"
+
 #include <array>
 #include <type_traits>
 #include <utility>
@@ -20,32 +22,68 @@ namespace mitrax{
 	namespace detail{
 
 
-		template < typename T, std::size_t N, std::size_t ... I >
-		constexpr auto to_array(T(&&arr)[N], std::index_sequence< I ... >){
+		template < typename T, size_t N, size_t ... I >
+		constexpr auto
+		to_array(T(&&v)[N], std::index_sequence< I ... >){
 			return std::array< std::remove_cv_t< T >, N >{{
-				std::move(arr[I]) ...
+				std::move(v[I]) ...
 			}};
 		}
 
-		template < typename T, std::size_t N, std::size_t ... I >
-		constexpr auto to_array(T(&arr)[N], std::index_sequence< I ... >){
-			return std::array< std::remove_cv_t< T >, N >{{ arr[I] ... }};
+		template < typename T, size_t N, size_t ... I >
+		constexpr auto
+		to_array(T(&v)[N], std::index_sequence< I ... >){
+			return std::array< std::remove_cv_t< T >, N >{{ v[I] ... }};
+		}
+
+
+		template < typename T, size_t C, size_t R, size_t ... I >
+		constexpr auto
+		to_array(T(&&v)[R][C], std::index_sequence< I ... >){
+			return std::array< std::remove_cv_t< T >, C * R >{{
+				std::move(v[I / C][I % C]) ...
+			}};
+		}
+
+		template < typename T, size_t C, size_t R, size_t ... I >
+		constexpr auto
+		to_array(T(&v)[R][C], std::index_sequence< I ... >){
+			return std::array< std::remove_cv_t< T >, C * R >{{
+				v[I / C][I % C] ...
+			}};
 		}
 
 
 	}
 
 
-	template < typename T, std::size_t N >
-	constexpr auto to_array(T(&&arr)[N]){
+	template < typename T, size_t N >
+	constexpr auto to_array(T(&&v)[N]){
 		return detail::to_array(
-			std::move(arr), std::make_index_sequence< N >()
+			std::move(v), std::make_index_sequence< N >()
 		);
 	}
 
-	template < typename T, std::size_t N >
-	constexpr auto to_array(T(&arr)[N]){
-		return detail::to_array(arr, std::make_index_sequence< N >());
+	template < typename T, size_t N >
+	constexpr auto to_array(T(&v)[N]){
+		return detail::to_array(
+			v, std::make_index_sequence< N >()
+		);
+	}
+
+
+	template < typename T, size_t C, size_t R >
+	constexpr auto to_array(T(&&v)[R][C]){
+		return detail::to_array(
+			std::move(v), std::make_index_sequence< C * R >()
+		);
+	}
+
+	template < typename T, size_t C, size_t R >
+	constexpr auto to_array(T(&v)[R][C]){
+		return detail::to_array(
+			v, std::make_index_sequence< C * R >()
+		);
 	}
 
 
