@@ -41,7 +41,7 @@ namespace mitrax{
 			);
 		}
 
-		// Compiler may opimize with the compile time dimension
+		// Compiler may optimize with the compile time dimension
 		size_t cols = C1 == 0 ? m2.cols() : m1.cols();
 		size_t rows = R1 == 0 ? m2.rows() : m1.rows();
 
