@@ -123,7 +123,7 @@ namespace mitrax{
 	class matrix_types{
 	public:
 		/// \brief Type of the data that administrates the matrix
-		using value_type = typename M::value_type;
+		using value_type = value_type_t< M >;
 
 		/// \brief Unsigned integral type (size_t)
 		using size_type = size_t;
@@ -314,7 +314,7 @@ namespace mitrax{
 	template < typename M, size_t Cols, size_t Rows >
 	class matrix: public matrix_types< M, Cols, Rows >{
 	public:
-		using typename matrix_types< M, Cols, Rows >::value_type;
+		using value_type = value_type_t< matrix_types< M, Cols, Rows > >;
 
 		using matrix_types< M, Cols, Rows >::matrix_types;
 
@@ -336,7 +336,7 @@ namespace mitrax{
 	template < typename M, size_t Rows >
 	class matrix< M, 1, Rows >: public matrix_types< M, 1, Rows >{
 	public:
-		using typename matrix_types< M, 1, Rows >::value_type;
+		using value_type = value_type_t< matrix_types< M, 1, Rows > >;
 
 		using matrix_types< M, 1, Rows >::matrix_types;
 
@@ -367,7 +367,7 @@ namespace mitrax{
 	template < typename M, size_t Cols >
 	class matrix< M, Cols, 1 >: public matrix_types< M, Cols, 1 >{
 	public:
-		using typename matrix_types< M, Cols, 1 >::value_type;
+		using value_type = value_type_t< matrix_types< M, Cols, 1 > >;
 
 		using matrix_types< M, Cols, 1 >::matrix_types;
 
@@ -398,7 +398,7 @@ namespace mitrax{
 	template < typename M >
 	class matrix< M, 1, 1 >: public matrix_types< M, 1, 1 >{
 	public:
-		using typename matrix_types< M, 1, 1 >::value_type;
+		using value_type = value_type_t< matrix_types< M, 1, 1 > >;
 
 		using matrix_types< M, 1, 1 >::matrix_types;
 
@@ -436,7 +436,7 @@ namespace mitrax{
 	template < typename M, size_t Rows >
 	class matrix< M, 0, Rows >: public matrix_types< M, 0, Rows >{
 	public:
-		using typename matrix_types< M, 0, Rows >::value_type;
+		using value_type = value_type_t< matrix_types< M, 0, Rows > >;
 
 		using matrix_types< M, 0, Rows >::matrix_types;
 
@@ -458,7 +458,7 @@ namespace mitrax{
 	template < typename M, size_t Cols >
 	class matrix< M, Cols, 0 >: public matrix_types< M, Cols, 0 >{
 	public:
-		using typename matrix_types< M, Cols, 0 >::value_type;
+		using value_type = value_type_t< matrix_types< M, Cols, 0 > >;
 
 		using matrix_types< M, Cols, 0 >::matrix_types;
 
@@ -480,7 +480,7 @@ namespace mitrax{
 	template < typename M >
 	class matrix< M, 0, 0 >: public matrix_types< M, 0, 0 >{
 	public:
-		using typename matrix_types< M, 0, 0 >::value_type;
+		using value_type = value_type_t< matrix_types< M, 0, 0 > >;
 
 		using matrix_types< M, 0, 0 >::matrix_types;
 
@@ -502,7 +502,7 @@ namespace mitrax{
 	template < typename M >
 	class matrix< M, 1, 0 >: public matrix_types< M, 1, 0 >{
 	public:
-		using typename matrix_types< M, 1, 0 >::value_type;
+		using value_type = value_type_t< matrix_types< M, 1, 0 > >;
 
 		using matrix_types< M, 1, 0 >::matrix_types;
 
@@ -533,7 +533,7 @@ namespace mitrax{
 	template < typename M >
 	class matrix< M, 0, 1 >: public matrix_types< M, 0, 1 >{
 	public:
-		using typename matrix_types< M, 0, 1 >::value_type;
+		using value_type = value_type_t< matrix_types< M, 0, 1 > >;
 
 		using matrix_types< M, 0, 1 >::matrix_types;
 

@@ -83,6 +83,10 @@ namespace mitrax{
 	}
 
 
+	template < typename T >
+	using value_type_t = typename T::value_type;
+
+
 }
 
 

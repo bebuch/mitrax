@@ -117,42 +117,42 @@ BOOST_AUTO_TEST_CASE(test_sub_matrix_0x2){
 	BOOST_TEST(eq4);
 }
 
-// BOOST_AUTO_TEST_CASE(test_sub_matrix_2x0){
-// 	auto m = ref;
-// 
-// 	auto sub = m.sub_matrix(0, 0, 2_dim, 2);
-// 	auto type = type_id< raw_matrix< int, 2, 0 > >();
-// 	BOOST_TEST(type_id_runtime(sub) == type);
-// 
-// 	auto eq1 = check1(m.sub_matrix(0, 0, 2_dim, 2));
-// 	BOOST_TEST(eq1);
-// 
-// 	auto eq2 = check2(m.sub_matrix(1, 0, 2_dim, 2));
-// 	BOOST_TEST(eq2);
-// 
-// 	auto eq3 = check3(m.sub_matrix(0, 1, 2_dim, 2));
-// 	BOOST_TEST(eq3);
-// 
-// 	auto eq4 = check4(m.sub_matrix(1, 1, 2_dim, 2));
-// 	BOOST_TEST(eq4);
-// }
-// 
-// BOOST_AUTO_TEST_CASE(test_sub_matrix_0x0){
-// 	auto m = ref;
-// 
-// 	auto sub = m.sub_matrix(0, 0, 2, 2);
-// 	auto type = type_id< raw_matrix< int, 0, 0 > >();
-// 	BOOST_TEST(type_id_runtime(sub) == type);
-// 
-// 	auto eq1 = check1(m.sub_matrix(0, 0, 2, 2));
-// 	BOOST_TEST(eq1);
-// 
-// 	auto eq2 = check2(m.sub_matrix(1, 0, 2, 2));
-// 	BOOST_TEST(eq2);
-// 
-// 	auto eq3 = check3(m.sub_matrix(0, 1, 2, 2));
-// 	BOOST_TEST(eq3);
-// 
-// 	auto eq4 = check4(m.sub_matrix(1, 1, 2, 2));
-// 	BOOST_TEST(eq4);
-// }
+BOOST_AUTO_TEST_CASE(test_sub_matrix_2x0){
+	auto m = ref;
+
+	auto sub = m.sub_matrix(0, 0, 2_dim, 2);
+	auto type = type_id< raw_matrix< int, 2, 0 > >();
+	BOOST_TEST(type_id_runtime(sub) == type);
+
+	auto eq1 = check1(m.sub_matrix(0, 0, 2_dim, 2));
+	BOOST_TEST(eq1);
+
+	auto eq2 = check2(m.sub_matrix(1, 0, 2_dim, 2));
+	BOOST_TEST(eq2);
+
+	auto eq3 = check3(m.sub_matrix(0, 1, 2_dim, 2));
+	BOOST_TEST(eq3);
+
+	auto eq4 = check4(m.sub_matrix(1, 1, 2_dim, 2));
+	BOOST_TEST(eq4);
+}
+
+BOOST_AUTO_TEST_CASE(test_sub_matrix_0x0){
+	auto m = ref;
+
+	auto sub = m.sub_matrix(0, 0, 2, 2);
+	auto type = type_id< raw_matrix< int, 0, 0 > >();
+	BOOST_TEST(type_id_runtime(sub) == type);
+
+	auto eq1 = check1(m.sub_matrix(0, 0, 2, 2));
+	BOOST_TEST(eq1);
+
+	auto eq2 = check2(m.sub_matrix(1, 0, 2, 2));
+	BOOST_TEST(eq2);
+
+	auto eq3 = check3(m.sub_matrix(0, 1, 2, 2));
+	BOOST_TEST(eq3);
+
+	auto eq4 = check4(m.sub_matrix(1, 1, 2, 2));
+	BOOST_TEST(eq4);
+}

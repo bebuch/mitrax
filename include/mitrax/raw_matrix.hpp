@@ -516,7 +516,7 @@ namespace mitrax{
 	class raw_matrix_impl< T, Cols, 0 >:
 		public dynamic_raw_matrix_impl_base< T >{
 	public:
-		using typename dynamic_raw_matrix_impl_base< T >::value_type;
+		using value_type = value_type_t< dynamic_raw_matrix_impl_base< T > >;
 
 
 		raw_matrix_impl() = default;
@@ -619,7 +619,7 @@ namespace mitrax{
 	class raw_matrix_impl< T, 0, Rows >:
 		public dynamic_raw_matrix_impl_base< T >{
 	public:
-		using typename dynamic_raw_matrix_impl_base< T >::value_type;
+		using value_type = value_type_t< dynamic_raw_matrix_impl_base< T > >;
 
 
 		raw_matrix_impl() = default;
@@ -721,7 +721,7 @@ namespace mitrax{
 	class raw_matrix_impl< T, 0, 0 >:
 		public dynamic_raw_matrix_impl_base< T >{
 	public:
-		using typename dynamic_raw_matrix_impl_base< T >::value_type;
+		using value_type = value_type_t< dynamic_raw_matrix_impl_base< T > >;
 
 
 		raw_matrix_impl(): cols_{0} {}
