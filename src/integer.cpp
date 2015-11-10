@@ -15,16 +15,10 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-namespace{
+BOOST_AUTO_TEST_CASE(test_size_ct){
+	BOOST_TEST(14_dim == size_t(14));
+}
 
-
-	BOOST_AUTO_TEST_CASE(test_size_ct){
-		BOOST_TEST(14_dim == size_t(14));
-	}
-
-	BOOST_AUTO_TEST_CASE(test_ptrdiff_ct){
-		BOOST_TEST(14_diff == ptrdiff_t(14));
-	}
-
-
+BOOST_AUTO_TEST_CASE(test_ptrdiff_ct){
+	BOOST_TEST(14_diff == ptrdiff_t(14));
 }
