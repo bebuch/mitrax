@@ -101,7 +101,7 @@ namespace mitrax{
 			);
 
 			// Compiler should skip this for compile time dimensions
-			if(m1.row() != m2.row()){
+			if(m1.rows() != m2.rows()){
 				throw std::logic_error(
 					"matrix dimensions not compatible while comparing"
 				);
@@ -111,7 +111,7 @@ namespace mitrax{
 				throw std::out_of_range("matrix swap_cols");
 			}
 
-			for(size_t i = 0; i < m1.row(); ++i){
+			for(size_t i = 0; i < m1.rows(); ++i){
 				using std::swap;
 				swap(m1(i, i1), m2(i, i2));
 			}
