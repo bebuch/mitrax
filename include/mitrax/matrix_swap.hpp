@@ -19,8 +19,8 @@
 namespace mitrax{
 
 
-	struct swap_row_t{
-		constexpr swap_row_t(){}
+	struct swap_rows_t{
+		constexpr swap_rows_t(){}
 
 		template <
 			typename M1,
@@ -51,7 +51,7 @@ namespace mitrax{
 			}
 
 			if(m1.rows() <= i1 || m2.rows() <= i2){
-				throw std::out_of_range("matrix swap_row");
+				throw std::out_of_range("matrix swap_rows");
 			}
 
 			for(size_t i = 0; i < m1.cols(); ++i){
@@ -73,11 +73,11 @@ namespace mitrax{
 		}
 	};
 
-	constexpr swap_row_t swap_row;
+	constexpr swap_rows_t swap_rows;
 
 
-	struct swap_col_t{
-		constexpr swap_col_t(){}
+	struct swap_cols_t{
+		constexpr swap_cols_t(){}
 
 		template <
 			typename M1,
@@ -108,7 +108,7 @@ namespace mitrax{
 			}
 
 			if(m1.cols() <= i1 || m2.cols() <= i2){
-				throw std::out_of_range("matrix swap_col");
+				throw std::out_of_range("matrix swap_cols");
 			}
 
 			for(size_t i = 0; i < m1.row(); ++i){
@@ -130,7 +130,7 @@ namespace mitrax{
 		}
 	};
 
-	constexpr swap_col_t swap_col;
+	constexpr swap_cols_t swap_cols;
 
 
 }

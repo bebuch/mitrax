@@ -36,10 +36,10 @@ namespace{
 }
 
 
-BOOST_AUTO_TEST_CASE(test_swap_row_m_0_m_1){
+BOOST_AUTO_TEST_CASE(test_swap_rows_m_0_m_1){
 	auto m = ref1;
 
-	swap_row(m, 0, 1);
+	swap_rows(m, 0, 1);
 
 	auto eq =
 		m(0, 0) == 3 &&
@@ -55,10 +55,10 @@ BOOST_AUTO_TEST_CASE(test_swap_row_m_0_m_1){
 	BOOST_TEST(eq);
 }
 
-BOOST_AUTO_TEST_CASE(test_swap_row_m_0_m_2){
+BOOST_AUTO_TEST_CASE(test_swap_rows_m_0_m_2){
 	auto m = ref1;
 
-	swap_row(m, 0, 2);
+	swap_rows(m, 0, 2);
 
 	auto eq =
 		m(0, 0) == 6 &&
@@ -74,11 +74,11 @@ BOOST_AUTO_TEST_CASE(test_swap_row_m_0_m_2){
 	BOOST_TEST(eq);
 }
 
-BOOST_AUTO_TEST_CASE(test_swap_row_m1_1_m2_2){
+BOOST_AUTO_TEST_CASE(test_swap_rows_m1_1_m2_2){
 	auto m1 = ref1;
 	auto m2 = ref2;
 
-	swap_row(m1, 1, m2, 2);
+	swap_rows(m1, 1, m2, 2);
 
 	auto eq =
 		m1(0, 0) == 0 &&
