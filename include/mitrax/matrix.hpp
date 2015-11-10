@@ -173,6 +173,15 @@ namespace mitrax{
 		constexpr matrix_types(matrix_types const&) = default;
 
 
+		constexpr size_t cols()const{
+			return m_.cols();
+		}
+
+		constexpr size_t rows()const{
+			return m_.rows();
+		}
+
+
 		constexpr decltype(auto) operator()(
 			size_t x, size_t y
 		){
@@ -319,15 +328,6 @@ namespace mitrax{
 		using matrix_types< M, Cols, Rows >::matrix_types;
 
 
-		static constexpr size_t cols(){
-			return M::cols();
-		}
-
-		static constexpr size_t rows(){
-			return M::rows();
-		}
-
-
 	private:
 		using matrix_types< M, Cols, Rows >::m_;
 	};
@@ -339,15 +339,6 @@ namespace mitrax{
 		using value_type = value_type_t< matrix_types< M, 1, Rows > >;
 
 		using matrix_types< M, 1, Rows >::matrix_types;
-
-
-		static constexpr size_t cols(){
-			return M::cols();
-		}
-
-		static constexpr size_t rows(){
-			return M::rows();
-		}
 
 
 		constexpr decltype(auto) operator[](size_t i){
@@ -372,15 +363,6 @@ namespace mitrax{
 		using matrix_types< M, Cols, 1 >::matrix_types;
 
 
-		static constexpr size_t cols(){
-			return M::cols();
-		}
-
-		static constexpr size_t rows(){
-			return M::rows();
-		}
-
-
 		constexpr decltype(auto) operator[](size_t i){
 			return m_(i, 0);
 		}
@@ -401,15 +383,6 @@ namespace mitrax{
 		using value_type = value_type_t< matrix_types< M, 1, 1 > >;
 
 		using matrix_types< M, 1, 1 >::matrix_types;
-
-
-		static constexpr size_t cols(){
-			return M::cols();
-		}
-
-		static constexpr size_t rows(){
-			return M::rows();
-		}
 
 
 		constexpr decltype(auto) operator[](size_t i){
@@ -441,15 +414,6 @@ namespace mitrax{
 		using matrix_types< M, 0, Rows >::matrix_types;
 
 
-		constexpr size_t cols()const{
-			return m_.cols();
-		}
-
-		static constexpr size_t rows(){
-			return M::rows();
-		}
-
-
 	private:
 		using matrix_types< M, 0, Rows >::m_;
 	};
@@ -461,15 +425,6 @@ namespace mitrax{
 		using value_type = value_type_t< matrix_types< M, Cols, 0 > >;
 
 		using matrix_types< M, Cols, 0 >::matrix_types;
-
-
-		static constexpr size_t cols(){
-			return M::cols();
-		}
-
-		constexpr size_t rows()const{
-			return m_.rows();
-		}
 
 
 	private:
@@ -485,15 +440,6 @@ namespace mitrax{
 		using matrix_types< M, 0, 0 >::matrix_types;
 
 
-		constexpr size_t cols()const{
-			return m_.cols();
-		}
-
-		constexpr size_t rows()const{
-			return m_.rows();
-		}
-
-
 	private:
 		using matrix_types< M, 0, 0 >::m_;
 	};
@@ -505,15 +451,6 @@ namespace mitrax{
 		using value_type = value_type_t< matrix_types< M, 1, 0 > >;
 
 		using matrix_types< M, 1, 0 >::matrix_types;
-
-
-		static constexpr size_t cols(){
-			return M::cols();
-		}
-
-		constexpr size_t rows()const{
-			return m_.rows();
-		}
 
 
 		constexpr decltype(auto) operator[](size_t i){
@@ -536,15 +473,6 @@ namespace mitrax{
 		using value_type = value_type_t< matrix_types< M, 0, 1 > >;
 
 		using matrix_types< M, 0, 1 >::matrix_types;
-
-
-		constexpr size_t cols()const{
-			return m_.cols();
-		}
-
-		static constexpr size_t rows(){
-			return M::rows();
-		}
 
 
 		constexpr decltype(auto) operator[](size_t i){

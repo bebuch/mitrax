@@ -279,11 +279,11 @@ namespace mitrax{
 		}
 
 
-		static constexpr size_t cols(){
+		constexpr size_t cols()const{
 			return Cols;
 		}
 
-		static constexpr size_t rows(){
+		constexpr size_t rows()const{
 			return Rows;
 		}
 
@@ -542,7 +542,7 @@ namespace mitrax{
 		}
 
 
-		static constexpr size_t cols(){
+		constexpr size_t cols()const{
 			return Cols;
 		}
 
@@ -649,7 +649,7 @@ namespace mitrax{
 			return values_.size() / rows();
 		}
 
-		static constexpr size_t rows(){
+		constexpr size_t rows()const{
 			return Rows;
 		}
 
