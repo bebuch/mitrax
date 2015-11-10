@@ -45,6 +45,9 @@ namespace mitrax{
 	using ptrdiff_ct = integral_constant< ptrdiff_t, I >;
 
 
+	constexpr auto dynamic = size_ct< 0 >();
+
+
 	namespace literals{
 
 
