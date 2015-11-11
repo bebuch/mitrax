@@ -82,18 +82,10 @@ BOOST_AUTO_TEST_CASE(test_sub_matrix_2x2){
 	auto type = type_id< raw_matrix< int, 2, 2 > >();
 	BOOST_TEST(type_id_runtime(sub) == type);
 
-
-	constexpr auto eq1 = check1(m.sub_matrix(0, 0, 2_C, 2_R));
-	BOOST_TEST(eq1);
-
-	constexpr auto eq2 = check2(m.sub_matrix(1, 0, 2_C, 2_R));
-	BOOST_TEST(eq2);
-
-	constexpr auto eq3 = check3(m.sub_matrix(0, 1, 2_C, 2_R));
-	BOOST_TEST(eq3);
-
-	constexpr auto eq4 = check4(m.sub_matrix(1, 1, 2_C, 2_R));
-	BOOST_TEST(eq4);
+	BOOST_TEST(check1(m.sub_matrix(0, 0, 2_C, 2_R)));
+	BOOST_TEST(check2(m.sub_matrix(1, 0, 2_C, 2_R)));
+	BOOST_TEST(check3(m.sub_matrix(0, 1, 2_C, 2_R)));
+	BOOST_TEST(check4(m.sub_matrix(1, 1, 2_C, 2_R)));
 }
 
 BOOST_AUTO_TEST_CASE(test_sub_matrix_2rtx2){
@@ -103,17 +95,10 @@ BOOST_AUTO_TEST_CASE(test_sub_matrix_2rtx2){
 	auto type = type_id< raw_matrix< int, 0, 2 > >();
 	BOOST_TEST(type_id_runtime(sub) == type);
 
-	auto eq1 = check1(m.sub_matrix(0, 0, 2_C_rt, 2_R));
-	BOOST_TEST(eq1);
-
-	auto eq2 = check2(m.sub_matrix(1, 0, 2_C_rt, 2_R));
-	BOOST_TEST(eq2);
-
-	auto eq3 = check3(m.sub_matrix(0, 1, 2_C_rt, 2_R));
-	BOOST_TEST(eq3);
-
-	auto eq4 = check4(m.sub_matrix(1, 1, 2_C_rt, 2_R));
-	BOOST_TEST(eq4);
+	BOOST_TEST(check1(m.sub_matrix(0, 0, 2_C_rt, 2_R)));
+	BOOST_TEST(check2(m.sub_matrix(1, 0, 2_C_rt, 2_R)));
+	BOOST_TEST(check3(m.sub_matrix(0, 1, 2_C_rt, 2_R)));
+	BOOST_TEST(check4(m.sub_matrix(1, 1, 2_C_rt, 2_R)));
 }
 
 BOOST_AUTO_TEST_CASE(test_sub_matrix_2x2rt){
@@ -123,17 +108,10 @@ BOOST_AUTO_TEST_CASE(test_sub_matrix_2x2rt){
 	auto type = type_id< raw_matrix< int, 2, 0 > >();
 	BOOST_TEST(type_id_runtime(sub) == type);
 
-	auto eq1 = check1(m.sub_matrix(0, 0, 2_C, 2_R_rt));
-	BOOST_TEST(eq1);
-
-	auto eq2 = check2(m.sub_matrix(1, 0, 2_C, 2_R_rt));
-	BOOST_TEST(eq2);
-
-	auto eq3 = check3(m.sub_matrix(0, 1, 2_C, 2_R_rt));
-	BOOST_TEST(eq3);
-
-	auto eq4 = check4(m.sub_matrix(1, 1, 2_C, 2_R_rt));
-	BOOST_TEST(eq4);
+	BOOST_TEST(check1(m.sub_matrix(0, 0, 2_C, 2_R_rt)));
+	BOOST_TEST(check2(m.sub_matrix(1, 0, 2_C, 2_R_rt)));
+	BOOST_TEST(check3(m.sub_matrix(0, 1, 2_C, 2_R_rt)));
+	BOOST_TEST(check4(m.sub_matrix(1, 1, 2_C, 2_R_rt)));
 }
 
 BOOST_AUTO_TEST_CASE(test_sub_matrix_2rtx2rt){
@@ -143,15 +121,8 @@ BOOST_AUTO_TEST_CASE(test_sub_matrix_2rtx2rt){
 	auto type = type_id< raw_matrix< int, 0, 0 > >();
 	BOOST_TEST(type_id_runtime(sub) == type);
 
-	auto eq1 = check1(m.sub_matrix(0, 0, 2_C_rt, 2_R_rt));
-	BOOST_TEST(eq1);
-
-	auto eq2 = check2(m.sub_matrix(1, 0, 2_C_rt, 2_R_rt));
-	BOOST_TEST(eq2);
-
-	auto eq3 = check3(m.sub_matrix(0, 1, 2_C_rt, 2_R_rt));
-	BOOST_TEST(eq3);
-
-	auto eq4 = check4(m.sub_matrix(1, 1, 2_C_rt, 2_R_rt));
-	BOOST_TEST(eq4);
+	BOOST_TEST(check1(m.sub_matrix(0, 0, 2_C_rt, 2_R_rt)));
+	BOOST_TEST(check2(m.sub_matrix(1, 0, 2_C_rt, 2_R_rt)));
+	BOOST_TEST(check3(m.sub_matrix(0, 1, 2_C_rt, 2_R_rt)));
+	BOOST_TEST(check4(m.sub_matrix(1, 1, 2_C_rt, 2_R_rt)));
 }
