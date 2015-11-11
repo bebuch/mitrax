@@ -9,7 +9,6 @@
 #ifndef _mitrax__matrix__hpp_INCLUDED_
 #define _mitrax__matrix__hpp_INCLUDED_
 
-#include "integer.hpp"
 #include "point.hpp"
 #include "dimension.hpp"
 #include "to_array.hpp"
