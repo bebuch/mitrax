@@ -20,6 +20,9 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
+// TODO: Check also for dynamic matrices
+
+
 BOOST_AUTO_TEST_CASE(test_output_3x3){
 	auto m = make_square_matrix< int >(3_D, {
 		{1, 2, 3},

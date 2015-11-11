@@ -37,6 +37,9 @@ namespace{
 }
 
 
+// TODO: Check also for dynamic matrices
+
+
 BOOST_AUTO_TEST_CASE(test_swap_rows_m_0_m_1){
 	auto m = ref1;
 

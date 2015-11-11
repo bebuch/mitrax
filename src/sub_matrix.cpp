@@ -75,6 +75,11 @@ namespace{
 }
 
 
+// TODO: add more unit tests
+// TODO: check also for result types
+// TODO: use non square matrices
+
+
 BOOST_AUTO_TEST_CASE(test_sub_matrix_2x2){
 	constexpr auto m = ref;
 

@@ -39,6 +39,9 @@ namespace{
 }
 
 
+// TODO: check also for result types
+
+
 BOOST_AUTO_TEST_CASE(test_convert_as_raw_matrix){
 	constexpr auto m1 = make_matrix(2_C, 2_R, data);
 	auto const m2 = make_matrix(2_C_rt, 2_R, data);
