@@ -14,6 +14,7 @@
 #include "to_array.hpp"
 #include "to_vector.hpp"
 #include "convert.hpp"
+#include "sub_matrix.hpp"
 
 #include <utility>
 #include <cassert>
@@ -247,6 +248,30 @@ namespace mitrax{
 
 		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix()const&{
 			return convert< value_type >();
+		}
+
+
+		template < bool Cb, size_t C, bool Rb, size_t R >
+		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
+		sub_matrix(
+			size_t x, size_t y,
+			col_lit< Cb, C > c, row_lit< Rb, R > r
+		)const{
+			return sub_matrix< value_type >(x, y, c, r);
+		}
+
+		template < typename V, bool Cb, size_t C, bool Rb, size_t R >
+		constexpr raw_matrix< V, dim(Cb, C), dim(Rb, R) >
+		sub_matrix(
+			size_t x, size_t y,
+			col_lit< Cb, C > c, row_lit< Rb, R > r
+		)const{
+			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(c, r,
+				mitrax::sub_matrix< V >(
+					x, y, c, r,
+					static_cast< matrix< M, Cols, Rows > const& >(*this)
+				)
+			);
 		}
 
 
