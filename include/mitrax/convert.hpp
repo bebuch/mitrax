@@ -91,6 +91,23 @@ namespace mitrax{
 		}
 
 
+		template < size_t N, typename T, size_t ... I >
+		auto to_array(
+			boost::container::vector< T >&& v,
+			std::index_sequence< I ... >
+		){
+			return std::array< T, N >{{ std::move(v[I]) ... }};
+		}
+
+		template < size_t N, typename T, size_t ... I >
+		auto to_array(
+			boost::container::vector< T > const& v,
+			std::index_sequence< I ... >
+		){
+			return std::array< T, N >{{ v[I] ... }};
+		}
+
+
 	}
 
 
@@ -113,6 +130,94 @@ namespace mitrax{
 	template < typename T, typename U >
 	auto convert(boost::container::vector< U > const& v){
 		return detail::convert< T >(std::is_same< T, U >(), v);
+	}
+
+
+	template < typename T, typename U, size_t N >
+	constexpr auto convert(
+		std::true_type /*to_static*/,
+		std::array< U, N >&& v
+	){
+		return convert< T >(std::move(v));
+	}
+
+	template < typename T, typename U, size_t N >
+	constexpr auto convert(
+		std::true_type /*to_static*/,
+		std::array< U, N > const& v
+	){
+		return convert< T >(v);
+	}
+
+
+	template < typename T, typename U, size_t N >
+	auto convert(
+		std::true_type /*to_static*/,
+		boost::container::vector< U >&& v
+	){
+		// TODO: Do it faster!!!
+		auto d = convert< T >(std::move(v));
+		return detail::to_array< N >(
+			std::move(d),
+			std::make_index_sequence< N >()
+		);
+	}
+
+	template < typename T, typename U, size_t N >
+	auto convert(
+		std::true_type /*to_static*/,
+		boost::container::vector< U > const& v
+	){
+		// TODO: Do it faster!!!
+		auto d = convert< T >(v);
+		return detail::to_array< N >(
+			std::move(d),
+			std::make_index_sequence< N >()
+		);
+	}
+
+
+	template < typename T, typename U, size_t N >
+	constexpr auto convert(
+		std::false_type /*to_static*/,
+		std::array< U, N >&& v
+	){
+		// TODO: Do it faster!!!
+		auto d = convert< T >(std::move(v));
+		return boost::container::vector< T >(
+			std::make_move_iterator(d.begin()),
+			std::make_move_iterator(d.end())
+		);
+	}
+
+	template < typename T, typename U, size_t N >
+	constexpr auto convert(
+		std::false_type /*to_static*/,
+		std::array< U, N > const& v
+	){
+		// TODO: Do it faster!!!
+		auto d = convert< T >(v);
+		return boost::container::vector< T >(
+			std::make_move_iterator(d.begin()),
+			std::make_move_iterator(d.end())
+		);
+	}
+
+
+	template < typename T, typename U, size_t N >
+	auto convert(
+		std::false_type /*to_static*/,
+		boost::container::vector< U >&& v
+	){
+		return convert< T >(std::move(v));
+	}
+
+	template < typename T, typename U, size_t N >
+	auto convert(
+		std::false_type /*to_static*/,
+		boost::container::vector< U > const& v
+	){
+		return convert< T >(v);
 	}
 
 
