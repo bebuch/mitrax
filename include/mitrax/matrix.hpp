@@ -161,19 +161,6 @@ namespace mitrax{
 		}
 
 
-		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix()&&{
-			return raw_matrix_impl< value_type, Cols, Rows >(
-				cols(), rows(), std::move(m_).data()
-			);
-		}
-
-		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix()const&{
-			return raw_matrix_impl< value_type, Cols, Rows >(
-				cols(), rows(), m_.data()
-			);
-		}
-
-
 		template < typename V >
 		constexpr raw_matrix< V, Cols, Rows > convert()&&{
 			return raw_matrix_impl< V, Cols, Rows >(
@@ -189,13 +176,50 @@ namespace mitrax{
 		}
 
 
-// 		template < bool Cb, size_t C, bool Rb, size_t R >
-// 		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
-// 		convert()&&;
-// 
-// 		template < bool Cb, size_t C, bool Rb, size_t R >
-// 		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
-// 		convert()const&;
+		template < bool Cb, size_t C, bool Rb, size_t R >
+		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
+		convert(col_lit< Cb, C > c, row_lit< Rb, R > r)&&{
+			static_assert(
+				(Cols == 0 || !Cb || Cols == C) &&
+				(Rows == 0 || !Rb || Rows == R),
+				"matrix dimensions not compatible"
+			);
+
+			if(cols() != c || rows() != r){
+				throw std::logic_error("matrix dimensions not compatible");
+			}
+
+			return raw_matrix_impl< value_type, dim(Cb, C), dim(Rb, R) >(
+				c, r, std::move(m_).data()
+			);
+		}
+
+		template < bool Cb, size_t C, bool Rb, size_t R >
+		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
+		convert(col_lit< Cb, C > c, row_lit< Rb, R > r)const&{
+			static_assert(
+				(Cols == 0 || !Cb || Cols == C) &&
+				(Rows == 0 || !Rb || Rows == R),
+				"matrix dimensions not compatible"
+			);
+
+			if(cols() != c || rows() != r){
+				throw std::logic_error("matrix dimensions not compatible");
+			}
+
+			return raw_matrix_impl< value_type, dim(Cb, C), dim(Rb, R) >(
+				c, r, m_.data()
+			);
+		}
+
+
+		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix()&&{
+			return std::move(*this).template convert< value_type >();
+		}
+
+		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix()const&{
+			return convert< value_type >();
+		}
 
 
 // 		template < typename V, bool Cb, size_t C, bool Rb, size_t R >

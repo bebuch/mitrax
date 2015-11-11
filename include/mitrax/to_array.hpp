@@ -57,13 +57,43 @@ namespace mitrax{
 		template < typename T, typename U, size_t N, size_t ... I >
 		constexpr auto
 		convert(std::array< U, N >&& v, std::index_sequence< I ... >){
-			return std::array< T, N >{{ static_cast< T >(std::move(v[I])) ... }};
+			return std::array< T, N >{{
+				static_cast< T >(std::move(v[I])) ...
+			}};
 		}
 
 		template < typename T, typename U, size_t N, size_t ... I >
 		constexpr auto
 		convert(std::array< U, N > const& v, std::index_sequence< I ... >){
-			return std::array< T, N >{{ static_cast< T >(v[I]) ... }};
+			return std::array< T, N >{{
+				static_cast< T >(v[I]) ...
+			}};
+		}
+
+
+		template < typename T, size_t N >
+		constexpr auto convert(std::true_type, std::array< T, N >&& v){
+			return std::move(v);
+		}
+
+		template < typename T, size_t N >
+		constexpr auto convert(std::true_type, std::array< T, N > const& v){
+			return v;
+		}
+
+
+		template < typename T, typename U, size_t N >
+		constexpr auto convert(std::false_type, std::array< U, N >&& v){
+			return convert< T >(
+				std::move(v), std::make_index_sequence< N >()
+			);
+		}
+
+		template < typename T, typename U, size_t N >
+		constexpr auto convert(std::false_type, std::array< U, N > const& v){
+			return convert< T >(
+				v, std::make_index_sequence< N >()
+			);
 		}
 
 
@@ -102,16 +132,12 @@ namespace mitrax{
 
 	template < typename T, typename U, size_t N >
 	constexpr auto convert(std::array< U, N >&& v){
-		return detail::convert< T >(
-			std::move(v), std::make_index_sequence< N >()
-		);
+		return detail::convert< T >(std::is_same< T, U >(), std::move(v));
 	}
 
 	template < typename T, typename U, size_t N >
 	constexpr auto convert(std::array< U, N > const& v){
-		return detail::convert< T >(
-			v, std::make_index_sequence< N >()
-		);
+		return detail::convert< T >(std::is_same< T, U >(), v);
 	}
 
 
