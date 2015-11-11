@@ -277,9 +277,9 @@ namespace mitrax{
 		matrix< M, C, R > const& m,
 		T const& v
 	){
-		auto t = m.template as_raw_matrix< std::common_type_t<
-				value_type_t< matrix< M, C, R > >, T
-			>, C, R >();
+		auto t = m.template convert< std::common_type_t<
+				value_type_t< M >, T
+			> >();
 		return element_plus_assign(t, v);
 	}
 
@@ -292,9 +292,9 @@ namespace mitrax{
 		matrix< M, C, R > const& m,
 		T const& v
 	){
-		auto t = m.template as_raw_matrix< std::common_type_t<
-				value_type_t< matrix< M, C, R > >, T
-			>, C, R >();
+		auto t = m.template convert< std::common_type_t<
+				value_type_t< M >, T
+			> >();
 		return element_minus_assign(t, v);
 	}
 
@@ -307,9 +307,9 @@ namespace mitrax{
 		matrix< M, C, R > const& m,
 		T const& v
 	){
-		auto t = m.template as_raw_matrix< std::common_type_t<
-				value_type_t< matrix< M, C, R > >, T
-			>, C, R >();
+		auto t = m.template convert< std::common_type_t<
+				value_type_t< M >, T
+			> >();
 		return t *= v;
 	}
 
@@ -322,9 +322,9 @@ namespace mitrax{
 		matrix< M, C, R > const& m,
 		T const& v
 	){
-		auto t = m.template as_raw_matrix< std::common_type_t<
-				value_type_t< matrix< M, C, R > >, T
-			>, C, R >();
+		auto t = m.template convert< std::common_type_t<
+				value_type_t< M >, T
+			> >();
 		return t /= v;
 	}
 
@@ -337,9 +337,9 @@ namespace mitrax{
 		matrix< M, C, R > const& m,
 		T const& v
 	){
-		auto t = m.template as_raw_matrix< std::common_type_t<
-				value_type_t< matrix< M, C, R > >, T
-			>, C, R >();
+		auto t = m.template convert< std::common_type_t<
+				value_type_t< M >, T
+			> >();
 		return t %= v;
 	}
 
@@ -356,10 +356,10 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		auto t = m1.template as_raw_matrix< std::common_type_t<
-				value_type_t< matrix< M1, C1, R1 > >,
-				value_type_t< matrix< M2, C2, R2 > >
-			>, C1, R1 >();
+		auto t = m1.template convert< std::common_type_t<
+				value_type_t< M1 >,
+				value_type_t< M2 >
+			> >();
 		return t += m2;
 	}
 
@@ -374,10 +374,10 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		auto t = m1.template as_raw_matrix< std::common_type_t<
-				value_type_t< matrix< M1, C1, R1 > >,
-				value_type_t< matrix< M2, C2, R2 > >
-			>, C1, R1 >();
+		auto t = m1.template convert< std::common_type_t<
+				value_type_t< M1 >,
+				value_type_t< M2 >
+			> >();
 		return t -= m2;
 	}
 
@@ -392,10 +392,10 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		auto t = m1.template as_raw_matrix< std::common_type_t<
-				value_type_t< matrix< M1, C1, R1 > >,
-				value_type_t< matrix< M2, C2, R2 > >
-			>, C1, R1 >();
+		auto t = m1.template convert< std::common_type_t<
+				value_type_t< M1 >,
+				value_type_t< M2 >
+			> >();
 		return element_multiplies_assign(t, m2);
 	}
 
@@ -410,10 +410,10 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		auto t = m1.template as_raw_matrix< std::common_type_t<
-				value_type_t< matrix< M1, C1, R1 > >,
-				value_type_t< matrix< M2, C2, R2 > >
-			>, C1, R1 >();
+		auto t = m1.template convert< std::common_type_t<
+				value_type_t< M1 >,
+				value_type_t< M2 >
+			> >();
 		return element_divides_assign(t, m2);
 	}
 
@@ -428,10 +428,10 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		auto t = m1.template as_raw_matrix< std::common_type_t<
-				value_type_t< matrix< M1, C1, R1 > >,
-				value_type_t< matrix< M2, C2, R2 > >
-			>, C1, R1 >();
+		auto t = m1.template convert< std::common_type_t<
+				value_type_t< M1 >,
+				value_type_t< M2 >
+			> >();
 		return element_modulus_assign(t, m2);
 	}
 

@@ -91,6 +91,7 @@ namespace{
 
 }
 
+
 BOOST_AUTO_TEST_CASE(test_element_plus_assign){
 	auto m = ref1;
 
@@ -173,84 +174,84 @@ BOOST_AUTO_TEST_CASE(test_element_modulus_assign){
 }
 
 
-// BOOST_AUTO_TEST_CASE(test_element_plus){
-// 	auto m = ref1;
-// 
-// 	auto res = element_plus(m, 1);
-// 	auto eq = res == ref1_element_plus1;
-// 	BOOST_TEST(eq);
-// }
-// 
-// BOOST_AUTO_TEST_CASE(test_element_minus){
-// 	auto m = ref1;
-// 
-// 	auto res = element_minus(m, 1);
-// 	auto eq = res == ref1_element_minus1;
-// 	BOOST_TEST(eq);
-// }
-// 
-// BOOST_AUTO_TEST_CASE(test_multiplies){
-// 	auto m = ref1;
-// 
-// 	auto res = m * 3;
-// 	auto eq = res == ref3;
-// 	BOOST_TEST(eq);
-// }
-// 
-// BOOST_AUTO_TEST_CASE(test_divides){
-// 	auto m = ref3;
-// 
-// 	auto res = m / 3;
-// 	auto eq = res == ref1;
-// 	BOOST_TEST(eq);
-// }
-// 
-// BOOST_AUTO_TEST_CASE(test_modulus){
-// 	auto m = ref1;
-// 
-// 	auto res = m % 3;
-// 	auto eq = res == ref1_mod3;
-// 	BOOST_TEST(eq);
-// }
-// 
-// 
-// BOOST_AUTO_TEST_CASE(test_plus){
-// 	auto m = ref1;
-// 
-// 	auto res = m + ref1;
-// 	auto eq = res == ref2;
-// 	BOOST_TEST(eq);
-// }
-// 
-// BOOST_AUTO_TEST_CASE(test_minus){
-// 	auto m = ref2;
-// 
-// 	auto res = m - ref1;
-// 	auto eq = res == ref1;
-// 	BOOST_TEST(eq);
-// }
-// 
-// BOOST_AUTO_TEST_CASE(test_element_multiplies){
-// 	auto m = ref1;
-// 
-// 	auto res = element_multiplies(m, ref1);
-// 	auto eq = res == ref1_square;
-// 	BOOST_TEST(eq);
-// }
-// 
-// BOOST_AUTO_TEST_CASE(test_element_divides){
-// 	auto m = ref1_element_plus1;
-// 
-// 	auto res = element_divides(m, ref1_element_plus1);
-// 	auto eq = res == ref_all1;
-// 	BOOST_TEST(eq);
-// }
-// 
-// BOOST_AUTO_TEST_CASE(test_element_modulus){
-// 	auto m = ref_all9;
-// 
-// 	auto res = element_modulus(m, ref_mod);
-// 	auto eq = res == ref_all9_mod_res;
-// 	BOOST_TEST(eq);
-// }
+BOOST_AUTO_TEST_CASE(test_element_plus){
+	auto m = ref1;
+
+	auto res = element_plus(m, 1);
+	auto eq = res == ref1_element_plus1;
+	BOOST_TEST(eq);
+}
+
+BOOST_AUTO_TEST_CASE(test_element_minus){
+	auto m = ref1;
+
+	auto res = element_minus(m, 1);
+	auto eq = res == ref1_element_minus1;
+	BOOST_TEST(eq);
+}
+
+BOOST_AUTO_TEST_CASE(test_multiplies){
+	auto m = ref1;
+
+	auto res = m * 3;
+	auto eq = res == ref3;
+	BOOST_TEST(eq);
+}
+
+BOOST_AUTO_TEST_CASE(test_divides){
+	auto m = ref3;
+
+	auto res = m / 3;
+	auto eq = res == ref1;
+	BOOST_TEST(eq);
+}
+
+BOOST_AUTO_TEST_CASE(test_modulus){
+	auto m = ref1;
+
+	auto res = m % 3;
+	auto eq = res == ref1_mod3;
+	BOOST_TEST(eq);
+}
+
+
+BOOST_AUTO_TEST_CASE(test_plus){
+	auto m = ref1;
+
+	auto res = m + ref1;
+	auto eq = res == ref2;
+	BOOST_TEST(eq);
+}
+
+BOOST_AUTO_TEST_CASE(test_minus){
+	auto m = ref2;
+
+	auto res = m - ref1;
+	auto eq = res == ref1;
+	BOOST_TEST(eq);
+}
+
+BOOST_AUTO_TEST_CASE(test_element_multiplies){
+	auto m = ref1;
+
+	auto res = element_multiplies(m, ref1);
+	auto eq = res == ref1_square;
+	BOOST_TEST(eq);
+}
+
+BOOST_AUTO_TEST_CASE(test_element_divides){
+	auto m = ref1_element_plus1;
+
+	auto res = element_divides(m, ref1_element_plus1);
+	auto eq = res == ref_all1;
+	BOOST_TEST(eq);
+}
+
+BOOST_AUTO_TEST_CASE(test_element_modulus){
+	auto m = ref_all9;
+
+	auto res = element_modulus(m, ref_mod);
+	auto eq = res == ref_all9_mod_res;
+	BOOST_TEST(eq);
+}
 
