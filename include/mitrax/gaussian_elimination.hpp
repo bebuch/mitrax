@@ -28,7 +28,7 @@ namespace mitrax{
 		// Compiler may optimize with the compile time dimension
 		size_t const size = C == 0 ? in.rows() : in.cols();
 
-		auto m = in.template as_raw_matrix< value_type_t< M >, C, R >();
+		auto m = in.template convert< value_type_t< M > >();
 
 		for(size_t i = 0; i < size; ++i){
 			if(m(i, i) == 0){
