@@ -86,6 +86,20 @@ namespace mitrax{
 	}
 
 
+	template < typename T, typename U >
+	auto convert(boost::container::vector< U >&& v){
+		return boost::container::vector< T >(
+			std::make_move_iterator(v.begin()),
+			std::make_move_iterator(v.end())
+		);
+	}
+
+	template < typename T, typename U >
+	auto convert(boost::container::vector< U > const& v){
+		return boost::container::vector< T >(v.begin(), v.end());
+	}
+
+
 }
 
 

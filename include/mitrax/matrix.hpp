@@ -12,6 +12,8 @@
 #include "integer.hpp"
 #include "point.hpp"
 #include "dimension.hpp"
+#include "to_array.hpp"
+#include "to_vector.hpp"
 
 #include <utility>
 #include <cassert>
@@ -157,6 +159,52 @@ namespace mitrax{
 		constexpr const_reverse_iterator crend()const{
 			return rend();
 		}
+
+
+		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix()&&{
+			return raw_matrix_impl< value_type, Cols, Rows >(
+				cols(), rows(), std::move(m_).data()
+			);
+		}
+
+		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix()const&{
+			return raw_matrix_impl< value_type, Cols, Rows >(
+				cols(), rows(), m_.data()
+			);
+		}
+
+
+		template < typename V >
+		constexpr raw_matrix< V, Cols, Rows > convert()&&{
+			return raw_matrix_impl< V, Cols, Rows >(
+				cols(), rows(), mitrax::convert< V >(std::move(m_).data())
+			);
+		}
+
+		template < typename V >
+		constexpr raw_matrix< V, Cols, Rows > convert()const&{
+			return raw_matrix_impl< V, Cols, Rows >(
+				cols(), rows(), mitrax::convert< V >(m_.data())
+			);
+		}
+
+
+// 		template < bool Cb, size_t C, bool Rb, size_t R >
+// 		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
+// 		convert()&&;
+// 
+// 		template < bool Cb, size_t C, bool Rb, size_t R >
+// 		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
+// 		convert()const&;
+
+
+// 		template < typename V, bool Cb, size_t C, bool Rb, size_t R >
+// 		constexpr raw_matrix< V, dim(Cb, C), dim(Rb, R) >
+// 		convert()&&;
+// 
+// 		template < typename V, bool Cb, size_t C, bool Rb, size_t R >
+// 		constexpr raw_matrix< V, dim(Cb, C), dim(Rb, R) >
+// 		convert()const&;
 
 
 	protected:

@@ -10,8 +10,6 @@
 #define _mitrax__raw_matrix__hpp_INCLUDED_
 
 #include "matrix.hpp"
-#include "to_array.hpp"
-#include "to_vector.hpp"
 
 
 namespace mitrax{
@@ -184,6 +182,15 @@ namespace mitrax{
 		}
 
 
+		constexpr std::array< value_type, Cols * Rows >&& data()&&{
+			return std::move(values_);
+		}
+
+		constexpr std::array< value_type, Cols * Rows > const& data()const&{
+			return values_;
+		}
+
+
 	private:
 		std::array< value_type, Cols * Rows > values_;
 	};
@@ -224,6 +231,15 @@ namespace mitrax{
 			boost::container::vector< value_type >&& values
 		):
 			values_(std::move(values)),
+			cols_(c),
+			rows_(r)
+			{}
+
+		raw_matrix_impl_base(
+			col_t< Cols > c, row_t< Rows > r,
+			boost::container::vector< value_type > const& values
+		):
+			values_(values),
 			cols_(c),
 			rows_(r)
 			{}
@@ -277,6 +293,15 @@ namespace mitrax{
 
 		const_reverse_iterator rend()const{
 			return values_.rend();
+		}
+
+
+		boost::container::vector< value_type >&& data()&&{
+			return std::move(values_);
+		}
+
+		boost::container::vector< value_type > const& data()const&{
+			return values_;
 		}
 
 
@@ -421,6 +446,19 @@ namespace mitrax{
 		return raw_matrix_impl< std::remove_cv_t< T >, dim(Nb, N), 1 >(c, 1_R,
 			detail::to_raw_matrix_data(bool_t< Nb >(), v));
 	}
+
+
+// 	template < typename M, size_t C, size_t R >
+// 	constexpr raw_matrix< value_type_t< M >, C, R >
+// 	matrix< M, C, R >::as_raw_matrix()&&{
+// 		return std::move(m_).data();
+// 	}
+// 
+// 	template < typename M, size_t C, size_t R >
+// 	constexpr raw_matrix< value_type_t< M >, C, R >
+// 	matrix< M, C, R >::as_raw_matrix()const&{
+// 		return m_.data();
+// 	}
 
 
 }
