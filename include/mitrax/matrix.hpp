@@ -14,6 +14,7 @@
 #include "dimension.hpp"
 #include "to_array.hpp"
 #include "to_vector.hpp"
+#include "convert.hpp"
 
 #include <utility>
 #include <cassert>

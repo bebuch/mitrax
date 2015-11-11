@@ -13,7 +13,6 @@
 
 #include <boost/container/vector.hpp>
 
-#include <type_traits>
 #include <utility>
 
 
@@ -52,30 +51,6 @@ namespace mitrax{
 			};
 		}
 
-		template < typename T >
-		auto convert(std::true_type, boost::container::vector< T >&& v){
-			return std::move(v);
-		}
-
-		template < typename T >
-		auto convert(std::true_type, boost::container::vector< T > const& v){
-			return v;
-		}
-
-
-		template < typename T, typename U >
-		auto convert(std::false_type, boost::container::vector< U >&& v){
-			return boost::container::vector< T >(
-				std::make_move_iterator(v.begin()),
-				std::make_move_iterator(v.end())
-			);
-		}
-
-		template < typename T, typename U >
-		auto convert(std::false_type, boost::container::vector< U > const& v){
-			return boost::container::vector< T >(v.begin(), v.end());
-		}
-
 
 	}
 
@@ -107,17 +82,6 @@ namespace mitrax{
 		return detail::to_vector(
 			v, std::make_index_sequence< C * R >()
 		);
-	}
-
-
-	template < typename T, typename U >
-	auto convert(boost::container::vector< U >&& v){
-		return detail::convert< T >(std::is_same< T, U >(), std::move(v));
-	}
-
-	template < typename T, typename U >
-	auto convert(boost::container::vector< U > const& v){
-		return detail::convert< T >(std::is_same< T, U >(), v);
 	}
 
 
