@@ -221,7 +221,7 @@ namespace mitrax{
 
 
 		raw_matrix_impl_base(col_t< Cols > c, row_t< Rows > r):
-			cols_(c), rows_(r) {}
+			values_(c * r), cols_(c), rows_(r) {}
 
 		raw_matrix_impl_base(raw_matrix_impl_base&&) = default;
 
@@ -371,7 +371,7 @@ namespace mitrax{
 
 	template < typename T, bool Nb, size_t N >
 	constexpr auto make_square_matrix(dim_lit< Nb, N > n){
-		return make_matrix(n.col(), n.row());
+		return make_matrix< T >(n.col(), n.row());
 	}
 
 	template < typename T, bool Nb, size_t N >
