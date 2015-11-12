@@ -164,21 +164,21 @@ namespace mitrax{
 
 
 		template < typename V >
-		constexpr raw_matrix< V, Cols, Rows > convert()&&{
+		constexpr raw_matrix< V, Cols, Rows > convert_by_move(){
 			return raw_matrix_impl< V, Cols, Rows >(
 				cols(), rows(), mitrax::convert< V >(std::move(m_.data()))
 			);
 		}
 
 		template < typename V >
-		constexpr raw_matrix< V, Cols, Rows > convert()&{
+		constexpr raw_matrix< V, Cols, Rows > convert(){
 			return raw_matrix_impl< V, Cols, Rows >(
 				cols(), rows(), mitrax::convert< V >(m_.data())
 			);
 		}
 
 		template < typename V >
-		constexpr raw_matrix< V, Cols, Rows > convert()const&{
+		constexpr raw_matrix< V, Cols, Rows > convert()const{
 			return raw_matrix_impl< V, Cols, Rows >(
 				cols(), rows(), mitrax::convert< V >(m_.data())
 			);
@@ -187,26 +187,26 @@ namespace mitrax{
 
 		template < bool Cb, size_t C, bool Rb, size_t R >
 		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
-		convert(col_lit< Cb, C > c, row_lit< Rb, R > r)&&{
-			return std::move(*this).template convert< value_type >(c, r);
+		convert_by_move(col_lit< Cb, C > c, row_lit< Rb, R > r){
+			return convert_by_move< value_type >(c, r);
 		}
 
 		template < bool Cb, size_t C, bool Rb, size_t R >
 		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
-		convert(col_lit< Cb, C > c, row_lit< Rb, R > r)&{
+		convert(col_lit< Cb, C > c, row_lit< Rb, R > r){
 			return convert< value_type >(c, r);
 		}
 
 		template < bool Cb, size_t C, bool Rb, size_t R >
 		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
-		convert(col_lit< Cb, C > c, row_lit< Rb, R > r)const&{
+		convert(col_lit< Cb, C > c, row_lit< Rb, R > r)const{
 			return convert< value_type >(c, r);
 		}
 
 
 		template < typename V, bool Cb, size_t C, bool Rb, size_t R >
 		constexpr raw_matrix< V, dim(Cb, C), dim(Rb, R) >
-		convert(col_lit< Cb, C > c, row_lit< Rb, R > r)&&{
+		convert_by_move(col_lit< Cb, C > c, row_lit< Rb, R > r){
 			static_assert(
 				(Cols == 0 || !Cb || Cols == C) &&
 				(Rows == 0 || !Rb || Rows == R),
@@ -231,7 +231,7 @@ namespace mitrax{
 
 		template < typename V, bool Cb, size_t C, bool Rb, size_t R >
 		constexpr raw_matrix< V, dim(Cb, C), dim(Rb, R) >
-		convert(col_lit< Cb, C > c, row_lit< Rb, R > r)&{
+		convert(col_lit< Cb, C > c, row_lit< Rb, R > r){
 			static_assert(
 				(Cols == 0 || !Cb || Cols == C) &&
 				(Rows == 0 || !Rb || Rows == R),
@@ -256,7 +256,7 @@ namespace mitrax{
 
 		template < typename V, bool Cb, size_t C, bool Rb, size_t R >
 		constexpr raw_matrix< V, dim(Cb, C), dim(Rb, R) >
-		convert(col_lit< Cb, C > c, row_lit< Rb, R > r)const&{
+		convert(col_lit< Cb, C > c, row_lit< Rb, R > r)const{
 			static_assert(
 				(Cols == 0 || !Cb || Cols == C) &&
 				(Rows == 0 || !Rb || Rows == R),
@@ -280,15 +280,15 @@ namespace mitrax{
 		}
 
 
-		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix()&&{
-			return std::move(*this).template convert< value_type >();
+		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix_by_move(){
+			return convert_by_move< value_type >();
 		}
 
-		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix()&{
+		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix(){
 			return convert< value_type >();
 		}
 
-		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix()const&{
+		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix()const{
 			return convert< value_type >();
 		}
 
@@ -298,8 +298,31 @@ namespace mitrax{
 		sub_matrix(
 			size_t x, size_t y,
 			col_lit< Cb, C > c, row_lit< Rb, R > r
+		){
+			return sub_matrix< value_type >(x, y, c, r);
+		}
+
+		template < bool Cb, size_t C, bool Rb, size_t R >
+		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
+		sub_matrix(
+			size_t x, size_t y,
+			col_lit< Cb, C > c, row_lit< Rb, R > r
 		)const{
 			return sub_matrix< value_type >(x, y, c, r);
+		}
+
+		template < typename V, bool Cb, size_t C, bool Rb, size_t R >
+		constexpr raw_matrix< V, dim(Cb, C), dim(Rb, R) >
+		sub_matrix(
+			size_t x, size_t y,
+			col_lit< Cb, C > c, row_lit< Rb, R > r
+		){
+			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(c, r,
+				mitrax::sub_matrix< V >(
+					x, y, c, r,
+					static_cast< matrix< M, Cols, Rows >& >(*this)
+				)
+			);
 		}
 
 		template < typename V, bool Cb, size_t C, bool Rb, size_t R >
