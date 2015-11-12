@@ -26,6 +26,9 @@ namespace mitrax{
 	template < typename T, size_t Cols >
 	using raw_row_vector = matrix< raw_matrix_impl< T, Cols, 1 >, Cols, 1 >;
 
+	template < typename T >
+	using raw_bitmap = matrix< raw_matrix_impl< T, 0, 0 >, 0, 0 >;
+
 
 	namespace detail{
 
