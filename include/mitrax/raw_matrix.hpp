@@ -110,8 +110,9 @@ namespace mitrax{
 			std::array< value_type, Cols * Rows >::const_reverse_iterator;
 
 
-		constexpr raw_matrix_impl(col_t< Cols >, row_t< Rows >):
-			values_{} {}
+		constexpr raw_matrix_impl(
+			col_t< Cols >, row_t< Rows >, value_type const& v
+		): values_(init_array< Cols * Rows >(v)) {}
 
 		constexpr raw_matrix_impl(raw_matrix_impl&&) = default;
 
@@ -220,8 +221,9 @@ namespace mitrax{
 			boost::container::vector< value_type >::const_reverse_iterator;
 
 
-		raw_matrix_impl_base(col_t< Cols > c, row_t< Rows > r):
-			values_(c * r), cols_(c), rows_(r) {}
+		raw_matrix_impl_base(
+			col_t< Cols > c, row_t< Rows > r, value_type const& v
+		): values_(c * r, v), cols_(c), rows_(r) {}
 
 		raw_matrix_impl_base(raw_matrix_impl_base&&) = default;
 
@@ -343,7 +345,19 @@ namespace mitrax{
 		col_lit< Cb, C > c,
 		row_lit< Rb, R > r
 	){
-		return raw_matrix_impl< std::remove_cv_t< T >, dim(Cb, C), dim(Rb, R) >(c, r);
+		return make_matrix(c, r, T());
+	}
+
+	template < typename T, bool Cb, size_t C, bool Rb, size_t R >
+	constexpr raw_matrix< std::remove_cv_t< T >, dim(Cb, C), dim(Rb, R) >
+	make_matrix(
+		col_lit< Cb, C > c,
+		row_lit< Rb, R > r,
+		T const& v
+	){
+		return raw_matrix_impl<
+			std::remove_cv_t< T >, dim(Cb, C), dim(Rb, R)
+		>(c, r, v);
 	}
 
 	template < typename T, bool Cb, size_t C, bool Rb, size_t R >
@@ -353,8 +367,12 @@ namespace mitrax{
 		row_lit< Rb, R > r,
 		T(&&v)[R][C]
 	){
-		return raw_matrix_impl< std::remove_cv_t< T >, dim(Cb, C), dim(Rb, R) >(c, r,
-			detail::to_raw_matrix_data(bool_t< Cb && Rb >(), std::move(v)));
+		return raw_matrix_impl<
+			std::remove_cv_t< T >, dim(Cb, C), dim(Rb, R)
+		>(
+			c, r,
+			detail::to_raw_matrix_data(bool_t< Cb && Rb >(), std::move(v))
+		);
 	}
 
 	template < typename T, bool Cb, size_t C, bool Rb, size_t R >
@@ -364,14 +382,20 @@ namespace mitrax{
 		row_lit< Rb, R > r,
 		T(&v)[R][C]
 	){
-		return raw_matrix_impl< std::remove_cv_t< T >, dim(Cb, C), dim(Rb, R) >(c, r,
-			detail::to_raw_matrix_data(bool_t< Cb && Rb >(), v));
+		return raw_matrix_impl<
+			std::remove_cv_t< T >, dim(Cb, C), dim(Rb, R)
+		>(c, r, detail::to_raw_matrix_data(bool_t< Cb && Rb >(), v));
 	}
 
 
 	template < typename T, bool Nb, size_t N >
 	constexpr auto make_square_matrix(dim_lit< Nb, N > n){
 		return make_matrix< T >(n.col(), n.row());
+	}
+
+	template < typename T, bool Nb, size_t N >
+	constexpr auto make_square_matrix(dim_lit< Nb, N > n, T const& v){
+		return make_matrix< T >(n.col(), n.row(), v);
 	}
 
 	template < typename T, bool Nb, size_t N >
@@ -390,8 +414,18 @@ namespace mitrax{
 	make_col_vector(
 		row_lit< Nb, N > r
 	){
+		return make_col_vector(r, T());
+	}
+
+	template < typename T, bool Nb, size_t N >
+	constexpr raw_col_vector< std::remove_cv_t< T >, dim(Nb, N) >
+	make_col_vector(
+		row_lit< Nb, N > r, T const& v
+	){
 		using namespace literals;
-		return raw_matrix_impl< std::remove_cv_t< T >, 1, dim(Nb, N) >(1_C, r);
+		return raw_matrix_impl< std::remove_cv_t< T >, 1, dim(Nb, N) >(
+			1_C, r, v
+		);
 	}
 
 	template < typename T, bool Nb, size_t N >
@@ -401,8 +435,9 @@ namespace mitrax{
 		T(&&v)[N]
 	){
 		using namespace literals;
-		return raw_matrix_impl< std::remove_cv_t< T >, 1, dim(Nb, N) >(1_C, r,
-			detail::to_raw_matrix_data(bool_t< Nb >(), std::move(v)));
+		return raw_matrix_impl< std::remove_cv_t< T >, 1, dim(Nb, N) >(
+			1_C, r, detail::to_raw_matrix_data(bool_t< Nb >(), std::move(v))
+		);
 	}
 
 	template < typename T, bool Nb, size_t N >
@@ -412,8 +447,9 @@ namespace mitrax{
 		T(&v)[N]
 	){
 		using namespace literals;
-		return raw_matrix_impl< std::remove_cv_t< T >, 1, dim(Nb, N) >(1_C, r,
-			detail::to_raw_matrix_data(bool_t< Nb >(), v));
+		return raw_matrix_impl< std::remove_cv_t< T >, 1, dim(Nb, N) >(
+			1_C, r, detail::to_raw_matrix_data(bool_t< Nb >(), v)
+		);
 	}
 
 
@@ -423,7 +459,19 @@ namespace mitrax{
 		col_lit< Nb, N > c
 	){
 		using namespace literals;
-		return raw_matrix_impl< std::remove_cv_t< T >, dim(Nb, N), 1 >(c, 1_R);
+		return make_row_vector(c, T());
+	}
+
+	template < typename T, bool Nb, size_t N >
+	constexpr raw_row_vector< std::remove_cv_t< T >, dim(Nb, N) >
+	make_row_vector(
+		col_lit< Nb, N > c,
+		T const& v
+	){
+		using namespace literals;
+		return raw_matrix_impl< std::remove_cv_t< T >, dim(Nb, N), 1 >(
+			c, 1_R, v
+		);
 	}
 
 	template < typename T, bool Nb, size_t N >
@@ -433,8 +481,9 @@ namespace mitrax{
 		T(&&v)[N]
 	){
 		using namespace literals;
-		return raw_matrix_impl< std::remove_cv_t< T >, dim(Nb, N), 1 >(c, 1_R,
-			detail::to_raw_matrix_data(bool_t< Nb >(), std::move(v)));
+		return raw_matrix_impl< std::remove_cv_t< T >, dim(Nb, N), 1 >(
+			c, 1_R, detail::to_raw_matrix_data(bool_t< Nb >(), std::move(v))
+		);
 	}
 
 	template < typename T, bool Nb, size_t N >
@@ -444,8 +493,9 @@ namespace mitrax{
 		T(&v)[N]
 	){
 		using namespace literals;
-		return raw_matrix_impl< std::remove_cv_t< T >, dim(Nb, N), 1 >(c, 1_R,
-			detail::to_raw_matrix_data(bool_t< Nb >(), v));
+		return raw_matrix_impl< std::remove_cv_t< T >, dim(Nb, N), 1 >(
+			c, 1_R, detail::to_raw_matrix_data(bool_t< Nb >(), v)
+		);
 	}
 
 
