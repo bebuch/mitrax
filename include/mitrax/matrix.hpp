@@ -185,31 +185,31 @@ namespace mitrax{
 		}
 
 
-		template < bool Cb, size_t C, bool Rb, size_t R >
-		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
-		convert_by_move(col_init< Cb, C > c, row_init< Rb, R > r){
+		template < bool Cct, size_t C, bool Rct, size_t R >
+		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
+		convert_by_move(col_init< Cct, C > c, row_init< Rct, R > r){
 			return convert_by_move< value_type >(c, r);
 		}
 
-		template < bool Cb, size_t C, bool Rb, size_t R >
-		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
-		convert(col_init< Cb, C > c, row_init< Rb, R > r){
+		template < bool Cct, size_t C, bool Rct, size_t R >
+		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
+		convert(col_init< Cct, C > c, row_init< Rct, R > r){
 			return convert< value_type >(c, r);
 		}
 
-		template < bool Cb, size_t C, bool Rb, size_t R >
-		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
-		convert(col_init< Cb, C > c, row_init< Rb, R > r)const{
+		template < bool Cct, size_t C, bool Rct, size_t R >
+		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
+		convert(col_init< Cct, C > c, row_init< Rct, R > r)const{
 			return convert< value_type >(c, r);
 		}
 
 
-		template < typename V, bool Cb, size_t C, bool Rb, size_t R >
-		constexpr raw_matrix< V, dim(Cb, C), dim(Rb, R) >
-		convert_by_move(col_init< Cb, C > c, row_init< Rb, R > r){
+		template < typename V, bool Cct, size_t C, bool Rct, size_t R >
+		constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
+		convert_by_move(col_init< Cct, C > c, row_init< Rct, R > r){
 			static_assert(
-				(Cols == 0 || !Cb || Cols == C) &&
-				(Rows == 0 || !Rb || Rows == R),
+				(Cols == 0 || !Cct || Cols == C) &&
+				(Rows == 0 || !Rct || Rows == R),
 				"matrix dimensions not compatible"
 			);
 
@@ -217,24 +217,24 @@ namespace mitrax{
 				throw std::logic_error("matrix dimensions not compatible");
 			}
 
-			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(
+			return raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
 				c.get(), r.get(), mitrax::convert<
 					V,
 					value_type,
-					std::max(dim(Cb, C) * dim(Rb, R), Cols * Rows)
+					std::max(dim(Cct, C) * dim(Rct, R), Cols * Rows)
 				>(
-					bool_t< dim(Cb, C) * dim(Rb, R) != 0 >(),
+					bool_t< dim(Cct, C) * dim(Rct, R) != 0 >(),
 					std::move(m_.data())
 				)
 			);
 		}
 
-		template < typename V, bool Cb, size_t C, bool Rb, size_t R >
-		constexpr raw_matrix< V, dim(Cb, C), dim(Rb, R) >
-		convert(col_init< Cb, C > c, row_init< Rb, R > r){
+		template < typename V, bool Cct, size_t C, bool Rct, size_t R >
+		constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
+		convert(col_init< Cct, C > c, row_init< Rct, R > r){
 			static_assert(
-				(Cols == 0 || !Cb || Cols == C) &&
-				(Rows == 0 || !Rb || Rows == R),
+				(Cols == 0 || !Cct || Cols == C) &&
+				(Rows == 0 || !Rct || Rows == R),
 				"matrix dimensions not compatible"
 			);
 
@@ -242,24 +242,24 @@ namespace mitrax{
 				throw std::logic_error("matrix dimensions not compatible");
 			}
 
-			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(
+			return raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
 				c.get(), r.get(), mitrax::convert<
 					V,
 					value_type,
-					std::max(dim(Cb, C) * dim(Rb, R), Cols * Rows)
+					std::max(dim(Cct, C) * dim(Rct, R), Cols * Rows)
 				>(
-					bool_t< dim(Cb, C) * dim(Rb, R) != 0 >(),
+					bool_t< dim(Cct, C) * dim(Rct, R) != 0 >(),
 					m_.data()
 				)
 			);
 		}
 
-		template < typename V, bool Cb, size_t C, bool Rb, size_t R >
-		constexpr raw_matrix< V, dim(Cb, C), dim(Rb, R) >
-		convert(col_init< Cb, C > c, row_init< Rb, R > r)const{
+		template < typename V, bool Cct, size_t C, bool Rct, size_t R >
+		constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
+		convert(col_init< Cct, C > c, row_init< Rct, R > r)const{
 			static_assert(
-				(Cols == 0 || !Cb || Cols == C) &&
-				(Rows == 0 || !Rb || Rows == R),
+				(Cols == 0 || !Cct || Cols == C) &&
+				(Rows == 0 || !Rct || Rows == R),
 				"matrix dimensions not compatible"
 			);
 
@@ -267,13 +267,13 @@ namespace mitrax{
 				throw std::logic_error("matrix dimensions not compatible");
 			}
 
-			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(
+			return raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
 				c.get(), r.get(), mitrax::convert<
 					V,
 					value_type,
-					std::max(dim(Cb, C) * dim(Rb, R), Cols * Rows)
+					std::max(dim(Cct, C) * dim(Rct, R), Cols * Rows)
 				>(
-					bool_t< dim(Cb, C) * dim(Rb, R) != 0 >(),
+					bool_t< dim(Cct, C) * dim(Rct, R) != 0 >(),
 					m_.data()
 				)
 			);
@@ -293,31 +293,31 @@ namespace mitrax{
 		}
 
 
-		template < bool Cb, size_t C, bool Rb, size_t R >
-		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
+		template < bool Cct, size_t C, bool Rct, size_t R >
+		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
 		sub_matrix(
 			size_t x, size_t y,
-			col_init< Cb, C > c, row_init< Rb, R > r
+			col_init< Cct, C > c, row_init< Rct, R > r
 		){
 			return sub_matrix< value_type >(x, y, c, r);
 		}
 
-		template < bool Cb, size_t C, bool Rb, size_t R >
-		constexpr raw_matrix< value_type, dim(Cb, C), dim(Rb, R) >
+		template < bool Cct, size_t C, bool Rct, size_t R >
+		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
 		sub_matrix(
 			size_t x, size_t y,
-			col_init< Cb, C > c, row_init< Rb, R > r
+			col_init< Cct, C > c, row_init< Rct, R > r
 		)const{
 			return sub_matrix< value_type >(x, y, c, r);
 		}
 
-		template < typename V, bool Cb, size_t C, bool Rb, size_t R >
-		constexpr raw_matrix< V, dim(Cb, C), dim(Rb, R) >
+		template < typename V, bool Cct, size_t C, bool Rct, size_t R >
+		constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
 		sub_matrix(
 			size_t x, size_t y,
-			col_init< Cb, C > c, row_init< Rb, R > r
+			col_init< Cct, C > c, row_init< Rct, R > r
 		){
-			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(
+			return raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
 				c.get(), r.get(),
 				mitrax::sub_matrix< V >(
 					x, y, c.get(), r.get(),
@@ -326,13 +326,13 @@ namespace mitrax{
 			);
 		}
 
-		template < typename V, bool Cb, size_t C, bool Rb, size_t R >
-		constexpr raw_matrix< V, dim(Cb, C), dim(Rb, R) >
+		template < typename V, bool Cct, size_t C, bool Rct, size_t R >
+		constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
 		sub_matrix(
 			size_t x, size_t y,
-			col_init< Cb, C > c, row_init< Rb, R > r
+			col_init< Cct, C > c, row_init< Rct, R > r
 		)const{
-			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(
+			return raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
 				c.get(), r.get(),
 				mitrax::sub_matrix< V >(
 					x, y, c.get(), r.get(),
