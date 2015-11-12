@@ -107,66 +107,66 @@ namespace mitrax{
 
 
 		template <
-			typename T, bool Cb, size_t C1, bool Rb, size_t R1,
+			typename T, size_t C1, size_t R1,
 			typename M, size_t C2, size_t R2
 		>
 		constexpr auto sub_matrix(
 			std::true_type /*to_static*/,
 			size_t x,
 			size_t y,
-			col_lit< Cb, C1 > c,
-			row_lit< Rb, R1 > r,
+			col_t< C1 > c,
+			row_t< R1 > r,
 			matrix< M, C2, R2 >& m
 		){
 			return sub_matrix_to_array< T >(
-				x, y, c.get(), r.get(), m,
+				x, y, c, r, m,
 				std::make_index_sequence< C1 * R1 >()
 			);
 		}
 
 		template <
-			typename T, bool Cb, size_t C1, bool Rb, size_t R1,
+			typename T, size_t C1, size_t R1,
 			typename M, size_t C2, size_t R2
 		>
 		constexpr auto sub_matrix(
 			std::true_type /*to_static*/,
 			size_t x,
 			size_t y,
-			col_lit< Cb, C1 > c,
-			row_lit< Rb, R1 > r,
+			col_t< C1 > c,
+			row_t< R1 > r,
 			matrix< M, C2, R2 > const& m
 		){
 			return sub_matrix_to_array< T >(
-				x, y, c.get(), r.get(), m,
+				x, y, c, r, m,
 				std::make_index_sequence< C1 * R1 >()
 			);
 		}
 
 		template <
-			typename T, bool Cb, size_t C1, bool Rb, size_t R1,
+			typename T, size_t C1, size_t R1,
 			typename M, size_t C2, size_t R2
 		>
 		auto sub_matrix(
 			std::false_type /*to_static*/,
 			size_t x,
 			size_t y,
-			col_lit< Cb, C1 > c,
-			row_lit< Rb, R1 > r,
+			col_t< C1 > c,
+			row_t< R1 > r,
 			matrix< M, C2, R2 >& m
 		){
 			return sub_matrix_to_vector< T >(x, y, c, r, m);
 		}
 
 		template <
-			typename T, bool Cb, size_t C1, bool Rb, size_t R1,
+			typename T, size_t C1, size_t R1,
 			typename M, size_t C2, size_t R2
 		>
 		auto sub_matrix(
 			std::false_type /*to_static*/,
 			size_t x,
 			size_t y,
-			col_lit< Cb, C1 > c,
-			row_lit< Rb, R1 > r,
+			col_t< C1 > c,
+			row_t< R1 > r,
 			matrix< M, C2, R2 > const& m
 		){
 			return sub_matrix_to_vector< T >(x, y, c, r, m);
@@ -176,31 +176,31 @@ namespace mitrax{
 
 
 	template <
-		typename T, bool Cb, size_t C1, bool Rb, size_t R1,
+		typename T, size_t C1, size_t R1,
 		typename M, size_t C2, size_t R2
 	>
 	constexpr auto sub_matrix(
 		size_t x,
 		size_t y,
-		col_lit< Cb, C1 > c,
-		row_lit< Rb, R1 > r,
+		col_t< C1 > c,
+		row_t< R1 > r,
 		matrix< M, C2, R2 >& m
 	){
-		return detail::sub_matrix< T >(bool_t< Cb && Rb >(), x, y, c, r, m);
+		return detail::sub_matrix< T >(bool_t< C1 * R1 != 0 >(), x, y, c, r, m);
 	}
 
 	template <
-		typename T, bool Cb, size_t C1, bool Rb, size_t R1,
+		typename T, size_t C1, size_t R1,
 		typename M, size_t C2, size_t R2
 	>
 	constexpr auto sub_matrix(
 		size_t x,
 		size_t y,
-		col_lit< Cb, C1 > c,
-		row_lit< Rb, R1 > r,
+		col_t< C1 > c,
+		row_t< R1 > r,
 		matrix< M, C2, R2 > const& m
 	){
-		return detail::sub_matrix< T >(bool_t< Cb && Rb >(), x, y, c, r, m);
+		return detail::sub_matrix< T >(bool_t< C1 * R1 != 0 >(), x, y, c, r, m);
 	}
 
 

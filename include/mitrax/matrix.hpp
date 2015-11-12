@@ -320,7 +320,7 @@ namespace mitrax{
 			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(
 				c.get(), r.get(),
 				mitrax::sub_matrix< V >(
-					x, y, c, r,
+					x, y, c.get(), r.get(),
 					static_cast< matrix< M, Cols, Rows >& >(*this)
 				)
 			);
@@ -335,7 +335,7 @@ namespace mitrax{
 			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(
 				c.get(), r.get(),
 				mitrax::sub_matrix< V >(
-					x, y, c, r,
+					x, y, c.get(), r.get(),
 					static_cast< matrix< M, Cols, Rows > const& >(*this)
 				)
 			);
