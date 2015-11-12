@@ -168,43 +168,12 @@ namespace mitrax{
 	};
 
 
-	constexpr auto col_t< 0 >::as_row()const noexcept{
-		return row_t< 0 >(static_cast< size_t >(*this));
-	}
-
-	constexpr auto col_t< 0 >::as_dim()const noexcept{
-		return dim_t< 0 >(static_cast< size_t >(*this));
-	}
-
-// 	constexpr auto col_t< 0 >::init()const noexcept{
-// 		return col_init< false, false, 0 >(static_cast< size_t >(*this));
-// 	}
-
-
-	constexpr auto row_t< 0 >::as_col()const noexcept{
-		return col_t< 0 >(static_cast< size_t >(*this));
-	}
-
-	constexpr auto row_t< 0 >::as_dim()const noexcept{
-		return dim_t< 0 >(static_cast< size_t >(*this));
-	}
-
-// 	constexpr auto row_t< 0 >::init()const noexcept{
-// 		return row_init< false, false, 0 >(static_cast< size_t >(*this));
-// 	}
-
-
-	constexpr auto dim_t< 0 >::as_col()const noexcept{
-		return col_t< 0 >(static_cast< size_t >(*this));
-	}
-
-	constexpr auto dim_t< 0 >::as_row()const noexcept{
-		return row_t< 0 >(static_cast< size_t >(*this));
-	}
-
-// 	constexpr auto dim_t< 0 >::init()const noexcept{
-// 		return dim_init< false, false, 0 >(static_cast< size_t >(*this));
-// 	}
+	template < size_t I >
+	struct illegal_init_type{
+		static_assert(I != I,
+			"You can not init with a run time size, "
+			"and than use it as a compile time constant!");
+	};
 
 
 	template < size_t I >
@@ -238,10 +207,18 @@ namespace mitrax{
 	};
 
 	template < size_t I >
-	struct col_init< false, true, I >: size_ct< I >{
-		static_assert(true,
-			"You can not init with a run time size, "
-			"and than use it as a compile time constant!");
+	struct col_init< false, true, I >: illegal_init_type< I >{};
+
+	template < size_t I >
+	struct col_init< false, false, I >: illegal_init_type< I >{};
+
+	template <>
+	struct col_init< false, false, 0 >: size_rt{
+		using size_rt::size_rt;
+
+		constexpr auto get()const noexcept;
+		constexpr auto as_row()const noexcept;
+		constexpr auto as_dim()const noexcept;
 	};
 
 
@@ -276,10 +253,18 @@ namespace mitrax{
 	};
 
 	template < size_t I >
-	struct row_init< false, true, I >: size_ct< I >{
-		static_assert(true,
-			"You can not init with a run time size, "
-			"and than use it as a compile time constant!");
+	struct row_init< false, true, I >: illegal_init_type< I >{};
+
+	template < size_t I >
+	struct row_init< false, false, I >: illegal_init_type< I >{};
+
+	template <>
+	struct row_init< false, false, 0 >: size_rt{
+		using size_rt::size_rt;
+
+		constexpr auto get()const noexcept;
+		constexpr auto as_col()const noexcept;
+		constexpr auto as_dim()const noexcept;
 	};
 
 
@@ -314,11 +299,97 @@ namespace mitrax{
 	};
 
 	template < size_t I >
-	struct dim_init< false, true, I >: size_ct< I >{
-		static_assert(true,
-			"You can not init with a run time size, "
-			"and than use it as a compile time constant!");
+	struct dim_init< false, true, I >: illegal_init_type< I >{};
+
+	template < size_t I >
+	struct dim_init< false, false, I >: illegal_init_type< I >{};
+
+	template <>
+	struct dim_init< false, false, 0 >: size_rt{
+		using size_rt::size_rt;
+
+		constexpr auto get()const noexcept;
+		constexpr auto as_col()const noexcept;
+		constexpr auto as_row()const noexcept;
 	};
+
+
+	constexpr auto col_init< false, false, 0 >::get()const noexcept{
+		return col_t< 0 >(static_cast< size_t >(*this));
+	}
+
+	constexpr auto col_init< false, false, 0 >::as_row()const noexcept{
+		return row_init< false, false, 0 >(static_cast< size_t >(*this));
+	}
+
+	constexpr auto col_init< false, false, 0 >::as_dim()const noexcept{
+		return dim_init< false, false, 0 >(static_cast< size_t >(*this));
+	}
+
+
+	constexpr auto row_init< false, false, 0 >::get()const noexcept{
+		return row_t< 0 >(static_cast< size_t >(*this));
+	}
+
+	constexpr auto row_init< false, false, 0 >::as_col()const noexcept{
+		return col_init< false, false, 0 >(static_cast< size_t >(*this));
+	}
+
+	constexpr auto row_init< false, false, 0 >::as_dim()const noexcept{
+		return dim_init< false, false, 0 >(static_cast< size_t >(*this));
+	}
+
+
+	constexpr auto dim_init< false, false, 0 >::get()const noexcept{
+		return dim_t< 0 >(static_cast< size_t >(*this));
+	}
+
+	constexpr auto dim_init< false, false, 0 >::as_col()const noexcept{
+		return col_init< false, false, 0 >(static_cast< size_t >(*this));
+	}
+
+	constexpr auto dim_init< false, false, 0 >::as_row()const noexcept{
+		return row_init< false, false, 0 >(static_cast< size_t >(*this));
+	}
+
+
+	constexpr auto col_t< 0 >::as_row()const noexcept{
+		return row_t< 0 >(static_cast< size_t >(*this));
+	}
+
+	constexpr auto col_t< 0 >::as_dim()const noexcept{
+		return dim_t< 0 >(static_cast< size_t >(*this));
+	}
+
+	constexpr auto col_t< 0 >::init()const noexcept{
+		return col_init< false, false, 0 >(static_cast< size_t >(*this));
+	}
+
+
+	constexpr auto row_t< 0 >::as_col()const noexcept{
+		return col_t< 0 >(static_cast< size_t >(*this));
+	}
+
+	constexpr auto row_t< 0 >::as_dim()const noexcept{
+		return dim_t< 0 >(static_cast< size_t >(*this));
+	}
+
+	constexpr auto row_t< 0 >::init()const noexcept{
+		return row_init< false, false, 0 >(static_cast< size_t >(*this));
+	}
+
+
+	constexpr auto dim_t< 0 >::as_col()const noexcept{
+		return col_t< 0 >(static_cast< size_t >(*this));
+	}
+
+	constexpr auto dim_t< 0 >::as_row()const noexcept{
+		return row_t< 0 >(static_cast< size_t >(*this));
+	}
+
+	constexpr auto dim_t< 0 >::init()const noexcept{
+		return dim_init< false, false, 0 >(static_cast< size_t >(*this));
+	}
 
 
 	namespace detail{
