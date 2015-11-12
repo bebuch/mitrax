@@ -82,28 +82,28 @@ BOOST_AUTO_TEST_CASE(test_dim_t0){
 BOOST_AUTO_TEST_CASE(test_int_to_size_t){
 	BOOST_TEST(col_t< 14 >() == size_t(14));
 	BOOST_TEST(col_t< 0 >(14) == size_t(14));
-	BOOST_TEST((col_init< true, true, 14 >()) == size_t(14));
-	BOOST_TEST((col_init< true, false, 14 >()) == size_t(14));
-	BOOST_TEST((col_init< true, true, 14 >()).get() == size_t(14));
-	BOOST_TEST((col_init< true, false, 14 >()).get() == size_t(14));
+	BOOST_TEST((col_init_t< true, true, 14 >()) == size_t(14));
+	BOOST_TEST((col_init_t< true, false, 14 >()) == size_t(14));
+	BOOST_TEST((col_init_t< true, true, 14 >()).get() == size_t(14));
+	BOOST_TEST((col_init_t< true, false, 14 >()).get() == size_t(14));
 
 	BOOST_TEST(row_t< 14 >() == size_t(14));
 	BOOST_TEST(row_t< 0 >(14) == size_t(14));
-	BOOST_TEST((row_init< true, true, 14 >()) == size_t(14));
-	BOOST_TEST((row_init< true, false, 14 >()) == size_t(14));
-	BOOST_TEST((row_init< true, true, 14 >()).get() == size_t(14));
-	BOOST_TEST((row_init< true, false, 14 >()).get() == size_t(14));
+	BOOST_TEST((row_init_t< true, true, 14 >()) == size_t(14));
+	BOOST_TEST((row_init_t< true, false, 14 >()) == size_t(14));
+	BOOST_TEST((row_init_t< true, true, 14 >()).get() == size_t(14));
+	BOOST_TEST((row_init_t< true, false, 14 >()).get() == size_t(14));
 
 	BOOST_TEST(dim_t< 14 >() == size_t(14));
 	BOOST_TEST(dim_t< 0 >(14) == size_t(14));
-	BOOST_TEST((dim_init< true, true, 14 >()) == size_t(14));
-	BOOST_TEST((dim_init< true, false, 14 >()) == size_t(14));
-	BOOST_TEST((dim_init< true, true, 14 >()).get() == size_t(14));
-	BOOST_TEST((dim_init< true, false, 14 >()).get() == size_t(14));
-	BOOST_TEST((dim_init< true, true, 14 >()).as_col() == size_t(14));
-	BOOST_TEST((dim_init< true, false, 14 >()).as_col() == size_t(14));
-	BOOST_TEST((dim_init< true, true, 14 >()).as_row() == size_t(14));
-	BOOST_TEST((dim_init< true, false, 14 >()).as_row() == size_t(14));
+	BOOST_TEST((dim_init_t< true, true, 14 >()) == size_t(14));
+	BOOST_TEST((dim_init_t< true, false, 14 >()) == size_t(14));
+	BOOST_TEST((dim_init_t< true, true, 14 >()).get() == size_t(14));
+	BOOST_TEST((dim_init_t< true, false, 14 >()).get() == size_t(14));
+	BOOST_TEST((dim_init_t< true, true, 14 >()).as_col() == size_t(14));
+	BOOST_TEST((dim_init_t< true, false, 14 >()).as_col() == size_t(14));
+	BOOST_TEST((dim_init_t< true, true, 14 >()).as_row() == size_t(14));
+	BOOST_TEST((dim_init_t< true, false, 14 >()).as_row() == size_t(14));
 
 	BOOST_TEST(col_t< 14 >() == 14_C);
 	BOOST_TEST(col_t< 0 >(14) == 14_C_rt);

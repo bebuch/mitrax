@@ -68,23 +68,23 @@ namespace mitrax{
 
 
 	template < bool CompileTimeInit, bool CompileTimeTarget, size_t I >
-	struct col_init;
+	struct col_init_t;
 
 	template < bool CompileTimeInit, bool CompileTimeTarget, size_t I >
-	struct row_init;
+	struct row_init_t;
 
 	template < bool CompileTimeInit, bool CompileTimeTarget, size_t I >
-	struct dim_init;
+	struct dim_init_t;
 
 
 	template < bool CompileTimeTarget, size_t I >
-	using col_init_ct = col_init< true, CompileTimeTarget, I >;
+	using col_init_ct = col_init_t< true, CompileTimeTarget, I >;
 
 	template < bool CompileTimeTarget, size_t I >
-	using row_init_ct = row_init< true, CompileTimeTarget, I >;
+	using row_init_ct = row_init_t< true, CompileTimeTarget, I >;
 
 	template < bool CompileTimeTarget, size_t I >
-	using dim_init_ct = dim_init< true, CompileTimeTarget, I >;
+	using dim_init_ct = dim_init_t< true, CompileTimeTarget, I >;
 
 
 	template < size_t I >
@@ -92,7 +92,7 @@ namespace mitrax{
 		using size_ct< I >::size_ct;
 
 		constexpr auto init()const noexcept{
-			return col_init< true, true, I >();
+			return col_init_t< true, true, I >();
 		}
 
 		constexpr auto as_row()const noexcept{
@@ -119,7 +119,7 @@ namespace mitrax{
 		using size_ct< I >::size_ct;
 
 		constexpr auto init()const noexcept{
-			return row_init< true, true, I >();
+			return row_init_t< true, true, I >();
 		}
 
 		constexpr auto as_col()const noexcept{
@@ -146,7 +146,7 @@ namespace mitrax{
 		using size_ct< I >::size_ct;
 
 		constexpr auto init()const noexcept{
-			return dim_init< true, true, I >();
+			return dim_init_t< true, true, I >();
 		}
 
 		constexpr auto as_col()const noexcept{
@@ -177,43 +177,43 @@ namespace mitrax{
 
 
 	template < size_t I >
-	struct col_init< true, true, I >: size_ct< I >{
+	struct col_init_t< true, true, I >: size_ct< I >{
 		constexpr auto get()const noexcept{
 			return col_t< I >();
 		}
 
 		constexpr auto as_row()const noexcept{
-			return row_init< true, true, I >();
+			return row_init_t< true, true, I >();
 		}
 
 		constexpr auto as_dim()const noexcept{
-			return dim_init< true, true, I >();
+			return dim_init_t< true, true, I >();
 		}
 	};
 
 	template < size_t I >
-	struct col_init< true, false, I >: size_ct< I >{
+	struct col_init_t< true, false, I >: size_ct< I >{
 		constexpr auto get()const noexcept{
 			return col_t< 0 >(I);
 		}
 
 		constexpr auto as_row()const noexcept{
-			return row_init< true, false, I >();
+			return row_init_t< true, false, I >();
 		}
 
 		constexpr auto as_dim()const noexcept{
-			return dim_init< true, false, I >();
+			return dim_init_t< true, false, I >();
 		}
 	};
 
 	template < size_t I >
-	struct col_init< false, true, I >: illegal_init_type< I >{};
+	struct col_init_t< false, true, I >: illegal_init_type< I >{};
 
 	template < size_t I >
-	struct col_init< false, false, I >: illegal_init_type< I >{};
+	struct col_init_t< false, false, I >: illegal_init_type< I >{};
 
 	template <>
-	struct col_init< false, false, 0 >: size_rt{
+	struct col_init_t< false, false, 0 >: size_rt{
 		using size_rt::size_rt;
 
 		constexpr auto get()const noexcept;
@@ -223,43 +223,43 @@ namespace mitrax{
 
 
 	template < size_t I >
-	struct row_init< true, true, I >: size_ct< I >{
+	struct row_init_t< true, true, I >: size_ct< I >{
 		constexpr auto get()const noexcept{
 			return row_t< I >();
 		}
 
 		constexpr auto as_col()const noexcept{
-			return col_init< true, true, I >();
+			return col_init_t< true, true, I >();
 		}
 
 		constexpr auto as_dim()const noexcept{
-			return dim_init< true, true, I >();
+			return dim_init_t< true, true, I >();
 		}
 	};
 
 	template < size_t I >
-	struct row_init< true, false, I >: size_ct< I >{
+	struct row_init_t< true, false, I >: size_ct< I >{
 		constexpr auto get()const noexcept{
 			return row_t< 0 >(I);
 		}
 
 		constexpr auto as_col()const noexcept{
-			return col_init< true, false, I >();
+			return col_init_t< true, false, I >();
 		}
 
 		constexpr auto as_dim()const noexcept{
-			return dim_init< true, false, I >();
+			return dim_init_t< true, false, I >();
 		}
 	};
 
 	template < size_t I >
-	struct row_init< false, true, I >: illegal_init_type< I >{};
+	struct row_init_t< false, true, I >: illegal_init_type< I >{};
 
 	template < size_t I >
-	struct row_init< false, false, I >: illegal_init_type< I >{};
+	struct row_init_t< false, false, I >: illegal_init_type< I >{};
 
 	template <>
-	struct row_init< false, false, 0 >: size_rt{
+	struct row_init_t< false, false, 0 >: size_rt{
 		using size_rt::size_rt;
 
 		constexpr auto get()const noexcept;
@@ -269,43 +269,43 @@ namespace mitrax{
 
 
 	template < size_t I >
-	struct dim_init< true, true, I >: size_ct< I >{
+	struct dim_init_t< true, true, I >: size_ct< I >{
 		constexpr auto get()const noexcept{
 			return dim_t< I >();
 		}
 
 		constexpr auto as_col()const noexcept{
-			return col_init< true, true, I >();
+			return col_init_t< true, true, I >();
 		}
 
 		constexpr auto as_row()const noexcept{
-			return row_init< true, true, I >();
+			return row_init_t< true, true, I >();
 		}
 	};
 
 	template < size_t I >
-	struct dim_init< true, false, I >: size_ct< I >{
+	struct dim_init_t< true, false, I >: size_ct< I >{
 		constexpr auto get()const noexcept{
 			return dim_t< 0 >(I);
 		}
 
 		constexpr auto as_col()const noexcept{
-			return col_init< true, false, I >();
+			return col_init_t< true, false, I >();
 		}
 
 		constexpr auto as_row()const noexcept{
-			return row_init< true, false, I >();
+			return row_init_t< true, false, I >();
 		}
 	};
 
 	template < size_t I >
-	struct dim_init< false, true, I >: illegal_init_type< I >{};
+	struct dim_init_t< false, true, I >: illegal_init_type< I >{};
 
 	template < size_t I >
-	struct dim_init< false, false, I >: illegal_init_type< I >{};
+	struct dim_init_t< false, false, I >: illegal_init_type< I >{};
 
 	template <>
-	struct dim_init< false, false, 0 >: size_rt{
+	struct dim_init_t< false, false, 0 >: size_rt{
 		using size_rt::size_rt;
 
 		constexpr auto get()const noexcept;
@@ -314,42 +314,42 @@ namespace mitrax{
 	};
 
 
-	constexpr auto col_init< false, false, 0 >::get()const noexcept{
+	constexpr auto col_init_t< false, false, 0 >::get()const noexcept{
 		return col_t< 0 >(static_cast< size_t >(*this));
 	}
 
-	constexpr auto col_init< false, false, 0 >::as_row()const noexcept{
-		return row_init< false, false, 0 >(static_cast< size_t >(*this));
+	constexpr auto col_init_t< false, false, 0 >::as_row()const noexcept{
+		return row_init_t< false, false, 0 >(static_cast< size_t >(*this));
 	}
 
-	constexpr auto col_init< false, false, 0 >::as_dim()const noexcept{
-		return dim_init< false, false, 0 >(static_cast< size_t >(*this));
+	constexpr auto col_init_t< false, false, 0 >::as_dim()const noexcept{
+		return dim_init_t< false, false, 0 >(static_cast< size_t >(*this));
 	}
 
 
-	constexpr auto row_init< false, false, 0 >::get()const noexcept{
+	constexpr auto row_init_t< false, false, 0 >::get()const noexcept{
 		return row_t< 0 >(static_cast< size_t >(*this));
 	}
 
-	constexpr auto row_init< false, false, 0 >::as_col()const noexcept{
-		return col_init< false, false, 0 >(static_cast< size_t >(*this));
+	constexpr auto row_init_t< false, false, 0 >::as_col()const noexcept{
+		return col_init_t< false, false, 0 >(static_cast< size_t >(*this));
 	}
 
-	constexpr auto row_init< false, false, 0 >::as_dim()const noexcept{
-		return dim_init< false, false, 0 >(static_cast< size_t >(*this));
+	constexpr auto row_init_t< false, false, 0 >::as_dim()const noexcept{
+		return dim_init_t< false, false, 0 >(static_cast< size_t >(*this));
 	}
 
 
-	constexpr auto dim_init< false, false, 0 >::get()const noexcept{
+	constexpr auto dim_init_t< false, false, 0 >::get()const noexcept{
 		return dim_t< 0 >(static_cast< size_t >(*this));
 	}
 
-	constexpr auto dim_init< false, false, 0 >::as_col()const noexcept{
-		return col_init< false, false, 0 >(static_cast< size_t >(*this));
+	constexpr auto dim_init_t< false, false, 0 >::as_col()const noexcept{
+		return col_init_t< false, false, 0 >(static_cast< size_t >(*this));
 	}
 
-	constexpr auto dim_init< false, false, 0 >::as_row()const noexcept{
-		return row_init< false, false, 0 >(static_cast< size_t >(*this));
+	constexpr auto dim_init_t< false, false, 0 >::as_row()const noexcept{
+		return row_init_t< false, false, 0 >(static_cast< size_t >(*this));
 	}
 
 
@@ -362,7 +362,7 @@ namespace mitrax{
 	}
 
 	constexpr auto col_t< 0 >::init()const noexcept{
-		return col_init< false, false, 0 >(static_cast< size_t >(*this));
+		return col_init_t< false, false, 0 >(static_cast< size_t >(*this));
 	}
 
 
@@ -375,7 +375,7 @@ namespace mitrax{
 	}
 
 	constexpr auto row_t< 0 >::init()const noexcept{
-		return row_init< false, false, 0 >(static_cast< size_t >(*this));
+		return row_init_t< false, false, 0 >(static_cast< size_t >(*this));
 	}
 
 
@@ -388,7 +388,7 @@ namespace mitrax{
 	}
 
 	constexpr auto dim_t< 0 >::init()const noexcept{
-		return dim_init< false, false, 0 >(static_cast< size_t >(*this));
+		return dim_init_t< false, false, 0 >(static_cast< size_t >(*this));
 	}
 
 
@@ -421,7 +421,7 @@ namespace mitrax{
 				detail::parse_int< sizeof...(C) >({C ...}),
 				"Compile time cols can not be 0, use '_C_rt' prefix instead"
 			);
-			return col_init<
+			return col_init_t<
 				true, true,
 				detail::parse_int< sizeof...(C) >({C ...})
 			>();
@@ -430,7 +430,7 @@ namespace mitrax{
 		// Adopted from Boost Hana
 		template < char ... C >
 		constexpr auto operator"" _C_rt(){
-			return col_init<
+			return col_init_t<
 				true, false,
 				detail::parse_int< sizeof...(C) >({C ...})
 			>();
@@ -443,7 +443,7 @@ namespace mitrax{
 				detail::parse_int< sizeof...(C) >({C ...}),
 				"Compile time rows can not be 0, use '_R_rt' prefix instead"
 			);
-			return row_init<
+			return row_init_t<
 				true, true,
 				detail::parse_int< sizeof...(C) >({C ...})
 			>();
@@ -452,7 +452,7 @@ namespace mitrax{
 		// Adopted from Boost Hana
 		template < char ... C >
 		constexpr auto operator"" _R_rt(){
-			return row_init<
+			return row_init_t<
 				true, false,
 				detail::parse_int< sizeof...(C) >({C ...})
 			>();
@@ -465,7 +465,7 @@ namespace mitrax{
 				detail::parse_int< sizeof...(C) >({C ...}),
 				"Compile time dims can not be 0, use '_D_rt' prefix instead"
 			);
-			return dim_init<
+			return dim_init_t<
 				true, true,
 				detail::parse_int< sizeof...(C) >({C ...})
 			>();
@@ -474,7 +474,7 @@ namespace mitrax{
 		// Adopted from Boost Hana
 		template < char ... C >
 		constexpr auto operator"" _D_rt(){
-			return dim_init<
+			return dim_init_t<
 				true, false,
 				detail::parse_int< sizeof...(C) >({C ...})
 			>();

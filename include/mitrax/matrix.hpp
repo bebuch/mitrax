@@ -187,19 +187,19 @@ namespace mitrax{
 
 		template < bool Ci, bool Cct, size_t C, bool Ri, bool Rct, size_t R >
 		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
-		convert_by_move(col_init< Ci, Cct, C > c, row_init< Ri, Rct, R > r){
+		convert_by_move(col_init_t< Ci, Cct, C > c, row_init_t< Ri, Rct, R > r){
 			return convert_by_move< value_type >(c, r);
 		}
 
 		template < bool Ci, bool Cct, size_t C, bool Ri, bool Rct, size_t R >
 		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
-		convert(col_init< Ci, Cct, C > c, row_init< Ri, Rct, R > r){
+		convert(col_init_t< Ci, Cct, C > c, row_init_t< Ri, Rct, R > r){
 			return convert< value_type >(c, r);
 		}
 
 		template < bool Ci, bool Cct, size_t C, bool Ri, bool Rct, size_t R >
 		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
-		convert(col_init< Ci, Cct, C > c, row_init< Ri, Rct, R > r)const{
+		convert(col_init_t< Ci, Cct, C > c, row_init_t< Ri, Rct, R > r)const{
 			return convert< value_type >(c, r);
 		}
 
@@ -209,7 +209,7 @@ namespace mitrax{
 			bool Ci, bool Cct, size_t C,
 			bool Ri, bool Rct, size_t R
 		> constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
-		convert_by_move(col_init< Ci, Cct, C > c, row_init< Ri, Rct, R > r){
+		convert_by_move(col_init_t< Ci, Cct, C > c, row_init_t< Ri, Rct, R > r){
 			static_assert(
 				(Cols == 0 || !Cct || Cols == C) &&
 				(Rows == 0 || !Rct || Rows == R),
@@ -237,7 +237,7 @@ namespace mitrax{
 			bool Ci, bool Cct, size_t C,
 			bool Ri, bool Rct, size_t R
 		> constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
-		convert(col_init< Ci, Cct, C > c, row_init< Ri, Rct, R > r){
+		convert(col_init_t< Ci, Cct, C > c, row_init_t< Ri, Rct, R > r){
 			static_assert(
 				(Cols == 0 || !Cct || Cols == C) &&
 				(Rows == 0 || !Rct || Rows == R),
@@ -265,7 +265,7 @@ namespace mitrax{
 			bool Ci, bool Cct, size_t C,
 			bool Ri, bool Rct, size_t R
 		> constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
-		convert(col_init< Ci, Cct, C > c, row_init< Ri, Rct, R > r)const{
+		convert(col_init_t< Ci, Cct, C > c, row_init_t< Ri, Rct, R > r)const{
 			static_assert(
 				(Cols == 0 || !Cct || Cols == C) &&
 				(Rows == 0 || !Rct || Rows == R),
@@ -306,7 +306,7 @@ namespace mitrax{
 		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
 		sub_matrix(
 			size_t x, size_t y,
-			col_init< Ci, Cct, C > c, row_init< Ri, Rct, R > r
+			col_init_t< Ci, Cct, C > c, row_init_t< Ri, Rct, R > r
 		){
 			return sub_matrix< value_type >(x, y, c, r);
 		}
@@ -315,7 +315,7 @@ namespace mitrax{
 		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
 		sub_matrix(
 			size_t x, size_t y,
-			col_init< Ci, Cct, C > c, row_init< Ri, Rct, R > r
+			col_init_t< Ci, Cct, C > c, row_init_t< Ri, Rct, R > r
 		)const{
 			return sub_matrix< value_type >(x, y, c, r);
 		}
@@ -327,7 +327,7 @@ namespace mitrax{
 		> constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
 		sub_matrix(
 			size_t x, size_t y,
-			col_init< Ci, Cct, C > c, row_init< Ri, Rct, R > r
+			col_init_t< Ci, Cct, C > c, row_init_t< Ri, Rct, R > r
 		){
 			return raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
 				c.get(), r.get(),
@@ -345,7 +345,7 @@ namespace mitrax{
 		> constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
 		sub_matrix(
 			size_t x, size_t y,
-			col_init< Ci, Cct, C > c, row_init< Ri, Rct, R > r
+			col_init_t< Ci, Cct, C > c, row_init_t< Ri, Rct, R > r
 		)const{
 			return raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
 				c.get(), r.get(),
