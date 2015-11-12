@@ -345,8 +345,8 @@ namespace mitrax{
 	template < typename T, bool Cb, size_t C, bool Rb, size_t R >
 	constexpr raw_matrix< std::remove_cv_t< T >, dim(Cb, C), dim(Rb, R) >
 	make_matrix(
-		col_lit< Cb, C > c,
-		row_lit< Rb, R > r
+		col_init< Cb, C > c,
+		row_init< Rb, R > r
 	){
 		return make_matrix(c, r, T());
 	}
@@ -354,8 +354,8 @@ namespace mitrax{
 	template < typename T, bool Cb, size_t C, bool Rb, size_t R >
 	constexpr raw_matrix< std::remove_cv_t< T >, dim(Cb, C), dim(Rb, R) >
 	make_matrix(
-		col_lit< Cb, C > c,
-		row_lit< Rb, R > r,
+		col_init< Cb, C > c,
+		row_init< Rb, R > r,
 		T const& v
 	){
 		return raw_matrix_impl<
@@ -366,8 +366,8 @@ namespace mitrax{
 	template < typename T, bool Cb, size_t C, bool Rb, size_t R >
 	constexpr raw_matrix< std::remove_cv_t< T >, dim(Cb, C), dim(Rb, R) >
 	make_matrix(
-		col_lit< Cb, C > c,
-		row_lit< Rb, R > r,
+		col_init< Cb, C > c,
+		row_init< Rb, R > r,
 		T(&&v)[R][C]
 	){
 		return raw_matrix_impl<
@@ -381,8 +381,8 @@ namespace mitrax{
 	template < typename T, bool Cb, size_t C, bool Rb, size_t R >
 	constexpr raw_matrix< std::remove_cv_t< T >, dim(Cb, C), dim(Rb, R) >
 	make_matrix(
-		col_lit< Cb, C > c,
-		row_lit< Rb, R > r,
+		col_init< Cb, C > c,
+		row_init< Rb, R > r,
 		T(&v)[R][C]
 	){
 		return raw_matrix_impl<
@@ -395,22 +395,22 @@ namespace mitrax{
 
 
 	template < typename T, bool Nb, size_t N >
-	constexpr auto make_square_matrix(dim_lit< Nb, N > n){
+	constexpr auto make_square_matrix(dim_init< Nb, N > n){
 		return make_matrix< T >(n.col(), n.row());
 	}
 
 	template < typename T, bool Nb, size_t N >
-	constexpr auto make_square_matrix(dim_lit< Nb, N > n, T const& v){
+	constexpr auto make_square_matrix(dim_init< Nb, N > n, T const& v){
 		return make_matrix< T >(n.col(), n.row(), v);
 	}
 
 	template < typename T, bool Nb, size_t N >
-	constexpr auto make_square_matrix(dim_lit< Nb, N > n, T(&&v)[N][N]){
+	constexpr auto make_square_matrix(dim_init< Nb, N > n, T(&&v)[N][N]){
 		return make_matrix(n.col(), n.row(), std::move(v));
 	}
 
 	template < typename T, bool Nb, size_t N >
-	constexpr auto make_square_matrix(dim_lit< Nb, N > n, T(&v)[N][N]){
+	constexpr auto make_square_matrix(dim_init< Nb, N > n, T(&v)[N][N]){
 		return make_matrix(n.col(), n.row(), v);
 	}
 
@@ -418,7 +418,7 @@ namespace mitrax{
 	template < typename T, bool Nb, size_t N >
 	constexpr raw_col_vector< std::remove_cv_t< T >, dim(Nb, N) >
 	make_col_vector(
-		row_lit< Nb, N > r
+		row_init< Nb, N > r
 	){
 		return make_col_vector(r, T());
 	}
@@ -426,7 +426,7 @@ namespace mitrax{
 	template < typename T, bool Nb, size_t N >
 	constexpr raw_col_vector< std::remove_cv_t< T >, dim(Nb, N) >
 	make_col_vector(
-		row_lit< Nb, N > r, T const& v
+		row_init< Nb, N > r, T const& v
 	){
 		using namespace literals;
 		return raw_matrix_impl< std::remove_cv_t< T >, 1, dim(Nb, N) >(
@@ -437,7 +437,7 @@ namespace mitrax{
 	template < typename T, bool Nb, size_t N >
 	constexpr raw_col_vector< std::remove_cv_t< T >, dim(Nb, N) >
 	make_col_vector(
-		row_lit< Nb, N > r,
+		row_init< Nb, N > r,
 		T(&&v)[N]
 	){
 		using namespace literals;
@@ -450,7 +450,7 @@ namespace mitrax{
 	template < typename T, bool Nb, size_t N >
 	constexpr raw_col_vector< std::remove_cv_t< T >, dim(Nb, N) >
 	make_col_vector(
-		row_lit< Nb, N > r,
+		row_init< Nb, N > r,
 		T(&v)[N]
 	){
 		using namespace literals;
@@ -464,7 +464,7 @@ namespace mitrax{
 	template < typename T, bool Nb, size_t N >
 	constexpr raw_row_vector< std::remove_cv_t< T >, dim(Nb, N) >
 	make_row_vector(
-		col_lit< Nb, N > c
+		col_init< Nb, N > c
 	){
 		using namespace literals;
 		return make_row_vector(c, T());
@@ -473,7 +473,7 @@ namespace mitrax{
 	template < typename T, bool Nb, size_t N >
 	constexpr raw_row_vector< std::remove_cv_t< T >, dim(Nb, N) >
 	make_row_vector(
-		col_lit< Nb, N > c,
+		col_init< Nb, N > c,
 		T const& v
 	){
 		using namespace literals;
@@ -485,7 +485,7 @@ namespace mitrax{
 	template < typename T, bool Nb, size_t N >
 	constexpr raw_row_vector< std::remove_cv_t< T >, dim(Nb, N) >
 	make_row_vector(
-		col_lit< Nb, N > c,
+		col_init< Nb, N > c,
 		T(&&v)[N]
 	){
 		using namespace literals;
@@ -498,7 +498,7 @@ namespace mitrax{
 	template < typename T, bool Nb, size_t N >
 	constexpr raw_row_vector< std::remove_cv_t< T >, dim(Nb, N) >
 	make_row_vector(
-		col_lit< Nb, N > c,
+		col_init< Nb, N > c,
 		T(&v)[N]
 	){
 		using namespace literals;
