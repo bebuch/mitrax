@@ -182,8 +182,8 @@ namespace mitrax{
 	}
 
 
-	template < bool CompileTime, size_t I >
-	struct col_init: size_ct< I >{
+	template < size_t I >
+	struct col_init< true, I >: size_ct< I >{
 		constexpr auto get()const noexcept{
 			return col_t< I >();
 		}
@@ -197,8 +197,8 @@ namespace mitrax{
 	};
 
 
-	template < bool CompileTime, size_t I >
-	struct row_init: size_ct< I >{
+	template < size_t I >
+	struct row_init< true, I >: size_ct< I >{
 		constexpr auto get()const noexcept{
 			return row_t< I >();
 		}
@@ -212,8 +212,8 @@ namespace mitrax{
 	};
 
 
-	template < bool CompileTime, size_t I >
-	struct dim_init: size_ct< I >{
+	template < size_t I >
+	struct dim_init< true, I >: size_ct< I >{
 		constexpr auto get()const noexcept{
 			return dim_t< I >();
 		}
