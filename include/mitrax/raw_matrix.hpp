@@ -360,7 +360,7 @@ namespace mitrax{
 	){
 		return raw_matrix_impl<
 			std::remove_cv_t< T >, dim(Cb, C), dim(Rb, R)
-		>(c, r, v);
+		>(c.get(), r.get(), v);
 	}
 
 	template < typename T, bool Cb, size_t C, bool Rb, size_t R >
@@ -373,7 +373,7 @@ namespace mitrax{
 		return raw_matrix_impl<
 			std::remove_cv_t< T >, dim(Cb, C), dim(Rb, R)
 		>(
-			c, r,
+			c.get(), r.get(),
 			detail::to_raw_matrix_data(bool_t< Cb && Rb >(), std::move(v))
 		);
 	}
@@ -387,7 +387,10 @@ namespace mitrax{
 	){
 		return raw_matrix_impl<
 			std::remove_cv_t< T >, dim(Cb, C), dim(Rb, R)
-		>(c, r, detail::to_raw_matrix_data(bool_t< Cb && Rb >(), v));
+		>(
+			c.get(), r.get(),
+			detail::to_raw_matrix_data(bool_t< Cb && Rb >(), v)
+		);
 	}
 
 
@@ -427,7 +430,7 @@ namespace mitrax{
 	){
 		using namespace literals;
 		return raw_matrix_impl< std::remove_cv_t< T >, 1, dim(Nb, N) >(
-			1_C, r, v
+			1_C .get(), r.get(), v
 		);
 	}
 
@@ -439,7 +442,8 @@ namespace mitrax{
 	){
 		using namespace literals;
 		return raw_matrix_impl< std::remove_cv_t< T >, 1, dim(Nb, N) >(
-			1_C, r, detail::to_raw_matrix_data(bool_t< Nb >(), std::move(v))
+			1_C .get(), r.get(),
+			detail::to_raw_matrix_data(bool_t< Nb >(), std::move(v))
 		);
 	}
 
@@ -451,7 +455,8 @@ namespace mitrax{
 	){
 		using namespace literals;
 		return raw_matrix_impl< std::remove_cv_t< T >, 1, dim(Nb, N) >(
-			1_C, r, detail::to_raw_matrix_data(bool_t< Nb >(), v)
+			1_C .get(), r.get(),
+			detail::to_raw_matrix_data(bool_t< Nb >(), v)
 		);
 	}
 
@@ -473,7 +478,7 @@ namespace mitrax{
 	){
 		using namespace literals;
 		return raw_matrix_impl< std::remove_cv_t< T >, dim(Nb, N), 1 >(
-			c, 1_R, v
+			c.get(), 1_R .get(), v
 		);
 	}
 
@@ -485,7 +490,8 @@ namespace mitrax{
 	){
 		using namespace literals;
 		return raw_matrix_impl< std::remove_cv_t< T >, dim(Nb, N), 1 >(
-			c, 1_R, detail::to_raw_matrix_data(bool_t< Nb >(), std::move(v))
+			c.get(), 1_R .get(),
+			detail::to_raw_matrix_data(bool_t< Nb >(), std::move(v))
 		);
 	}
 
@@ -497,7 +503,8 @@ namespace mitrax{
 	){
 		using namespace literals;
 		return raw_matrix_impl< std::remove_cv_t< T >, dim(Nb, N), 1 >(
-			c, 1_R, detail::to_raw_matrix_data(bool_t< Nb >(), v)
+			c.get(), 1_R .get(),
+			detail::to_raw_matrix_data(bool_t< Nb >(), v)
 		);
 	}
 

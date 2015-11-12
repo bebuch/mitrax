@@ -218,7 +218,7 @@ namespace mitrax{
 			}
 
 			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(
-				c, r, mitrax::convert<
+				c.get(), r.get(), mitrax::convert<
 					V,
 					value_type,
 					std::max(dim(Cb, C) * dim(Rb, R), Cols * Rows)
@@ -243,7 +243,7 @@ namespace mitrax{
 			}
 
 			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(
-				c, r, mitrax::convert<
+				c.get(), r.get(), mitrax::convert<
 					V,
 					value_type,
 					std::max(dim(Cb, C) * dim(Rb, R), Cols * Rows)
@@ -268,7 +268,7 @@ namespace mitrax{
 			}
 
 			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(
-				c, r, mitrax::convert<
+				c.get(), r.get(), mitrax::convert<
 					V,
 					value_type,
 					std::max(dim(Cb, C) * dim(Rb, R), Cols * Rows)
@@ -317,7 +317,8 @@ namespace mitrax{
 			size_t x, size_t y,
 			col_lit< Cb, C > c, row_lit< Rb, R > r
 		){
-			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(c, r,
+			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(
+				c.get(), r.get(),
 				mitrax::sub_matrix< V >(
 					x, y, c, r,
 					static_cast< matrix< M, Cols, Rows >& >(*this)
@@ -331,7 +332,8 @@ namespace mitrax{
 			size_t x, size_t y,
 			col_lit< Cb, C > c, row_lit< Rb, R > r
 		)const{
-			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(c, r,
+			return raw_matrix_impl< V, dim(Cb, C), dim(Rb, R) >(
+				c.get(), r.get(),
 				mitrax::sub_matrix< V >(
 					x, y, c, r,
 					static_cast< matrix< M, Cols, Rows > const& >(*this)

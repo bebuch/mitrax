@@ -116,14 +116,6 @@ namespace mitrax{
 	struct dim_t< 0 >: size_rt{
 		using size_rt::size_rt;
 
-		constexpr operator col_t< 0 >()const noexcept{
-			return col_t< 0 >(static_cast< size_t >(*this));
-		}
-
-		constexpr operator row_t< 0 >()const noexcept{
-			return row_t< 0 >(static_cast< size_t >(*this));
-		}
-
 		constexpr auto col()const noexcept{
 			return col_t< 0 >(static_cast< size_t >(*this));
 		}
@@ -139,19 +131,11 @@ namespace mitrax{
 		constexpr auto get()const noexcept{
 			return col_t< I >();
 		}
-
-		constexpr operator col_t< I >()const noexcept{
-			return col_t< I >();
-		}
 	};
 
 	template < size_t I >
 	struct col_lit< false, I >: size_ct< I >{
 		constexpr auto get()const noexcept{
-			return col_t< 0 >(I);
-		}
-
-		constexpr operator col_t< 0 >()const noexcept{
 			return col_t< 0 >(I);
 		}
 	};
@@ -161,19 +145,11 @@ namespace mitrax{
 		constexpr auto get()const noexcept{
 			return row_t< I >();
 		}
-
-		constexpr operator row_t< I >()const noexcept{
-			return row_t< I >();
-		}
 	};
 
 	template < size_t I >
 	struct row_lit< false, I >: size_ct< I >{
 		constexpr auto get()const noexcept{
-			return row_t< 0 >(I);
-		}
-
-		constexpr operator row_t< 0 >()const noexcept{
 			return row_t< 0 >(I);
 		}
 	};
@@ -183,11 +159,6 @@ namespace mitrax{
 		constexpr auto get()const noexcept{
 			return dim_t< I >();
 		}
-
-		constexpr operator dim_t< I >()const noexcept{
-			return dim_t< I >();
-		}
-
 
 		constexpr auto col()const noexcept{
 			return col_lit< true, I >();
@@ -203,11 +174,6 @@ namespace mitrax{
 		constexpr auto get()const noexcept{
 			return dim_t< 0 >(I);
 		}
-
-		constexpr operator dim_t< 0 >()const noexcept{
-			return dim_t< 0 >(I);
-		}
-
 
 		constexpr auto col()const noexcept{
 			return col_lit< false, I >();
