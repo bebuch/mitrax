@@ -56,16 +56,11 @@ namespace mitrax{
 		};
 
 
-		template <
-			typename M,
-			typename T,
-			size_t C,
-			size_t R,
-			typename Operation
-		> constexpr void m1op(
+		template < typename M, size_t C, size_t R, typename T, typename O >
+		constexpr void m1op(
 			matrix< M, C, R >& m,
 			T const& v,
-			Operation const& operation
+			O const& operation
 		){
 			for(size_t y = 0; y < m.rows(); ++y){
 				for(size_t x = 0; x < m.cols(); ++x){
@@ -76,17 +71,13 @@ namespace mitrax{
 
 
 		template <
-			typename M1,
-			typename M2,
-			size_t C1,
-			size_t R1,
-			size_t C2,
-			size_t R2,
-			typename Operation
+			typename M1, size_t C1, size_t R1,
+			typename M2, size_t C2, size_t R2,
+			typename O
 		> constexpr void m2op(
 			matrix< M1, C1, R1 >& m1,
 			matrix< M2, C2, R2 > const& m2,
-			Operation const& operation
+			O const& operation
 		){
 			static_assert(
 				(C1 == 0 || C2 == 0 || C1 == C2) &&
@@ -116,12 +107,8 @@ namespace mitrax{
 	}
 
 
-	template <
-		typename M,
-		typename T,
-		size_t C,
-		size_t R
-	> constexpr auto& element_plus_assign(
+	template < typename M, size_t C, size_t R, typename T >
+	constexpr auto& element_plus_assign(
 		matrix< M, C, R >& m,
 		T const& v
 	){
@@ -130,12 +117,8 @@ namespace mitrax{
 	}
 
 
-	template <
-		typename M,
-		typename T,
-		size_t C,
-		size_t R
-	> constexpr auto& element_minus_assign(
+	template < typename M, size_t C, size_t R, typename T >
+	constexpr auto& element_minus_assign(
 		matrix< M, C, R >& m,
 		T const& v
 	){
@@ -144,12 +127,8 @@ namespace mitrax{
 	}
 
 
-	template <
-		typename M,
-		typename T,
-		size_t C,
-		size_t R
-	> constexpr auto& operator*=(
+	template < typename M, size_t C, size_t R, typename T >
+	constexpr auto& operator*=(
 		matrix< M, C, R >& m,
 		T const& v
 	){
@@ -158,12 +137,8 @@ namespace mitrax{
 	}
 
 
-	template <
-		typename M,
-		typename T,
-		size_t C,
-		size_t R
-	> constexpr auto& operator/=(
+	template < typename M, size_t C, size_t R, typename T >
+	constexpr auto& operator/=(
 		matrix< M, C, R >& m,
 		T const& v
 	){
@@ -172,12 +147,8 @@ namespace mitrax{
 	}
 
 
-	template <
-		typename M,
-		typename T,
-		size_t C,
-		size_t R
-	> constexpr auto& operator%=(
+	template < typename M, size_t C, size_t R, typename T >
+	constexpr auto& operator%=(
 		matrix< M, C, R >& m,
 		T const& v
 	){
@@ -188,12 +159,8 @@ namespace mitrax{
 
 
 	template <
-		typename M1,
-		typename M2,
-		size_t C1,
-		size_t R1,
-		size_t C2,
-		size_t R2
+		typename M1, size_t C1, size_t R1,
+		typename M2, size_t C2, size_t R2
 	> constexpr auto& operator+=(
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -204,12 +171,8 @@ namespace mitrax{
 
 
 	template <
-		typename M1,
-		typename M2,
-		size_t C1,
-		size_t R1,
-		size_t C2,
-		size_t R2
+		typename M1, size_t C1, size_t R1,
+		typename M2, size_t C2, size_t R2
 	> constexpr auto& operator-=(
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -220,12 +183,8 @@ namespace mitrax{
 
 
 	template <
-		typename M1,
-		typename M2,
-		size_t C1,
-		size_t R1,
-		size_t C2,
-		size_t R2
+		typename M1, size_t C1, size_t R1,
+		typename M2, size_t C2, size_t R2
 	> constexpr auto& element_multiplies_assign(
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -236,12 +195,8 @@ namespace mitrax{
 
 
 	template <
-		typename M1,
-		typename M2,
-		size_t C1,
-		size_t R1,
-		size_t C2,
-		size_t R2
+		typename M1, size_t C1, size_t R1,
+		typename M2, size_t C2, size_t R2
 	> constexpr auto& element_divides_assign(
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -252,12 +207,8 @@ namespace mitrax{
 
 
 	template <
-		typename M1,
-		typename M2,
-		size_t C1,
-		size_t R1,
-		size_t C2,
-		size_t R2
+		typename M1, size_t C1, size_t R1,
+		typename M2, size_t C2, size_t R2
 	> constexpr auto& element_modulus_assign(
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -268,12 +219,8 @@ namespace mitrax{
 
 
 
-	template <
-		typename M,
-		typename T,
-		size_t C,
-		size_t R
-	> constexpr auto element_plus(
+	template < typename M, size_t C, size_t R, typename T >
+	constexpr auto element_plus(
 		matrix< M, C, R > const& m,
 		T const& v
 	){
@@ -283,12 +230,8 @@ namespace mitrax{
 		return element_plus_assign(t, v);
 	}
 
-	template <
-		typename M,
-		typename T,
-		size_t C,
-		size_t R
-	> constexpr auto element_minus(
+	template < typename M, size_t C, size_t R, typename T >
+	constexpr auto element_minus(
 		matrix< M, C, R > const& m,
 		T const& v
 	){
@@ -298,12 +241,8 @@ namespace mitrax{
 		return element_minus_assign(t, v);
 	}
 
-	template <
-		typename M,
-		typename T,
-		size_t C,
-		size_t R
-	> constexpr auto operator*(
+	template < typename M, size_t C, size_t R, typename T >
+	constexpr auto operator*(
 		matrix< M, C, R > const& m,
 		T const& v
 	){
@@ -313,12 +252,8 @@ namespace mitrax{
 		return t *= v;
 	}
 
-	template <
-		typename M,
-		typename T,
-		size_t C,
-		size_t R
-	> constexpr auto operator/(
+	template < typename M, size_t C, size_t R, typename T >
+	constexpr auto operator/(
 		matrix< M, C, R > const& m,
 		T const& v
 	){
@@ -328,12 +263,8 @@ namespace mitrax{
 		return t /= v;
 	}
 
-	template <
-		typename M,
-		typename T,
-		size_t C,
-		size_t R
-	> constexpr auto operator%(
+	template < typename M, size_t C, size_t R, typename T >
+	constexpr auto operator%(
 		matrix< M, C, R > const& m,
 		T const& v
 	){
@@ -346,91 +277,66 @@ namespace mitrax{
 
 
 	template <
-		typename M1,
-		typename M2,
-		size_t C1,
-		size_t R1,
-		size_t C2,
-		size_t R2
+		typename M1, size_t C1, size_t R1,
+		typename M2, size_t C2, size_t R2
 	> constexpr auto operator+(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
 		auto t = m1.template convert< std::common_type_t<
-				value_type_t< M1 >,
-				value_type_t< M2 >
+				value_type_t< M1 >, value_type_t< M2 >
 			> >();
 		return t += m2;
 	}
 
 	template <
-		typename M1,
-		typename M2,
-		size_t C1,
-		size_t R1,
-		size_t C2,
-		size_t R2
+		typename M1, size_t C1, size_t R1,
+		typename M2, size_t C2, size_t R2
 	> constexpr auto operator-(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
 		auto t = m1.template convert< std::common_type_t<
-				value_type_t< M1 >,
-				value_type_t< M2 >
+				value_type_t< M1 >, value_type_t< M2 >
 			> >();
 		return t -= m2;
 	}
 
 	template <
-		typename M1,
-		typename M2,
-		size_t C1,
-		size_t R1,
-		size_t C2,
-		size_t R2
+		typename M1, size_t C1, size_t R1,
+		typename M2, size_t C2, size_t R2
 	> constexpr auto element_multiplies(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
 		auto t = m1.template convert< std::common_type_t<
-				value_type_t< M1 >,
-				value_type_t< M2 >
+				value_type_t< M1 >, value_type_t< M2 >
 			> >();
 		return element_multiplies_assign(t, m2);
 	}
 
 	template <
-		typename M1,
-		typename M2,
-		size_t C1,
-		size_t R1,
-		size_t C2,
-		size_t R2
+		typename M1, size_t C1, size_t R1,
+		typename M2, size_t C2, size_t R2
 	> constexpr auto element_divides(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
 		auto t = m1.template convert< std::common_type_t<
-				value_type_t< M1 >,
-				value_type_t< M2 >
+				value_type_t< M1 >, value_type_t< M2 >
 			> >();
 		return element_divides_assign(t, m2);
 	}
 
 	template <
-		typename M1,
-		typename M2,
-		size_t C1,
-		size_t R1,
-		size_t C2,
-		size_t R2
+		typename M1, size_t C1, size_t R1,
+		typename M2, size_t C2, size_t R2
 	> constexpr auto element_modulus(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
 		auto t = m1.template convert< std::common_type_t<
-				value_type_t< M1 >,
-				value_type_t< M2 >
+				value_type_t< M1 >, value_type_t< M2 >
 			> >();
 		return element_modulus_assign(t, m2);
 	}
