@@ -77,6 +77,7 @@ namespace{
 
 // TODO: add more unit tests
 // TODO: check also for result types
+// TODO: check move version and const/non-const versions
 // TODO: use non square matrices
 
 
