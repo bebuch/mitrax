@@ -187,7 +187,10 @@ namespace mitrax{
 
 		template < bool Ci, bool Cct, size_t C, bool Ri, bool Rct, size_t R >
 		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
-		convert_by_move(col_init_t< Ci, Cct, C > c, row_init_t< Ri, Rct, R > r){
+		convert_by_move(
+			col_init_t< Ci, Cct, C > c,
+			row_init_t< Ri, Rct, R > r
+		){
 			return convert_by_move< value_type >(c, r);
 		}
 
@@ -209,7 +212,10 @@ namespace mitrax{
 			bool Ci, bool Cct, size_t C,
 			bool Ri, bool Rct, size_t R
 		> constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
-		convert_by_move(col_init_t< Ci, Cct, C > c, row_init_t< Ri, Rct, R > r){
+		convert_by_move(
+			col_init_t< Ci, Cct, C > c,
+			row_init_t< Ri, Rct, R > r
+		){
 			static_assert(
 				(Cols == 0 || !Cct || Cols == C) &&
 				(Rows == 0 || !Rct || Rows == R),

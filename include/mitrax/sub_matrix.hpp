@@ -186,7 +186,9 @@ namespace mitrax{
 		row_t< R1 > r,
 		matrix< M, C2, R2 >& m
 	){
-		return detail::sub_matrix< T >(bool_t< C1 * R1 != 0 >(), x, y, c, r, m);
+		return detail::sub_matrix< T >(
+			bool_t< C1 * R1 != 0 >(), x, y, c, r, m
+		);
 	}
 
 	template <
@@ -200,7 +202,9 @@ namespace mitrax{
 		row_t< R1 > r,
 		matrix< M, C2, R2 > const& m
 	){
-		return detail::sub_matrix< T >(bool_t< C1 * R1 != 0 >(), x, y, c, r, m);
+		return detail::sub_matrix< T >(
+			bool_t< C1 * R1 != 0 >(), x, y, c, r, m
+		);
 	}
 
 
