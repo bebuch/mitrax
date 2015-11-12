@@ -402,22 +402,22 @@ namespace mitrax{
 
 	template < typename T, bool Ni, bool Nct, size_t N >
 	constexpr auto make_square_matrix(dim_init< Ni, Nct, N > n){
-		return make_matrix< T >(n.col(), n.row());
+		return make_matrix< T >(n.as_col(), n.as_row());
 	}
 
 	template < typename T, bool Ni, bool Nct, size_t N >
 	constexpr auto make_square_matrix(dim_init< Ni, Nct, N > n, T const& v){
-		return make_matrix< T >(n.col(), n.row(), v);
+		return make_matrix< T >(n.as_col(), n.as_row(), v);
 	}
 
 	template < typename T, bool Nct, size_t N >
 	constexpr auto make_square_matrix(dim_init_ct< Nct, N > n, T(&&v)[N][N]){
-		return make_matrix(n.col(), n.row(), std::move(v));
+		return make_matrix(n.as_col(), n.as_row(), std::move(v));
 	}
 
 	template < typename T, bool Nct, size_t N >
 	constexpr auto make_square_matrix(dim_init_ct< Nct, N > n, T(&v)[N][N]){
-		return make_matrix(n.col(), n.row(), v);
+		return make_matrix(n.as_col(), n.as_row(), v);
 	}
 
 

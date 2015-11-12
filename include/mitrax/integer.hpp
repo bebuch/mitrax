@@ -149,11 +149,11 @@ namespace mitrax{
 			return dim_init< true, true, I >();
 		}
 
-		constexpr auto col()const noexcept{
+		constexpr auto as_col()const noexcept{
 			return col_t< I >();
 		}
 
-		constexpr auto row()const noexcept{
+		constexpr auto as_row()const noexcept{
 			return row_t< I >();
 		}
 	};
@@ -163,8 +163,8 @@ namespace mitrax{
 		using size_rt::size_rt;
 
 		constexpr auto lit()const noexcept;
-		constexpr auto col()const noexcept;
-		constexpr auto row()const noexcept;
+		constexpr auto as_col()const noexcept;
+		constexpr auto as_row()const noexcept;
 	};
 
 
@@ -194,11 +194,11 @@ namespace mitrax{
 // 	}
 
 
-	constexpr auto dim_t< 0 >::col()const noexcept{
+	constexpr auto dim_t< 0 >::as_col()const noexcept{
 		return col_t< 0 >(static_cast< size_t >(*this));
 	}
 
-	constexpr auto dim_t< 0 >::row()const noexcept{
+	constexpr auto dim_t< 0 >::as_row()const noexcept{
 		return row_t< 0 >(static_cast< size_t >(*this));
 	}
 
@@ -289,11 +289,11 @@ namespace mitrax{
 			return dim_t< I >();
 		}
 
-		constexpr auto col()const noexcept{
+		constexpr auto as_col()const noexcept{
 			return col_init< true, true, I >();
 		}
 
-		constexpr auto row()const noexcept{
+		constexpr auto as_row()const noexcept{
 			return row_init< true, true, I >();
 		}
 	};
@@ -304,11 +304,11 @@ namespace mitrax{
 			return dim_t< 0 >(I);
 		}
 
-		constexpr auto col()const noexcept{
+		constexpr auto as_col()const noexcept{
 			return col_init< true, false, I >();
 		}
 
-		constexpr auto row()const noexcept{
+		constexpr auto as_row()const noexcept{
 			return row_init< true, false, I >();
 		}
 	};
