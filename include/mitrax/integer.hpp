@@ -57,9 +57,23 @@ namespace mitrax{
 	};
 
 
+	template < bool CompileTime, size_t I >
+	struct col_lit;
+
+	template < bool CompileTime, size_t I >
+	struct row_lit;
+
+	template < bool CompileTime, size_t I >
+	struct dim_lit;
+
+
 	template < size_t I >
 	struct col_t: size_ct< I >{
 		using size_ct< I >::size_ct;
+
+		constexpr auto lit()const noexcept{
+			return col_lit< true, I >();
+		}
 	};
 
 	template <>
@@ -70,6 +84,10 @@ namespace mitrax{
 	template < size_t I >
 	struct row_t: size_ct< I >{
 		using size_ct< I >::size_ct;
+
+		constexpr auto lit()const noexcept{
+			return row_lit< true, I >();
+		}
 	};
 
 	template <>
@@ -81,12 +99,8 @@ namespace mitrax{
 	struct dim_t: size_ct< I >{
 		using size_ct< I >::size_ct;
 
-		constexpr operator col_t< I >()const noexcept{
-			return col_t< I >();
-		}
-
-		constexpr operator row_t< I >()const noexcept{
-			return row_t< I >();
+		constexpr auto lit()const noexcept{
+			return dim_lit< true, I >();
 		}
 
 		constexpr auto col()const noexcept{

@@ -70,6 +70,12 @@ namespace{
 		{1, 1, 1}
 	});
 
+	constexpr auto ref_all3 = make_square_matrix< int >(3_D, {
+		{3, 3, 3},
+		{3, 3, 3},
+		{3, 3, 3}
+	});
+
 	constexpr auto ref_all9 = make_square_matrix< int >(3_D, {
 		{9, 9, 9},
 		{9, 9, 9},
@@ -90,6 +96,10 @@ namespace{
 
 
 }
+
+
+// TODO: also check non compile time versions
+// TODO: also check non square versions
 
 
 BOOST_AUTO_TEST_CASE(test_element_plus_assign){
@@ -255,3 +265,11 @@ BOOST_AUTO_TEST_CASE(test_element_modulus){
 	BOOST_TEST(eq);
 }
 
+
+
+BOOST_AUTO_TEST_CASE(test_matrix_multiplies){
+	auto m = ref_all1 * ref_all1;
+
+	auto eq = m == ref_all3;
+	BOOST_TEST(eq);
+}

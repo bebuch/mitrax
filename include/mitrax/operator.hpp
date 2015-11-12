@@ -342,6 +342,44 @@ namespace mitrax{
 	}
 
 
+	template <
+		typename M1, size_t C1, size_t R1,
+		typename M2, size_t C2, size_t R2
+	> constexpr auto operator*(
+		matrix< M1, C1, R1 > const& m1,
+		matrix< M2, C2, R2 > const& m2
+	){
+		static_assert(
+			C1 == 0 || R2 == 0 || C1 == R2,
+			"Matrix dimensions not compatible"
+		);
+
+		// Compiler should skip this for compile time dimensions
+		if(m1.cols() != m2.rows()){
+			throw std::logic_error(
+				"matrix dimensions not compatible while comparing"
+			);
+		}
+
+		using value_type =
+			std::common_type_t< value_type_t< M1 >, value_type_t< M2 > >;
+
+		// Compiler may optimize with the compile time dimension
+		size_t size = C1 == 0 ? m2.rows() : m1.cols();
+
+		auto m = make_matrix< value_type >(m2.cols().lit(), m1.rows().lit());
+
+		for(size_t r1 = 0; r1 < m1.rows(); ++r1){
+			for(size_t c2 = 0; c2 < m2.cols(); ++c2){
+				for(size_t i = 0; i < size; ++i){
+					m(c2, r1) +=
+						static_cast< value_type >(m1(i, r1)) * m2(c2, i);
+				}
+			}
+		}
+
+		return m;
+	}
 
 
 }
