@@ -325,3 +325,115 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2rt_and_type){
 	BOOST_TEST(check(o4));
 }
 
+
+BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2_and_type_to_ref){
+	auto const m1 = make_matrix(2_C, 2_R, data);
+	auto const m2 = make_matrix(2_C_rt, 2_R, data);
+	auto const m3 = make_matrix(2_C, 2_R_rt, data);
+	auto const m4 = make_matrix(2_C_rt, 2_R_rt, data);
+
+	auto const n1 = m1.convert< std::reference_wrapper< int const > >(2_C, 2_R);
+	auto const n2 = m2.convert< std::reference_wrapper< int const > >(2_C, 2_R);
+	auto const n3 = m3.convert< std::reference_wrapper< int const > >(2_C, 2_R);
+	auto const n4 = m4.convert< std::reference_wrapper< int const > >(2_C, 2_R);
+
+	BOOST_TEST(check(n1));
+	BOOST_TEST(check(n2));
+	BOOST_TEST(check(n3));
+	BOOST_TEST(check(n4));
+
+// 	auto const o1 = std::move(m1).convert< int >(2_C, 2_R);
+// 	auto const o2 = std::move(m2).convert< int >(2_C, 2_R);
+// 	auto const o3 = std::move(m3).convert< int >(2_C, 2_R);
+// 	auto const o4 = std::move(m4).convert< int >(2_C, 2_R);
+// 
+// 	BOOST_TEST(check(o1));
+// 	BOOST_TEST(check(o2));
+// 	BOOST_TEST(check(o3));
+// 	BOOST_TEST(check(o4));
+}
+
+/*
+BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2_and_type_to_ref){
+	auto const m1 = make_matrix(2_C, 2_R, data);
+	auto const m2 = make_matrix(2_C_rt, 2_R, data);
+	auto const m3 = make_matrix(2_C, 2_R_rt, data);
+	auto const m4 = make_matrix(2_C_rt, 2_R_rt, data);
+
+	auto const n1 = m1.convert< int >(2_C_rt, 2_R);
+	auto const n2 = m2.convert< int >(2_C_rt, 2_R);
+	auto const n3 = m3.convert< int >(2_C_rt, 2_R);
+	auto const n4 = m4.convert< int >(2_C_rt, 2_R);
+
+	BOOST_TEST(check(n1));
+	BOOST_TEST(check(n2));
+	BOOST_TEST(check(n3));
+	BOOST_TEST(check(n4));
+
+	auto const o1 = std::move(m1).convert< int >(2_C_rt, 2_R);
+	auto const o2 = std::move(m2).convert< int >(2_C_rt, 2_R);
+	auto const o3 = std::move(m3).convert< int >(2_C_rt, 2_R);
+	auto const o4 = std::move(m4).convert< int >(2_C_rt, 2_R);
+
+	BOOST_TEST(check(o1));
+	BOOST_TEST(check(o2));
+	BOOST_TEST(check(o3));
+	BOOST_TEST(check(o4));
+}
+
+
+BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2rt_and_type_to_ref){
+	auto const m1 = make_matrix(2_C, 2_R, data);
+	auto const m2 = make_matrix(2_C_rt, 2_R, data);
+	auto const m3 = make_matrix(2_C, 2_R_rt, data);
+	auto const m4 = make_matrix(2_C_rt, 2_R_rt, data);
+
+	auto const n1 = m1.convert< int >(2_C, 2_R_rt);
+	auto const n2 = m2.convert< int >(2_C, 2_R_rt);
+	auto const n3 = m3.convert< int >(2_C, 2_R_rt);
+	auto const n4 = m4.convert< int >(2_C, 2_R_rt);
+
+	BOOST_TEST(check(n1));
+	BOOST_TEST(check(n2));
+	BOOST_TEST(check(n3));
+	BOOST_TEST(check(n4));
+
+	auto const o1 = std::move(m1).convert< int >(2_C, 2_R_rt);
+	auto const o2 = std::move(m2).convert< int >(2_C, 2_R_rt);
+	auto const o3 = std::move(m3).convert< int >(2_C, 2_R_rt);
+	auto const o4 = std::move(m4).convert< int >(2_C, 2_R_rt);
+
+	BOOST_TEST(check(o1));
+	BOOST_TEST(check(o2));
+	BOOST_TEST(check(o3));
+	BOOST_TEST(check(o4));
+}
+
+
+BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2rt_and_type_to_ref){
+	auto const m1 = make_matrix(2_C, 2_R, data);
+	auto const m2 = make_matrix(2_C_rt, 2_R, data);
+	auto const m3 = make_matrix(2_C, 2_R_rt, data);
+	auto const m4 = make_matrix(2_C_rt, 2_R_rt, data);
+
+	auto const n1 = m1.convert< int >(2_C_rt, 2_R_rt);
+	auto const n2 = m2.convert< int >(2_C_rt, 2_R_rt);
+	auto const n3 = m3.convert< int >(2_C_rt, 2_R_rt);
+	auto const n4 = m4.convert< int >(2_C_rt, 2_R_rt);
+
+	BOOST_TEST(check(n1));
+	BOOST_TEST(check(n2));
+	BOOST_TEST(check(n3));
+	BOOST_TEST(check(n4));
+
+	auto const o1 = std::move(m1).convert< int >(2_C_rt, 2_R_rt);
+	auto const o2 = std::move(m2).convert< int >(2_C_rt, 2_R_rt);
+	auto const o3 = std::move(m3).convert< int >(2_C_rt, 2_R_rt);
+	auto const o4 = std::move(m4).convert< int >(2_C_rt, 2_R_rt);
+
+	BOOST_TEST(check(o1));
+	BOOST_TEST(check(o2));
+	BOOST_TEST(check(o3));
+	BOOST_TEST(check(o4));
+}*/
+

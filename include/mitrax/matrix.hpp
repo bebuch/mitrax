@@ -166,7 +166,7 @@ namespace mitrax{
 		template < typename V >
 		constexpr raw_matrix< V, Cols, Rows > convert()&&{
 			return raw_matrix_impl< V, Cols, Rows >(
-				cols(), rows(), mitrax::convert< V >(std::move(m_).data())
+				cols(), rows(), mitrax::convert< V >(std::move(m_.data()))
 			);
 		}
 
@@ -211,7 +211,7 @@ namespace mitrax{
 					std::max(dim(Cb, C) * dim(Rb, R), Cols * Rows)
 				>(
 					bool_t< dim(Cb, C) * dim(Rb, R) != 0 >(),
-					std::move(m_).data()
+					std::move(m_.data())
 				)
 			);
 		}
