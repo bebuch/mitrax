@@ -72,7 +72,7 @@ namespace mitrax{
 			);
 		}
 
-		auto result = make_col_vector(m.cols()/*.as_row()*/, value_type(1));
+		auto result = make_col_vector(m.cols().as_row().init(), value_type(1));
 
 		auto ref = result.
 			template convert< std::reference_wrapper< value_type > >();
@@ -105,6 +105,10 @@ namespace mitrax{
 					m(x, y) -= factor * m(x, i);
 				}
 			}
+		}
+
+		for(size_t i = 0; i < size; ++i){
+			ref[i] *= m(i, i);
 		}
 
 		return result;

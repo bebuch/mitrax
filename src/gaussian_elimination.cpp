@@ -48,13 +48,13 @@ BOOST_AUTO_TEST_CASE(test_upper_triangular_matrix){
 	BOOST_TEST(eq);
 }
 
-// BOOST_AUTO_TEST_CASE(test_upper_matrix_kernel){
-// 	auto v = matrix_kernel(ref1);
-// 
-// 	auto eq =
-// 		v(0) ==  1 &&
-// 		v(1) == -1 &&
-// 		v(2) == -2;
-// 
-// 	BOOST_TEST(eq);
-// }
+BOOST_AUTO_TEST_CASE(test_matrix_kernel){
+	auto const v = matrix_kernel(ref1);
+
+	auto eq =
+		v[0] ==  1 &&
+		v[1] == -1 &&
+		v[2] == -2;
+
+	BOOST_TEST(eq);
+}
