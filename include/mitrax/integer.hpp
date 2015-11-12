@@ -91,7 +91,7 @@ namespace mitrax{
 	struct col_t: size_ct< I >{
 		using size_ct< I >::size_ct;
 
-		constexpr auto lit()const noexcept{
+		constexpr auto init()const noexcept{
 			return col_init< true, true, I >();
 		}
 
@@ -108,7 +108,7 @@ namespace mitrax{
 	struct col_t< 0 >: size_rt{
 		using size_rt::size_rt;
 
-		constexpr auto lit()const noexcept;
+		constexpr auto init()const noexcept;
 		constexpr auto as_row()const noexcept;
 		constexpr auto as_dim()const noexcept;
 	};
@@ -118,7 +118,7 @@ namespace mitrax{
 	struct row_t: size_ct< I >{
 		using size_ct< I >::size_ct;
 
-		constexpr auto lit()const noexcept{
+		constexpr auto init()const noexcept{
 			return row_init< true, true, I >();
 		}
 
@@ -135,7 +135,7 @@ namespace mitrax{
 	struct row_t< 0 >: size_rt{
 		using size_rt::size_rt;
 
-		constexpr auto lit()const noexcept;
+		constexpr auto init()const noexcept;
 		constexpr auto as_col()const noexcept;
 		constexpr auto as_dim()const noexcept;
 	};
@@ -145,7 +145,7 @@ namespace mitrax{
 	struct dim_t: size_ct< I >{
 		using size_ct< I >::size_ct;
 
-		constexpr auto lit()const noexcept{
+		constexpr auto init()const noexcept{
 			return dim_init< true, true, I >();
 		}
 
@@ -162,7 +162,7 @@ namespace mitrax{
 	struct dim_t< 0 >: size_rt{
 		using size_rt::size_rt;
 
-		constexpr auto lit()const noexcept;
+		constexpr auto init()const noexcept;
 		constexpr auto as_col()const noexcept;
 		constexpr auto as_row()const noexcept;
 	};
@@ -176,7 +176,7 @@ namespace mitrax{
 		return dim_t< 0 >(static_cast< size_t >(*this));
 	}
 
-// 	constexpr auto col_t< 0 >::lit()const noexcept{
+// 	constexpr auto col_t< 0 >::init()const noexcept{
 // 		return col_init< false, false, 0 >(static_cast< size_t >(*this));
 // 	}
 
@@ -189,7 +189,7 @@ namespace mitrax{
 		return dim_t< 0 >(static_cast< size_t >(*this));
 	}
 
-// 	constexpr auto row_t< 0 >::lit()const noexcept{
+// 	constexpr auto row_t< 0 >::init()const noexcept{
 // 		return row_init< false, false, 0 >(static_cast< size_t >(*this));
 // 	}
 
@@ -202,7 +202,7 @@ namespace mitrax{
 		return row_t< 0 >(static_cast< size_t >(*this));
 	}
 
-// 	constexpr auto dim_t< 0 >::lit()const noexcept{
+// 	constexpr auto dim_t< 0 >::init()const noexcept{
 // 		return dim_init< false, false, 0 >(static_cast< size_t >(*this));
 // 	}
 
