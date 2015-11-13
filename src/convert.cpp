@@ -39,9 +39,6 @@ namespace{
 }
 
 
-// TODO: check also for result types
-
-
 BOOST_AUTO_TEST_CASE(test_convert_as_raw_matrix){
 	constexpr auto m1 = make_matrix(2_C, 2_R, data);
 	auto m2 = make_matrix(2_C_rt, 2_R, data);
@@ -59,6 +56,11 @@ BOOST_AUTO_TEST_CASE(test_convert_as_raw_matrix){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
+	BOOST_TEST(type_id_runtime(n1) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(n2) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(n3) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(n4) == (type_id< raw_matrix< int, 0, 0 > >()));
+
 	auto const o1 = m5.as_raw_matrix_by_move();
 	auto const o2 = m2.as_raw_matrix_by_move();
 	auto const o3 = m3.as_raw_matrix_by_move();
@@ -68,6 +70,11 @@ BOOST_AUTO_TEST_CASE(test_convert_as_raw_matrix){
 	BOOST_TEST(check(o2));
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
+
+	BOOST_TEST(type_id_runtime(o1) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(o2) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(o3) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(o4) == (type_id< raw_matrix< int, 0, 0 > >()));
 }
 
 
@@ -88,6 +95,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_type){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
+	BOOST_TEST(type_id_runtime(n1) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(n2) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(n3) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(n4) == (type_id< raw_matrix< int, 0, 0 > >()));
+
 	auto const o1 = m5.convert_by_move< int >();
 	auto const o2 = m2.convert_by_move< int >();
 	auto const o3 = m3.convert_by_move< int >();
@@ -97,6 +109,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_type){
 	BOOST_TEST(check(o2));
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
+
+	BOOST_TEST(type_id_runtime(o1) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(o2) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(o3) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(o4) == (type_id< raw_matrix< int, 0, 0 > >()));
 }
 
 
@@ -117,6 +134,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
+	BOOST_TEST(type_id_runtime(n1) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(n2) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(n3) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(n4) == (type_id< raw_matrix< int, 2, 2 > >()));
+
 	auto const o1 = m5.convert_by_move< int >(2_C, 2_R);
 	auto const o2 = m2.convert_by_move< int >(2_C, 2_R);
 	auto const o3 = m3.convert_by_move< int >(2_C, 2_R);
@@ -126,6 +148,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2){
 	BOOST_TEST(check(o2));
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
+
+	BOOST_TEST(type_id_runtime(o1) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(o2) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(o3) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(o4) == (type_id< raw_matrix< int, 2, 2 > >()));
 }
 
 
@@ -145,6 +172,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
+	BOOST_TEST(type_id_runtime(n1) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(n2) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(n3) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(n4) == (type_id< raw_matrix< int, 0, 2 > >()));
+
 	auto const o1 = m1.convert_by_move< int >(2_C_rt, 2_R);
 	auto const o2 = m2.convert_by_move< int >(2_C_rt, 2_R);
 	auto const o3 = m3.convert_by_move< int >(2_C_rt, 2_R);
@@ -154,6 +186,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2){
 	BOOST_TEST(check(o2));
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
+
+	BOOST_TEST(type_id_runtime(o1) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(o2) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(o3) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(o4) == (type_id< raw_matrix< int, 0, 2 > >()));
 }
 
 
@@ -173,6 +210,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2rt){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
+	BOOST_TEST(type_id_runtime(n1) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(n2) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(n3) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(n4) == (type_id< raw_matrix< int, 2, 0 > >()));
+
 	auto const o1 = m1.convert_by_move< int >(2_C, 2_R_rt);
 	auto const o2 = m2.convert_by_move< int >(2_C, 2_R_rt);
 	auto const o3 = m3.convert_by_move< int >(2_C, 2_R_rt);
@@ -182,6 +224,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2rt){
 	BOOST_TEST(check(o2));
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
+
+	BOOST_TEST(type_id_runtime(o1) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(o2) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(o3) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(o4) == (type_id< raw_matrix< int, 2, 0 > >()));
 }
 
 
@@ -201,6 +248,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2rt){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
+	BOOST_TEST(type_id_runtime(n1) == (type_id< raw_matrix< int, 0, 0 > >()));
+	BOOST_TEST(type_id_runtime(n2) == (type_id< raw_matrix< int, 0, 0 > >()));
+	BOOST_TEST(type_id_runtime(n3) == (type_id< raw_matrix< int, 0, 0 > >()));
+	BOOST_TEST(type_id_runtime(n4) == (type_id< raw_matrix< int, 0, 0 > >()));
+
 	auto const o1 = m1.convert_by_move< int >(2_C_rt, 2_R_rt);
 	auto const o2 = m2.convert_by_move< int >(2_C_rt, 2_R_rt);
 	auto const o3 = m3.convert_by_move< int >(2_C_rt, 2_R_rt);
@@ -210,6 +262,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2rt){
 	BOOST_TEST(check(o2));
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
+
+	BOOST_TEST(type_id_runtime(o1) == (type_id< raw_matrix< int, 0, 0 > >()));
+	BOOST_TEST(type_id_runtime(o2) == (type_id< raw_matrix< int, 0, 0 > >()));
+	BOOST_TEST(type_id_runtime(o3) == (type_id< raw_matrix< int, 0, 0 > >()));
+	BOOST_TEST(type_id_runtime(o4) == (type_id< raw_matrix< int, 0, 0 > >()));
 }
 
 
@@ -230,6 +287,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2_and_type){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
+	BOOST_TEST(type_id_runtime(n1) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(n2) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(n3) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(n4) == (type_id< raw_matrix< int, 2, 2 > >()));
+
 	auto const o1 = m5.convert_by_move< int >(2_C, 2_R);
 	auto const o2 = m2.convert_by_move< int >(2_C, 2_R);
 	auto const o3 = m3.convert_by_move< int >(2_C, 2_R);
@@ -239,6 +301,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2_and_type){
 	BOOST_TEST(check(o2));
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
+
+	BOOST_TEST(type_id_runtime(o1) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(o2) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(o3) == (type_id< raw_matrix< int, 2, 2 > >()));
+	BOOST_TEST(type_id_runtime(o4) == (type_id< raw_matrix< int, 2, 2 > >()));
 }
 
 
@@ -258,6 +325,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2_and_type){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
+	BOOST_TEST(type_id_runtime(n1) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(n2) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(n3) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(n4) == (type_id< raw_matrix< int, 0, 2 > >()));
+
 	auto const o1 = m1.convert_by_move< int >(2_C_rt, 2_R);
 	auto const o2 = m2.convert_by_move< int >(2_C_rt, 2_R);
 	auto const o3 = m3.convert_by_move< int >(2_C_rt, 2_R);
@@ -267,6 +339,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2_and_type){
 	BOOST_TEST(check(o2));
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
+
+	BOOST_TEST(type_id_runtime(o1) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(o2) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(o3) == (type_id< raw_matrix< int, 0, 2 > >()));
+	BOOST_TEST(type_id_runtime(o4) == (type_id< raw_matrix< int, 0, 2 > >()));
 }
 
 
@@ -286,6 +363,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2rt_and_type){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
+	BOOST_TEST(type_id_runtime(n1) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(n2) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(n3) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(n4) == (type_id< raw_matrix< int, 2, 0 > >()));
+
 	auto const o1 = m1.convert_by_move< int >(2_C, 2_R_rt);
 	auto const o2 = m2.convert_by_move< int >(2_C, 2_R_rt);
 	auto const o3 = m3.convert_by_move< int >(2_C, 2_R_rt);
@@ -295,6 +377,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2rt_and_type){
 	BOOST_TEST(check(o2));
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
+
+	BOOST_TEST(type_id_runtime(o1) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(o2) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(o3) == (type_id< raw_matrix< int, 2, 0 > >()));
+	BOOST_TEST(type_id_runtime(o4) == (type_id< raw_matrix< int, 2, 0 > >()));
 }
 
 
@@ -314,6 +401,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2rt_and_type){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
+	BOOST_TEST(type_id_runtime(n1) == (type_id< raw_matrix< int, 0, 0 > >()));
+	BOOST_TEST(type_id_runtime(n2) == (type_id< raw_matrix< int, 0, 0 > >()));
+	BOOST_TEST(type_id_runtime(n3) == (type_id< raw_matrix< int, 0, 0 > >()));
+	BOOST_TEST(type_id_runtime(n4) == (type_id< raw_matrix< int, 0, 0 > >()));
+
 	auto const o1 = m1.convert_by_move< int >(2_C_rt, 2_R_rt);
 	auto const o2 = m2.convert_by_move< int >(2_C_rt, 2_R_rt);
 	auto const o3 = m3.convert_by_move< int >(2_C_rt, 2_R_rt);
@@ -323,6 +415,11 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2rt_and_type){
 	BOOST_TEST(check(o2));
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
+
+	BOOST_TEST(type_id_runtime(o1) == (type_id< raw_matrix< int, 0, 0 > >()));
+	BOOST_TEST(type_id_runtime(o2) == (type_id< raw_matrix< int, 0, 0 > >()));
+	BOOST_TEST(type_id_runtime(o3) == (type_id< raw_matrix< int, 0, 0 > >()));
+	BOOST_TEST(type_id_runtime(o4) == (type_id< raw_matrix< int, 0, 0 > >()));
 }
 
 
