@@ -18,6 +18,9 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
+BOOST_AUTO_TEST_SUITE(gaussian_elimination)
+
+
 namespace{
 
 
@@ -58,3 +61,6 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel){
 
 	BOOST_TEST(eq);
 }
+
+
+BOOST_AUTO_TEST_SUITE_END()

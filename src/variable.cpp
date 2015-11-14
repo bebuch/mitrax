@@ -14,6 +14,9 @@
 using namespace mitrax;
 
 
+BOOST_AUTO_TEST_SUITE(variable)
+
+
 BOOST_AUTO_TEST_CASE(test_variable_free){
 	variable< int > x;
 
@@ -64,3 +67,6 @@ BOOST_AUTO_TEST_CASE(test_variable_output_value){
 	os << x;
 	BOOST_TEST(os.str() == "5");
 }
+
+
+BOOST_AUTO_TEST_SUITE_END()

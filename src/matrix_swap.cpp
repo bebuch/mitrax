@@ -18,6 +18,9 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
+BOOST_AUTO_TEST_SUITE(matrix_swap)
+
+
 namespace{
 
 
@@ -174,3 +177,6 @@ BOOST_AUTO_TEST_CASE(test_swap_cols_m1_1_m2_2){
 
 	BOOST_TEST(eq);
 }
+
+
+BOOST_AUTO_TEST_SUITE_END()

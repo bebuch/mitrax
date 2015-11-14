@@ -17,6 +17,9 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
+BOOST_AUTO_TEST_SUITE(sub_matrix)
+
+
 namespace{
 
 
@@ -132,3 +135,6 @@ BOOST_AUTO_TEST_CASE(test_sub_matrix_2rtx2rt){
 	BOOST_TEST(check3(m.sub_matrix(0, 1, 2_C_rt, 2_R_rt)));
 	BOOST_TEST(check4(m.sub_matrix(1, 1, 2_C_rt, 2_R_rt)));
 }
+
+
+BOOST_AUTO_TEST_SUITE_END()

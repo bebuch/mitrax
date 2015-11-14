@@ -17,6 +17,9 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
+BOOST_AUTO_TEST_SUITE(convert)
+
+
 namespace{
 
 
@@ -534,3 +537,5 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2rt_and_type_to_ref){
 	BOOST_TEST(check(o4));
 }*/
 
+
+BOOST_AUTO_TEST_SUITE_END()

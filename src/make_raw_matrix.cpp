@@ -17,6 +17,9 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
+BOOST_AUTO_TEST_SUITE(make_raw_matrix)
+
+
 BOOST_AUTO_TEST_CASE(test_raw_matrix_3x3){
 	constexpr auto m1 = make_matrix< int >(3_C, 3_R, {
 		{0, 1, 2},
@@ -1364,3 +1367,6 @@ BOOST_AUTO_TEST_CASE(test_raw_row_vector_3rt_init7){
 	BOOST_TEST(v[1] == 7);
 	BOOST_TEST(v[2] == 7);
 }
+
+
+BOOST_AUTO_TEST_SUITE_END()

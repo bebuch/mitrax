@@ -17,6 +17,9 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
+BOOST_AUTO_TEST_SUITE(integer)
+
+
 BOOST_AUTO_TEST_CASE(test_col_t){
 	constexpr auto s = 14_C;
 	BOOST_TEST(s.get() == size_t(14));
@@ -112,3 +115,6 @@ BOOST_AUTO_TEST_CASE(test_int_to_size_t){
 	BOOST_TEST(col_t< 14 >() == 14_R);
 	BOOST_TEST(col_t< 0 >(14) == 14_R_rt);
 }
+
+
+BOOST_AUTO_TEST_SUITE_END()

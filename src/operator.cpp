@@ -13,6 +13,9 @@
 #include <mitrax/compare.hpp>
 
 
+BOOST_AUTO_TEST_SUITE(matrix_operator)
+
+
 using boost::typeindex::type_id;
 using boost::typeindex::type_id_runtime;
 using namespace mitrax;
@@ -273,3 +276,6 @@ BOOST_AUTO_TEST_CASE(test_matrix_multiplies){
 	auto eq = m == ref_all3;
 	BOOST_TEST(eq);
 }
+
+
+BOOST_AUTO_TEST_SUITE_END()

@@ -20,6 +20,9 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
+BOOST_AUTO_TEST_SUITE(output)
+
+
 // TODO: Check also for dynamic matrices
 
 
@@ -60,3 +63,6 @@ BOOST_AUTO_TEST_CASE(test_output_3x2){
 
 	BOOST_TEST(os.str() == "[3,2]((1,2,3),(4,5,6))");
 }
+
+
+BOOST_AUTO_TEST_SUITE_END()
