@@ -363,11 +363,11 @@ namespace mitrax{
 		}
 
 
-		M& impl(){
+		constexpr M& impl(){
 			return m_;
 		}
 
-		M const& impl()const{
+		constexpr M const& impl()const{
 			return m_;
 		}
 
