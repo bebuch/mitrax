@@ -363,6 +363,15 @@ namespace mitrax{
 		}
 
 
+		M& impl(){
+			return m_;
+		}
+
+		M const& impl()const{
+			return m_;
+		}
+
+
 	protected:
 		M m_;
 	};
