@@ -392,6 +392,51 @@ namespace mitrax{
 	}
 
 
+	constexpr auto cols(size_t c){
+		return col_init_t< false, false, 0 >(c);
+	}
+
+	constexpr auto rows(size_t r){
+		return row_init_t< false, false, 0 >(r);
+	}
+
+	constexpr auto dims(size_t d){
+		return dim_init_t< false, false, 0 >(d);
+	}
+
+
+	template < size_t I >
+	constexpr auto cols(){
+		return col_init_t< true, true, I >();
+	}
+
+	template < size_t I >
+	constexpr auto rows(){
+		return row_init_t< true, true, I >();
+	}
+
+	template < size_t I >
+	constexpr auto dims(){
+		return dim_init_t< true, true, I >();
+	}
+
+
+	template < size_t I >
+	constexpr auto cols_rt(){
+		return col_init_t< true, false, I >();
+	}
+
+	template < size_t I >
+	constexpr auto rows_rt(){
+		return row_init_t< true, false, I >();
+	}
+
+	template < size_t I >
+	constexpr auto dims_rt(){
+		return dim_init_t< true, false, I >();
+	}
+
+
 	namespace detail{
 
 
@@ -421,19 +466,13 @@ namespace mitrax{
 				detail::parse_int< sizeof...(C) >({C ...}),
 				"Compile time cols can not be 0, use '_C_rt' prefix instead"
 			);
-			return col_init_t<
-				true, true,
-				detail::parse_int< sizeof...(C) >({C ...})
-			>();
+			return cols< detail::parse_int< sizeof...(C) >({C ...}) >();
 		}
 
 		// Adopted from Boost Hana
 		template < char ... C >
 		constexpr auto operator"" _C_rt(){
-			return col_init_t<
-				true, false,
-				detail::parse_int< sizeof...(C) >({C ...})
-			>();
+			return cols_rt< detail::parse_int< sizeof...(C) >({C ...}) >();
 		}
 
 		// Adopted from Boost Hana
@@ -443,19 +482,13 @@ namespace mitrax{
 				detail::parse_int< sizeof...(C) >({C ...}),
 				"Compile time rows can not be 0, use '_R_rt' prefix instead"
 			);
-			return row_init_t<
-				true, true,
-				detail::parse_int< sizeof...(C) >({C ...})
-			>();
+			return rows< detail::parse_int< sizeof...(C) >({C ...}) >();
 		}
 
 		// Adopted from Boost Hana
 		template < char ... C >
 		constexpr auto operator"" _R_rt(){
-			return row_init_t<
-				true, false,
-				detail::parse_int< sizeof...(C) >({C ...})
-			>();
+			return rows_rt< detail::parse_int< sizeof...(C) >({C ...}) >();
 		}
 
 		// Adopted from Boost Hana
@@ -465,23 +498,18 @@ namespace mitrax{
 				detail::parse_int< sizeof...(C) >({C ...}),
 				"Compile time dims can not be 0, use '_D_rt' prefix instead"
 			);
-			return dim_init_t<
-				true, true,
-				detail::parse_int< sizeof...(C) >({C ...})
-			>();
+			return dims< detail::parse_int< sizeof...(C) >({C ...}) >();
 		}
 
 		// Adopted from Boost Hana
 		template < char ... C >
 		constexpr auto operator"" _D_rt(){
-			return dim_init_t<
-				true, false,
-				detail::parse_int< sizeof...(C) >({C ...})
-			>();
+			return dims_rt< detail::parse_int< sizeof...(C) >({C ...}) >();
 		}
 
 
 	}
+
 
 
 	template < typename T >
