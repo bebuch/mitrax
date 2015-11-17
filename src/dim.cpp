@@ -48,8 +48,8 @@ BOOST_AUTO_TEST_CASE(test_col_t){
 	BOOST_TEST(ct.init() == size_t(7));
 	BOOST_TEST(rt.init() == size_t(7));
 
-	BOOST_TEST(rt_id(ct.init()) == (id< col_init_t< true, true, 7 > >));
-	BOOST_TEST(rt_id(rt.init()) == (id< col_init_t< false, false, 0 > >));
+	BOOST_TEST(rt_id(ct.init()) == (id< col_init_t< true, 7 > >));
+	BOOST_TEST(rt_id(rt.init()) == (id< col_init_t< false, 0 > >));
 
 	BOOST_TEST(ct.as_row() == size_t(7));
 	BOOST_TEST(rt.as_row() == size_t(7));
@@ -71,8 +71,8 @@ BOOST_AUTO_TEST_CASE(test_row_t){
 	BOOST_TEST(ct.init() == size_t(7));
 	BOOST_TEST(rt.init() == size_t(7));
 
-	BOOST_TEST(rt_id(ct.init()) == (id< row_init_t< true, true, 7 > >));
-	BOOST_TEST(rt_id(rt.init()) == (id< row_init_t< false, false, 0 > >));
+	BOOST_TEST(rt_id(ct.init()) == (id< row_init_t< true, 7 > >));
+	BOOST_TEST(rt_id(rt.init()) == (id< row_init_t< false, 0 > >));
 
 	BOOST_TEST(ct.as_col() == size_t(7));
 	BOOST_TEST(rt.as_col() == size_t(7));
@@ -263,8 +263,8 @@ BOOST_AUTO_TEST_CASE(test_dim_t){
 }
 
 BOOST_AUTO_TEST_CASE(test_col_init_t){
-	// static target with runtime init
-	constexpr auto tt0 = col_init_t< true, true, 0 >();
+// 	// static target with runtime init
+// 	constexpr auto tt0 = col_init_t< true, true, 0 >();
 
 
 // 	// no static info!
@@ -276,10 +276,10 @@ BOOST_AUTO_TEST_CASE(test_col_init_t){
 // 	// runtime init must have compile time info 0
 // 	constexpr auto ff7 = col_init_t< false, false, 7 >();
 
-	constexpr auto tt7 = col_init_t< true, true, 7 >();
-	constexpr auto tf0 = col_init_t< true, false, 0 >();
-	constexpr auto tf7 = col_init_t< true, false, 7 >();
-	constexpr auto ff0 = col_init_t< false, false, 0 >(7);
+// 	constexpr auto tt7 = col_init_t< true, true, 7 >();
+// 	constexpr auto tf0 = col_init_t< true, false, 0 >();
+// 	constexpr auto tf7 = col_init_t< true, false, 7 >();
+// 	constexpr auto ff0 = col_init_t< false, false, 0 >(7);
 }
 
 
