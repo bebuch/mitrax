@@ -28,7 +28,7 @@ namespace mitrax{
 	using bool_t = std::integral_constant< bool, I >;
 
 
-	constexpr size_t dim(bool is_compile_time, size_t n){
+	constexpr size_t dim(bool is_compile_time, size_t n)noexcept{
 		return is_compile_time ? n : 0;
 	}
 
@@ -53,9 +53,9 @@ namespace mitrax{
 
 	struct size_rt: size_ct< 0 >{
 	public:
-		constexpr size_rt(): v_(0) {}
+		constexpr size_rt()noexcept: v_(0) {}
 
-		constexpr size_rt(size_t v): v_(v) {}
+		constexpr size_rt(size_t v)noexcept: v_(v) {}
 
 
 		constexpr operator size_t()const noexcept{
@@ -138,37 +138,37 @@ namespace mitrax{
 	template < size_t C, size_t R >
 	class dim_t{
 	public:
-		constexpr dim_t(col_t< C > cols, row_t< R > rows):
+		constexpr dim_t(col_t< C > cols, row_t< R > rows)noexcept:
 			cols_(cols), rows_(rows) {}
 
-		constexpr dim_t(dim_t const&) = default;
+		constexpr dim_t(dim_t const&)noexcept = default;
 
-		constexpr dim_t(dim_t&&) = default;
-
-
-		constexpr dim_t& operator=(dim_t const&) = default;
-
-		constexpr dim_t& operator=(dim_t&&) = default;
+		constexpr dim_t(dim_t&&)noexcept = default;
 
 
-		constexpr col_t< C > cols()const{
+		constexpr dim_t& operator=(dim_t const&)noexcept = default;
+
+		constexpr dim_t& operator=(dim_t&&)noexcept = default;
+
+
+		constexpr col_t< C > cols()const noexcept{
 			return cols_;
 		}
 
-		constexpr row_t< R > rows()const{
+		constexpr row_t< R > rows()const noexcept{
 			return rows_;
 		}
 
 
-		constexpr void set_cols(col_t< C > c){
+		constexpr void set_cols(col_t< C > c)noexcept{
 			cols_ = c;
 		}
 
-		constexpr void set_rows(row_t< R > r){
+		constexpr void set_rows(row_t< R > r)noexcept{
 			rows_ = r;
 		}
 
-		constexpr void set(col_t< C > c, row_t< R > r){
+		constexpr void set(col_t< C > c, row_t< R > r)noexcept{
 			cols_ = c;
 			rows_ = r;
 		}
@@ -180,47 +180,50 @@ namespace mitrax{
 	};
 
 
-	constexpr auto dims(size_t c, size_t r){
+	constexpr auto dims(size_t c, size_t r)noexcept{
 		return dim_t< 0, 0 >(col_t< 0 >(c), row_t< 0 >(r));
 	}
 
 	template < size_t C >
-	constexpr auto dims(col_t< C > c, size_t r){
+	constexpr auto dims(col_t< C > c, size_t r)noexcept{
 		return dim_t< C, 0 >(c, row_t< 0 >(r));
 	}
 
 	template < bool Cct, size_t C >
-	constexpr auto dims(col_init_t< Cct, C > c, size_t r){
+	constexpr auto dims(col_init_t< Cct, C > c, size_t r)noexcept{
 		return dim_t< dim(Cct, C), 0 >(c.get(), row_t< 0 >(r));
 	}
 
 	template < bool Cct, size_t C, size_t R >
-	constexpr auto dims(col_init_t< Cct, C > c, row_t< R > r){
+	constexpr auto dims(col_init_t< Cct, C > c, row_t< R > r)noexcept{
 		return dim_t< dim(Cct, C), R >(c.get(), r);
 	}
 
 	template < size_t R >
-	constexpr auto dims(size_t c, row_t< R > r){
+	constexpr auto dims(size_t c, row_t< R > r)noexcept{
 		return dim_t< 0, R >(col_t< 0 >(c), r);
 	}
 
 	template < bool Rct, size_t R >
-	constexpr auto dims(size_t c, row_init_t< Rct, R > r){
+	constexpr auto dims(size_t c, row_init_t< Rct, R > r)noexcept{
 		return dim_t< 0, dim(Rct, R) >(col_t< 0 >(c), r.get());
 	}
 
 	template < size_t C, bool Rct, size_t R >
-	constexpr auto dims(col_t< C > c, row_init_t< Rct, R > r){
+	constexpr auto dims(col_t< C > c, row_init_t< Rct, R > r)noexcept{
 		return dim_t< C, dim(Rct, R) >(c, r.get());
 	}
 
 	template < size_t C, size_t R >
-	constexpr auto dims(col_t< C > c, row_t< R > r){
+	constexpr auto dims(col_t< C > c, row_t< R > r)noexcept{
 		return dim_t< C, R >(c, r);
 	}
 
 	template < bool Cct, size_t C, bool Rct, size_t R >
-	constexpr auto dims(col_init_t< Cct, C > c, row_init_t< Rct, R > r){
+	constexpr auto dims(
+		col_init_t< Cct, C > c,
+		row_init_t< Rct, R > r
+	)noexcept{
 		return dim_t< dim(Cct, C), dim(Rct, R) >(c.get(), r.get());
 	}
 
@@ -377,47 +380,47 @@ namespace mitrax{
 	}
 
 
-	constexpr auto cols(size_t c){
+	constexpr auto cols(size_t c)noexcept{
 		return col_init_t< false, 0 >(c);
 	}
 
-	constexpr auto rows(size_t r){
+	constexpr auto rows(size_t r)noexcept{
 		return row_init_t< false, 0 >(r);
 	}
 
-	constexpr auto dims(size_t d){
+	constexpr auto dims(size_t d)noexcept{
 		return dim_init_t< false, 0 >(d);
 	}
 
 
 	template < size_t I >
-	constexpr auto cols(){
+	constexpr auto cols()noexcept{
 		return col_init_t< true, I >();
 	}
 
 	template < size_t I >
-	constexpr auto rows(){
+	constexpr auto rows()noexcept{
 		return row_init_t< true, I >();
 	}
 
 	template < size_t I >
-	constexpr auto dims(){
+	constexpr auto dims()noexcept{
 		return dim_init_t< true, I >();
 	}
 
 
 	template < size_t I >
-	constexpr auto cols_rt(){
+	constexpr auto cols_rt()noexcept{
 		return col_init_t< false, I >();
 	}
 
 	template < size_t I >
-	constexpr auto rows_rt(){
+	constexpr auto rows_rt()noexcept{
 		return row_init_t< false, I >();
 	}
 
 	template < size_t I >
-	constexpr auto dims_rt(){
+	constexpr auto dims_rt()noexcept{
 		return dim_init_t< false, I >();
 	}
 
@@ -427,7 +430,7 @@ namespace mitrax{
 
 		// Adopted from Boost Hana
 		template < size_t N >
-		constexpr size_t parse_int(char const(&arr)[N]){
+		constexpr size_t parse_int(char const(&arr)[N])noexcept{
 			size_t number = 0;
 			size_t base = 1;
 			for(size_t i = 0; i < N; ++i){
@@ -446,7 +449,7 @@ namespace mitrax{
 
 		// Adopted from Boost Hana
 		template < char ... C >
-		constexpr auto operator"" _C(){
+		constexpr auto operator"" _C()noexcept{
 			static_assert(
 				detail::parse_int< sizeof...(C) >({C ...}),
 				"Compile time cols can not be 0, use '_C_rt' prefix instead"
@@ -456,13 +459,13 @@ namespace mitrax{
 
 		// Adopted from Boost Hana
 		template < char ... C >
-		constexpr auto operator"" _C_rt(){
+		constexpr auto operator"" _C_rt()noexcept{
 			return cols_rt< detail::parse_int< sizeof...(C) >({C ...}) >();
 		}
 
 		// Adopted from Boost Hana
 		template < char ... C >
-		constexpr auto operator"" _R(){
+		constexpr auto operator"" _R()noexcept{
 			static_assert(
 				detail::parse_int< sizeof...(C) >({C ...}),
 				"Compile time rows can not be 0, use '_R_rt' prefix instead"
@@ -472,13 +475,13 @@ namespace mitrax{
 
 		// Adopted from Boost Hana
 		template < char ... C >
-		constexpr auto operator"" _R_rt(){
+		constexpr auto operator"" _R_rt()noexcept{
 			return rows_rt< detail::parse_int< sizeof...(C) >({C ...}) >();
 		}
 
 		// Adopted from Boost Hana
 		template < char ... C >
-		constexpr auto operator"" _D(){
+		constexpr auto operator"" _D()noexcept{
 			static_assert(
 				detail::parse_int< sizeof...(C) >({C ...}),
 				"Compile time dims can not be 0, use '_D_rt' prefix instead"
@@ -488,7 +491,7 @@ namespace mitrax{
 
 		// Adopted from Boost Hana
 		template < char ... C >
-		constexpr auto operator"" _D_rt(){
+		constexpr auto operator"" _D_rt()noexcept{
 			return dims_rt< detail::parse_int< sizeof...(C) >({C ...}) >();
 		}
 
