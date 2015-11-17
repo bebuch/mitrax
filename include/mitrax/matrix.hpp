@@ -292,6 +292,12 @@ namespace mitrax{
 			return sub_matrix< value_type >(x, y, c, r);
 		}
 
+		template < size_t C, size_t R >
+		constexpr raw_matrix< value_type, C, R >
+		sub_matrix(size_t x, size_t y, dim_t< C, R > d){
+			return sub_matrix< value_type >(x, y, d);
+		}
+
 		template < bool Cct, size_t C, bool Rct, size_t R >
 		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
 		sub_matrix(
@@ -299,6 +305,12 @@ namespace mitrax{
 			col_init_t< Cct, C > c, row_init_t< Rct, R > r
 		)const{
 			return sub_matrix< value_type >(x, y, c, r);
+		}
+
+		template < size_t C, size_t R >
+		constexpr raw_matrix< value_type, C, R >
+		sub_matrix(size_t x, size_t y, dim_t< C, R > d)const{
+			return sub_matrix< value_type >(x, y, d);
 		}
 
 		template < typename V, bool Cct, size_t C, bool Rct, size_t R >
@@ -316,6 +328,12 @@ namespace mitrax{
 			);
 		}
 
+		template < typename V, size_t C, size_t R >
+		constexpr raw_matrix< V, C, R >
+		sub_matrix(size_t x, size_t y, dim_t< C, R > d){
+			return sub_matrix< V >(x, y, d.cols().init(), d.rows().init());
+		}
+
 		template < typename V, bool Cct, size_t C, bool Rct, size_t R >
 		constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
 		sub_matrix(
@@ -329,6 +347,12 @@ namespace mitrax{
 					static_cast< matrix< M, Cols, Rows > const& >(*this)
 				)
 			);
+		}
+
+		template < typename V, size_t C, size_t R >
+		constexpr raw_matrix< V, C, R >
+		sub_matrix(size_t x, size_t y, dim_t< C, R > d)const{
+			return sub_matrix< V >(x, y, d.cols().init(), d.rows().init());
 		}
 
 
