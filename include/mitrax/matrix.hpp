@@ -10,7 +10,6 @@
 #define _mitrax__matrix__hpp_INCLUDED_
 
 #include "point.hpp"
-#include "dimension.hpp"
 #include "to_array.hpp"
 #include "to_vector.hpp"
 #include "convert.hpp"
@@ -50,7 +49,7 @@ namespace mitrax{
 		using point_type = point< size_t >;
 
 		/// \brief Type of matrix dimensions (cols and rows)
-		using dimension_type = dimension< size_t >;
+		using dimension_type = dim_t< Cols, Rows >;
 
 		/// \brief Type of a reference to data
 		using reference = value_type&;

@@ -8,7 +8,7 @@
 //-----------------------------------------------------------------------------
 #include <boost/test/unit_test.hpp>
 
-#include <mitrax/integer.hpp>
+#include <mitrax/dim.hpp>
 
 
 using boost::typeindex::type_id;
@@ -32,7 +32,7 @@ namespace{
 }
 
 
-BOOST_AUTO_TEST_SUITE(integer)
+BOOST_AUTO_TEST_SUITE(dim)
 
 
 BOOST_AUTO_TEST_CASE(test_col_t){

@@ -9,7 +9,7 @@
 #ifndef _mitrax__convert__hpp_INCLUDED_
 #define _mitrax__convert__hpp_INCLUDED_
 
-#include "integer.hpp"
+#include "dim.hpp"
 
 #include <boost/container/vector.hpp>
 

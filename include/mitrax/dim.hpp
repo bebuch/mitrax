@@ -6,8 +6,8 @@
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 //-----------------------------------------------------------------------------
-#ifndef _mitrax__interger__hpp_INCLUDED_
-#define _mitrax__interger__hpp_INCLUDED_
+#ifndef _mitrax__dim__hpp_INCLUDED_
+#define _mitrax__dim__hpp_INCLUDED_
 
 #include <cstddef>
 #include <type_traits>

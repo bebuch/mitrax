@@ -9,7 +9,7 @@
 #ifndef _mitrax__to_array__hpp_INCLUDED_
 #define _mitrax__to_array__hpp_INCLUDED_
 
-#include "integer.hpp"
+#include "dim.hpp"
 
 #include <array>
 #include <utility>
