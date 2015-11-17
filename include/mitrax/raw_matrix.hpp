@@ -351,6 +351,12 @@ namespace mitrax{
 		return make_matrix(c, r, T());
 	}
 
+	template < typename T, size_t C, size_t R >
+	constexpr raw_matrix< std::remove_cv_t< T >, C, R >
+	make_matrix(dim_t< C, R > const& d){
+		return make_matrix(d.cols().init(), d.rows().init(), T());
+	}
+
 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 	constexpr raw_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
 	make_matrix(
@@ -361,6 +367,12 @@ namespace mitrax{
 		return raw_matrix_impl<
 			std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
 		>(c.get(), r.get(), v);
+	}
+
+	template < typename T, size_t C, size_t R >
+	constexpr raw_matrix< std::remove_cv_t< T >, C, R >
+	make_matrix(dim_t< C, R > const& d, T const& v){
+		return make_matrix(d.cols().init(), d.rows().init(), v);
 	}
 
 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
