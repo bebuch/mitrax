@@ -226,7 +226,9 @@ namespace mitrax{
 
 		raw_matrix_impl_base(
 			col_t< Cols > c, row_t< Rows > r, value_type const& v
-		): values_(c * r, v), cols_(c), rows_(r) {}
+		): 
+			values_(static_cast< size_t >(c) * static_cast< size_t >(r), v),
+			cols_(c), rows_(r) {}
 
 		raw_matrix_impl_base(raw_matrix_impl_base&&) = default;
 
