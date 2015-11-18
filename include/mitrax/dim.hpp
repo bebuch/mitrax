@@ -626,6 +626,47 @@ namespace mitrax{
 
 
 	template < size_t C1, size_t R1, size_t C2, size_t R2 >
+	constexpr auto operator+(dim_t< C1, R1 > d1, dim_t< C2, R2 > d2)noexcept{
+		return dims(d1.cols() + d2.cols(), d1.rows() + d2.rows());
+	}
+
+	template < size_t C1, size_t R1, size_t C2, size_t R2 >
+	constexpr auto operator-(dim_t< C1, R1 > d1, dim_t< C2, R2 > d2)noexcept{
+		return dims(d1.cols() - d2.cols(), d1.rows() - d2.rows());
+	}
+
+	template < size_t C1, size_t R1, size_t C2, size_t R2 >
+	constexpr auto operator*(dim_t< C1, R1 > d1, dim_t< C2, R2 > d2)noexcept{
+		return dims(d1.cols() * d2.cols(), d1.rows() * d2.rows());
+	}
+
+	template < size_t C1, size_t R1, size_t C2, size_t R2 >
+	constexpr auto operator/(dim_t< C1, R1 > d1, dim_t< C2, R2 > d2)noexcept{
+		return dims(d1.cols() / d2.cols(), d1.rows() / d2.rows());
+	}
+
+	template < size_t C1, size_t R1, size_t C2, size_t R2 >
+	constexpr auto operator%(dim_t< C1, R1 > d1, dim_t< C2, R2 > d2)noexcept{
+		return dims(d1.cols() % d2.cols(), d1.rows() % d2.rows());
+	}
+
+	template < size_t C, size_t R >
+	constexpr auto operator*(dim_t< C, R > d, size_t v)noexcept{
+		return dims(d.cols() * v, d.rows() * v);
+	}
+
+	template < size_t C, size_t R >
+	constexpr auto operator/(dim_t< C, R > d, size_t v)noexcept{
+		return dims(d.cols() / v, d.rows() / v);
+	}
+
+	template < size_t C, size_t R >
+	constexpr auto operator%(dim_t< C, R > d, size_t v)noexcept{
+		return dims(d.cols() % v, d.rows() % v);
+	}
+
+
+	template < size_t C1, size_t R1, size_t C2, size_t R2 >
 	constexpr bool operator==(dim_t< C1, R1 > a, dim_t< C2, R2 > b)noexcept{
 		static_assert(
 			(C1 == 0 || C2 == 0 || C1 == C2) &&
