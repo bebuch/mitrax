@@ -425,6 +425,114 @@ namespace mitrax{
 	}
 
 
+	// TODO: Implementation with less code
+	template < size_t C1, size_t C2 >
+	constexpr auto operator+(col_t< C1 >, col_t< C2 >){
+		return col_t< C1 + C2 >();
+	}
+
+	template < size_t C2 >
+	constexpr auto operator+(col_t< 0 > c1, col_t< C2 > c2){
+		return col_t< 0 >(
+			static_cast< size_t >(c1) + static_cast< size_t >(c2)
+		);
+	}
+
+	template < size_t C1 >
+	constexpr auto operator+(col_t< C1 > c1, col_t< 0 > c2){
+		return col_t< 0 >(
+			static_cast< size_t >(c1) + static_cast< size_t >(c2)
+		);
+	}
+
+	constexpr auto operator+(col_t< 0 > c1, col_t< 0 > c2){
+		return col_t< 0 >(
+			static_cast< size_t >(c1) + static_cast< size_t >(c2)
+		);
+	}
+
+
+	// TODO: Implementation with less code
+	template < size_t C1, size_t C2 >
+	constexpr auto operator-(col_t< C1 >, col_t< C2 >){
+		return col_t< C1 - C2 >();
+	}
+
+	template < size_t C2 >
+	constexpr auto operator-(col_t< 0 > c1, col_t< C2 > c2){
+		return col_t< 0 >(
+			static_cast< size_t >(c1) - static_cast< size_t >(c2)
+		);
+	}
+
+	template < size_t C1 >
+	constexpr auto operator-(col_t< C1 > c1, col_t< 0 > c2){
+		return col_t< 0 >(
+			static_cast< size_t >(c1) - static_cast< size_t >(c2)
+		);
+	}
+
+	constexpr auto operator-(col_t< 0 > c1, col_t< 0 > c2){
+		return col_t< 0 >(
+			static_cast< size_t >(c1) - static_cast< size_t >(c2)
+		);
+	}
+
+
+	// TODO: Implementation with less code
+	template < size_t R1, size_t R2 >
+	constexpr auto operator+(row_t< R1 >, row_t< R2 >){
+		return row_t< R1 + R2 >();
+	}
+
+	template < size_t R2 >
+	constexpr auto operator+(row_t< 0 > r1, row_t< R2 > r2){
+		return row_t< 0 >(
+			static_cast< size_t >(r1) + static_cast< size_t >(r2)
+		);
+	}
+
+	template < size_t R1 >
+	constexpr auto operator+(row_t< R1 > r1, row_t< 0 > r2){
+		return row_t< 0 >(
+			static_cast< size_t >(r1) + static_cast< size_t >(r2)
+		);
+	}
+
+	constexpr auto operator+(row_t< 0 > r1, row_t< 0 > r2){
+		return row_t< 0 >(
+			static_cast< size_t >(r1) + static_cast< size_t >(r2)
+		);
+	}
+
+
+	// TODO: Implementation with less code
+	template < size_t R1, size_t R2 >
+	constexpr auto operator-(row_t< R1 >, row_t< R2 >){
+		return row_t< R1 - R2 >();
+	}
+
+	template < size_t R2 >
+	constexpr auto operator-(row_t< 0 > r1, row_t< R2 > r2){
+		return row_t< 0 >(
+			static_cast< size_t >(r1) - static_cast< size_t >(r2)
+		);
+	}
+
+	template < size_t R1 >
+	constexpr auto operator-(row_t< R1 > r1, row_t< 0 > r2){
+		return row_t< 0 >(
+			static_cast< size_t >(r1) - static_cast< size_t >(r2)
+		);
+	}
+
+	constexpr auto operator-(row_t< 0 > r1, row_t< 0 > r2){
+		return row_t< 0 >(
+			static_cast< size_t >(r1) - static_cast< size_t >(r2)
+		);
+	}
+
+
 	namespace detail{
 
 
