@@ -87,6 +87,11 @@ namespace mitrax{
 		constexpr matrix_types(matrix_types const&) = default;
 
 
+		constexpr matrix_types& operator=(matrix_types&&) = default;
+
+		constexpr matrix_types& operator=(matrix_types const&) = default;
+
+
 		constexpr col_t< Cols > cols()const{
 			return m_.cols();
 		}
@@ -96,7 +101,7 @@ namespace mitrax{
 		}
 
 		constexpr dim_t< Cols, Rows > dims()const{
-			return dims(cols(), rows());
+			return mitrax::dims(cols(), rows());
 		}
 
 

@@ -37,8 +37,8 @@ namespace mitrax{
 			std::common_type_t< value_type_t< M1 >, value_type_t< M2 > >;
 
 		auto result = make_matrix< value_type >(dims(
-				cols< 1 >().get() + image.cols() - m.cols(),
-				rows< 1 >().get() + image.rows() - m.rows()
+				mitrax::cols< 1 >().get() + image.cols() - m.cols(),
+				mitrax::rows< 1 >().get() + image.rows() - m.rows()
 			));
 
 		for(std::size_t y = 0; y < result.rows(); ++y){
@@ -58,12 +58,12 @@ namespace mitrax{
 	// TODO: Implement as constexpr
 	template <
 		typename M1, size_t C1, size_t R1,
-		typename M2, size_t C2,
-		typename M3, size_t R3
+		typename M2, size_t R2,
+		typename M3, size_t C3
 	> auto convolution(
 		mitrax::matrix< M1, C1, R1 > const& image,
-		mitrax::row_vector< M2, C2 > const& vr,
-		mitrax::col_vector< M3, R3 > const& vc
+		mitrax::col_vector< M2, R2 > const& vc,
+		mitrax::row_vector< M3, C3 > const& vr
 	){
 		return convolution(convolution(image, vr), vc);
 	}

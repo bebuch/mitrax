@@ -451,6 +451,16 @@ namespace mitrax{
 		);
 	}
 
+	template < size_t C >
+	constexpr auto operator+(size_t c1, col_t< C > c2){
+		return c1 + static_cast< size_t >(c2);
+	}
+
+	template < size_t C >
+	constexpr auto operator+(col_t< C > c1, size_t c2){
+		return static_cast< size_t >(c1) + c2;
+	}
+
 
 	// TODO: Implementation with less code
 	template < size_t C1, size_t C2 >
@@ -476,6 +486,16 @@ namespace mitrax{
 		return col_t< 0 >(
 			static_cast< size_t >(c1) - static_cast< size_t >(c2)
 		);
+	}
+
+	template < size_t C >
+	constexpr auto operator-(size_t c1, col_t< C > c2){
+		return c1 - static_cast< size_t >(c2);
+	}
+
+	template < size_t C >
+	constexpr auto operator-(col_t< C > c1, size_t c2){
+		return static_cast< size_t >(c1) - c2;
 	}
 
 
@@ -505,6 +525,16 @@ namespace mitrax{
 		);
 	}
 
+	template < size_t R >
+	constexpr auto operator+(size_t r1, row_t< R > r2){
+		return r1 + static_cast< size_t >(r2);
+	}
+
+	template < size_t R >
+	constexpr auto operator+(row_t< R > r1, size_t r2){
+		return static_cast< size_t >(r1) + r2;
+	}
+
 
 	// TODO: Implementation with less code
 	template < size_t R1, size_t R2 >
@@ -530,6 +560,33 @@ namespace mitrax{
 		return row_t< 0 >(
 			static_cast< size_t >(r1) - static_cast< size_t >(r2)
 		);
+	}
+
+	template < size_t R >
+	constexpr auto operator-(size_t r1, row_t< R > r2){
+		return r1 - static_cast< size_t >(r2);
+	}
+
+	template < size_t R >
+	constexpr auto operator-(row_t< R > r1, size_t r2){
+		return static_cast< size_t >(r1) - r2;
+	}
+
+
+	template < size_t C1, size_t R1, size_t C2, size_t R2 >
+	constexpr bool operator==(dim_t< C1, R1 > a, dim_t< C2, R2 > b){
+		static_assert(
+			(C1 == 0 || C2 == 0 || C1 == C2) &&
+			(R1 == 0 || R2 == 0 || R1 == R2),
+			"Matrix dimensions are not compatible"
+		);
+
+		return a.cols() == b.cols() || a.rows() == b.rows();
+	}
+
+	template < size_t C1, size_t R1, size_t C2, size_t R2 >
+	constexpr bool operator!=(dim_t< C1, R1 > a, dim_t< C2, R2 > b){
+		return !(a == b);
 	}
 
 
