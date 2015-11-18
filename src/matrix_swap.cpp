@@ -18,7 +18,7 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-BOOST_AUTO_TEST_SUITE(matrix_swap)
+BOOST_AUTO_TEST_SUITE(test_suite_matrix_swap)
 
 
 namespace{

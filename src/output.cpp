@@ -20,7 +20,7 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-BOOST_AUTO_TEST_SUITE(output)
+BOOST_AUTO_TEST_SUITE(test_suite_output)
 
 
 // TODO: Check also for dynamic matrices

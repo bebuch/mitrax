@@ -14,7 +14,7 @@
 using namespace mitrax;
 
 
-BOOST_AUTO_TEST_SUITE(variable)
+BOOST_AUTO_TEST_SUITE(test_suite_variable)
 
 
 BOOST_AUTO_TEST_CASE(test_variable_free){

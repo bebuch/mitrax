@@ -17,7 +17,7 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-BOOST_AUTO_TEST_SUITE(sub_matrix)
+BOOST_AUTO_TEST_SUITE(test_suite_sub_matrix)
 
 
 namespace{

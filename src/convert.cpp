@@ -17,7 +17,7 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-BOOST_AUTO_TEST_SUITE(convert)
+BOOST_AUTO_TEST_SUITE(test_suite_convert)
 
 
 namespace{

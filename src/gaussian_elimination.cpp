@@ -18,7 +18,7 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-BOOST_AUTO_TEST_SUITE(gaussian_elimination)
+BOOST_AUTO_TEST_SUITE(test_suite_gaussian_elimination)
 
 
 namespace{

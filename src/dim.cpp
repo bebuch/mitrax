@@ -32,7 +32,7 @@ namespace{
 }
 
 
-BOOST_AUTO_TEST_SUITE(dim)
+BOOST_AUTO_TEST_SUITE(test_suite_dim)
 
 
 BOOST_AUTO_TEST_CASE(test_col_t){

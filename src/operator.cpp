@@ -13,7 +13,7 @@
 #include <mitrax/compare.hpp>
 
 
-BOOST_AUTO_TEST_SUITE(matrix_operator)
+BOOST_AUTO_TEST_SUITE(test_suite_matrix_operator)
 
 
 using boost::typeindex::type_id;
