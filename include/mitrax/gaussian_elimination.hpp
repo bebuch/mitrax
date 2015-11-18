@@ -72,7 +72,9 @@ namespace mitrax{
 			);
 		}
 
-		auto result = make_col_vector(m.cols().as_row().init(), value_type(1));
+		auto result = make_col_vector< value_type >(
+			m.cols().as_row().init()
+		);
 
 		auto ref = result.
 			template convert< std::reference_wrapper< value_type > >();
@@ -93,7 +95,7 @@ namespace mitrax{
 
 				// matrix is not invertible
 				if(y == size){
-					m(i, i) = 1;
+					break;
 				}
 			}
 
@@ -108,7 +110,16 @@ namespace mitrax{
 		}
 
 		for(size_t i = 0; i < size; ++i){
-			ref[i] *= m(i, i);
+			auto y = size - i - 1;
+			for(size_t x = y + 1; x < size; ++x){
+				ref[y] += m(x, y) * ref[x];
+			}
+
+			if(m(y, y) == 0){
+				ref[y].get() = 1;
+			}else{
+				ref[y] /= -m(y, y);
+			}
 		}
 
 		return result;
