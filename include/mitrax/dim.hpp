@@ -308,7 +308,7 @@ namespace mitrax{
 	template < size_t I >
 	struct dim_init_t< false, I >: size_ct< I >{
 		constexpr auto get()const noexcept{
-			return dims(0, 0);
+			return dims(I, I);
 		}
 
 		constexpr auto as_col()const noexcept{
