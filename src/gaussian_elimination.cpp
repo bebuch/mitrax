@@ -10,8 +10,6 @@
 
 #include <mitrax/raw_matrix.hpp>
 #include <mitrax/gaussian_elimination.hpp>
-#include <mitrax/output.hpp>
-#include <iostream>
 
 
 using boost::typeindex::type_id;
@@ -42,6 +40,12 @@ namespace{
 		{-1,  2, 0},
 		{ 1,  0, 1},
 		{ 2, -4, 0}
+	});
+
+	constexpr auto ref4 = make_square_matrix< float >(3_D, {
+		{1, 2, 3},
+		{4, 5, 6},
+		{0, 0, 0}
 	});
 
 
@@ -86,6 +90,18 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_2){
 		v.rows() == 3 &&
 		v[0] == -1 &&
 		v[1] == -0.5 &&
+		v[2] ==  1
+	));
+}
+
+BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_3){
+	auto const v = matrix_kernel(ref4);
+
+	BOOST_TEST((
+		v.cols() == 1 &&
+		v.rows() == 3 &&
+		v[0] ==  1 &&
+		v[1] == -2 &&
 		v[2] ==  1
 	));
 }

@@ -76,9 +76,6 @@ namespace mitrax{
 			m.cols().as_row().init()
 		);
 
-		auto ref = result.
-			template convert< std::reference_wrapper< value_type > >();
-
 		// Compiler may optimize with the compile time dimension
 		size_t const size = C == 0 ? m.rows() : m.cols();
 
@@ -89,7 +86,6 @@ namespace mitrax{
 				for(; y < size; ++y){
 					if(m(i, y) == 0) continue;
 					swap_rows(m, i, y);
-					swap_rows(ref, i, y);
 					break;
 				}
 
@@ -112,13 +108,13 @@ namespace mitrax{
 		for(size_t i = 0; i < size; ++i){
 			auto y = size - i - 1;
 			for(size_t x = y + 1; x < size; ++x){
-				ref[y] += m(x, y) * ref[x];
+				result[y] += m(x, y) * result[x];
 			}
 
 			if(m(y, y) == 0){
-				ref[y].get() = 1;
+				result[y] = 1;
 			}else{
-				ref[y] /= -m(y, y);
+				result[y] /= -m(y, y);
 			}
 		}
 
