@@ -10,6 +10,7 @@
 
 #include <mitrax/raw_matrix.hpp>
 #include <mitrax/gaussian_elimination.hpp>
+#include <mitrax/operator.hpp>
 
 
 using boost::typeindex::type_id;
@@ -47,6 +48,15 @@ namespace{
 		{4, 5, 6},
 		{0, 0, 0}
 	});
+
+	template < typename M, size_t C, size_t R >
+	constexpr bool near_null(
+		matrix< M, C, R > const& m,
+		value_type_t< M > const& threshold
+	){
+		for(auto& v: m) if(threshold < v) return false;
+		return true;
+	}
 
 
 }
@@ -103,6 +113,38 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_3){
 		v[0] ==  1 &&
 		v[1] == -2 &&
 		v[2] ==  1
+	));
+}
+
+BOOST_AUTO_TEST_CASE(test_matrix_kernel_numeric){
+	for(size_t i = 0; i < 10; ++i){
+		auto m = make_square_matrix< double >(dims(i + 1));
+		size_t j = 5;
+		for(auto& v: m) v = ++j;
+
+		auto k = matrix_kernel(m);
+
+		BOOST_TEST(near_null(m * k, 0));
+	}
+}
+
+BOOST_AUTO_TEST_CASE(test_gaussian_elimination){
+	constexpr auto m = make_square_matrix< float >(3_D, {
+		{ 1  , -0.2, -0.2},
+		{-0.4,  0.8, -0.1},
+		{ 0  , -0.5,  0.9}
+	});
+
+	constexpr auto v = make_col_vector< float >(3_R, {7, 12.5, 16.5});
+
+	auto res = gaussian_elimination(m, v);
+
+	BOOST_TEST((
+		res.cols() == 1 &&
+		res.rows() == 3 &&
+		res[0] == 20 &&
+		res[1] == 30 &&
+		res[2] == 35
 	));
 }
 
