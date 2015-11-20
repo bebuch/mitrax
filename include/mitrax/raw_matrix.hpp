@@ -136,6 +136,11 @@ namespace mitrax{
 			{}
 
 
+		raw_matrix_impl& operator=(raw_matrix_impl&&) = default;
+
+		raw_matrix_impl& operator=(raw_matrix_impl const&) = default;
+
+
 		constexpr value_type& operator()(size_t x, size_t y){
 			return values_[y * cols() + x];
 		}
