@@ -182,8 +182,6 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_1){
 
 	auto i = inverse(m) * 3;
 
-	std::cout << i << std::endl;
-
 	BOOST_TEST((
 		i.cols() == 3 &&
 		i.rows() == 3 &&
@@ -208,8 +206,6 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_2){
 
 	auto i = inverse(m) * 4;
 
-	std::cout << i << std::endl;
-
 	BOOST_TEST((
 		i.cols() == 3 &&
 		i.rows() == 3 &&
@@ -233,8 +229,6 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_3){
 	});
 
 	auto i = inverse(m);
-
-	std::cout << i << std::endl;
 
 	BOOST_TEST((
 		i.cols() == 3 &&

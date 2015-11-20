@@ -12,9 +12,6 @@
 #include "raw_matrix.hpp"
 #include "matrix_swap.hpp"
 
-#include <mitrax/output.hpp>
-#include <iostream>
-
 
 namespace mitrax{
 
@@ -153,9 +150,6 @@ namespace mitrax{
 		for(size_t i = 0; i < size; ++i){
 			r(i, i) = 1;
 		}
-
-		std::cout << m << std::endl;
-		std::cout << r << std::endl;
 
 		size_t swap_count = 0;
 		for(size_t i = 0; i < size; ++i){
