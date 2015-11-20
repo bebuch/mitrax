@@ -9,7 +9,7 @@
 #ifndef _mitrax__operator__hpp_INCLUDED_
 #define _mitrax__operator__hpp_INCLUDED_
 
-#include "matrix.hpp"
+#include "raw_matrix.hpp"
 
 #include <stdexcept>
 
