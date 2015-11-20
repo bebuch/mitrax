@@ -76,8 +76,8 @@ namespace mitrax{
 		){
 			boost::container::vector< T > result;
 			result.reserve(c * r);
-			for(size_t yi = 0; yi < c; ++yi){
-				for(size_t xi = 0; xi < r; ++xi){
+			for(size_t yi = 0; yi < r; ++yi){
+				for(size_t xi = 0; xi < c; ++xi){
 					result.emplace_back(m(x + xi, y + yi));
 				}
 			}
@@ -97,8 +97,8 @@ namespace mitrax{
 		){
 			boost::container::vector< T > result;
 			result.reserve(c * r);
-			for(size_t yi = 0; yi < c; ++yi){
-				for(size_t xi = 0; xi < r; ++xi){
+			for(size_t yi = 0; yi < r; ++yi){
+				for(size_t xi = 0; xi < c; ++xi){
 					result.emplace_back(m(x + xi, y + yi));
 				}
 			}
