@@ -15,15 +15,16 @@
 namespace mitrax{
 
 
-	template < typename T, size_t N >
+	template < typename T, size_t Degree >
 	class polynom{
 	public:
 		using value_type = T;
 
 
-		constexpr polynom(): coefficients_(init_array< N >(T())) {}
+		constexpr polynom(): coefficients_(init_array< Degree + 1 >(T())) {}
 
-		constexpr polynom(T const(&)[N]): coefficients_(to_array< N >(T())) {}
+		constexpr polynom(T const(&)[Degree + 1]):
+			coefficients_(to_array< Degree + 1 >(T())) {}
 
 
 		constexpr value_type& operator[](size_t i){
@@ -36,7 +37,7 @@ namespace mitrax{
 
 
 	private:
-		std::array< T, N + 1 > coefficients_;
+		std::array< T, Degree + 1 > coefficients_;
 	};
 
 
