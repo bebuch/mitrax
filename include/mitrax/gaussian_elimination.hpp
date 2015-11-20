@@ -12,6 +12,9 @@
 #include "raw_matrix.hpp"
 #include "matrix_swap.hpp"
 
+#include <mitrax/output.hpp>
+#include <iostream>
+
 
 namespace mitrax{
 
@@ -120,7 +123,7 @@ namespace mitrax{
 			for(size_t y = 0; y < x; ++y){
 				auto factor = m(x, y) / m(x, x);
 				b[y] -= factor * b[x];
-				m(x, y) = 0;
+// 				m(x, y) = 0; // TODO: remove this line
 			}
 		}
 
@@ -129,6 +132,88 @@ namespace mitrax{
 		}
 
 		return b;
+	}
+
+
+	template < typename M, size_t C, size_t R >
+	constexpr raw_matrix< value_type_t< M >, C, R >
+	inverse(matrix< M, C, R > m){
+		using value_type = value_type_t< M >;
+
+		if(m.cols() != m.rows()){
+			throw std::logic_error(
+				"inverse with non square matrix"
+			);
+		}
+
+		// Compiler may optimize with the compile time dimension
+		size_t const size = C == 0 ? m.rows() : m.cols();
+
+		auto r = make_matrix< value_type >(m.dims());
+		for(size_t i = 0; i < size; ++i){
+			r(i, i) = 1;
+		}
+
+		std::cout << m << std::endl;
+		std::cout << r << std::endl;
+
+		size_t swap_count = 0;
+		for(size_t i = 0; i < size; ++i){
+			if(m(i, i) == 0){
+				// swap lines
+				size_t y = i + 1;
+				for(; y < size; ++y){
+					if(m(i, y) == 0) continue;
+					swap_rows(m, i, y);
+					swap_rows(r, i, y);
+					++swap_count;
+					break;
+				}
+
+				// matrix is not invertible
+				if(y == size){
+					throw std::logic_error(
+						"inverse with non invertible matrix"
+					);
+				}
+			}
+
+			// eliminate col in lower rows
+			for(size_t y = i + 1; y < size; ++y){
+				auto factor = m(i, y) / m(i, i);
+				m(i, y) = 0;
+				for(size_t x = i + 1; x < size; ++x){
+					m(x, y) -= factor * m(x, i);
+				}
+				for(size_t x = 0; x < size; ++x){
+					r(x, y) -= factor * r(x, i);
+				}
+			}
+
+			for(size_t x = 0; x < size; ++x){
+				r(x, i) /= m(i, i);
+			}
+
+			for(size_t x = i + 1; x < size; ++x){
+				m(x, i) /= m(i, i);
+			}
+
+// 			m(i, i) = 1; // TODO: remove this line
+		}
+
+		for(size_t i = 0; i < size; ++i){
+			auto j = size - i - 1;
+
+			for(size_t y = 0; y < j; ++y){
+				for(size_t x = 0; x < size; ++x){
+					r(x, y) -= m(j, y) * r(x, j);
+				}
+
+// 				m(j, y) = 0; // TODO: remove this line
+			}
+		}
+
+		return r;
 	}
 
 

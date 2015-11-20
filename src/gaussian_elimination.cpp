@@ -12,6 +12,8 @@
 #include <mitrax/gaussian_elimination.hpp>
 #include <mitrax/operator.hpp>
 
+#include <cmath>
+
 
 using boost::typeindex::type_id;
 using boost::typeindex::type_id_runtime;
@@ -56,6 +58,11 @@ namespace{
 	){
 		for(auto& v: m) if(threshold < v) return false;
 		return true;
+	}
+
+	template < typename T, typename U >
+	constexpr bool equal(T const& a, U const& b){
+		return std::abs(a - b) < 0.00001;
 	}
 
 
@@ -145,6 +152,102 @@ BOOST_AUTO_TEST_CASE(test_gaussian_elimination){
 		res[0] == 20 &&
 		res[1] == 30 &&
 		res[2] == 35
+	));
+}
+
+BOOST_AUTO_TEST_CASE(test_inverse_2x2){
+	constexpr auto m = make_square_matrix< float >(2_D, {
+		{2, 5},
+		{1, 3}
+	});
+
+	auto i = inverse(m);
+
+	BOOST_TEST((
+		i.cols() == 2 &&
+		i.rows() == 2 &&
+		i(0, 0) ==  3 &&
+		i(1, 0) == -5 &&
+		i(0, 1) == -1 &&
+		i(1, 1) ==  2
+	));
+}
+
+BOOST_AUTO_TEST_CASE(test_inverse_3x3_1){
+	constexpr auto m = make_square_matrix< float >(3_D, {
+		{1, 2, 0},
+		{2, 4, 1},
+		{2, 1, 0}
+	});
+
+	auto i = inverse(m) * 3;
+
+	std::cout << i << std::endl;
+
+	BOOST_TEST((
+		i.cols() == 3 &&
+		i.rows() == 3 &&
+		equal(i(0, 0), -1) &&
+		equal(i(1, 0),  0) &&
+		equal(i(2, 0),  2) &&
+		equal(i(0, 1),  2) &&
+		equal(i(1, 1),  0) &&
+		equal(i(2, 1), -1) &&
+		equal(i(0, 2), -6) &&
+		equal(i(1, 2),  3) &&
+		equal(i(2, 2),  0)
+	));
+}
+
+BOOST_AUTO_TEST_CASE(test_inverse_3x3_2){
+	constexpr auto m = make_square_matrix< float >(3_D, {
+		{ 2, -1,  0},
+		{-1,  2, -1},
+		{ 0, -1,  2}
+	});
+
+	auto i = inverse(m) * 4;
+
+	std::cout << i << std::endl;
+
+	BOOST_TEST((
+		i.cols() == 3 &&
+		i.rows() == 3 &&
+		equal(i(0, 0), 3) &&
+		equal(i(1, 0), 2) &&
+		equal(i(2, 0), 1) &&
+		equal(i(0, 1), 2) &&
+		equal(i(1, 1), 4) &&
+		equal(i(2, 1), 2) &&
+		equal(i(0, 2), 1) &&
+		equal(i(1, 2), 2) &&
+		equal(i(2, 2), 3)
+	));
+}
+
+BOOST_AUTO_TEST_CASE(test_inverse_3x3_3){
+	constexpr auto m = make_square_matrix< float >(3_D, {
+		{ 2, -1,  0},
+		{ 1,  2, -2},
+		{ 0, -1,  1}
+	});
+
+	auto i = inverse(m);
+
+	std::cout << i << std::endl;
+
+	BOOST_TEST((
+		i.cols() == 3 &&
+		i.rows() == 3 &&
+		equal(i(0, 0),  0) &&
+		equal(i(1, 0),  1) &&
+		equal(i(2, 0),  2) &&
+		equal(i(0, 1), -1) &&
+		equal(i(1, 1),  2) &&
+		equal(i(2, 1),  4) &&
+		equal(i(0, 2), -1) &&
+		equal(i(1, 2),  2) &&
+		equal(i(2, 2),  5)
 	));
 }
 
