@@ -25,6 +25,15 @@ using namespace mitrax::literals;
 namespace{
 
 
+	template < typename T >
+	auto rt_id(T&& v){
+		return type_id_runtime(static_cast< T&& >(v));
+	}
+
+	template < typename T >
+	auto const id = type_id< T >();
+
+
 	constexpr auto ref1 = make_square_matrix< int >(3_D, {
 		{0, 1, 2},
 		{3, 4, 5},
@@ -269,12 +278,82 @@ BOOST_AUTO_TEST_CASE(test_element_modulus){
 }
 
 
-
 BOOST_AUTO_TEST_CASE(test_matrix_multiplies){
 	auto m = ref_all1 * ref_all1;
 
 	auto eq = m == ref_all3;
 	BOOST_TEST(eq);
+}
+
+
+BOOST_AUTO_TEST_CASE(test_transpose){
+	constexpr auto m_cc = make_matrix< int >(2_C, 3_R, {
+		{1, 2},
+		{3, 4},
+		{5, 6}
+	});
+
+	auto m_cd = make_matrix< int >(2_C, 3_R_rt, {
+		{1, 2},
+		{3, 4},
+		{5, 6}
+	});
+
+	auto m_dc = make_matrix< int >(2_C_rt, 3_R, {
+		{1, 2},
+		{3, 4},
+		{5, 6}
+	});
+
+	auto m_dd = make_matrix< int >(2_C_rt, 3_R_rt, {
+		{1, 2},
+		{3, 4},
+		{5, 6}
+	});
+
+	constexpr auto trans_cc = transpose(m_cc);
+	auto trans_cd = transpose(m_cd);
+	auto trans_dc = transpose(m_dc);
+	auto trans_dd = transpose(m_dd);
+
+	auto check1 = [](auto const& m){
+		return
+			m.cols() == 3 &&
+			m.rows() == 2 &&
+			m(0, 0) == 1 &&
+			m(1, 0) == 3 &&
+			m(2, 0) == 5 &&
+			m(0, 1) == 2 &&
+			m(1, 1) == 4 &&
+			m(2, 1) == 6;
+	};
+
+	auto check2 = [](auto const& m){
+		return
+			m.cols() == 2 &&
+			m.rows() == 3 &&
+			m(0, 0) == 1 &&
+			m(1, 0) == 2 &&
+			m(0, 1) == 3 &&
+			m(1, 1) == 4 &&
+			m(0, 2) == 5 &&
+			m(1, 2) == 6;
+	};
+
+	BOOST_TEST(check1(trans_cc));
+	BOOST_TEST(check1(trans_cd));
+	BOOST_TEST(check1(trans_dc));
+	BOOST_TEST(check1(trans_dd));
+
+	BOOST_TEST((rt_id(trans_cc) == id< raw_matrix< int, 3, 2 > >));
+	BOOST_TEST((rt_id(trans_cd) == id< raw_matrix< int, 0, 2 > >));
+	BOOST_TEST((rt_id(trans_dc) == id< raw_matrix< int, 3, 0 > >));
+	BOOST_TEST((rt_id(trans_dd) == id< raw_matrix< int, 0, 0 > >));
+
+	BOOST_TEST(check2(transpose(trans_cc)));
+	BOOST_TEST(check2(transpose(trans_cd)));
+	BOOST_TEST(check2(transpose(trans_dc)));
+	BOOST_TEST(check2(transpose(trans_dd)));
 }
 
 

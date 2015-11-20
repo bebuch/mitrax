@@ -104,6 +104,62 @@ namespace mitrax{
 		}
 
 
+		template < typename M, size_t C, size_t R, size_t ... I >
+		constexpr auto transpose_static(
+			matrix< M, C, R > const& m,
+			std::index_sequence< I ... >
+		){
+			return matrix< raw_matrix_impl< value_type_t< M >, R, C >, R, C >(
+				raw_matrix_impl< value_type_t< M >, R, C >(
+					m.rows().as_col(), m.cols().as_row(),
+					{{ m(I / R, I % R) ... }}
+				)
+			);
+		}
+
+		template < typename M, size_t C, size_t R >
+		auto transpose_dynamic(matrix< M, C, R > const& m){
+			boost::container::vector< value_type_t< M > > v;
+			
+			v.reserve(
+				static_cast< size_t >(m.cols()) *
+				static_cast< size_t >(m.rows())
+			);
+
+			for(size_t x = 0; x < m.cols(); ++x){
+				for(size_t y = 0; y < m.rows(); ++y){
+					v.emplace_back(m(x, y));
+				}
+			}
+			
+			return matrix< raw_matrix_impl< value_type_t< M >, R, C >, R, C >(
+				raw_matrix_impl< value_type_t< M >, R, C >(
+					m.rows().as_col(), m.cols().as_row(), std::move(v)
+				)
+			);
+		}
+
+		template < typename M, size_t C, size_t R >
+		constexpr auto transpose(matrix< M, C, R > const& m){
+			return transpose_static(m, std::make_index_sequence< C * R >());
+		}
+
+		template < typename M, size_t R >
+		auto transpose(matrix< M, 0, R > const& m){
+			return transpose_dynamic(m);
+		}
+
+		template < typename M, size_t C >
+		auto transpose(matrix< M, C, 0 > const& m){
+			return transpose_dynamic(m);
+		}
+
+		template < typename M >
+		auto transpose(matrix< M, 0, 0 > const& m){
+			return transpose_dynamic(m);
+		}
+
+
 	}
 
 
@@ -379,6 +435,12 @@ namespace mitrax{
 		}
 
 		return m;
+	}
+
+
+	template < typename M, size_t C, size_t R >
+	constexpr auto transpose(matrix< M, C, R > const& m){
+		return detail::transpose(m);
 	}
 
 
