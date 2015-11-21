@@ -228,6 +228,11 @@ namespace mitrax{
 		return dim_t< dim(Cct, C), dim(Rct, R) >(c.get(), r.get());
 	}
 
+	template < bool Dct, size_t D >
+	constexpr auto dims(dim_init_t< Dct, D > d)noexcept{
+		return dims(d.as_col(), d.as_row());
+	}
+
 
 	template < size_t I >
 	struct col_init_t< true, I >: size_ct< I >{

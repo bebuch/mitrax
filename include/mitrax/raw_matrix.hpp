@@ -381,6 +381,20 @@ namespace mitrax{
 		>(c.get(), r.get(), v);
 	}
 
+// 	template <
+// 		typename T, bool Cct, size_t C, bool Rct, size_t R, typename F,
+// 		decltype(std::declval< F >(size_t(), size_t()))* = nullptr
+// 	> constexpr raw_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
+// 	make_matrix(
+// 		col_init_t< Cct, C > c,
+// 		row_init_t< Rct, R > r,
+// 		F const& f
+// 	){
+// 		return raw_matrix_impl<
+// 			std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
+// 		>(c.get(), r.get(), f(size_t(), size_t()));
+// 	}
+
 	template < typename T, size_t C, size_t R >
 	constexpr raw_matrix< std::remove_cv_t< T >, C, R >
 	make_matrix(dim_t< C, R > const& d, T const& v){
@@ -425,7 +439,7 @@ namespace mitrax{
 
 	template < typename T, bool Nct, size_t N >
 	constexpr auto make_square_matrix(dim_init_t< Nct, N > n, T const& v){
-		return make_matrix< T >(n.as_col(), n.as_row(), v);
+		return make_matrix(n.as_col(), n.as_row(), v);
 	}
 
 	template < typename T, bool Nct, size_t N >
