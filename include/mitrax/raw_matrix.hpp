@@ -546,6 +546,37 @@ namespace mitrax{
 		);
 	}
 
+	template < typename T, size_t C, size_t R >
+	raw_matrix< std::remove_cv_t< T >, 0, 0 >
+	make_bitmap(dim_t< C, R > const& d){
+		return make_matrix< T >(
+			col_t< 0 >(d.cols()).init(),
+			row_t< 0 >(d.rows()).init()
+		);
+	}
+
+	template < typename T, size_t C, size_t R >
+	raw_matrix< std::remove_cv_t< T >, 0, 0 >
+	make_bitmap(dim_t< C, R > const& d, T const& v){
+		return make_matrix(
+			col_t< 0 >(d.cols()).init(),
+			row_t< 0 >(d.rows()).init(),
+			v
+		);
+	}
+
+	template < typename T >
+	raw_matrix< std::remove_cv_t< T >, 0, 0 >
+	make_bitmap(size_t c, size_t r){
+		return make_matrix< T >(col_t< 0 >(c).init(), row_t< 0 >(r).init());
+	}
+
+	template < typename T >
+	raw_matrix< std::remove_cv_t< T >, 0, 0 >
+	make_bitmap(size_t c, size_t r, T const& v){
+		return make_matrix(col_t< 0 >(c).init(), row_t< 0 >(r).init(), v);
+	}
+
 
 }
 

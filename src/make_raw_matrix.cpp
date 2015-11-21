@@ -823,7 +823,32 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_1x1){
 }
 
 BOOST_AUTO_TEST_CASE(test_raw_bitmap){
+	auto m1 = make_bitmap< int >(2, 3);
+	auto m2 = make_bitmap< int >(3, 2);
+	auto m3 = make_bitmap< int >(dims(2, 3));
+	auto m4 = make_bitmap< int >(dims(3, 2));
+	auto m5 = make_bitmap(2, 3, 7);
+	auto m6 = make_bitmap(3, 2, 7);
+	auto m7 = make_bitmap(dims(2, 3), 7);
+	auto m8 = make_bitmap(dims(3, 2), 7);
 
+	BOOST_TEST((rt_id(m1) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m2) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m3) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m4) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m5) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m6) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m7) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m8) == id< raw_matrix< int, 0, 0 > >));
+
+	BOOST_TEST(check_2x3_0(m1));
+	BOOST_TEST(check_3x2_0(m2));
+	BOOST_TEST(check_2x3_0(m3));
+	BOOST_TEST(check_3x2_0(m4));
+	BOOST_TEST(check_2x3_7(m5));
+	BOOST_TEST(check_3x2_7(m6));
+	BOOST_TEST(check_2x3_7(m7));
+	BOOST_TEST(check_3x2_7(m8));
 }
 
 
