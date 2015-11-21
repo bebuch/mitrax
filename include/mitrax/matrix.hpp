@@ -71,8 +71,6 @@ namespace mitrax{
 
 		constexpr matrix_types(M&& m): m_(std::move(m)) {}
 
-		constexpr matrix_types(M const& m): m_(m) {}
-
 		constexpr matrix_types(matrix_types&&) = default;
 
 		constexpr matrix_types(matrix_types const&) = default;
