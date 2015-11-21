@@ -16,20 +16,6 @@
 namespace mitrax{
 
 
-
-	template < typename T, size_t N >
-	using raw_square_matrix = matrix< raw_matrix_impl< T, N, N >, N, N >;
-
-	template < typename T, size_t Rows >
-	using raw_col_vector = matrix< raw_matrix_impl< T, 1, Rows >, 1, Rows >;
-
-	template < typename T, size_t Cols >
-	using raw_row_vector = matrix< raw_matrix_impl< T, Cols, 1 >, Cols, 1 >;
-
-	template < typename T >
-	using raw_bitmap = matrix< raw_matrix_impl< T, 0, 0 >, 0, 0 >;
-
-
 	namespace detail{
 
 
@@ -371,15 +357,15 @@ namespace mitrax{
 		>(c.get(), r.get(), detail::to_raw_matrix_data(c.get(), r.get(), v));
 	}
 
-// 	template <
-// 		typename T, bool Cct, size_t C, bool Rct, size_t R, typename F,
-// 		decltype(std::declval< F >(size_t(), size_t()))* = nullptr
-// 	> constexpr raw_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
-// 	make_matrix(col_init_t< Cct, C > c, row_init_t< Rct, R > r, F const& f){
-// 		return raw_matrix_impl<
-// 			std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
-// 		>(c.get(), r.get(), f(size_t(), size_t()));
-// 	}
+	template <
+		typename T, bool Cct, size_t C, bool Rct, size_t R, typename F,
+		decltype(std::declval< F >(size_t(), size_t()))* = nullptr
+	> constexpr raw_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
+	make_matrix(col_init_t< Cct, C > c, row_init_t< Rct, R > r, F const& f){
+		return raw_matrix_impl<
+			std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
+		>(c.get(), r.get(), f(size_t(), size_t()));
+	}
 
 	template < typename T, size_t C, size_t R >
 	constexpr raw_matrix< std::remove_cv_t< T >, C, R >

@@ -9,6 +9,7 @@
 #ifndef _mitrax__matrix__hpp_INCLUDED_
 #define _mitrax__matrix__hpp_INCLUDED_
 
+#include "matrix_fwd.hpp"
 #include "point.hpp"
 #include "to_array.hpp"
 #include "to_vector.hpp"
@@ -21,16 +22,6 @@
 
 
 namespace mitrax{
-
-
-	template < typename M, size_t Cols, size_t Rows >
-	class matrix;
-
-	template < typename T, size_t Cols, size_t Rows >
-	class raw_matrix_impl;
-
-	template < typename T, size_t Cols, size_t Rows >
-	using raw_matrix = matrix< raw_matrix_impl< T, Cols, Rows >, Cols, Rows >;
 
 
 	template < typename M, size_t Cols, size_t Rows >
@@ -474,19 +465,6 @@ namespace mitrax{
 	private:
 		using matrix_types< M, 1, 1 >::m_;
 	};
-
-
-	template < typename M, size_t N >
-	using square_matrix = matrix< M, N, N >;
-
-	template < typename M, size_t Cols >
-	using row_vector = matrix< M, Cols, 1 >;
-
-	template < typename M, size_t Rows >
-	using col_vector = matrix< M, 1, Rows >;
-
-	template < typename M >
-	using bitmap = matrix< M, 0, 0 >;
 
 
 
