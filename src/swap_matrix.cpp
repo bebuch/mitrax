@@ -8,8 +8,8 @@
 //-----------------------------------------------------------------------------
 #include <boost/test/unit_test.hpp>
 
-#include <mitrax/raw_matrix.hpp>
-#include <mitrax/matrix_swap.hpp>
+#include <mitrax/matrix.hpp>
+#include <mitrax/swap_matrix.hpp>
 
 
 using boost::typeindex::type_id;
@@ -18,7 +18,7 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-BOOST_AUTO_TEST_SUITE(test_suite_matrix_swap)
+BOOST_AUTO_TEST_SUITE(test_suite_swap_matrix)
 
 
 namespace{

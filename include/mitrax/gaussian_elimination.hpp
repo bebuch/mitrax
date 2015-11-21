@@ -9,8 +9,8 @@
 #ifndef _mitrax__gaussian_elimination__hpp_INCLUDED_
 #define _mitrax__gaussian_elimination__hpp_INCLUDED_
 
-#include "raw_matrix.hpp"
-#include "matrix_swap.hpp"
+#include "make_matrix.hpp"
+#include "swap_matrix.hpp"
 
 
 namespace mitrax{

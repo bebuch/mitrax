@@ -9,7 +9,7 @@
 #ifndef _mitrax__sub_matrix__hpp_INCLUDED_
 #define _mitrax__sub_matrix__hpp_INCLUDED_
 
-#include "dim.hpp"
+#include "matrix_fwd.hpp"
 
 #include <boost/container/vector.hpp>
 

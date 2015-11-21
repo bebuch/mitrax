@@ -8,7 +8,7 @@
 //-----------------------------------------------------------------------------
 #include <boost/test/unit_test.hpp>
 
-#include <mitrax/raw_matrix.hpp>
+#include <mitrax/matrix.hpp>
 
 
 using boost::typeindex::type_id;

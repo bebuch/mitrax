@@ -6,10 +6,10 @@
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 //-----------------------------------------------------------------------------
-#ifndef _mitrax__matrix_swap__hpp_INCLUDED_
-#define _mitrax__matrix_swap__hpp_INCLUDED_
+#ifndef _mitrax__swap_matrix__hpp_INCLUDED_
+#define _mitrax__swap_matrix__hpp_INCLUDED_
 
-#include "matrix.hpp"
+#include "matrix_interface.hpp"
 
 #include <type_traits>
 #include <utility>

@@ -9,7 +9,7 @@
 #ifndef _mitrax__compare__hpp_INCLUDED_
 #define _mitrax__compare__hpp_INCLUDED_
 
-#include "matrix.hpp"
+#include "matrix_interface.hpp"
 
 #include <stdexcept>
 

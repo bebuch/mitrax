@@ -9,7 +9,7 @@
 #ifndef _mitrax__convolution__hpp_INCLUDED_
 #define _mitrax__convolution__hpp_INCLUDED_
 
-#include "raw_matrix.hpp"
+#include "make_matrix.hpp"
 
 
 namespace mitrax{
