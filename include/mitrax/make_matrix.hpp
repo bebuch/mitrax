@@ -31,6 +31,14 @@ namespace mitrax{
 		struct is_static< 0, 0 >: std::false_type{};
 
 
+		template < typename F >
+		using fn_xy =
+			std::decay_t< decltype(std::declval< F >()(size_t(), size_t())) >;
+
+		template < typename F >
+		using fn_i = std::decay_t< decltype(std::declval< F >()(size_t())) >;
+
+
 		template < typename T, size_t N >
 		constexpr auto to_raw_matrix_data(std::true_type, T(&&v)[N]){
 			return mitrax::to_array(std::move(v));
@@ -98,15 +106,64 @@ namespace mitrax{
 	}
 
 
+// 	template < typename F, bool Cct, size_t C, bool Rct, size_t R >
+// 	constexpr raw_matrix< fn_xy< F >, dim(Cct, C), dim(Rct, R) >
+// 	make_matrix_by_function(
+// 		col_init_t< Cct, C > c, row_init_t< Rct, R > r, F const& f
+// 	){
+// 		return raw_matrix_impl< fn_xy< F >, dim(Cct, C), dim(Rct, R) >(
+// 			c.get(), r.get(), f(size_t(), size_t())
+// 		);
+// 	}
+// 
+// 	template < typename F, size_t C, size_t R >
+// 	constexpr auto
+// 	make_matrix_by_function(dim_t< C, R > const& d, F const& f){
+// 		return make_matrix_by_function(d.cols().init(), d.rows().init(), f);
+// 	}
+// 
+// 	template < typename F, bool Nct, size_t N >
+// 	constexpr auto
+// 	make_square_matrix_by_function(dim_init_t< Nct, N > n, F const& f){
+// 		return make_matrix_by_function(n.as_col(), n.as_row(), f);
+// 	}
+// 
+// 	template < typename F, bool Nct, size_t N >
+// 	constexpr raw_col_vector< fn_i< F >, dim(Nct, N) >
+// 	make_col_vector_by_function(row_init_t< Nct, N > r, F const& f){
+// 		using namespace literals;
+// 		return make_matrix(1_C, r, f);
+// 	}
+// 
+// 	template < typename F, bool Nct, size_t N >
+// 	constexpr raw_row_vector< fn_i< F >, dim(Nct, N) >
+// 	make_row_vector_by_function(col_init_t< Nct, N > c, F const& f){
+// 		using namespace literals;
+// 		return make_matrix(c, 1_R, f);
+// 	}
+// 
+// 	template < typename F, size_t C, size_t R >
+// 	auto make_bitmap_by_function(dim_t< C, R > const& d, F const& f){
+// 		return make_matrix(
+// 			col_t< 0 >(d.cols()).init(),
+// 			row_t< 0 >(d.rows()).init(),
+// 			f
+// 		);
+// 	}
+// 
+// 	template < typename F >
+// 	auto make_bitmap_by_function(size_t c, size_t r, F const& f){
+// 		return make_matrix(col_t< 0 >(c).init(), row_t< 0 >(r).init(), f);
+// 	}
+
+
 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
-	constexpr raw_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
-	make_matrix(col_init_t< Cct, C > c, row_init_t< Rct, R > r){
+	constexpr auto make_matrix(col_init_t< Cct, C > c, row_init_t< Rct, R > r){
 		return make_matrix(c, r, T());
 	}
 
 	template < typename T, size_t C, size_t R >
-	constexpr raw_matrix< std::remove_cv_t< T >, C, R >
-	make_matrix(dim_t< C, R > const& d){
+	constexpr auto make_matrix(dim_t< C, R > const& d){
 		return make_matrix< T >(d.cols().init(), d.rows().init());
 	}
 
@@ -118,19 +175,8 @@ namespace mitrax{
 		>(c.get(), r.get(), detail::to_raw_matrix_data(c.get(), r.get(), v));
 	}
 
-	template <
-		typename T, bool Cct, size_t C, bool Rct, size_t R, typename F,
-		decltype(std::declval< F >(size_t(), size_t()))* = nullptr
-	> constexpr raw_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
-	make_matrix(col_init_t< Cct, C > c, row_init_t< Rct, R > r, F const& f){
-		return raw_matrix_impl<
-			std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
-		>(c.get(), r.get(), f(size_t(), size_t()));
-	}
-
 	template < typename T, size_t C, size_t R >
-	constexpr raw_matrix< std::remove_cv_t< T >, C, R >
-	make_matrix(dim_t< C, R > const& d, T const& v){
+	constexpr auto make_matrix(dim_t< C, R > const& d, T const& v){
 		return make_matrix(d.cols().init(), d.rows().init(), v);
 	}
 
@@ -179,14 +225,12 @@ namespace mitrax{
 
 
 	template < typename T, bool Nct, size_t N >
-	constexpr raw_col_vector< std::remove_cv_t< T >, dim(Nct, N) >
-	make_col_vector(row_init_t< Nct, N > r){
+	constexpr auto make_col_vector(row_init_t< Nct, N > r){
 		return make_col_vector(r, T());
 	}
 
 	template < typename T, bool Nct, size_t N >
-	constexpr raw_col_vector< std::remove_cv_t< T >, dim(Nct, N) >
-	make_col_vector(row_init_t< Nct, N > r, T const& v){
+	constexpr auto make_col_vector(row_init_t< Nct, N > r, T const& v){
 		using namespace literals;
 		return make_matrix(1_C, r, v);
 	}
@@ -213,15 +257,12 @@ namespace mitrax{
 
 
 	template < typename T, bool Nct, size_t N >
-	constexpr raw_row_vector< std::remove_cv_t< T >, dim(Nct, N) >
-	make_row_vector(col_init_t< Nct, N > c){
-		using namespace literals;
+	constexpr auto make_row_vector(col_init_t< Nct, N > c){
 		return make_row_vector(c, T());
 	}
 
 	template < typename T, bool Nct, size_t N >
-	constexpr raw_row_vector< std::remove_cv_t< T >, dim(Nct, N) >
-	make_row_vector(col_init_t< Nct, N > c, T const& v){
+	constexpr auto make_row_vector(col_init_t< Nct, N > c, T const& v){
 		using namespace literals;
 		return make_matrix(c, 1_R, v);
 	}
@@ -247,8 +288,7 @@ namespace mitrax{
 	}
 
 	template < typename T, size_t C, size_t R >
-	raw_matrix< std::remove_cv_t< T >, 0, 0 >
-	make_bitmap(dim_t< C, R > const& d){
+	auto make_bitmap(dim_t< C, R > const& d){
 		return make_matrix< T >(
 			col_t< 0 >(d.cols()).init(),
 			row_t< 0 >(d.rows()).init()
@@ -256,8 +296,7 @@ namespace mitrax{
 	}
 
 	template < typename T, size_t C, size_t R >
-	raw_matrix< std::remove_cv_t< T >, 0, 0 >
-	make_bitmap(dim_t< C, R > const& d, T const& v){
+	auto make_bitmap(dim_t< C, R > const& d, T const& v){
 		return make_matrix(
 			col_t< 0 >(d.cols()).init(),
 			row_t< 0 >(d.rows()).init(),
@@ -266,14 +305,12 @@ namespace mitrax{
 	}
 
 	template < typename T >
-	raw_matrix< std::remove_cv_t< T >, 0, 0 >
-	make_bitmap(size_t c, size_t r){
+	auto make_bitmap(size_t c, size_t r){
 		return make_matrix< T >(col_t< 0 >(c).init(), row_t< 0 >(r).init());
 	}
 
 	template < typename T >
-	raw_matrix< std::remove_cv_t< T >, 0, 0 >
-	make_bitmap(size_t c, size_t r, T const& v){
+	auto make_bitmap(size_t c, size_t r, T const& v){
 		return make_matrix(col_t< 0 >(c).init(), row_t< 0 >(r).init(), v);
 	}
 
