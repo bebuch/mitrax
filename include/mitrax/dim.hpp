@@ -22,6 +22,14 @@ namespace mitrax{
 	using ptrdiff_t = std::ptrdiff_t;
 
 
+	template < typename F >
+	using fn_xy =
+		std::decay_t< decltype(std::declval< F >()(size_t(), size_t())) >;
+
+	template < typename F >
+	using fn_i = std::decay_t< decltype(std::declval< F >()(size_t())) >;
+
+
 	template < typename T >
 	using value_type_t = typename T::value_type;
 
@@ -243,6 +251,10 @@ namespace mitrax{
 		constexpr auto as_row()const noexcept{
 			return row_init_t< true, I >();
 		}
+
+		constexpr auto as_dim()const noexcept{
+			return dim_init_t< true, I >();
+		}
 	};
 
 	template < size_t I >
@@ -254,6 +266,10 @@ namespace mitrax{
 		constexpr auto as_row()const noexcept{
 			return row_init_t< false, I >();
 		}
+
+		constexpr auto as_dim()const noexcept{
+			return dim_init_t< false, I >();
+		}
 	};
 
 	template <>
@@ -262,6 +278,7 @@ namespace mitrax{
 
 		constexpr auto get()const noexcept;
 		constexpr auto as_row()const noexcept;
+		constexpr auto as_dim()const noexcept;
 	};
 
 
@@ -274,6 +291,10 @@ namespace mitrax{
 		constexpr auto as_col()const noexcept{
 			return col_init_t< true, I >();
 		}
+
+		constexpr auto as_dim()const noexcept{
+			return dim_init_t< true, I >();
+		}
 	};
 
 	template < size_t I >
@@ -285,6 +306,10 @@ namespace mitrax{
 		constexpr auto as_col()const noexcept{
 			return col_init_t< false, I >();
 		}
+
+		constexpr auto as_dim()const noexcept{
+			return dim_init_t< false, I >();
+		}
 	};
 
 	template <>
@@ -293,6 +318,7 @@ namespace mitrax{
 
 		constexpr auto get()const noexcept;
 		constexpr auto as_col()const noexcept;
+		constexpr auto as_dim()const noexcept;
 	};
 
 
@@ -344,6 +370,10 @@ namespace mitrax{
 		return row_init_t< false, 0 >(static_cast< size_t >(*this));
 	}
 
+	constexpr auto col_init_t< false, 0 >::as_dim()const noexcept{
+		return dim_init_t< false, 0 >(static_cast< size_t >(*this));
+	}
+
 
 	constexpr auto row_init_t< false, 0 >::get()const noexcept{
 		return row_t< 0 >(static_cast< size_t >(*this));
@@ -351,6 +381,10 @@ namespace mitrax{
 
 	constexpr auto row_init_t< false, 0 >::as_col()const noexcept{
 		return col_init_t< false, 0 >(static_cast< size_t >(*this));
+	}
+
+	constexpr auto row_init_t< false, 0 >::as_dim()const noexcept{
+		return dim_init_t< false, 0 >(static_cast< size_t >(*this));
 	}
 
 
