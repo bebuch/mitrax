@@ -26,25 +26,19 @@ namespace mitrax{
 		template < typename T, typename U, size_t N, size_t ... I >
 		constexpr auto
 		convert(std::array< U, N >&& v, std::index_sequence< I ... >){
-			return std::array< T, N >{{
-				static_cast< T >(std::move(v[I])) ...
-			}};
+			return std::array< T, N >{{ T(std::move(v[I])) ... }};
 		}
 
 		template < typename T, typename U, size_t N, size_t ... I >
 		constexpr auto
 		convert(std::array< U, N >& v, std::index_sequence< I ... >){
-			return std::array< T, N >{{
-				static_cast< T >(v[I]) ...
-			}};
+			return std::array< T, N >{{ T(v[I]) ... }};
 		}
 
 		template < typename T, typename U, size_t N, size_t ... I >
 		constexpr auto
 		convert(std::array< U, N > const& v, std::index_sequence< I ... >){
-			return std::array< T, N >{{
-				static_cast< T >(v[I]) ...
-			}};
+			return std::array< T, N >{{ T(v[I]) ... }};
 		}
 
 
