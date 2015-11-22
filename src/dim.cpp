@@ -293,6 +293,14 @@ BOOST_AUTO_TEST_CASE(test_col_init_t){
 	BOOST_TEST(rt_id(cct.as_row()) == (id< row_init_t< true, 7 > >));
 	BOOST_TEST(rt_id(crt.as_row()) == (id< row_init_t< false, 7 > >));
 	BOOST_TEST(rt_id(rrt.as_row()) == (id< row_init_t< false, 0 > >));
+
+	BOOST_TEST(cct.as_dim() == size_t(7));
+	BOOST_TEST(crt.as_dim() == size_t(7));
+	BOOST_TEST(rrt.as_dim() == size_t(7));
+
+	BOOST_TEST(rt_id(cct.as_dim()) == (id< dim_init_t< true, 7 > >));
+	BOOST_TEST(rt_id(crt.as_dim()) == (id< dim_init_t< false, 7 > >));
+	BOOST_TEST(rt_id(rrt.as_dim()) == (id< dim_init_t< false, 0 > >));
 }
 
 BOOST_AUTO_TEST_CASE(test_row_init_t){
@@ -326,6 +334,14 @@ BOOST_AUTO_TEST_CASE(test_row_init_t){
 	BOOST_TEST(rt_id(cct.as_col()) == (id< col_init_t< true, 7 > >));
 	BOOST_TEST(rt_id(crt.as_col()) == (id< col_init_t< false, 7 > >));
 	BOOST_TEST(rt_id(rrt.as_col()) == (id< col_init_t< false, 0 > >));
+
+	BOOST_TEST(cct.as_dim() == size_t(7));
+	BOOST_TEST(crt.as_dim() == size_t(7));
+	BOOST_TEST(rrt.as_dim() == size_t(7));
+
+	BOOST_TEST(rt_id(cct.as_dim()) == (id< dim_init_t< true, 7 > >));
+	BOOST_TEST(rt_id(crt.as_dim()) == (id< dim_init_t< false, 7 > >));
+	BOOST_TEST(rt_id(rrt.as_dim()) == (id< dim_init_t< false, 0 > >));
 }
 
 BOOST_AUTO_TEST_CASE(test_dim_init_t){
