@@ -355,5 +355,65 @@ BOOST_AUTO_TEST_CASE(test_transpose){
 	BOOST_TEST(check2(transpose(trans_dd)));
 }
 
+BOOST_AUTO_TEST_CASE(test_unary_plus){
+	auto m = ref1_element_minus1;
+
+	auto n = +m;
+
+	BOOST_TEST((
+			n.cols() == 3 &&
+			n.rows() == 3 &&
+			n(0, 0) == -1 &&
+			n(1, 0) == 0 &&
+			n(2, 0) == 1 &&
+			n(0, 1) == 2 &&
+			n(1, 1) == 3 &&
+			n(2, 1) == 4 &&
+			n(0, 2) == 5 &&
+			n(1, 2) == 6 &&
+			n(2, 2) == 7
+	));
+}
+
+BOOST_AUTO_TEST_CASE(test_unary_minus){
+	auto m = ref1_element_minus1;
+
+	auto n = -m;
+
+	BOOST_TEST((
+			n.cols() == 3 &&
+			n.rows() == 3 &&
+			n(0, 0) == 1 &&
+			n(1, 0) == 0 &&
+			n(2, 0) == -1 &&
+			n(0, 1) == -2 &&
+			n(1, 1) == -3 &&
+			n(2, 1) == -4 &&
+			n(0, 2) == -5 &&
+			n(1, 2) == -6 &&
+			n(2, 2) == -7
+	));
+}
+
+BOOST_AUTO_TEST_CASE(test_abs){
+	auto m = ref1_element_minus1;
+
+	auto n = abs(m);
+
+	BOOST_TEST((
+			n.cols() == 3 &&
+			n.rows() == 3 &&
+			n(0, 0) == 1 &&
+			n(1, 0) == 0 &&
+			n(2, 0) == 1 &&
+			n(0, 1) == 2 &&
+			n(1, 1) == 3 &&
+			n(2, 1) == 4 &&
+			n(0, 2) == 5 &&
+			n(1, 2) == 6 &&
+			n(2, 2) == 7
+	));
+}
+
 
 BOOST_AUTO_TEST_SUITE_END()

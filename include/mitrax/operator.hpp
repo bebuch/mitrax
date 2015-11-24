@@ -12,6 +12,7 @@
 #include "make_matrix.hpp"
 
 #include <stdexcept>
+#include <cmath>
 
 
 namespace mitrax{
@@ -105,16 +106,40 @@ namespace mitrax{
 
 
 		template < typename M, size_t C, size_t R >
-		class transpose_f{
+		class unary_op{
 		public:
-			constexpr transpose_f(matrix< M, C, R > const& m): m(m) {}
+			constexpr unary_op(matrix< M, C, R > const& m): m_(m) {}
+
+		protected:
+			matrix< M, C, R > const& m_;
+		};
+
+		template < typename M, size_t C, size_t R >
+		struct transpose_f: unary_op< M, C, R >{
+			using unary_op< M, C, R >::unary_op;
 
 			constexpr auto operator()(size_t x, size_t y)const{
-				return m(y, x);
+				return this->m_(y, x);
 			}
+		};
 
-		private:
-			matrix< M, C, R > const& m;
+		template < typename M, size_t C, size_t R >
+		struct unary_minus_op: unary_op< M, C, R >{
+			using unary_op< M, C, R >::unary_op;
+
+			constexpr auto operator()(size_t x, size_t y)const{
+				return -this->m_(x, y);
+			}
+		};
+
+		template < typename M, size_t C, size_t R >
+		struct abs_op: unary_op< M, C, R >{
+			using unary_op< M, C, R >::unary_op;
+
+			constexpr auto operator()(size_t x, size_t y)const{
+				using std::abs;
+				return abs(this->m_(x, y));
+			}
 		};
 
 
@@ -402,6 +427,23 @@ namespace mitrax{
 			m.rows().as_col().init(), m.cols().as_row().init(),
 			detail::transpose_f< M, C, R >(m)
 		);
+	}
+
+
+	template < typename M, size_t C, size_t R >
+	constexpr auto operator+(matrix< M, C, R > const& m){
+		return m.as_raw_matrix();
+	}
+
+	template < typename M, size_t C, size_t R >
+	constexpr auto operator-(matrix< M, C, R > const& m){
+		return make_matrix_by_function(m.dims(),
+			detail::unary_minus_op< M, C, R >(m));
+	}
+
+	template < typename M, size_t C, size_t R >
+	constexpr auto abs(matrix< M, C, R > const& m){
+		return make_matrix_by_function(m.dims(), detail::abs_op< M, C, R >(m));
 	}
 
 
