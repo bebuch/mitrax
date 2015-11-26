@@ -292,6 +292,14 @@ namespace mitrax{
 	}
 
 	template < typename M, size_t C, size_t R, typename T >
+	constexpr auto operator*(
+		T const& v,
+		matrix< M, C, R > const& m
+	){
+		return m * v;
+	}
+
+	template < typename M, size_t C, size_t R, typename T >
 	constexpr auto operator/(
 		matrix< M, C, R > const& m,
 		T const& v

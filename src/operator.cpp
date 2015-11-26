@@ -214,9 +214,12 @@ BOOST_AUTO_TEST_CASE(test_element_minus){
 BOOST_AUTO_TEST_CASE(test_multiplies){
 	auto m = ref1;
 
-	auto res = m * 3;
-	auto eq = res == ref3;
-	BOOST_TEST(eq);
+	auto res1 = m * 3;
+	auto res2 = 3 * m;
+	auto eq1 = res1 == ref3;
+	auto eq2 = res2 == ref3;
+	BOOST_TEST(eq1);
+	BOOST_TEST(eq2);
 }
 
 BOOST_AUTO_TEST_CASE(test_divides){
