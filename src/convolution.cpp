@@ -44,7 +44,7 @@ namespace{
 
 
 BOOST_AUTO_TEST_CASE(test_convolution){
-	auto m = convolution(image, sobel_x);
+	constexpr auto m = convolution(image, sobel_x);
 
 	auto eq =
 		m.cols() == 3 &&
