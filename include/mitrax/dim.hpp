@@ -468,35 +468,158 @@ namespace mitrax{
 	namespace detail{
 
 
-		template < template < size_t > class DimT, typename Op >
-		struct dim_op{
-			template < size_t C1, size_t C2 >
-			constexpr auto
-			operator()(DimT< C1 >, DimT< C2 >)const noexcept{
-				return DimT< Op()(C1, C2) >();
+		template < typename Op >
+		struct col_op{
+			template < size_t I1, size_t I2 >
+			constexpr auto operator()(col_t< I1 >, col_t< I2 >)const noexcept{
+				return col_t< Op()(I1, I2) >().init();
 			}
 
-			template < size_t C2 >
+			template < size_t I >
 			constexpr auto
-			operator()(DimT< 0 > c1, DimT< C2 > c2)const noexcept{
-				return DimT< 0 >(
-					Op()(static_cast< size_t >(c1), static_cast< size_t >(c2))
-				);
+			operator()(col_t< 0 > d1, col_t< I > d2)const noexcept{
+				return col_t< 0 >(
+					Op()(static_cast< size_t >(d1), static_cast< size_t >(d2))
+				).init();
 			}
 
-			template < size_t C1 >
+			template < size_t I >
 			constexpr auto
-			operator()(DimT< C1 > c1, DimT< 0 > c2)const noexcept{
-				return DimT< 0 >(
-					Op()(static_cast< size_t >(c1), static_cast< size_t >(c2))
-				);
+			operator()(col_t< I > d1, col_t< 0 > d2)const noexcept{
+				return col_t< 0 >(
+					Op()(static_cast< size_t >(d1), static_cast< size_t >(d2))
+				).init();
 			}
 
 			constexpr auto
-			operator()(DimT< 0 > c1, DimT< 0 > c2)const noexcept{
-				return DimT< 0 >(
-					Op()(static_cast< size_t >(c1), static_cast< size_t >(c2))
-				);
+			operator()(col_t< 0 > d1, col_t< 0 > d2)const noexcept{
+				return col_t< 0 >(
+					Op()(static_cast< size_t >(d1), static_cast< size_t >(d2))
+				).init();
+			}
+
+			template < size_t I >
+			constexpr auto operator()(col_t< I > d1, size_t d2)const noexcept{
+				return col_t< 0 >(Op()(static_cast< size_t >(d1), d2)).init();
+			}
+
+			template < size_t I >
+			constexpr auto operator()(size_t d1, col_t< I > d2)const noexcept{
+				return col_t< 0 >(Op()(d1, static_cast< size_t >(d2))).init();
+			}
+
+
+			template < bool Ict1, size_t I1, bool Ict2, size_t I2 >
+			constexpr auto operator()(
+				col_init_t< Ict1, I1 > d1, col_init_t< Ict2, I2 > d2
+			)const noexcept{
+				return (*this)(d1.get(), d2.get());
+			}
+
+			template < bool Ict1, size_t I1, size_t I2 >
+			constexpr auto operator()(
+				col_init_t< Ict1, I1 > d1, col_t< I2 > d2
+			)const noexcept{
+				return (*this)(d1.get(), d2);
+			}
+
+			template < size_t I1, bool Ict2, size_t I2 >
+			constexpr auto operator()(
+				col_t< I1 > d1, col_init_t< Ict2, I2 > d2
+			)const noexcept{
+				return (*this)(d1, d2.get());
+			}
+
+			template < bool Ict1, size_t I1 >
+			constexpr auto operator()(
+				col_init_t< Ict1, I1 > d1, size_t d2
+			)const noexcept{
+				return (*this)(d1.get(), d2);
+			}
+
+			template < bool Ict2, size_t I2 >
+			constexpr auto operator()(
+				size_t d1, col_init_t< Ict2, I2 > d2
+			)const noexcept{
+				return (*this)(d1, d2.get());
+			}
+		};
+
+
+		template < typename Op >
+		struct row_op{
+			template < size_t I1, size_t I2 >
+			constexpr auto operator()(row_t< I1 >, row_t< I2 >)const noexcept{
+				return row_t< Op()(I1, I2) >().init();
+			}
+
+			template < size_t I >
+			constexpr auto
+			operator()(row_t< 0 > d1, row_t< I > d2)const noexcept{
+				return row_t< 0 >(
+					Op()(static_cast< size_t >(d1), static_cast< size_t >(d2))
+				).init();
+			}
+
+			template < size_t I >
+			constexpr auto
+			operator()(row_t< I > d1, row_t< 0 > d2)const noexcept{
+				return row_t< 0 >(
+					Op()(static_cast< size_t >(d1), static_cast< size_t >(d2))
+				).init();
+			}
+
+			constexpr auto
+			operator()(row_t< 0 > d1, row_t< 0 > d2)const noexcept{
+				return row_t< 0 >(
+					Op()(static_cast< size_t >(d1), static_cast< size_t >(d2))
+				).init();
+			}
+
+			template < size_t I >
+			constexpr auto operator()(row_t< I > d1, size_t d2)const noexcept{
+				return row_t< 0 >(Op()(static_cast< size_t >(d1), d2)).init();
+			}
+
+			template < size_t I >
+			constexpr auto operator()(size_t d1, row_t< I > d2)const noexcept{
+				return row_t< 0 >(Op()(d1, static_cast< size_t >(d2))).init();
+			}
+
+
+			template < bool Ict1, size_t I1, bool Ict2, size_t I2 >
+			constexpr auto operator()(
+				row_init_t< Ict1, I1 > d1, row_init_t< Ict2, I2 > d2
+			)const noexcept{
+				return (*this)(d1.get(), d2.get());
+			}
+
+			template < bool Ict1, size_t I1, size_t I2 >
+			constexpr auto operator()(
+				row_init_t< Ict1, I1 > d1, row_t< I2 > d2
+			)const noexcept{
+				return (*this)(d1.get(), d2);
+			}
+
+			template < size_t I1, bool Ict2, size_t I2 >
+			constexpr auto operator()(
+				row_t< I1 > d1, row_init_t< Ict2, I2 > d2
+			)const noexcept{
+				return (*this)(d1, d2.get());
+			}
+
+			template < bool Ict1, size_t I1 >
+			constexpr auto operator()(
+				row_init_t< Ict1, I1 > d1, size_t d2
+			)const noexcept{
+				return (*this)(d1.get(), d2);
+			}
+
+			template < bool Ict2, size_t I2 >
+			constexpr auto operator()(
+				size_t d1, row_init_t< Ict2, I2 > d2
+			)const noexcept{
+				return (*this)(d1, d2.get());
 			}
 		};
 
@@ -506,161 +629,471 @@ namespace mitrax{
 
 	template < size_t C1, size_t C2 >
 	constexpr auto operator+(col_t< C1 > c1, col_t< C2 > c2)noexcept{
-		return detail::dim_op< col_t, std::plus<> >()(c1, c2);
+		return detail::col_op< std::plus<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator+(
+		col_init_t< Cct1, C1 > c1, col_t< C2 > c2
+	)noexcept{
+		return detail::col_op< std::plus<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator+(
+		col_t< C1 > c1, col_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::col_op< std::plus<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator+(
+		col_init_t< Cct1, C1 > c1, col_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::col_op< std::plus<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator+(col_init_t< Cct1, C1 > c1, size_t c2)noexcept{
+		return detail::col_op< std::plus<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator+(size_t c1, col_init_t< Cct2, C2 > c2)noexcept{
+		return detail::col_op< std::plus<> >()(c1, c2);
 	}
 
 	template < size_t C >
 	constexpr auto operator+(size_t c1, col_t< C > c2)noexcept{
-		return c1 + static_cast< size_t >(c2);
+		return detail::col_op< std::plus<> >()(c1, c2);
 	}
 
 	template < size_t C >
 	constexpr auto operator+(col_t< C > c1, size_t c2)noexcept{
-		return static_cast< size_t >(c1) + c2;
+		return detail::col_op< std::plus<> >()(c1, c2);
 	}
 
 
 	template < size_t C1, size_t C2 >
 	constexpr auto operator-(col_t< C1 > c1, col_t< C2 > c2)noexcept{
-		return detail::dim_op< col_t, std::minus<> >()(c1, c2);
+		return detail::col_op< std::minus<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator-(
+		col_init_t< Cct1, C1 > c1, col_t< C2 > c2
+	)noexcept{
+		return detail::col_op< std::minus<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator-(
+		col_t< C1 > c1, col_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::col_op< std::minus<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator-(
+		col_init_t< Cct1, C1 > c1, col_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::col_op< std::minus<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator-(col_init_t< Cct1, C1 > c1, size_t c2)noexcept{
+		return detail::col_op< std::minus<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator-(size_t c1, col_init_t< Cct2, C2 > c2)noexcept{
+		return detail::col_op< std::minus<> >()(c1, c2);
 	}
 
 	template < size_t C >
 	constexpr auto operator-(size_t c1, col_t< C > c2)noexcept{
-		return c1 - static_cast< size_t >(c2);
+		return detail::col_op< std::minus<> >()(c1, c2);
 	}
 
 	template < size_t C >
 	constexpr auto operator-(col_t< C > c1, size_t c2)noexcept{
-		return static_cast< size_t >(c1) - c2;
+		return detail::col_op< std::minus<> >()(c1, c2);
 	}
 
 
 	template < size_t C1, size_t C2 >
 	constexpr auto operator*(col_t< C1 > c1, col_t< C2 > c2)noexcept{
-		return detail::dim_op< col_t, std::multiplies<> >()(c1, c2);
+		return detail::col_op< std::multiplies<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator*(
+		col_init_t< Cct1, C1 > c1, col_t< C2 > c2
+	)noexcept{
+		return detail::col_op< std::multiplies<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator*(
+		col_t< C1 > c1, col_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::col_op< std::multiplies<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator*(
+		col_init_t< Cct1, C1 > c1, col_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::col_op< std::multiplies<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator*(col_init_t< Cct1, C1 > c1, size_t c2)noexcept{
+		return detail::col_op< std::multiplies<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator*(size_t c1, col_init_t< Cct2, C2 > c2)noexcept{
+		return detail::col_op< std::multiplies<> >()(c1, c2);
 	}
 
 	template < size_t C >
 	constexpr auto operator*(size_t c1, col_t< C > c2)noexcept{
-		return c1 * static_cast< size_t >(c2);
+		return detail::col_op< std::multiplies<> >()(c1, c2);
 	}
 
 	template < size_t C >
 	constexpr auto operator*(col_t< C > c1, size_t c2)noexcept{
-		return static_cast< size_t >(c1) * c2;
+		return detail::col_op< std::multiplies<> >()(c1, c2);
 	}
 
 
 	template < size_t C1, size_t C2 >
 	constexpr auto operator/(col_t< C1 > c1, col_t< C2 > c2)noexcept{
-		return detail::dim_op< col_t, std::divides<> >()(c1, c2);
+		return detail::col_op< std::divides<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator/(
+		col_init_t< Cct1, C1 > c1, col_t< C2 > c2
+	)noexcept{
+		return detail::col_op< std::divides<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator/(
+		col_t< C1 > c1, col_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::col_op< std::divides<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator/(
+		col_init_t< Cct1, C1 > c1, col_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::col_op< std::divides<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator/(col_init_t< Cct1, C1 > c1, size_t c2)noexcept{
+		return detail::col_op< std::divides<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator/(size_t c1, col_init_t< Cct2, C2 > c2)noexcept{
+		return detail::col_op< std::divides<> >()(c1, c2);
 	}
 
 	template < size_t C >
 	constexpr auto operator/(size_t c1, col_t< C > c2)noexcept{
-		return c1 / static_cast< size_t >(c2);
+		return detail::col_op< std::divides<> >()(c1, c2);
 	}
 
 	template < size_t C >
 	constexpr auto operator/(col_t< C > c1, size_t c2)noexcept{
-		return static_cast< size_t >(c1) / c2;
+		return detail::col_op< std::divides<> >()(c1, c2);
 	}
 
 
 	template < size_t C1, size_t C2 >
 	constexpr auto operator%(col_t< C1 > c1, col_t< C2 > c2)noexcept{
-		return detail::dim_op< col_t, std::modulus<> >()(c1, c2);
+		return detail::col_op< std::modulus<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator%(
+		col_init_t< Cct1, C1 > c1, col_t< C2 > c2
+	)noexcept{
+		return detail::col_op< std::modulus<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator%(
+		col_t< C1 > c1, col_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::col_op< std::modulus<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator%(
+		col_init_t< Cct1, C1 > c1, col_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::col_op< std::modulus<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator%(col_init_t< Cct1, C1 > c1, size_t c2)noexcept{
+		return detail::col_op< std::modulus<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator%(size_t c1, col_init_t< Cct2, C2 > c2)noexcept{
+		return detail::col_op< std::modulus<> >()(c1, c2);
 	}
 
 	template < size_t C >
 	constexpr auto operator%(size_t c1, col_t< C > c2)noexcept{
-		return c1 % static_cast< size_t >(c2);
+		return detail::col_op< std::modulus<> >()(c1, c2);
 	}
 
 	template < size_t C >
 	constexpr auto operator%(col_t< C > c1, size_t c2)noexcept{
-		return static_cast< size_t >(c1) % c2;
+		return detail::col_op< std::modulus<> >()(c1, c2);
 	}
 
 
-	template < size_t R1, size_t R2 >
-	constexpr auto operator+(row_t< R1 > r1, row_t< R2 > r2)noexcept{
-		return detail::dim_op< row_t, std::plus<> >()(r1, r2);
+	template < size_t C1, size_t C2 >
+	constexpr auto operator+(row_t< C1 > c1, row_t< C2 > c2)noexcept{
+		return detail::row_op< std::plus<> >()(c1, c2);
 	}
 
-	template < size_t R >
-	constexpr auto operator+(size_t r1, row_t< R > r2)noexcept{
-		return r1 + static_cast< size_t >(r2);
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator+(
+		row_init_t< Cct1, C1 > c1, row_t< C2 > c2
+	)noexcept{
+		return detail::row_op< std::plus<> >()(c1, c2);
 	}
 
-	template < size_t R >
-	constexpr auto operator+(row_t< R > r1, size_t r2)noexcept{
-		return static_cast< size_t >(r1) + r2;
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator+(
+		row_t< C1 > c1, row_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::row_op< std::plus<> >()(c1, c2);
 	}
 
-
-	template < size_t R1, size_t R2 >
-	constexpr auto operator-(row_t< R1 > r1, row_t< R2 > r2)noexcept{
-		return detail::dim_op< row_t, std::minus<> >()(r1, r2);
+	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator+(
+		row_init_t< Cct1, C1 > c1, row_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::row_op< std::plus<> >()(c1, c2);
 	}
 
-	template < size_t R >
-	constexpr auto operator-(size_t r1, row_t< R > r2)noexcept{
-		return r1 - static_cast< size_t >(r2);
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator+(row_init_t< Cct1, C1 > c1, size_t c2)noexcept{
+		return detail::row_op< std::plus<> >()(c1, c2);
 	}
 
-	template < size_t R >
-	constexpr auto operator-(row_t< R > r1, size_t r2)noexcept{
-		return static_cast< size_t >(r1) - r2;
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator+(size_t c1, row_init_t< Cct2, C2 > c2)noexcept{
+		return detail::row_op< std::plus<> >()(c1, c2);
 	}
 
-
-	template < size_t R1, size_t R2 >
-	constexpr auto operator*(row_t< R1 > r1, row_t< R2 > r2)noexcept{
-		return detail::dim_op< row_t, std::multiplies<> >()(r1, r2);
+	template < size_t C >
+	constexpr auto operator+(size_t c1, row_t< C > c2)noexcept{
+		return detail::row_op< std::plus<> >()(c1, c2);
 	}
 
-	template < size_t R >
-	constexpr auto operator*(size_t r1, row_t< R > r2)noexcept{
-		return r1 * static_cast< size_t >(r2);
-	}
-
-	template < size_t R >
-	constexpr auto operator*(row_t< R > r1, size_t r2)noexcept{
-		return static_cast< size_t >(r1) * r2;
-	}
-
-
-	template < size_t R1, size_t R2 >
-	constexpr auto operator/(row_t< R1 > r1, row_t< R2 > r2)noexcept{
-		return detail::dim_op< row_t, std::divides<> >()(r1, r2);
-	}
-
-	template < size_t R >
-	constexpr auto operator/(size_t r1, row_t< R > r2)noexcept{
-		return r1 / static_cast< size_t >(r2);
-	}
-
-	template < size_t R >
-	constexpr auto operator/(row_t< R > r1, size_t r2)noexcept{
-		return static_cast< size_t >(r1) / r2;
+	template < size_t C >
+	constexpr auto operator+(row_t< C > c1, size_t c2)noexcept{
+		return detail::row_op< std::plus<> >()(c1, c2);
 	}
 
 
-	template < size_t R1, size_t R2 >
-	constexpr auto operator%(row_t< R1 > r1, row_t< R2 > r2)noexcept{
-		return detail::dim_op< row_t, std::modulus<> >()(r1, r2);
+	template < size_t C1, size_t C2 >
+	constexpr auto operator-(row_t< C1 > c1, row_t< C2 > c2)noexcept{
+		return detail::row_op< std::minus<> >()(c1, c2);
 	}
 
-	template < size_t R >
-	constexpr auto operator%(size_t r1, row_t< R > r2)noexcept{
-		return r1 % static_cast< size_t >(r2);
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator-(
+		row_init_t< Cct1, C1 > c1, row_t< C2 > c2
+	)noexcept{
+		return detail::row_op< std::minus<> >()(c1, c2);
 	}
 
-	template < size_t R >
-	constexpr auto operator%(row_t< R > r1, size_t r2)noexcept{
-		return static_cast< size_t >(r1) % r2;
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator-(
+		row_t< C1 > c1, row_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::row_op< std::minus<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator-(
+		row_init_t< Cct1, C1 > c1, row_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::row_op< std::minus<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator-(row_init_t< Cct1, C1 > c1, size_t c2)noexcept{
+		return detail::row_op< std::minus<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator-(size_t c1, row_init_t< Cct2, C2 > c2)noexcept{
+		return detail::row_op< std::minus<> >()(c1, c2);
+	}
+
+	template < size_t C >
+	constexpr auto operator-(size_t c1, row_t< C > c2)noexcept{
+		return detail::row_op< std::minus<> >()(c1, c2);
+	}
+
+	template < size_t C >
+	constexpr auto operator-(row_t< C > c1, size_t c2)noexcept{
+		return detail::row_op< std::minus<> >()(c1, c2);
+	}
+
+
+	template < size_t C1, size_t C2 >
+	constexpr auto operator*(row_t< C1 > c1, row_t< C2 > c2)noexcept{
+		return detail::row_op< std::multiplies<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator*(
+		row_init_t< Cct1, C1 > c1, row_t< C2 > c2
+	)noexcept{
+		return detail::row_op< std::multiplies<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator*(
+		row_t< C1 > c1, row_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::row_op< std::multiplies<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator*(
+		row_init_t< Cct1, C1 > c1, row_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::row_op< std::multiplies<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator*(row_init_t< Cct1, C1 > c1, size_t c2)noexcept{
+		return detail::row_op< std::multiplies<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator*(size_t c1, row_init_t< Cct2, C2 > c2)noexcept{
+		return detail::row_op< std::multiplies<> >()(c1, c2);
+	}
+
+	template < size_t C >
+	constexpr auto operator*(size_t c1, row_t< C > c2)noexcept{
+		return detail::row_op< std::multiplies<> >()(c1, c2);
+	}
+
+	template < size_t C >
+	constexpr auto operator*(row_t< C > c1, size_t c2)noexcept{
+		return detail::row_op< std::multiplies<> >()(c1, c2);
+	}
+
+
+	template < size_t C1, size_t C2 >
+	constexpr auto operator/(row_t< C1 > c1, row_t< C2 > c2)noexcept{
+		return detail::row_op< std::divides<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator/(
+		row_init_t< Cct1, C1 > c1, row_t< C2 > c2
+	)noexcept{
+		return detail::row_op< std::divides<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator/(
+		row_t< C1 > c1, row_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::row_op< std::divides<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator/(
+		row_init_t< Cct1, C1 > c1, row_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::row_op< std::divides<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator/(row_init_t< Cct1, C1 > c1, size_t c2)noexcept{
+		return detail::row_op< std::divides<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator/(size_t c1, row_init_t< Cct2, C2 > c2)noexcept{
+		return detail::row_op< std::divides<> >()(c1, c2);
+	}
+
+	template < size_t C >
+	constexpr auto operator/(size_t c1, row_t< C > c2)noexcept{
+		return detail::row_op< std::divides<> >()(c1, c2);
+	}
+
+	template < size_t C >
+	constexpr auto operator/(row_t< C > c1, size_t c2)noexcept{
+		return detail::row_op< std::divides<> >()(c1, c2);
+	}
+
+
+	template < size_t C1, size_t C2 >
+	constexpr auto operator%(row_t< C1 > c1, row_t< C2 > c2)noexcept{
+		return detail::row_op< std::modulus<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator%(
+		row_init_t< Cct1, C1 > c1, row_t< C2 > c2
+	)noexcept{
+		return detail::row_op< std::modulus<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator%(
+		row_t< C1 > c1, row_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::row_op< std::modulus<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator%(
+		row_init_t< Cct1, C1 > c1, row_init_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::row_op< std::modulus<> >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, size_t C2 >
+	constexpr auto operator%(row_init_t< Cct1, C1 > c1, size_t c2)noexcept{
+		return detail::row_op< std::modulus<> >()(c1, c2);
+	}
+
+	template < size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator%(size_t c1, row_init_t< Cct2, C2 > c2)noexcept{
+		return detail::row_op< std::modulus<> >()(c1, c2);
+	}
+
+	template < size_t C >
+	constexpr auto operator%(size_t c1, row_t< C > c2)noexcept{
+		return detail::row_op< std::modulus<> >()(c1, c2);
+	}
+
+	template < size_t C >
+	constexpr auto operator%(row_t< C > c1, size_t c2)noexcept{
+		return detail::row_op< std::modulus<> >()(c1, c2);
 	}
 
 
