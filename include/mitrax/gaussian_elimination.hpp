@@ -152,7 +152,7 @@ namespace mitrax{
 		}
 
 		auto b = make_col_vector_by_function(
-			(v.rows() + defaults.rows()).init(),
+			v.rows() + defaults.rows(),
 			[&v, &defaults](size_t i)->value_type{
 				if(i < v.rows()){
 					return v[i];
