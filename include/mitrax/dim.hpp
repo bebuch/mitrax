@@ -469,7 +469,7 @@ namespace mitrax{
 
 
 		template < template < size_t > class DimT, typename Op >
-		struct col_t_op{
+		struct dim_op{
 			template < size_t C1, size_t C2 >
 			constexpr auto
 			operator()(DimT< C1 >, DimT< C2 >)const noexcept{
@@ -506,7 +506,7 @@ namespace mitrax{
 
 	template < size_t C1, size_t C2 >
 	constexpr auto operator+(col_t< C1 > c1, col_t< C2 > c2)noexcept{
-		return detail::col_t_op< col_t, std::plus<> >()(c1, c2);
+		return detail::dim_op< col_t, std::plus<> >()(c1, c2);
 	}
 
 	template < size_t C >
@@ -522,7 +522,7 @@ namespace mitrax{
 
 	template < size_t C1, size_t C2 >
 	constexpr auto operator-(col_t< C1 > c1, col_t< C2 > c2)noexcept{
-		return detail::col_t_op< col_t, std::minus<> >()(c1, c2);
+		return detail::dim_op< col_t, std::minus<> >()(c1, c2);
 	}
 
 	template < size_t C >
@@ -538,7 +538,7 @@ namespace mitrax{
 
 	template < size_t C1, size_t C2 >
 	constexpr auto operator*(col_t< C1 > c1, col_t< C2 > c2)noexcept{
-		return detail::col_t_op< col_t, std::multiplies<> >()(c1, c2);
+		return detail::dim_op< col_t, std::multiplies<> >()(c1, c2);
 	}
 
 	template < size_t C >
@@ -554,7 +554,7 @@ namespace mitrax{
 
 	template < size_t C1, size_t C2 >
 	constexpr auto operator/(col_t< C1 > c1, col_t< C2 > c2)noexcept{
-		return detail::col_t_op< col_t, std::divides<> >()(c1, c2);
+		return detail::dim_op< col_t, std::divides<> >()(c1, c2);
 	}
 
 	template < size_t C >
@@ -570,7 +570,7 @@ namespace mitrax{
 
 	template < size_t C1, size_t C2 >
 	constexpr auto operator%(col_t< C1 > c1, col_t< C2 > c2)noexcept{
-		return detail::col_t_op< col_t, std::modulus<> >()(c1, c2);
+		return detail::dim_op< col_t, std::modulus<> >()(c1, c2);
 	}
 
 	template < size_t C >
@@ -586,7 +586,7 @@ namespace mitrax{
 
 	template < size_t R1, size_t R2 >
 	constexpr auto operator+(row_t< R1 > r1, row_t< R2 > r2)noexcept{
-		return detail::col_t_op< row_t, std::plus<> >()(r1, r2);
+		return detail::dim_op< row_t, std::plus<> >()(r1, r2);
 	}
 
 	template < size_t R >
@@ -602,7 +602,7 @@ namespace mitrax{
 
 	template < size_t R1, size_t R2 >
 	constexpr auto operator-(row_t< R1 > r1, row_t< R2 > r2)noexcept{
-		return detail::col_t_op< row_t, std::minus<> >()(r1, r2);
+		return detail::dim_op< row_t, std::minus<> >()(r1, r2);
 	}
 
 	template < size_t R >
@@ -618,7 +618,7 @@ namespace mitrax{
 
 	template < size_t R1, size_t R2 >
 	constexpr auto operator*(row_t< R1 > r1, row_t< R2 > r2)noexcept{
-		return detail::col_t_op< row_t, std::multiplies<> >()(r1, r2);
+		return detail::dim_op< row_t, std::multiplies<> >()(r1, r2);
 	}
 
 	template < size_t R >
@@ -634,7 +634,7 @@ namespace mitrax{
 
 	template < size_t R1, size_t R2 >
 	constexpr auto operator/(row_t< R1 > r1, row_t< R2 > r2)noexcept{
-		return detail::col_t_op< row_t, std::divides<> >()(r1, r2);
+		return detail::dim_op< row_t, std::divides<> >()(r1, r2);
 	}
 
 	template < size_t R >
@@ -650,7 +650,7 @@ namespace mitrax{
 
 	template < size_t R1, size_t R2 >
 	constexpr auto operator%(row_t< R1 > r1, row_t< R2 > r2)noexcept{
-		return detail::col_t_op< row_t, std::modulus<> >()(r1, r2);
+		return detail::dim_op< row_t, std::modulus<> >()(r1, r2);
 	}
 
 	template < size_t R >
