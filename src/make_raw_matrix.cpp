@@ -105,6 +105,54 @@ namespace{
 	}
 
 	template < typename M, size_t C, size_t R >
+	constexpr bool check_diag3_7(matrix< M, C, R > const& m){
+		return
+			m.cols() == 3 &&
+			m.rows() == 3 &&
+			m(0, 0) == 7 &&
+			m(1, 0) == 0 &&
+			m(2, 0) == 0 &&
+			m(0, 1) == 0 &&
+			m(1, 1) == 7 &&
+			m(2, 1) == 0 &&
+			m(0, 2) == 0 &&
+			m(1, 2) == 0 &&
+			m(2, 2) == 7;
+	}
+
+	template < typename M, size_t C, size_t R >
+	constexpr bool check_identity3x3(matrix< M, C, R > const& m){
+		return
+			m.cols() == 3 &&
+			m.rows() == 3 &&
+			m(0, 0) == 1 &&
+			m(1, 0) == 0 &&
+			m(2, 0) == 0 &&
+			m(0, 1) == 0 &&
+			m(1, 1) == 1 &&
+			m(2, 1) == 0 &&
+			m(0, 2) == 0 &&
+			m(1, 2) == 0 &&
+			m(2, 2) == 1;
+	}
+
+	template < typename M, size_t C, size_t R >
+	constexpr bool check_diag3_ref(matrix< M, C, R > const& m){
+		return
+			m.cols() == 3 &&
+			m.rows() == 3 &&
+			m(0, 0) == 0 &&
+			m(1, 0) == 0 &&
+			m(2, 0) == 0 &&
+			m(0, 1) == 0 &&
+			m(1, 1) == 1 &&
+			m(2, 1) == 0 &&
+			m(0, 2) == 0 &&
+			m(1, 2) == 0 &&
+			m(2, 2) == 2;
+	}
+
+	template < typename M, size_t C, size_t R >
 	constexpr bool check_2x3_0(matrix< M, C, R > const& m){
 		return
 			m.cols() == 2 &&
@@ -1107,6 +1155,61 @@ BOOST_AUTO_TEST_CASE(test_raw_bitmap){
 	BOOST_TEST(check_3x2_func(m10));
 	BOOST_TEST(check_2x3_func(m11));
 	BOOST_TEST(check_3x2_func(m12));
+}
+
+
+BOOST_AUTO_TEST_CASE(test_diag_matrix){
+	constexpr auto m01 = make_diag_matrix< int >(3_D);
+	auto m02 = make_diag_matrix< int >(3_D_rt);
+
+	constexpr auto m03 = make_diag_matrix(3_D, 7);
+	auto m04 = make_diag_matrix(3_D_rt, 7);
+
+	constexpr auto m05 = make_diag_matrix< int >(3_D, {0, 1, 2});
+	auto m06 = make_diag_matrix< int >(3_D_rt, {0, 1, 2});
+	constexpr auto m07 = make_diag_matrix(3_D, ref_3);
+	auto m08 = make_diag_matrix(3_D_rt, ref_3);
+
+	constexpr auto m09 = make_diag_matrix_by_function(3_D, f_r());
+	auto m10 = make_diag_matrix_by_function(3_D_rt, f_r());
+
+
+	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m02) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m03) == id< raw_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m04) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m05) == id< raw_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m06) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m07) == id< raw_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m08) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m09) == id< raw_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m10) == id< raw_matrix< int, 0, 0 > >));
+
+
+	BOOST_TEST(check_3x3_0(m01));
+	BOOST_TEST(check_3x3_0(m02));
+	BOOST_TEST(check_diag3_7(m03));
+	BOOST_TEST(check_diag3_7(m04));
+	BOOST_TEST(check_diag3_ref(m05));
+	BOOST_TEST(check_diag3_ref(m06));
+	BOOST_TEST(check_diag3_ref(m07));
+	BOOST_TEST(check_diag3_ref(m08));
+	BOOST_TEST(check_diag3_ref(m09));
+	BOOST_TEST(check_diag3_ref(m10));
+}
+
+
+BOOST_AUTO_TEST_CASE(test_identity_matrix){
+	constexpr auto m01 = make_identity_matrix< int >(3_D);
+	auto m02 = make_identity_matrix< int >(3_D_rt);
+
+
+	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m02) == id< raw_matrix< int, 0, 0 > >));
+
+
+	BOOST_TEST(check_identity3x3(m01));
+	BOOST_TEST(check_identity3x3(m02));
 }
 
 

@@ -119,6 +119,43 @@ namespace mitrax{
 		}
 
 
+		template < typename F >
+		struct init_diag_by_function{
+			F const& f;
+
+			constexpr auto operator()(size_t x, size_t y)const{
+				return x == y ? f(x) : decltype(f(x))();
+			}
+		};
+
+		template < typename T >
+		struct init_diag_by_value{
+			T const& v;
+
+			constexpr auto operator()(size_t x, size_t y)const{
+				return x == y ? v : T();
+			}
+		};
+
+		template < typename T, size_t N >
+		struct init_diag_by_move_array{
+			T(&&v)[N];
+
+			constexpr auto operator()(size_t x, size_t y)const{
+				return x == y ? std::move(v[x]) : T();
+			}
+		};
+
+		template < typename T, size_t N >
+		struct init_diag_by_array{
+			T(&v)[N];
+
+			constexpr auto operator()(size_t x, size_t y)const{
+				return x == y ? v[x] : T();
+			}
+		};
+
+
 	}
 
 
@@ -183,6 +220,15 @@ namespace mitrax{
 			col_t< 0 >(c).init(), row_t< 0 >(r).init(), f
 		);
 	}
+
+
+	template < typename F, bool Nct, size_t N >
+	constexpr auto
+	make_diag_matrix_by_function(dim_init_t< Nct, N > n, F const& f){
+		return make_square_matrix_by_function(n,
+			detail::init_diag_by_function< F >{f});
+	}
+
 
 
 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
@@ -342,6 +388,36 @@ namespace mitrax{
 	template < typename T >
 	auto make_bitmap(size_t c, size_t r, T const& v){
 		return make_matrix(col_t< 0 >(c).init(), row_t< 0 >(r).init(), v);
+	}
+
+
+	template < typename T, bool Nct, size_t N >
+	constexpr auto make_diag_matrix(dim_init_t< Nct, N > n){
+		return make_diag_matrix(n, T());
+	}
+
+	template < typename T, bool Nct, size_t N >
+	constexpr auto make_diag_matrix(dim_init_t< Nct, N > n, T const& v){
+		return make_square_matrix_by_function(n,
+			detail::init_diag_by_value< T >{v});
+	}
+
+	template < typename T, bool Nct, size_t N >
+	constexpr auto make_diag_matrix(dim_init_t< Nct, N > n, T(&&v)[N]){
+		return make_square_matrix_by_function(n,
+			detail::init_diag_by_move_array< T, N >{std::move(v)});
+	}
+
+	template < typename T, bool Nct, size_t N >
+	constexpr auto make_diag_matrix(dim_init_t< Nct, N > n, T(&v)[N]){
+		return make_square_matrix_by_function(n,
+			detail::init_diag_by_array< T, N >{v});
+	}
+
+
+	template < typename T, bool Nct, size_t N >
+	constexpr auto make_identity_matrix(dim_init_t< Nct, N > n){
+		return make_diag_matrix(n, T(1));
 	}
 
 
