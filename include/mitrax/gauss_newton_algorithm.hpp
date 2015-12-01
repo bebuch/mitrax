@@ -12,45 +12,145 @@
 #include <mitrax/make_matrix.hpp>
 #include <mitrax/gaussian_elimination.hpp>
 #include <mitrax/operator.hpp>
+#include <mitrax/norm.hpp>
+
+#include <mitrax/output.hpp>
+#include <iostream>
 
 
 namespace mitrax{
 
 
-	template < typename F, typename M, size_t R, typename X >
+	template < typename F, typename M, size_t R, typename T, typename ... V >
 	auto gauss_newton_algorithm(
-		F const& /*f*/,
+		F const& f,
 		col_vector< M, R > const& start_value,
-		X const& /*threshold*/,
-		boost::container::vector< std::pair< X, X > > const& /*data*/
+		T const& threshold,
+		boost::container::vector< std::tuple< V ... > > const& data
 	){
 		using std::abs;
 
 		auto arg = start_value;
 
-// 		auto r = make_col_vector< X >(rows(data.size()),
-// 			[&data](size_t, size_t y){ return data[y].second; });
-// 
-// 		auto d = make_matrix< X >(arg.rows().as_col(), rows(data.size()),
-// 			[&data](size_t x, size_t y){
-// 				auto arg1 = arg;
-// 				auto arg2 = arg;
-// 				arg1[x] -= threshold / 8;
-// 				arg2[x] += threshold / 8;
-// 				return (f(arg1, data[y].second) - f(arg1, data[y].second)) /
-// 					threshold - data[y].first;
-// 			}
-// 		);
-// 
-// 		auto trans_d = transpose(d);
-// 		auto arg_new = arg - inverse(trans_d * d) * trans_d * r;
-// 
-// 		while(abs(arg_new - arg) < threshold){
-// 			arg = arg_new;
-// 
-// 			trans_d = transpose(d);
-// 			arg_new = arg - inverse(trans_d * d) * trans_d * r;
-// 		}
+		for(;;){
+			std::cout << arg << std::endl;
+
+			auto r = make_col_vector_by_function(rows(data.size()),
+				[&data, &arg, &f](size_t y){
+					return f(arg, data[y]);
+				});
+
+			auto d = make_matrix_by_function(
+				dims(arg.rows().as_col(), data.size()),
+				[&data, &arg, &f, &threshold](size_t x, size_t y){
+					auto arg1 = arg;
+					arg1[x] += threshold / 128;
+					return (
+						f(arg1, data[y]) - f(arg, data[y])
+					) / (threshold / 128);
+				}
+			);
+
+			auto trans_d = transpose(d);
+// 			std::cout << d << std::endl;
+// 			std::cout << trans_d << std::endl;
+// 			std::cout << trans_d * d << std::endl;
+// 			std::cout << trans_d * r << std::endl;
+			auto s = gaussian_elimination(trans_d * d, -trans_d * r);
+			auto arg_new = arg + s;
+
+			auto diff = arg_new - arg;
+
+			arg = arg_new;
+
+			if(vector_norm_2sqr(diff) < threshold) break;
+		}
+
+		return arg;
+	}
+
+
+	template < typename F, typename M, size_t R, typename T, typename ... V >
+	auto levenberg_marquardt_algorithm(
+		F const& f,
+		col_vector< M, R > const& start_value,
+		T const& threshold,
+		T mu,
+		T const& beta0,
+		T const& beta1,
+		boost::container::vector< std::tuple< V ... > > const& data
+	){
+		using std::abs;
+
+		auto arg = start_value;
+
+		auto r = make_col_vector_by_function(rows(data.size()),
+			[&data, &arg, &f](size_t y){
+				return f(arg, data[y]);
+			});
+
+		for(;;){
+			std::cout << arg << std::endl;
+
+			auto d = make_matrix_by_function(
+				dims(arg.rows().as_col(), data.size()),
+				[&data, &arg, &f, &threshold](size_t x, size_t y){
+					auto arg1 = arg;
+					arg1[x] += threshold / 128;
+					return (
+						f(arg1, data[y]) - f(arg, data[y])
+					) / (threshold / 128);
+				}
+			);
+
+			auto s = [&data, &arg, &r, &d, &f, &mu, beta0, beta1]{ for(;;){
+				auto const mu2_matrix = make_diag_matrix< T >(
+					dims(arg.rows().as_col()), mu * mu
+				);
+
+				auto trans_d = transpose(d);
+				auto s = gaussian_elimination(
+					trans_d * d + mu2_matrix,
+					-trans_d * r
+				);
+
+				auto r_new = make_col_vector_by_function(rows(data.size()),
+					[&data, &arg, &s, &f](size_t y){
+						return f(arg + s, data[y]);
+					});
+
+				auto r_norm = vector_norm_2sqr(r);
+				auto numerator = (r_norm - vector_norm_2sqr(r_new));
+				auto denominator = (r_norm - vector_norm_2sqr(r + d * s));
+				auto eps = numerator / denominator;
+
+				if(denominator == 0){
+					throw std::runtime_error("eps is infinite");
+				}
+
+				std::cout << "eps: " << eps << std::endl;
+				if(eps <= beta0){
+					mu *= 2;
+					continue;
+				}
+
+				r = r_new;
+
+				if(eps < beta1){
+					return s;
+				}
+
+				mu /= 2;
+				return s;
+			} }();
+
+			std::cout << "s: " << s << std::endl;
+			auto arg_new = arg + s;
+
+			arg = arg_new;
+
+			if(vector_norm_2sqr(s) < threshold) break;
+		}
 
 		return arg;
 	}

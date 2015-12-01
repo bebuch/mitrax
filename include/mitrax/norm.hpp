@@ -18,7 +18,7 @@ namespace mitrax{
 
 
 	template < typename M, size_t C, size_t R >
-	value_type_t< M > vector_norm_2(matrix< M, C, R > const& v){
+	value_type_t< M > vector_norm_2sqr(matrix< M, C, R > const& v){
 		static_assert(
 			C == 1 || C == 0 || R == 1 || R == 0,
 			"vector_norm_2 called with not a vector"
@@ -37,8 +37,13 @@ namespace mitrax{
 			throw std::logic_error("vector_norm_2 called with not a vector");
 		}
 
+		return r;
+	}
+
+	template < typename M, size_t C, size_t R >
+	value_type_t< M > vector_norm_2(matrix< M, C, R > const& v){
 		using std::sqrt;
-		return sqrt(r);
+		return sqrt(vector_norm_2sqr(v));
 	}
 
 
