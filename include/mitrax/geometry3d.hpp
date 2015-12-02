@@ -43,6 +43,18 @@ namespace mitrax{ namespace geometry3d{
 	public:
 		using point = point< T >;
 
+		struct general_form_t{
+			point p;
+			point n;
+		};
+
+		struct point_normal_form_t{
+			T a;
+			T b;
+			T c;
+			T d;
+		};
+
 		constexpr plane(point const& p0, point const& p1, point const& p2):
 			p(p_), u(u_), v(v_), p_(p0), u_(p1 - p0), v_(p2 - p0) {}
 
@@ -54,6 +66,18 @@ namespace mitrax{ namespace geometry3d{
 		point const& u;
 		point const& v;
 
+		constexpr point_normal_form_t point_normal_form()const{
+			auto g = general_form();
+			return {
+				g.n[0], g.n[1], g.n[2],
+				g.p[0] * g.n[0] + g.p[1] * g.n[1] + g.p[2] * g.n[2]
+			};
+		}
+
+		constexpr general_form_t general_form()const{
+			return { p, cross_product(u, v) };
+		}
+
 	private:
 		point p_;
 		point u_;
@@ -62,18 +86,17 @@ namespace mitrax{ namespace geometry3d{
 
 	template < typename T >
 	constexpr point< T > intersect(plane< T > const& p, line< T > const& l){
-		auto a = p.u[1] * p.v[2] - p.u[2] * p.v[1];
-		auto b = p.u[2] * p.v[0] - p.u[0] * p.v[2];
-		auto c = p.u[0] * p.v[1] - p.u[1] * p.v[0];
-		auto d = p.p[0] * a + p.p[1] * b + p.p[2]  * c;
+		auto g = p.point_normal_form();
 
-		auto lambda = a * l.u[0] + b * l.u[1] + c * l.u[2];
+		auto lambda = g.a * l.u[0] + g.b * l.u[1] + g.c * l.u[2];
 
 		if(lambda == 0) throw std::logic_error(
 			"no intersection point between line and plane"
 		);
 
-		return l((d - (a * l.p[0] + b * l.p[1] + c * l.p[2])) / lambda);
+		return l(
+			(g.d - (g.a * l.p[0] + g.b * l.p[1] + g.c * l.p[2])) / lambda
+		);
 	}
 
 	template < typename T >
