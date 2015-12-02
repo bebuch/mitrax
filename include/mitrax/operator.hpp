@@ -455,29 +455,18 @@ namespace mitrax{
 	}
 
 
-	template <
-		typename M1, size_t C1, size_t R1,
-		typename M2, size_t C2, size_t R2
-	> constexpr auto cross_product(
-		matrix< M1, C1, R1 > const& m1,
-		matrix< M2, C2, R2 > const& m2
+	template < typename M1, size_t R1, typename M2, size_t R2 >
+	constexpr auto cross_product(
+		col_vector< M1, R1 > const& m1,
+		col_vector< M2, R2 > const& m2
 	){
 		static_assert(
-			((
-				(C1 == 1 || C1 == 0) && (R1 == 3 || R1 == 0) &&
-				(C2 == 1 || C2 == 0) && (R2 == 3 || R2 == 0)
-			) || (
-				(C1 == 3 || C1 == 0) && (R1 == 1 || R1 == 0) &&
-				(C2 == 3 || C2 == 0) && (R2 == 1 || R2 == 0)
-			)) && (
-				(C1 != 0 && C2 != 0 && C1 == C2) &&
-				(R1 != 0 && R2 != 0 && R1 == R2)
-			),
+			(R1 == 3 || R1 == 0) && (R2 == 3 || R2 == 0),
 			"Matrix dimensions not compatible"
 		);
 
 		// Compiler should skip this for compile time dimensions
-		if(m1.cols() != m2.cols() || m1.rows() != m2.rows()){
+		if(m1.rows() != m2.rows() || m1.rows() != 3){
 			throw std::logic_error(
 				"matrix dimensions not compatible while comparing"
 			);
@@ -487,19 +476,38 @@ namespace mitrax{
 			std::common_type_t< value_type_t< M1 >, value_type_t< M2 > >;
 
 		// TODO: Use the compile time size from m1 or m2, if one is ct
-		if(m1.cols() == 1){
-			return make_col_vector< value_type >(m1.rows().init(), {
-				m1[1] * m2[2] - m1[2] * m2[1],
-				m1[2] * m2[0] - m1[0] * m2[2],
-				m1[0] * m2[1] - m1[1] * m2[0]
-			});
-		}else{
-			return make_row_vector< value_type >(m1.cols().init(), {
-				m1[1] * m2[2] - m1[2] * m2[1],
-				m1[2] * m2[0] - m1[0] * m2[2],
-				m1[0] * m2[1] - m1[1] * m2[0]
-			});
+		return make_col_vector< value_type >(rows< 3 >(), {
+			m1[1] * m2[2] - m1[2] * m2[1],
+			m1[2] * m2[0] - m1[0] * m2[2],
+			m1[0] * m2[1] - m1[1] * m2[0]
+		});
+	}
+
+	template < typename M1, size_t C1, typename M2, size_t C2 >
+	constexpr auto cross_product(
+		row_vector< M1, C1 > const& m1,
+		row_vector< M2, C2 > const& m2
+	){
+		static_assert(
+			(C1 == 3 || C1 == 0) && (C2 == 3 || C2 == 0),
+			"Matrix dimensions not compatible"
+		);
+
+		// Compiler should skip this for compile time dimensions
+		if(m1.cols() != m2.cols() || m1.cols() != 3){
+			throw std::logic_error(
+				"matrix dimensions not compatible while comparing"
+			);
 		}
+
+		using value_type =
+			std::common_type_t< value_type_t< M1 >, value_type_t< M2 > >;
+
+		return make_row_vector< value_type >(cols< 3 >(), {
+			m1[1] * m2[2] - m1[2] * m2[1],
+			m1[2] * m2[0] - m1[0] * m2[2],
+			m1[0] * m2[1] - m1[1] * m2[0]
+		});
 	}
 
 
