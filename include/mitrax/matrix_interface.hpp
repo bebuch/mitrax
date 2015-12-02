@@ -80,10 +80,12 @@ namespace mitrax{
 		constexpr matrix_base& operator=(matrix_base const&) = default;
 
 
+		// TODO: Return col_init_t instead
 		constexpr col_t< Cols > cols()const{
 			return m_.cols();
 		}
 
+		// TODO: Return row_init_t instead
 		constexpr row_t< Rows > rows()const{
 			return m_.rows();
 		}
