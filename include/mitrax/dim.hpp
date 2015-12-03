@@ -12,6 +12,7 @@
 #include <cstddef>
 #include <type_traits>
 #include <functional>
+#include <stdexcept>
 
 
 namespace mitrax{
