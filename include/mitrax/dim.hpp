@@ -1229,6 +1229,147 @@ namespace mitrax{
 	}
 
 
+	namespace detail{
+
+
+		template < typename T, typename U >
+		constexpr auto get_first_of_same_ct(T a, U b){
+			static_assert(a == b, "dimensions are not the same");
+			return a;
+		}
+
+		template < typename T, typename U >
+		constexpr auto get_first_of_same_rt(T a, U b){
+			if(a != b){
+				throw std::logic_error("dimensions are not the same");
+			}
+			return a;
+		}
+
+
+		template < template < bool, size_t > class init, size_t N1, size_t N2 >
+		constexpr auto get_ct_if_available(
+			init< true, N1 > a, init< true, N2 > b
+		){
+			return get_first_of_same_ct(a, b);
+		}
+
+		template < template < bool, size_t > class init, size_t N1, size_t N2 >
+		constexpr auto get_ct_if_available(
+			init< false, N1 > a, init< false, N2 > b
+		){
+			return get_first_of_same_ct(a, b);
+		}
+
+		template < template < bool, size_t > class init, size_t N1, size_t N2 >
+		constexpr auto get_ct_if_available(
+			init< true, N1 > a, init< false, N2 > b
+		){
+			return get_first_of_same_ct(a, b);
+		}
+
+		template < template < bool, size_t > class init, size_t N1, size_t N2 >
+		constexpr auto get_ct_if_available(
+			init< false, N1 > a, init< true, N2 > b
+		){
+			return get_first_of_same_ct(b, a);
+		}
+
+		template < template < bool, size_t > class init, size_t N1 >
+		constexpr auto get_ct_if_available(
+			init< true, N1 > a, init< false, 0 > b
+		){
+			return get_first_of_same_rt(a, b);
+		}
+
+		template < template < bool, size_t > class init, size_t N1 >
+		constexpr auto get_ct_if_available(
+			init< false, N1 > a, init< false, 0 > b
+		){
+			return get_first_of_same_rt(a, b);
+		}
+
+		template < template < bool, size_t > class init, size_t N2 >
+		constexpr auto get_ct_if_available(
+			init< false, 0 > a, init< true, N2 > b
+		){
+			return get_first_of_same_rt(b, a);
+		}
+
+		template < template < bool, size_t > class init, size_t N2 >
+		constexpr auto get_ct_if_available(
+			init< false, 0 > a, init< false, N2 > b
+		){
+			return get_first_of_same_rt(b, a);
+		}
+
+		template < template < bool, size_t > class init >
+		constexpr auto get_ct_if_available(
+			init< false, 0 > a, init< false, 0 > b
+		){
+			return get_first_of_same_rt(a, b);
+		}
+
+		template < template < bool, size_t > class init, bool Nct, size_t N >
+		constexpr auto get(init< Nct, N > d){
+			return d;
+		}
+
+		template <
+			template < bool, size_t > class init,
+			bool Nct1, size_t N1, bool Nct2, size_t N2
+		> constexpr auto get(
+			init< Nct1, N1 > d1,
+			init< Nct2, N2 > d2
+		){
+			return get_ct_if_available< init >(d1, d2);
+		}
+
+		template <
+			template < bool, size_t > class init,
+			bool Nct1, size_t N1,
+			bool Nct2, size_t N2,
+			bool ... NctN, size_t ... Nn
+		> constexpr auto get(
+			init< Nct1, N1 > d1,
+			init< Nct2, N2 > d2,
+			init< NctN, Nn > ... dn
+		){
+			return get< init >(get_ct_if_available< init >(d1, d2), dn ...);
+		}
+
+
+	}
+
+
+	template < bool ... Nct, size_t ... N >
+	constexpr auto get(col_init_t< Nct, N > ... v){
+		return detail::get< col_init_t >(v ...);
+	}
+
+	template < bool ... Nct, size_t ... N >
+	constexpr auto get(row_init_t< Nct, N > ... v){
+		return detail::get< row_init_t >(v ...);
+	}
+
+	template < bool ... Nct, size_t ... N >
+	constexpr auto get(dim_init_t< Nct, N > ... v){
+		return detail::get< dim_init_t >(v ...);
+	}
+
+	template < size_t ... N >
+	constexpr auto get(col_t< N > ... v){
+		return get(v.init() ...).get();
+	}
+
+	template < size_t ... N >
+	constexpr auto get(row_t< N > ... v){
+		return get(v.init() ...).get();
+	}
+
+
+
+
 }
 
 
