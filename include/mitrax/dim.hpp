@@ -241,6 +241,42 @@ namespace mitrax{
 		return dims(d.as_col(), d.as_row());
 	}
 
+	template < typename T, size_t C >
+	void dims(T, col_t< C >) = delete;
+
+	template < typename T, size_t R >
+	void dims(row_t< R >, T) = delete;
+
+	template < size_t C, size_t R >
+	void dims(row_t< R >, col_t< C >) = delete;
+
+	template < size_t C, size_t R >
+	void dims(col_t< R >, col_t< C >) = delete;
+
+	template < size_t C, size_t R >
+	void dims(row_t< R >, row_t< C >) = delete;
+
+	template < typename T, bool Cct, size_t C >
+	void dims(T, col_init_t< Cct, C >) = delete;
+
+	template < typename T, bool Rct, size_t R >
+	void dims(row_init_t< Rct, R >, T) = delete;
+
+	template < bool Cct, size_t C, bool Rct, size_t R >
+	void dims(row_init_t< Rct, R >, col_init_t< Cct, C >) = delete;
+
+	template < bool Cct, size_t C, bool Rct, size_t R >
+	void dims(col_init_t< Rct, R >, col_init_t< Cct, C >) = delete;
+
+	template < bool Cct, size_t C, bool Rct, size_t R >
+	void dims(row_init_t< Rct, R >, row_init_t< Cct, C >) = delete;
+
+	template < size_t C, bool Rct, size_t R >
+	void dims(row_init_t< Rct, R >, col_t< C >) = delete;
+
+	template < bool Cct, size_t C, size_t R >
+	void dims(row_t< R >, col_init_t< Cct, C >) = delete;
+
 
 	template < size_t I >
 	struct col_init_t< true, I >: size_ct< I >{
@@ -1367,7 +1403,10 @@ namespace mitrax{
 		return get(v.init() ...).get();
 	}
 
-
+	template < size_t ... C, size_t ... R >
+	constexpr auto get(dim_t< C, R > ... v){
+		return dims(get(v.cols() ...), get(v.rows() ...));
+	}
 
 
 }
