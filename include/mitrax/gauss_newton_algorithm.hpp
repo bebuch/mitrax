@@ -90,7 +90,7 @@ namespace mitrax{
 			});
 
 		for(;;){
-			std::cout << arg << std::endl;
+// 			std::cout << arg << std::endl;
 
 			auto d = make_matrix_by_function(
 				dims(arg.rows().as_col(), data.size()),
@@ -128,7 +128,7 @@ namespace mitrax{
 					throw std::runtime_error("eps is infinite");
 				}
 
-				std::cout << "eps: " << eps << std::endl;
+// 				std::cout << "eps: " << eps << std::endl;
 				if(eps <= beta0){
 					mu *= 2;
 					continue;
@@ -144,7 +144,7 @@ namespace mitrax{
 				return s;
 			} }();
 
-			std::cout << "s: " << s << std::endl;
+// 			std::cout << "s: " << s << std::endl;
 			auto arg_new = arg + s;
 
 			arg = arg_new;
