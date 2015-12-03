@@ -511,6 +511,69 @@ namespace mitrax{
 	}
 
 
+	template < typename M1, size_t R1, typename M2, size_t R2 >
+	constexpr auto dot_product(
+		col_vector< M1, R1 > const& m1,
+		col_vector< M2, R2 > const& m2
+	){
+		static_assert(
+			R1 == 0 || R2 == 0 || R1 == R2,
+			"Matrix dimensions not compatible"
+		);
+
+		// Compiler should skip this for compile time dimensions
+		if(m1.rows() != m2.rows()){
+			throw std::logic_error(
+				"matrix dimensions not compatible while comparing"
+			);
+		}
+
+		using value_type =
+			std::common_type_t< value_type_t< M1 >, value_type_t< M2 > >;
+
+		// Compiler may optimize with the compile time dimension
+		size_t size = R1 == 0 ? m2.rows() : m1.rows();
+
+		value_type res = 0;
+		for(size_t i = 0; i < size; ++i){
+			res += m1[i] * m2[i];
+		}
+
+		return res;
+	}
+
+	template < typename M1, size_t C1, typename M2, size_t C2 >
+	constexpr auto dot_product(
+		row_vector< M1, C1 > const& m1,
+		row_vector< M2, C2 > const& m2
+	){
+		static_assert(
+			C1 == 0 || C2 == 0 || C1 == C2,
+			"Matrix dimensions not compatible"
+		);
+
+		// Compiler should skip this for compile time dimensions
+		if(m1.cols() != m2.cols()){
+			throw std::logic_error(
+				"matrix dimensions not compatible while comparing"
+			);
+		}
+
+		using value_type =
+			std::common_type_t< value_type_t< M1 >, value_type_t< M2 > >;
+
+		// Compiler may optimize with the compile time dimension
+		size_t size = C1 == 0 ? m2.cols() : m1.cols();
+
+		value_type res = 0;
+		for(size_t i = 0; i < size; ++i){
+			res += m1[i] * m2[i];
+		}
+
+		return res;
+	}
+
+
 }
 
 
