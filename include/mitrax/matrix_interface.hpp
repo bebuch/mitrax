@@ -466,6 +466,22 @@ namespace mitrax{
 	};
 
 
+	template < typename ... M, size_t ... C, size_t ... R >
+	constexpr auto get_cols(matrix< M, C, R > const& ... m){
+		return get(m.cols() ...);
+	}
+
+	template < typename ... M, size_t ... C, size_t ... R >
+	constexpr auto get_rows(matrix< M, C, R > const& ... m){
+		return get(m.rows() ...);
+	}
+
+	template < typename ... M, size_t ... C, size_t ... R >
+	constexpr auto get_dims(matrix< M, C, R > const& ... m){
+		return get(m.dims() ...);
+	}
+
+
 
 }
 
