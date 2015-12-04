@@ -44,6 +44,19 @@ namespace mitrax{
 		}
 	}
 
+	template <
+		typename F, size_t Co, size_t Ro, 
+		typename ... M, size_t ... C, size_t ... R
+	> constexpr void for_each_view(
+		F const& f,
+		dim_t< Co, Ro > view_dims,
+		matrix< M, C, R > const& ... images
+	){
+		for_each_view(
+			f, view_dims.cols().init(), view_dims.rows().init(), images ...
+		);
+	}
+
 
 }
 
