@@ -23,12 +23,8 @@ namespace mitrax{
 		constexpr swap_rows_t(){}
 
 		template <
-			typename M1,
-			size_t C1,
-			size_t R1,
-			typename M2,
-			size_t C2,
-			size_t R2,
+			typename M1, size_t C1, size_t R1,
+			typename M2, size_t C2, size_t R2,
 			std::enable_if_t<
 				std::is_same< value_type_t< M1 >, value_type_t< M2 > >::value
 			>* = nullptr
@@ -38,38 +34,22 @@ namespace mitrax{
 			matrix< M2, C2, R2 >& m2,
 			size_t i2
 		)const{
-			static_assert(
-				(C1 == 0 || C2 == 0 || C1 == C2),
-				"Matrix dimensions not compatible"
-			);
-
-			// Compiler should skip this for compile time dimensions
-			if(m1.cols() != m2.cols()){
-				throw std::logic_error(
-					"matrix dimensions not compatible while comparing"
-				);
-			}
-
 			if(m1.rows() <= i1 || m2.rows() <= i2){
 				throw std::out_of_range("matrix swap_rows");
 			}
 
-			for(size_t i = 0; i < m1.cols(); ++i){
+			auto cols = get_cols(m1, m2);
+
+			for(size_t i = 0; i < cols; ++i){
 				using std::swap;
 				swap(m1(i, i1), m2(i, i2));
 			}
 		}
 
-		template <
-			typename M,
-			size_t C,
-			size_t R
-		> constexpr void operator()(
-			matrix< M, C, R >& m,
-			size_t i1,
-			size_t i2
-		)const{
-			operator()(m, i1, m, i2);
+		template < typename M, size_t C, size_t R >
+		constexpr void
+		operator()(matrix< M, C, R >& m, size_t i1, size_t i2)const{
+			(*this)(m, i1, m, i2);
 		}
 	};
 
@@ -80,12 +60,8 @@ namespace mitrax{
 		constexpr swap_cols_t(){}
 
 		template <
-			typename M1,
-			size_t C1,
-			size_t R1,
-			typename M2,
-			size_t C2,
-			size_t R2,
+			typename M1, size_t C1, size_t R1,
+			typename M2, size_t C2, size_t R2,
 			std::enable_if_t<
 				std::is_same< value_type_t< M1 >, value_type_t< M2 > >::value
 			>* = nullptr
@@ -95,37 +71,21 @@ namespace mitrax{
 			matrix< M2, C2, R2 >& m2,
 			size_t i2
 		)const{
-			static_assert(
-				(R1 == 0 || R2 == 0 || R1 == R2),
-				"Matrix dimensions not compatible"
-			);
-
-			// Compiler should skip this for compile time dimensions
-			if(m1.rows() != m2.rows()){
-				throw std::logic_error(
-					"matrix dimensions not compatible while comparing"
-				);
-			}
-
 			if(m1.cols() <= i1 || m2.cols() <= i2){
 				throw std::out_of_range("matrix swap_cols");
 			}
 
-			for(size_t i = 0; i < m1.rows(); ++i){
+			auto rows = get_rows(m1, m2);
+
+			for(size_t i = 0; i < rows; ++i){
 				using std::swap;
 				swap(m1(i1, i), m2(i2, i));
 			}
 		}
 
-		template <
-			typename M,
-			size_t C,
-			size_t R
-		> constexpr void operator()(
-			matrix< M, C, R >& m,
-			size_t i1,
-			size_t i2
-		)const{
+		template < typename M, size_t C, size_t R >
+		constexpr void
+		operator()(matrix< M, C, R >& m, size_t i1, size_t i2)const{
 			operator()(m, i1, m, i2);
 		}
 	};

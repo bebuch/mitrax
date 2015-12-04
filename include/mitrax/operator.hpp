@@ -80,25 +80,10 @@ namespace mitrax{
 			matrix< M2, C2, R2 > const& m2,
 			O const& operation
 		){
-			static_assert(
-				(C1 == 0 || C2 == 0 || C1 == C2) &&
-				(R1 == 0 || R2 == 0 || R1 == R2),
-				"Matrix dimensions not compatible"
-			);
+			auto size = get_dims(m1, m2);
 
-			// Compiler should skip this for compile time dimensions
-			if(m1.cols() != m2.cols() || m1.rows() != m2.rows()){
-				throw std::logic_error(
-					"matrix dimensions not compatible while comparing"
-				);
-			}
-
-			// Compiler may optimize with the compile time dimension
-			size_t cols = C1 == 0 ? m2.cols() : m1.cols();
-			size_t rows = R1 == 0 ? m2.rows() : m1.rows();
-
-			for(size_t y = 0; y < rows; ++y){
-				for(size_t x = 0; x < cols; ++x){
+			for(size_t y = 0; y < size.rows(); ++y){
+				for(size_t x = 0; x < size.cols(); ++x){
 					operation(m1(x, y), m2(x, y));
 				}
 			}
@@ -516,23 +501,10 @@ namespace mitrax{
 		col_vector< M1, R1 > const& m1,
 		col_vector< M2, R2 > const& m2
 	){
-		static_assert(
-			R1 == 0 || R2 == 0 || R1 == R2,
-			"Matrix dimensions not compatible"
-		);
-
-		// Compiler should skip this for compile time dimensions
-		if(m1.rows() != m2.rows()){
-			throw std::logic_error(
-				"matrix dimensions not compatible while comparing"
-			);
-		}
-
 		using value_type =
 			std::common_type_t< value_type_t< M1 >, value_type_t< M2 > >;
 
-		// Compiler may optimize with the compile time dimension
-		size_t size = R1 == 0 ? m2.rows() : m1.rows();
+		auto size = get_rows(m1, m2);
 
 		value_type res = 0;
 		for(size_t i = 0; i < size; ++i){
@@ -547,23 +519,10 @@ namespace mitrax{
 		row_vector< M1, C1 > const& m1,
 		row_vector< M2, C2 > const& m2
 	){
-		static_assert(
-			C1 == 0 || C2 == 0 || C1 == C2,
-			"Matrix dimensions not compatible"
-		);
-
-		// Compiler should skip this for compile time dimensions
-		if(m1.cols() != m2.cols()){
-			throw std::logic_error(
-				"matrix dimensions not compatible while comparing"
-			);
-		}
-
 		using value_type =
 			std::common_type_t< value_type_t< M1 >, value_type_t< M2 > >;
 
-		// Compiler may optimize with the compile time dimension
-		size_t size = C1 == 0 ? m2.cols() : m1.cols();
+		auto size = get_cols(m1, m2);
 
 		value_type res = 0;
 		for(size_t i = 0; i < size; ++i){
