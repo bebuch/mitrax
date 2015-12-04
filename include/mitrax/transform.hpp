@@ -54,23 +54,19 @@ namespace mitrax{
 			}
 		};
 
-		template < bool Ccto, size_t Co, bool Rcto, size_t Ro >
+		template < size_t Co, size_t Ro >
 		struct call_sub_matrix{
-			col_init_t< Ccto, Co > cols;
-			row_init_t< Rcto, Ro > rows;
+			dim_t< Co, Ro > dims;
 
 			template < typename M >
 			constexpr auto operator()(M const& m, size_t x, size_t y)const{
-				return m.sub_matrix(x, y, cols, rows);
+				return m.sub_matrix(x, y, dims);
 			}
 		};
 
-		template < bool Ccto, size_t Co, bool Rcto, size_t Ro >
-		constexpr auto make_call_sub_matrix(
-			col_init_t< Ccto, Co > cols,
-			row_init_t< Rcto, Ro > rows
-		){
-			return call_sub_matrix< Ccto, Co, Rcto, Ro >{cols, rows};
+		template < size_t Co, size_t Ro >
+		constexpr auto make_call_sub_matrix(dim_t< Co, Ro > const& dims){
+			return call_sub_matrix< Co, Ro >{dims};
 		}
 
 
@@ -85,6 +81,24 @@ namespace mitrax{
 
 
 	template <
+		typename F, size_t Co, size_t Ro, 
+		typename ... M, size_t ... C, size_t ... R
+	> constexpr auto transform_per_view(
+		F const& f,
+		dim_t< Co, Ro > const& view_dims,
+		matrix< M, C, R > const& ... images
+	){
+		using namespace literals;
+		return make_matrix_by_function(
+			get_dims(images ...) + dims(1_C, 1_R) - view_dims,
+			detail::make_invoke(
+				f, detail::make_call_sub_matrix(view_dims),
+				images ...
+			));
+	}
+
+
+	template <
 		typename F, bool Ccto, size_t Co, bool Rcto, size_t Ro, 
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto transform_per_view(
@@ -93,14 +107,7 @@ namespace mitrax{
 		row_init_t< Rcto, Ro > view_rows,
 		matrix< M, C, R > const& ... images
 	){
-		using namespace literals;
-		return make_matrix_by_function(
-			get_cols(images ...) - view_cols + 1_C,
-			get_rows(images ...) - view_rows + 1_R,
-			detail::make_invoke(
-				f, detail::make_call_sub_matrix(view_cols, view_rows),
-				images ...
-			));
+		return transform_per_view(f, dims(view_cols, view_rows), images ...);
 	}
 
 
