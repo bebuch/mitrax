@@ -38,122 +38,122 @@ namespace{
 BOOST_AUTO_TEST_SUITE(test_suite_gauss_newton_algorithm)
 
 
-BOOST_AUTO_TEST_CASE(test_gauss_newton_algorithm_linear_fit){
-	auto f = [](
-			raw_col_vector< double, 2 > const& p,
-			std::tuple< double, double > const& v
-		){
-			return std::get< 1 >(v) * p[0] + p[1] - std::get< 0 >(v);
-		};
-
-	boost::container::vector< std::tuple< double, double > > data{
-		std::make_tuple(2., 2.),
-		std::make_tuple(3., 3.),
-		std::make_tuple(4., 4.),
-		std::make_tuple(5., 5.)
-	};
-
-	constexpr auto start = make_col_vector< double >(2_R, 1);
-
-	std::cout << "gauss-newton:" << std::endl;
-	auto res = gauss_newton_algorithm(f, start, 1e-10, data);
-	std::cout << res << std::endl;
-}
-
-BOOST_AUTO_TEST_CASE(test_gauss_levenberg_marquardt_linear_fit){
-	auto f = [](
-			raw_col_vector< double, 2 > const& p,
-			std::tuple< double, double > const& v
-		){
-			return std::get< 1 >(v) * p[0] + p[1] - std::get< 0 >(v);
-		};
-
-	boost::container::vector< std::tuple< double, double > > data{
-		std::make_tuple(2., 2.),
-		std::make_tuple(3., 3.),
-		std::make_tuple(4., 4.),
-		std::make_tuple(5., 5.)
-	};
-
-	constexpr auto start = make_col_vector< double >(2_R, 1);
-
-	std::cout << "levenberg-marquardt:" << std::endl;
-	auto res = levenberg_marquardt_algorithm(
-		f, start, 1e-10, 1., 0.3, 0.9, data
-	);
-	std::cout << res << std::endl;
-}
-
-
-BOOST_AUTO_TEST_CASE(test_gauss_newton_algorithm_cycle_fit){
-	using value_type = raw_col_vector< double, 2 >;
-
-	auto f = [](
-			raw_col_vector< double, 3 > const& p,
-			std::tuple< value_type > const& v
-		){
-			auto x = std::get< 0 >(v)[0];
-			auto y = std::get< 0 >(v)[1];
-			auto px = p[0];
-			auto py = p[1];
-			auto pr = p[2];
-			auto xd = x - px;
-			auto yd = y - py;
-			return std::sqrt(xd * xd + yd * yd) - pr;
-		};
-
-	boost::container::vector< std::tuple< value_type > > data{
-		std::make_tuple(make_col_vector< double >(2_R, {2, 2})),
-		std::make_tuple(make_col_vector< double >(2_R, {4, 4})),
-		std::make_tuple(make_col_vector< double >(2_R, {2, 4})),
-		std::make_tuple(make_col_vector< double >(2_R, {4, 2}))
-	};
-
-	constexpr auto start = make_col_vector< double >(3_R, 1);
-
-	std::cout << "gauss-newton:" << std::endl;
-	auto res = gauss_newton_algorithm(f, start, 1e-10, data);
-	std::cout << res << std::endl;
-}
-
-BOOST_AUTO_TEST_CASE(test_gauss_levenberg_marquardt_cycle_fit){
-	using value_type = raw_col_vector< double, 2 >;
-
-	auto f = [](
-			raw_col_vector< double, 3 > const& p,
-			std::tuple< value_type > const& v
-		){
-			auto x = std::get< 0 >(v)[0];
-			auto y = std::get< 0 >(v)[1];
-			auto px = p[0];
-			auto py = p[1];
-			auto pr = p[2];
-			auto xd = x - px;
-			auto yd = y - py;
+// BOOST_AUTO_TEST_CASE(test_gauss_newton_algorithm_linear_fit){
+// 	auto f = [](
+// 			raw_col_vector< double, 2 > const& p,
+// 			std::tuple< double, double > const& v
+// 		){
+// 			return std::get< 1 >(v) * p[0] + p[1] - std::get< 0 >(v);
+// 		};
+// 
+// 	boost::container::vector< std::tuple< double, double > > data{
+// 		std::make_tuple(2., 2.),
+// 		std::make_tuple(3., 3.),
+// 		std::make_tuple(4., 4.),
+// 		std::make_tuple(5., 5.)
+// 	};
+// 
+// 	constexpr auto start = make_col_vector< double >(2_R, 1);
+// 
+// 	std::cout << "gauss-newton:" << std::endl;
+// 	auto res = gauss_newton_algorithm(f, start, 1e-10, data);
+// 	std::cout << res << std::endl;
+// }
+// 
+// BOOST_AUTO_TEST_CASE(test_gauss_levenberg_marquardt_linear_fit){
+// 	auto f = [](
+// 			raw_col_vector< double, 2 > const& p,
+// 			std::tuple< double, double > const& v
+// 		){
+// 			return std::get< 1 >(v) * p[0] + p[1] - std::get< 0 >(v);
+// 		};
+// 
+// 	boost::container::vector< std::tuple< double, double > > data{
+// 		std::make_tuple(2., 2.),
+// 		std::make_tuple(3., 3.),
+// 		std::make_tuple(4., 4.),
+// 		std::make_tuple(5., 5.)
+// 	};
+// 
+// 	constexpr auto start = make_col_vector< double >(2_R, 1);
+// 
+// 	std::cout << "levenberg-marquardt:" << std::endl;
+// 	auto res = levenberg_marquardt_algorithm(
+// 		f, start, 1e-10, 1., 0.3, 0.9, data
+// 	);
+// 	std::cout << res << std::endl;
+// }
+// 
+// 
+// BOOST_AUTO_TEST_CASE(test_gauss_newton_algorithm_cycle_fit){
+// 	using value_type = raw_col_vector< double, 2 >;
+// 
+// 	auto f = [](
+// 			raw_col_vector< double, 3 > const& p,
+// 			std::tuple< value_type > const& v
+// 		){
+// 			auto x = std::get< 0 >(v)[0];
+// 			auto y = std::get< 0 >(v)[1];
+// 			auto px = p[0];
+// 			auto py = p[1];
+// 			auto pr = p[2];
+// 			auto xd = x - px;
+// 			auto yd = y - py;
 // 			return std::sqrt(xd * xd + yd * yd) - pr;
-			return xd * xd + yd * yd - pr * pr;
-		};
-
-	boost::container::vector< std::tuple< value_type > > data{
-		std::make_tuple(make_col_vector< double >(2_R, {2, 2})),
-		std::make_tuple(make_col_vector< double >(2_R, {4, 4})),
-		std::make_tuple(make_col_vector< double >(2_R, {2, 4})),
-		std::make_tuple(make_col_vector< double >(2_R, {4, 2}))
-	};
-
-	constexpr auto start = make_col_vector< double >(3_R, 1);
-
-	std::cout << "levenberg-marquardt:" << std::endl;
-	auto res = levenberg_marquardt_algorithm(
-		f, start, 1e-10, 1., 0.1, 0.9, data
-	);
-	std::cout << res << std::endl;
-
-	std::cout << f(res, data[0]) << std::endl;
-	std::cout << f(res, data[1]) << std::endl;
-	std::cout << f(res, data[2]) << std::endl;
-	std::cout << f(res, data[3]) << std::endl;
-}
+// 		};
+// 
+// 	boost::container::vector< std::tuple< value_type > > data{
+// 		std::make_tuple(make_col_vector< double >(2_R, {2, 2})),
+// 		std::make_tuple(make_col_vector< double >(2_R, {4, 4})),
+// 		std::make_tuple(make_col_vector< double >(2_R, {2, 4})),
+// 		std::make_tuple(make_col_vector< double >(2_R, {4, 2}))
+// 	};
+// 
+// 	constexpr auto start = make_col_vector< double >(3_R, 1);
+// 
+// 	std::cout << "gauss-newton:" << std::endl;
+// 	auto res = gauss_newton_algorithm(f, start, 1e-10, data);
+// 	std::cout << res << std::endl;
+// }
+// 
+// BOOST_AUTO_TEST_CASE(test_gauss_levenberg_marquardt_cycle_fit){
+// 	using value_type = raw_col_vector< double, 2 >;
+// 
+// 	auto f = [](
+// 			raw_col_vector< double, 3 > const& p,
+// 			std::tuple< value_type > const& v
+// 		){
+// 			auto x = std::get< 0 >(v)[0];
+// 			auto y = std::get< 0 >(v)[1];
+// 			auto px = p[0];
+// 			auto py = p[1];
+// 			auto pr = p[2];
+// 			auto xd = x - px;
+// 			auto yd = y - py;
+// // 			return std::sqrt(xd * xd + yd * yd) - pr;
+// 			return xd * xd + yd * yd - pr * pr;
+// 		};
+// 
+// 	boost::container::vector< std::tuple< value_type > > data{
+// 		std::make_tuple(make_col_vector< double >(2_R, {2, 2})),
+// 		std::make_tuple(make_col_vector< double >(2_R, {4, 4})),
+// 		std::make_tuple(make_col_vector< double >(2_R, {2, 4})),
+// 		std::make_tuple(make_col_vector< double >(2_R, {4, 2}))
+// 	};
+// 
+// 	constexpr auto start = make_col_vector< double >(3_R, 1);
+// 
+// 	std::cout << "levenberg-marquardt:" << std::endl;
+// 	auto res = levenberg_marquardt_algorithm(
+// 		f, start, 1e-10, 1., 0.1, 0.9, data
+// 	);
+// 	std::cout << res << std::endl;
+// 
+// 	std::cout << f(res, data[0]) << std::endl;
+// 	std::cout << f(res, data[1]) << std::endl;
+// 	std::cout << f(res, data[2]) << std::endl;
+// 	std::cout << f(res, data[3]) << std::endl;
+// }
 
 // BOOST_AUTO_TEST_CASE(test_gauss_newton_algorithm){
 // 	constexpr auto start = make_col_vector< double >(8_R, 1);
