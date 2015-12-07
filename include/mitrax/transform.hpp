@@ -9,6 +9,7 @@
 #ifndef _mitrax__transform__hpp_INCLUDED_
 #define _mitrax__transform__hpp_INCLUDED_
 
+#include "multi_invoke_adapter.hpp"
 #include "matrix.hpp"
 
 
@@ -17,35 +18,6 @@ namespace mitrax{
 
 	namespace detail{
 
-
-		template < typename F, typename S, typename ... T >
-		struct transform_t{
-			constexpr transform_t(
-				F const& f, S const& single_call, T const& ... arg
-			): f_(f), single_call_(single_call), arg_(arg ...) {}
-
-			F const& f_;
-			S const& single_call_;
-			std::tuple< T const& ... > arg_;
-
-			template < typename ... A >
-			constexpr auto operator()(A&& ... arg)const{
-				return (*this)(std::index_sequence_for< T ... >(), arg ...);
-			}
-
-			template < size_t ... I, typename ... A >
-			constexpr auto operator()(
-				std::index_sequence< I ... >, A&& ... arg
-			)const{
-				return f_(single_call_(std::get< I >(arg_), arg ...) ...);
-			}
-		};
-
-		template < typename F, typename S, typename ... T >
-		constexpr auto
-		make_invoke(F const& f, S const& single_call, T const& ... arg){
-			return transform_t< F, S, T ... >(f, single_call, arg ...);
-		}
 
 		struct call_func_operator{
 			template < typename M >
@@ -76,7 +48,10 @@ namespace mitrax{
 	template < typename F, typename ... M, size_t ... C, size_t ... R >
 	constexpr auto transform(F const& f, matrix< M, C, R > const& ... images){
 		return make_matrix_by_function(get_dims(images ...),
-			detail::make_invoke(f, detail::call_func_operator(), images ...));
+			make_multi_invoke_adapter(
+				f, detail::call_func_operator(), images ...
+			)
+		);
 	}
 
 
@@ -91,10 +66,10 @@ namespace mitrax{
 		using namespace literals;
 		return make_matrix_by_function(
 			get_dims(images ...) + dims(1_C, 1_R) - view_dims,
-			detail::make_invoke(
-				f, detail::make_call_sub_matrix(view_dims),
-				images ...
-			));
+			make_multi_invoke_adapter(
+				f, detail::make_call_sub_matrix(view_dims), images ...
+			)
+		);
 	}
 
 

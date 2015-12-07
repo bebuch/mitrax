@@ -9,7 +9,8 @@
 #ifndef _mitrax__region__hpp_INCLUDED_
 #define _mitrax__region__hpp_INCLUDED_
 
-#include "pass_in.hpp"
+#include "multi_invoke_adapter.hpp"
+#include "matrix.hpp"
 
 
 namespace mitrax{
@@ -88,7 +89,7 @@ namespace mitrax{
 
 		return make_matrix_by_function(
 			result_dims,
-			detail::make_invoke(
+			make_multi_invoke_adapter(
 				f, detail::region_make_call_sub_matrix(
 					region_dims, factor_x, factor_y
 				), images ...
