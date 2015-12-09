@@ -11,6 +11,7 @@
 
 #include <ostream>
 #include <utility>
+#include <tuple>
 
 #include <boost/container/vector.hpp>
 
@@ -24,6 +25,26 @@ namespace mitrax{
 		os << p.first;
 		os << ';';
 		os << p.second;
+		os << ')';
+		return os;
+	}
+
+	template < typename ... T, size_t ... I >
+	void tuple_out(
+		std::ostream& os,
+		std::tuple< T ... > const& t,
+		std::index_sequence< I ... >
+	){
+		using swallow = int[];
+		(void)swallow{
+			0, (void(os << (I == 0 ? "" : ",") << std::get< I >(t)), 0) ...
+		};
+	}
+
+	template < typename ... T >
+	std::ostream& operator<<(std::ostream& os, std::tuple< T ... > const& t){
+		os << '(';
+		tuple_out(os, t, std::make_index_sequence< sizeof...(T) >());
 		os << ')';
 		return os;
 	}
