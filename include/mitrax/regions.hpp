@@ -12,6 +12,9 @@
 #include "multi_invoke_adapter.hpp"
 #include "matrix.hpp"
 
+#include "io_debug.hpp"
+#include "output.hpp"
+
 
 namespace mitrax{
 
@@ -132,6 +135,8 @@ namespace mitrax{
 	){
 		using namespace literals;
 
+		using value_type = value_type_t< M >;
+
 		double x_factor =
 			static_cast< double >(original_dims.cols() - region_dims.cols()) /
 			static_cast< double >(regions.cols() - 1_C);
@@ -140,61 +145,78 @@ namespace mitrax{
 			static_cast< double >(original_dims.rows() - region_dims.rows()) /
 			static_cast< double >(regions.rows() - 1_R);
 
-		boost::container::vector< size_t > x_breaks;
-		boost::container::vector< size_t > y_breaks;
 
-		x_breaks.reserve(regions.cols() * 2_C);
-		y_breaks.reserve(regions.rows() * 2_R);
+		auto x_bounds = make_col_vector_by_function(
+			regions.cols().as_row() * 2_R,
+			[x_factor, &region_dims](size_t i){
+				auto p = static_cast< size_t >((i / 2) * x_factor + 0.5);
+				bool begin = i % 2 == 0;
+				return std::make_pair(
+					begin ? p : p + static_cast< size_t >(region_dims.cols()),
+					begin
+				);
+			}
+		);
 
-		for(size_t x = 0; x < regions.cols(); ++x){
-			auto p = static_cast< size_t >(x * x_factor + 0.5);
-			x_breaks.push_back(p);
-			x_breaks.push_back(p + region_dims.cols());
+		auto y_bounds = make_col_vector_by_function(
+			regions.rows() * 2_R,
+			[y_factor, &region_dims](size_t i){
+				auto p = static_cast< size_t >((i / 2) * y_factor + 0.5);
+				bool begin = i % 2 == 0;
+				return std::make_pair(
+					begin ? p : p + static_cast< size_t >(region_dims.rows()),
+					begin
+				);
+			}
+		);
+
+		std::sort(x_bounds.begin(), x_bounds.end());
+		std::sort(y_bounds.begin(), y_bounds.end());
+
+		// pair< start in region, count of regions >
+		boost::container::vector< std::pair< size_t, size_t > > x_sc;
+		boost::container::vector< std::pair< size_t, size_t > > y_sc;
+
+		for(size_t x = 0, s = 0, c = 0; x < x_bounds.rows() - 1_R; ++x){
+			if(x_bounds[x].second){
+				++c;
+			}else{
+				--c;
+				++s;
+			}
+
+			if(x_bounds[x].first == x_bounds[x + 1].first) continue;
+
+			x_sc.emplace_back(s, c);
 		}
 
-		for(size_t y = 0; y < regions.rows(); ++y){
-			auto p = static_cast< size_t >(y * y_factor + 0.5);
-			y_breaks.push_back(p);
-			y_breaks.push_back(p + region_dims.rows());
+		for(size_t y = 0, s = 0, c = 0; y < y_bounds.rows() - 1_R; ++y){
+			if(y_bounds[y].second){
+				++c;
+			}else{
+				--c;
+				++s;
+			}
+
+			if(y_bounds[y].first == y_bounds[y + 1].first) continue;
+
+			y_sc.emplace_back(s, c);
 		}
 
-		x_breaks.pop_back();
-		y_breaks.pop_back();
+		return make_matrix_by_function(dims(x_sc.size(), y_sc.size()),
+			[&f, &x_sc, &y_sc, &regions](size_t x, size_t y){
+				boost::container::vector< value_type_t< M > > input;
+				input.reserve(y_sc[y].second * x_sc[x].second);
 
-		std::sort(x_breaks.begin(), x_breaks.end());
-		std::sort(y_breaks.begin(), y_breaks.end());
+				for(size_t dy = 0; dy < y_sc[y].second; ++dy){
+					for(size_t dx = 0; dx < x_sc[x].second; ++dx){
+						input.emplace_back(
+							regions(x_sc[x].first + dx, y_sc[y].first + dy)
+						);
+					}
+				}
 
-		std::unique(x_breaks.begin(), x_breaks.end());
-		std::unique(y_breaks.begin(), y_breaks.end());
-
-		return mitrax::make_matrix_by_function(
-			dims(x_breaks.size(), y_breaks.size()),
-			[&x_breaks, &y_breaks](size_t x, size_t y){
-// 				using value_type = value_type_t< M >;
-
-				return point< size_t >(x_breaks[x], y_breaks[y]);
-// 				auto start_x = static_cast< size_t >(x * x_factor + 0.5);
-// 				auto start_y = static_cast< size_t >(y * y_factor + 0.5);
-// 
-// 				auto x_begin = std::find(
-// 					x_breaks.begin(), x_breaks.end(), start_x
-// 				);
-// 				assert(x_begin != x_breaks.end());
-// 
-// 				auto y_begin = std::find(
-// 					y_breaks.begin(), y_breaks.end(), start_y
-// 				);
-// 				assert(y_begin != y_breaks.end());
-// 
-// 				auto x_end = x_begin + 1;
-// 				auto y_end = y_begin + 1;
-// 
-// 				while(*x_end < start_x + regions.cols()) ++x_end;
-// 				while(*y_end < start_y + regions.rows()) ++y_end;
-// 
-// 				boost::container::vector< value_type > values;
-// 				values.reserve();
-				
+				return f(std::move(input));
 			});
 	}
 
