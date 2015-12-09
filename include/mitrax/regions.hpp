@@ -12,9 +12,6 @@
 #include "multi_invoke_adapter.hpp"
 #include "matrix.hpp"
 
-#include "io_debug.hpp"
-#include "output.hpp"
-
 
 namespace mitrax{
 
@@ -125,24 +122,26 @@ namespace mitrax{
 	template <
 		typename F,
 		size_t Cr, size_t Rr,
-		size_t Co, size_t Ro,
-		typename M, size_t C, size_t R
-	> auto eval_regions(
+		typename M, size_t C, size_t R,
+		typename ... Mi, size_t ... Ci, size_t ... Ri
+	> auto apply_regions(
 		F const& f,
 		dim_t< Cr, Rr > const& region_dims,
-		dim_t< Co, Ro > const& original_dims,
-		matrix< M, C, R > const& regions
+		matrix< M, C, R > const& regions,
+		matrix< Mi, Ci, Ri > const& ... images
 	){
 		using namespace literals;
 
 		using value_type = value_type_t< M >;
 
+		auto size = get_dims(images ...);
+
 		double x_factor =
-			static_cast< double >(original_dims.cols() - region_dims.cols()) /
+			static_cast< double >(size.cols() - region_dims.cols()) /
 			static_cast< double >(regions.cols() - 1_C);
 
 		double y_factor =
-			static_cast< double >(original_dims.rows() - region_dims.rows()) /
+			static_cast< double >(size.rows() - region_dims.rows()) /
 			static_cast< double >(regions.rows() - 1_R);
 
 
@@ -173,9 +172,9 @@ namespace mitrax{
 		std::sort(x_bounds.begin(), x_bounds.end());
 		std::sort(y_bounds.begin(), y_bounds.end());
 
-		// pair< start in region, count of regions >
-		boost::container::vector< std::pair< size_t, size_t > > x_sc;
-		boost::container::vector< std::pair< size_t, size_t > > y_sc;
+		// pair< start in image, start in region, count of regions >
+		boost::container::vector< std::tuple< size_t, size_t, size_t > > x_sc;
+		boost::container::vector< std::tuple< size_t, size_t, size_t > > y_sc;
 
 		for(size_t x = 0, s = 0, c = 0; x < x_bounds.rows() - 1_R; ++x){
 			if(x_bounds[x].second){
@@ -187,7 +186,7 @@ namespace mitrax{
 
 			if(x_bounds[x].first == x_bounds[x + 1].first) continue;
 
-			x_sc.emplace_back(s, c);
+			x_sc.emplace_back(x_bounds[x].first, s, c);
 		}
 
 		for(size_t y = 0, s = 0, c = 0; y < y_bounds.rows() - 1_R; ++y){
@@ -200,19 +199,28 @@ namespace mitrax{
 
 			if(y_bounds[y].first == y_bounds[y + 1].first) continue;
 
-			y_sc.emplace_back(s, c);
+			y_sc.emplace_back(y_bounds[y].first, s, c);
 		}
 
-		return make_matrix_by_function(dims(x_sc.size(), y_sc.size()),
-			[&f, &x_sc, &y_sc, &regions](size_t x, size_t y){
-				boost::container::vector< value_type_t< M > > input;
-				input.reserve(y_sc[y].second * x_sc[x].second);
+		return make_matrix_by_function(size,
+			[&f, &x_sc, &y_sc, &regions](size_t c, size_t r){
+				size_t x = 0;
+				size_t y = 0;
 
-				for(size_t dy = 0; dy < y_sc[y].second; ++dy){
-					for(size_t dx = 0; dx < x_sc[x].second; ++dx){
-						input.emplace_back(
-							regions(x_sc[x].first + dx, y_sc[y].first + dy)
-						);
+				while(x < x_sc.size() && std::get< 0 >(x_sc[x]) <= c) ++x;
+				while(y < y_sc.size() && std::get< 0 >(y_sc[y]) <= r) ++y;
+				--x;
+				--y;
+
+				boost::container::vector< value_type_t< M > > input;
+				input.reserve(std::get< 2 >(x_sc[x]) * std::get< 2 >(y_sc[y]));
+
+				for(size_t dy = 0; dy < std::get< 2 >(y_sc[y]); ++dy){
+					for(size_t dx = 0; dx < std::get< 2 >(x_sc[x]); ++dx){
+						input.emplace_back(regions(
+							std::get< 1 >(x_sc[x]) + dx,
+							std::get< 1 >(y_sc[y]) + dy
+						));
 					}
 				}
 
@@ -224,21 +232,19 @@ namespace mitrax{
 	template <
 		typename F,
 		bool Cctr, size_t Cr, bool Rctr, size_t Rr,
-		bool Ccto, size_t Co, bool Rcto, size_t Ro,
-		typename M, size_t C, size_t R
-	> auto eval_regions(
+		typename M, size_t C, size_t R,
+		typename ... Mi, size_t ... Ci, size_t ... Ri
+	> auto apply_regions(
 		F const& f,
 		col_init_t< Cctr, Cr > region_cols,
 		row_init_t< Rctr, Rr > region_rows,
-		col_init_t< Ccto, Co > original_cols,
-		row_init_t< Rcto, Ro > original_rows,
-		matrix< M, C, R > const& regions
+		matrix< M, C, R > const& regions,
+		matrix< Mi, Ci, Ri > const& ... images
 	){
 		return evaluate_regions(
 			f,
 			dims(region_cols, region_rows),
-			dims(original_cols, original_rows),
-			regions
+			regions, images ...
 		);
 	}
 
