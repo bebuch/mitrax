@@ -203,7 +203,7 @@ namespace mitrax{
 		}
 
 		return make_matrix_by_function(size,
-			[&f, &x_sc, &y_sc, &regions](size_t c, size_t r){
+			[&f, &x_sc, &y_sc, &regions, &images ...](size_t c, size_t r){
 				size_t x = 0;
 				size_t y = 0;
 
@@ -224,7 +224,7 @@ namespace mitrax{
 					}
 				}
 
-				return f(std::move(input));
+				return f(std::move(input), images(c, r) ...);
 			});
 	}
 
@@ -241,7 +241,7 @@ namespace mitrax{
 		matrix< M, C, R > const& regions,
 		matrix< Mi, Ci, Ri > const& ... images
 	){
-		return evaluate_regions(
+		return apply_regions(
 			f,
 			dims(region_cols, region_rows),
 			regions, images ...
