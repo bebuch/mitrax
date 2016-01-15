@@ -12,6 +12,7 @@
 #include <ostream>
 #include <utility>
 #include <tuple>
+#include <vector>
 
 #include <boost/container/vector.hpp>
 
@@ -53,6 +54,20 @@ namespace mitrax{
 	std::ostream& operator<<(
 		std::ostream& os,
 		boost::container::vector< T > const& p
+	){
+		os << '{';
+		if(p.size() > 0) os << p[0];
+		for(std::size_t i = 1; i < p.size(); ++i){
+			os << ',' << p[i];
+		}
+		os << '}';
+		return os;
+	}
+
+	template < typename T >
+	std::ostream& operator<<(
+		std::ostream& os,
+		std::vector< T > const& p
 	){
 		os << '{';
 		if(p.size() > 0) os << p[0];
