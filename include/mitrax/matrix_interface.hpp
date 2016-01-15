@@ -94,6 +94,10 @@ namespace mitrax{
 			return mitrax::dims(cols(), rows());
 		}
 
+		constexpr size_t point_count()const{
+			return size_t(cols()) * size_t(rows());
+		}
+
 
 		constexpr decltype(auto) operator()(size_t x, size_t y){
 			assert(x < m_.cols());
