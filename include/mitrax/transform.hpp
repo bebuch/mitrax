@@ -28,7 +28,7 @@ namespace mitrax{
 
 		template < size_t Co, size_t Ro >
 		struct call_sub_matrix{
-			dim_t< Co, Ro > dims;
+			dims_t< Co, Ro > dims;
 
 			template < typename M >
 			constexpr auto operator()(M const& m, size_t x, size_t y)const{
@@ -37,7 +37,7 @@ namespace mitrax{
 		};
 
 		template < size_t Co, size_t Ro >
-		constexpr auto make_call_sub_matrix(dim_t< Co, Ro > const& dims){
+		constexpr auto make_call_sub_matrix(dims_t< Co, Ro > const& dims){
 			return call_sub_matrix< Co, Ro >{dims};
 		}
 
@@ -60,7 +60,7 @@ namespace mitrax{
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto transform_per_view(
 		F const& f,
-		dim_t< Co, Ro > const& view_dims,
+		dims_t< Co, Ro > const& view_dims,
 		matrix< M, C, R > const& ... images
 	){
 		using namespace literals;

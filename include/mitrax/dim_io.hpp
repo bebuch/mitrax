@@ -60,7 +60,7 @@ namespace mitrax{
 	template < typename charT, typename traits, size_t C, size_t R >
 	std::basic_ostream< charT, traits >& operator<<(
 		std::basic_ostream< charT, traits >& os,
-		dim_t< C, R > const& dim
+		dims_t< C, R > const& dim
 	){
 		return os << dim.cols() << "x" << dim.rows();
 	}

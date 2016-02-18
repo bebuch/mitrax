@@ -49,7 +49,7 @@ namespace mitrax{
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr void for_each_view(
 		F const& f,
-		dim_t< Co, Ro > view_dims,
+		dims_t< Co, Ro > view_dims,
 		matrix< M, C, R > const& ... images
 	){
 		for_each_view(

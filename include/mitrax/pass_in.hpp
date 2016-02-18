@@ -67,7 +67,7 @@ namespace mitrax{
 
 	template < size_t Co, size_t Ro, typename M, size_t C, size_t R >
 	constexpr auto pass_in(
-		dim_t< Co, Ro > const& dims,
+		dims_t< Co, Ro > const& dims,
 		matrix< M, C, R > const& m,
 		value_type_t< M > const& default_value
 	){

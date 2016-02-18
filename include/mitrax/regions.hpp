@@ -21,7 +21,7 @@ namespace mitrax{
 
 		template < size_t Cr, size_t Rr >
 		struct region_sub_matrix{
-			dim_t< Cr, Rr > region_dims;
+			dims_t< Cr, Rr > region_dims;
 			double x_factor;
 			double y_factor;
 
@@ -35,7 +35,7 @@ namespace mitrax{
 
 		template < size_t Cr, size_t Rr >
 		constexpr auto make_region_sub_matrix(
-			dim_t< Cr, Rr > const& region_dims,
+			dims_t< Cr, Rr > const& region_dims,
 			double x_factor,
 			double y_factor
 		){
@@ -55,8 +55,8 @@ namespace mitrax{
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto calc_regions(
 		F const& f,
-		dim_t< Cr, Rr > const& region_dims,
-		dim_t< Co, Ro > const& overlapp_dims,
+		dims_t< Cr, Rr > const& region_dims,
+		dims_t< Co, Ro > const& overlapp_dims,
 		matrix< M, C, R > const& ... images
 	){
 		using namespace literals;
@@ -126,7 +126,7 @@ namespace mitrax{
 		typename ... Mi, size_t ... Ci, size_t ... Ri
 	> auto apply_regions(
 		F const& f,
-		dim_t< Cr, Rr > const& region_dims,
+		dims_t< Cr, Rr > const& region_dims,
 		matrix< M, C, R > const& regions,
 		matrix< Mi, Ci, Ri > const& ... images
 	){

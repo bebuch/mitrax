@@ -173,7 +173,7 @@ namespace mitrax{
 
 	template < typename F, size_t C, size_t R >
 	constexpr auto
-	make_matrix_by_function(dim_t< C, R > const& d, F const& f){
+	make_matrix_by_function(dims_t< C, R > const& d, F const& f){
 		return make_matrix_by_function(d.cols().init(), d.rows().init(), f);
 	}
 
@@ -206,7 +206,7 @@ namespace mitrax{
 	}
 
 	template < typename F, size_t C, size_t R >
-	auto make_bitmap_by_function(dim_t< C, R > const& d, F const& f){
+	auto make_bitmap_by_function(dims_t< C, R > const& d, F const& f){
 		return make_matrix_by_function(
 			col_t< 0 >(d.cols()).init(),
 			row_t< 0 >(d.rows()).init(),
@@ -237,7 +237,7 @@ namespace mitrax{
 	}
 
 	template < typename T, size_t C, size_t R >
-	constexpr auto make_matrix(dim_t< C, R > const& d){
+	constexpr auto make_matrix(dims_t< C, R > const& d){
 		return make_matrix< T >(d.cols().init(), d.rows().init());
 	}
 
@@ -252,7 +252,7 @@ namespace mitrax{
 	}
 
 	template < typename T, size_t C, size_t R >
-	constexpr auto make_matrix(dim_t< C, R > const& d, T const& v){
+	constexpr auto make_matrix(dims_t< C, R > const& d, T const& v){
 		return make_matrix(d.cols().init(), d.rows().init(), v);
 	}
 
@@ -364,7 +364,7 @@ namespace mitrax{
 	}
 
 	template < typename T, size_t C, size_t R >
-	auto make_bitmap(dim_t< C, R > const& d){
+	auto make_bitmap(dims_t< C, R > const& d){
 		return make_matrix< T >(
 			col_t< 0 >(d.cols()).init(),
 			row_t< 0 >(d.rows()).init()
@@ -372,7 +372,7 @@ namespace mitrax{
 	}
 
 	template < typename T, size_t C, size_t R >
-	auto make_bitmap(dim_t< C, R > const& d, T const& v){
+	auto make_bitmap(dims_t< C, R > const& d, T const& v){
 		return make_matrix(
 			col_t< 0 >(d.cols()).init(),
 			row_t< 0 >(d.rows()).init(),
