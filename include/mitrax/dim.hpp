@@ -49,7 +49,6 @@ namespace mitrax{
 
 		using value_type = size_t;
 
-		using type = size_ct;
 
 		constexpr operator size_t()const noexcept{
 			return value;
@@ -61,8 +60,13 @@ namespace mitrax{
 	};
 
 
-	struct size_rt: size_ct< 0 >{
+	struct size_rt{
 	public:
+		static constexpr size_t value = 0;
+
+		using value_type = size_t;
+
+
 		constexpr size_rt()noexcept: v_(0) {}
 
 		constexpr size_rt(size_t v)noexcept: v_(v) {}
