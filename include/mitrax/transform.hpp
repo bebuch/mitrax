@@ -78,8 +78,8 @@ namespace mitrax{
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto transform_per_view(
 		F const& f,
-		col_init_t< Ccto, Co > view_cols,
-		row_init_t< Rcto, Ro > view_rows,
+		col_t< Ccto, Co > view_cols,
+		row_t< Rcto, Ro > view_rows,
 		matrix< M, C, R > const& ... images
 	){
 		return transform_per_view(f, dims(view_cols, view_rows), images ...);

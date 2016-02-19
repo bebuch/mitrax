@@ -31,8 +31,8 @@ namespace mitrax{
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr void for_each_view(
 		F const& f,
-		col_init_t< Ccto, Co > view_cols,
-		row_init_t< Rcto, Ro > view_rows,
+		col_t< Ccto, Co > view_cols,
+		row_t< Rcto, Ro > view_rows,
 		matrix< M, C, R > const& ... images
 	){
 		auto cols = get_cols(images ...);

@@ -399,7 +399,7 @@ namespace mitrax{
 		// Compiler may optimize with the compile time dimension
 		size_t size = C1 == 0 ? m2.rows() : m1.cols();
 
-		auto m = make_matrix< value_type >(m2.cols().init(), m1.rows().init());
+		auto m = make_matrix< value_type >(m2.cols(), m1.rows());
 
 		for(size_t r1 = 0; r1 < m1.rows(); ++r1){
 			for(size_t c2 = 0; c2 < m2.cols(); ++c2){
@@ -417,7 +417,7 @@ namespace mitrax{
 	template < typename M, size_t C, size_t R >
 	constexpr auto transpose(matrix< M, C, R > const& m){
 		return make_matrix_by_function(
-			m.rows().as_col().init(), m.cols().as_row().init(),
+			m.rows().as_col(), m.cols().as_row(),
 			detail::transpose_f< M, C, R >(m)
 		);
 	}

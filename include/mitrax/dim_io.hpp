@@ -17,26 +17,10 @@
 namespace mitrax{
 
 
-	template < typename charT, typename traits, size_t C >
-	std::basic_ostream< charT, traits >& operator<<(
-		std::basic_ostream< charT, traits >& os,
-		col_t< C > col
-	){
-		return os << static_cast< size_t >(col);
-	}
-
-	template < typename charT, typename traits, size_t R >
-	std::basic_ostream< charT, traits >& operator<<(
-		std::basic_ostream< charT, traits >& os,
-		row_t< R > row
-	){
-		return os << static_cast< size_t >(row);
-	}
-
 	template < typename charT, typename traits, bool Cct, size_t C >
 	std::basic_ostream< charT, traits >& operator<<(
 		std::basic_ostream< charT, traits >& os,
-		col_init_t< Cct, C > col
+		col_t< Cct, C > col
 	){
 		return os << static_cast< size_t >(col);
 	}
@@ -44,7 +28,7 @@ namespace mitrax{
 	template < typename charT, typename traits, bool Rct, size_t R >
 	std::basic_ostream< charT, traits >& operator<<(
 		std::basic_ostream< charT, traits >& os,
-		row_init_t< Rct, R > row
+		row_t< Rct, R > row
 	){
 		return os << static_cast< size_t >(row);
 	}
@@ -52,7 +36,7 @@ namespace mitrax{
 	template < typename charT, typename traits, bool Nct, size_t N >
 	std::basic_ostream< charT, traits >& operator<<(
 		std::basic_ostream< charT, traits >& os,
-		dim_init_t< Nct, N > dim
+		dim_t< Nct, N > dim
 	){
 		return os << static_cast< size_t >(dim);
 	}

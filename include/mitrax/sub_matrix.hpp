@@ -28,15 +28,15 @@ namespace mitrax{
 
 
 		template <
-			typename T, size_t C1, size_t R1,
+			typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
 			typename M, size_t C2, size_t R2,
 			size_t ... I
 		>
 		constexpr auto sub_matrix_to_array(
 			size_t x,
 			size_t y,
-			col_t< C1 > /*c*/,
-			row_t< R1 > /*r*/,
+			col_t< Cct1, C1 > /*c*/,
+			row_t< Rct1, R1 > /*r*/,
 			matrix< M, C2, R2 >& m,
 			std::index_sequence< I ... >
 		){
@@ -46,15 +46,15 @@ namespace mitrax{
 		}
 
 		template <
-			typename T, size_t C1, size_t R1,
+			typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
 			typename M, size_t C2, size_t R2,
 			size_t ... I
 		>
 		constexpr auto sub_matrix_to_array(
 			size_t x,
 			size_t y,
-			col_t< C1 > /*c*/,
-			row_t< R1 > /*r*/,
+			col_t< Cct1, C1 > /*c*/,
+			row_t< Rct1, R1 > /*r*/,
 			matrix< M, C2, R2 > const& m,
 			std::index_sequence< I ... >
 		){
@@ -107,15 +107,15 @@ namespace mitrax{
 
 
 		template <
-			typename T, size_t C1, size_t R1,
+			typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
 			typename M, size_t C2, size_t R2
 		>
 		constexpr auto sub_matrix(
 			std::true_type /*to_static*/,
 			size_t x,
 			size_t y,
-			col_t< C1 > c,
-			row_t< R1 > r,
+			col_t< Cct1, C1 > c,
+			row_t< Rct1, R1 > r,
 			matrix< M, C2, R2 >& m
 		){
 			return sub_matrix_to_array< T >(
@@ -125,15 +125,15 @@ namespace mitrax{
 		}
 
 		template <
-			typename T, size_t C1, size_t R1,
+			typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
 			typename M, size_t C2, size_t R2
 		>
 		constexpr auto sub_matrix(
 			std::true_type /*to_static*/,
 			size_t x,
 			size_t y,
-			col_t< C1 > c,
-			row_t< R1 > r,
+			col_t< Cct1, C1 > c,
+			row_t< Rct1, R1 > r,
 			matrix< M, C2, R2 > const& m
 		){
 			return sub_matrix_to_array< T >(
@@ -143,30 +143,30 @@ namespace mitrax{
 		}
 
 		template <
-			typename T, size_t C1, size_t R1,
+			typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
 			typename M, size_t C2, size_t R2
 		>
 		auto sub_matrix(
 			std::false_type /*to_static*/,
 			size_t x,
 			size_t y,
-			col_t< C1 > c,
-			row_t< R1 > r,
+			col_t< Cct1, C1 > c,
+			row_t< Rct1, R1 > r,
 			matrix< M, C2, R2 >& m
 		){
 			return sub_matrix_to_vector< T >(x, y, c, r, m);
 		}
 
 		template <
-			typename T, size_t C1, size_t R1,
+			typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
 			typename M, size_t C2, size_t R2
 		>
 		auto sub_matrix(
 			std::false_type /*to_static*/,
 			size_t x,
 			size_t y,
-			col_t< C1 > c,
-			row_t< R1 > r,
+			col_t< Cct1, C1 > c,
+			row_t< Rct1, R1 > r,
 			matrix< M, C2, R2 > const& m
 		){
 			return sub_matrix_to_vector< T >(x, y, c, r, m);
@@ -176,34 +176,34 @@ namespace mitrax{
 
 
 	template <
-		typename T, size_t C1, size_t R1,
+		typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
 		typename M, size_t C2, size_t R2
 	>
 	constexpr auto sub_matrix(
 		size_t x,
 		size_t y,
-		col_t< C1 > c,
-		row_t< R1 > r,
+		col_t< Cct1, C1 > c,
+		row_t< Rct1, R1 > r,
 		matrix< M, C2, R2 >& m
 	){
 		return detail::sub_matrix< T >(
-			bool_t< C1 * R1 != 0 >(), x, y, c, r, m
+			bool_t< Cct1 && Rct1 >(), x, y, c, r, m
 		);
 	}
 
 	template <
-		typename T, size_t C1, size_t R1,
+		typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
 		typename M, size_t C2, size_t R2
 	>
 	constexpr auto sub_matrix(
 		size_t x,
 		size_t y,
-		col_t< C1 > c,
-		row_t< R1 > r,
+		col_t< Cct1, C1 > c,
+		row_t< Rct1, R1 > r,
 		matrix< M, C2, R2 > const& m
 	){
 		return detail::sub_matrix< T >(
-			bool_t< C1 * R1 != 0 >(), x, y, c, r, m
+			bool_t< Cct1 && Rct1 >(), x, y, c, r, m
 		);
 	}
 

@@ -51,9 +51,9 @@ namespace mitrax{
 			return mitrax::to_array(v);
 		}
 
-		template < typename T, size_t C, size_t R >
+		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 		constexpr auto to_raw_matrix_data(
-			std::true_type, col_t< C >, row_t< R >, T const& v
+			std::true_type, col_t< Cct, C >, row_t< Rct, R >, T const& v
 		){
 			return mitrax::init_array< C * R >(v);
 		}
@@ -78,9 +78,9 @@ namespace mitrax{
 			return mitrax::to_vector(v);
 		}
 
-		template < typename T, size_t C, size_t R >
+		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 		constexpr auto to_raw_matrix_data(
-			std::false_type, col_t< C > c, row_t< R > r, T const& v
+			std::false_type, col_t< Cct, C > c, row_t< Rct, R > r, T const& v
 		){
 			return boost::container::vector< T >(
 				static_cast< size_t >(c) * static_cast< size_t >(r), v
@@ -91,14 +91,14 @@ namespace mitrax{
 		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
 		constexpr auto function_xy_to_raw_matrix_data(
 			std::true_type,
-			col_init_t< Cct, C >, row_init_t< Rct, R >, F const& f
+			col_t< Cct, C >, row_t< Rct, R >, F const& f
 		){
 			return mitrax::function_xy_to_array< C, R >(f);
 		}
 
 		template < typename F, bool Nct, size_t N >
 		constexpr auto function_i_to_raw_matrix_data(
-			std::true_type, dim_init_t< Nct, N >, F const& f
+			std::true_type, dim_t< Nct, N >, F const& f
 		){
 			return mitrax::function_i_to_array< N >(f);
 		}
@@ -106,14 +106,14 @@ namespace mitrax{
 		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
 		constexpr auto function_xy_to_raw_matrix_data(
 			std::false_type,
-			col_init_t< Cct, C > c, row_init_t< Rct, R > r, F const& f
+			col_t< Cct, C > c, row_t< Rct, R > r, F const& f
 		){
 			return mitrax::function_xy_to_vector(c, r, f);
 		}
 
 		template < typename F, bool Nct, size_t N >
 		constexpr auto function_i_to_raw_matrix_data(
-			std::false_type, dim_init_t< Nct, N > n, F const& f
+			std::false_type, dim_t< Nct, N > n, F const& f
 		){
 			return mitrax::function_i_to_vector(n, f);
 		}
@@ -162,10 +162,10 @@ namespace mitrax{
 	template < typename F, bool Cct, size_t C, bool Rct, size_t R >
 	constexpr raw_matrix< fn_xy< F >, dim(Cct, C), dim(Rct, R) >
 	make_matrix_by_function(
-		col_init_t< Cct, C > c, row_init_t< Rct, R > r, F const& f
+		col_t< Cct, C > c, row_t< Rct, R > r, F const& f
 	){
 		return raw_matrix_impl< fn_xy< F >, dim(Cct, C), dim(Rct, R) >(
-			c.get(), r.get(), detail::function_xy_to_raw_matrix_data(
+			c, r, detail::function_xy_to_raw_matrix_data(
 				bool_t< Cct && Rct >(), c, r, f
 			)
 		);
@@ -174,21 +174,21 @@ namespace mitrax{
 	template < typename F, size_t C, size_t R >
 	constexpr auto
 	make_matrix_by_function(dims_t< C, R > const& d, F const& f){
-		return make_matrix_by_function(d.cols().init(), d.rows().init(), f);
+		return make_matrix_by_function(d.cols(), d.rows(), f);
 	}
 
 	template < typename F, bool Nct, size_t N >
 	constexpr auto
-	make_square_matrix_by_function(dim_init_t< Nct, N > n, F const& f){
+	make_square_matrix_by_function(dim_t< Nct, N > n, F const& f){
 		return make_matrix_by_function(n.as_col(), n.as_row(), f);
 	}
 
 	template < typename F, bool Nct, size_t N >
 	constexpr raw_col_vector< fn_i< F >, dim(Nct, N) >
-	make_col_vector_by_function(row_init_t< Nct, N > r, F const& f){
+	make_col_vector_by_function(row_t< Nct, N > r, F const& f){
 		using namespace literals;
 		return raw_matrix_impl< fn_i< F >, 1, dim(Nct, N) >(
-			1_C .get(), r.get(), detail::function_i_to_raw_matrix_data(
+			1_C, r, detail::function_i_to_raw_matrix_data(
 				bool_t< Nct >(), r.as_dim(), f
 			)
 		);
@@ -196,10 +196,10 @@ namespace mitrax{
 
 	template < typename F, bool Nct, size_t N >
 	constexpr raw_row_vector< fn_i< F >, dim(Nct, N) >
-	make_row_vector_by_function(col_init_t< Nct, N > c, F const& f){
+	make_row_vector_by_function(col_t< Nct, N > c, F const& f){
 		using namespace literals;
 		return raw_matrix_impl< fn_i< F >, dim(Nct, N), 1 >(
-			c.get(), 1_R .get(), detail::function_i_to_raw_matrix_data(
+			c, 1_R, detail::function_i_to_raw_matrix_data(
 				bool_t< Nct >(), c.as_dim(), f
 			)
 		);
@@ -208,8 +208,8 @@ namespace mitrax{
 	template < typename F, size_t C, size_t R >
 	auto make_bitmap_by_function(dims_t< C, R > const& d, F const& f){
 		return make_matrix_by_function(
-			col_t< 0 >(d.cols()).init(),
-			row_t< 0 >(d.rows()).init(),
+			col_t< false, 0 >(d.cols()),
+			row_t< false, 0 >(d.rows()),
 			f
 		);
 	}
@@ -217,14 +217,14 @@ namespace mitrax{
 	template < typename F >
 	auto make_bitmap_by_function(size_t c, size_t r, F const& f){
 		return make_matrix_by_function(
-			col_t< 0 >(c).init(), row_t< 0 >(r).init(), f
+			col_t< false, 0 >(c), row_t< false, 0 >(r), f
 		);
 	}
 
 
 	template < typename F, bool Nct, size_t N >
 	constexpr auto
-	make_diag_matrix_by_function(dim_init_t< Nct, N > n, F const& f){
+	make_diag_matrix_by_function(dim_t< Nct, N > n, F const& f){
 		return make_square_matrix_by_function(n,
 			detail::init_diag_by_function< F >{f});
 	}
@@ -232,133 +232,131 @@ namespace mitrax{
 
 
 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
-	constexpr auto make_matrix(col_init_t< Cct, C > c, row_init_t< Rct, R > r){
+	constexpr auto make_matrix(col_t< Cct, C > c, row_t< Rct, R > r){
 		return make_matrix(c, r, T());
 	}
 
 	template < typename T, size_t C, size_t R >
 	constexpr auto make_matrix(dims_t< C, R > const& d){
-		return make_matrix< T >(d.cols().init(), d.rows().init());
+		return make_matrix< T >(d.cols(), d.rows());
 	}
 
 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 	constexpr raw_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
-	make_matrix(col_init_t< Cct, C > c, row_init_t< Rct, R > r, T const& v){
+	make_matrix(col_t< Cct, C > c, row_t< Rct, R > r, T const& v){
 		return raw_matrix_impl<
 			std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
-		>(c.get(), r.get(), detail::to_raw_matrix_data(
-			bool_t< Cct && Rct >(), c.get(), r.get(), v
-		));
+		>(c, r, detail::to_raw_matrix_data(bool_t< Cct && Rct >(), c, r, v));
 	}
 
 	template < typename T, size_t C, size_t R >
 	constexpr auto make_matrix(dims_t< C, R > const& d, T const& v){
-		return make_matrix(d.cols().init(), d.rows().init(), v);
+		return make_matrix(d.cols(), d.rows(), v);
 	}
 
 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 	constexpr raw_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
-	make_matrix(col_init_t< Cct, C > c, row_init_t< Rct, R > r, T(&&v)[R][C]){
+	make_matrix(col_t< Cct, C > c, row_t< Rct, R > r, T(&&v)[R][C]){
 		return raw_matrix_impl<
 			std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
 		>(
-			c.get(), r.get(),
+			c, r,
 			detail::to_raw_matrix_data(bool_t< Cct && Rct >(), std::move(v))
 		);
 	}
 
 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 	constexpr raw_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
-	make_matrix(col_init_t< Cct, C > c, row_init_t< Rct, R > r, T(&v)[R][C]){
+	make_matrix(col_t< Cct, C > c, row_t< Rct, R > r, T(&v)[R][C]){
 		return raw_matrix_impl<
 			std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
 		>(
-			c.get(), r.get(),
+			c, r,
 			detail::to_raw_matrix_data(bool_t< Cct && Rct >(), v)
 		);
 	}
 
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_square_matrix(dim_init_t< Nct, N > n){
+	constexpr auto make_square_matrix(dim_t< Nct, N > n){
 		return make_matrix< T >(n.as_col(), n.as_row());
 	}
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_square_matrix(dim_init_t< Nct, N > n, T const& v){
+	constexpr auto make_square_matrix(dim_t< Nct, N > n, T const& v){
 		return make_matrix(n.as_col(), n.as_row(), v);
 	}
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_square_matrix(dim_init_t< Nct, N > n, T(&&v)[N][N]){
+	constexpr auto make_square_matrix(dim_t< Nct, N > n, T(&&v)[N][N]){
 		return make_matrix(n.as_col(), n.as_row(), std::move(v));
 	}
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_square_matrix(dim_init_t< Nct, N > n, T(&v)[N][N]){
+	constexpr auto make_square_matrix(dim_t< Nct, N > n, T(&v)[N][N]){
 		return make_matrix(n.as_col(), n.as_row(), v);
 	}
 
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_col_vector(row_init_t< Nct, N > r){
+	constexpr auto make_col_vector(row_t< Nct, N > r){
 		return make_col_vector(r, T());
 	}
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_col_vector(row_init_t< Nct, N > r, T const& v){
+	constexpr auto make_col_vector(row_t< Nct, N > r, T const& v){
 		using namespace literals;
 		return make_matrix(1_C, r, v);
 	}
 
 	template < typename T, bool Nct, size_t N >
 	constexpr raw_col_vector< std::remove_cv_t< T >, dim(Nct, N) >
-	make_col_vector(row_init_t< Nct, N > r, T(&&v)[N]){
+	make_col_vector(row_t< Nct, N > r, T(&&v)[N]){
 		using namespace literals;
 		return raw_matrix_impl< std::remove_cv_t< T >, 1, dim(Nct, N) >(
-			1_C .get(), r.get(),
+			1_C, r,
 			detail::to_raw_matrix_data(bool_t< Nct >(), std::move(v))
 		);
 	}
 
 	template < typename T, bool Nct, size_t N >
 	constexpr raw_col_vector< std::remove_cv_t< T >, dim(Nct, N) >
-	make_col_vector(row_init_t< Nct, N > r, T(&v)[N]){
+	make_col_vector(row_t< Nct, N > r, T(&v)[N]){
 		using namespace literals;
 		return raw_matrix_impl< std::remove_cv_t< T >, 1, dim(Nct, N) >(
-			1_C .get(), r.get(),
+			1_C, r,
 			detail::to_raw_matrix_data(bool_t< Nct >(), v)
 		);
 	}
 
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_row_vector(col_init_t< Nct, N > c){
+	constexpr auto make_row_vector(col_t< Nct, N > c){
 		return make_row_vector(c, T());
 	}
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_row_vector(col_init_t< Nct, N > c, T const& v){
+	constexpr auto make_row_vector(col_t< Nct, N > c, T const& v){
 		using namespace literals;
 		return make_matrix(c, 1_R, v);
 	}
 
 	template < typename T, bool Nct, size_t N >
 	constexpr raw_row_vector< std::remove_cv_t< T >, dim(Nct, N) >
-	make_row_vector(col_init_t< Nct, N > c, T(&&v)[N]){
+	make_row_vector(col_t< Nct, N > c, T(&&v)[N]){
 		using namespace literals;
 		return raw_matrix_impl< std::remove_cv_t< T >, dim(Nct, N), 1 >(
-			c.get(), 1_R .get(),
+			c, 1_R,
 			detail::to_raw_matrix_data(bool_t< Nct >(), std::move(v))
 		);
 	}
 
 	template < typename T, bool Nct, size_t N >
 	constexpr raw_row_vector< std::remove_cv_t< T >, dim(Nct, N) >
-	make_row_vector(col_init_t< Nct, N > c, T(&v)[N]){
+	make_row_vector(col_t< Nct, N > c, T(&v)[N]){
 		using namespace literals;
 		return raw_matrix_impl< std::remove_cv_t< T >, dim(Nct, N), 1 >(
-			c.get(), 1_R .get(),
+			c, 1_R,
 			detail::to_raw_matrix_data(bool_t< Nct >(), v)
 		);
 	}
@@ -366,57 +364,57 @@ namespace mitrax{
 	template < typename T, size_t C, size_t R >
 	auto make_bitmap(dims_t< C, R > const& d){
 		return make_matrix< T >(
-			col_t< 0 >(d.cols()).init(),
-			row_t< 0 >(d.rows()).init()
+			col_t< false, 0 >(d.cols()),
+			row_t< false, 0 >(d.rows())
 		);
 	}
 
 	template < typename T, size_t C, size_t R >
 	auto make_bitmap(dims_t< C, R > const& d, T const& v){
 		return make_matrix(
-			col_t< 0 >(d.cols()).init(),
-			row_t< 0 >(d.rows()).init(),
+			col_t< false, 0 >(d.cols()),
+			row_t< false, 0 >(d.rows()),
 			v
 		);
 	}
 
 	template < typename T >
 	auto make_bitmap(size_t c, size_t r){
-		return make_matrix< T >(col_t< 0 >(c).init(), row_t< 0 >(r).init());
+		return make_matrix< T >(col_t< false, 0 >(c), row_t< false, 0 >(r));
 	}
 
 	template < typename T >
 	auto make_bitmap(size_t c, size_t r, T const& v){
-		return make_matrix(col_t< 0 >(c).init(), row_t< 0 >(r).init(), v);
+		return make_matrix(col_t< false, 0 >(c), row_t< false, 0 >(r), v);
 	}
 
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_diag_matrix(dim_init_t< Nct, N > n){
+	constexpr auto make_diag_matrix(dim_t< Nct, N > n){
 		return make_diag_matrix(n, T());
 	}
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_diag_matrix(dim_init_t< Nct, N > n, T const& v){
+	constexpr auto make_diag_matrix(dim_t< Nct, N > n, T const& v){
 		return make_square_matrix_by_function(n,
 			detail::init_diag_by_value< T >{v});
 	}
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_diag_matrix(dim_init_t< Nct, N > n, T(&&v)[N]){
+	constexpr auto make_diag_matrix(dim_t< Nct, N > n, T(&&v)[N]){
 		return make_square_matrix_by_function(n,
 			detail::init_diag_by_move_array< T, N >{std::move(v)});
 	}
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_diag_matrix(dim_init_t< Nct, N > n, T(&v)[N]){
+	constexpr auto make_diag_matrix(dim_t< Nct, N > n, T(&v)[N]){
 		return make_square_matrix_by_function(n,
 			detail::init_diag_by_array< T, N >{v});
 	}
 
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_identity_matrix(dim_init_t< Nct, N > n){
+	constexpr auto make_identity_matrix(dim_t< Nct, N > n){
 		return make_diag_matrix(n, T(1));
 	}
 

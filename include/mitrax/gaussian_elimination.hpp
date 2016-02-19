@@ -168,7 +168,7 @@ namespace mitrax{
 		}
 
 		auto m = make_matrix_by_function(
-			a.rows().as_col().init(), a.rows().init(),
+			a.rows().as_col(), a.rows(),
 			[&a](size_t x, size_t y)->value_type{
 				return a(x, y);
 			});
@@ -316,7 +316,7 @@ namespace mitrax{
 		}
 
 		auto result = make_col_vector< value_type >(
-			m.cols().as_row().init()
+			m.cols().as_row()
 		);
 
 		// Compiler may optimize with the compile time dimension
