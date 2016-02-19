@@ -762,12 +762,6 @@ namespace mitrax{
 
 	template < size_t C1, size_t R1, size_t C2, size_t R2 >
 	constexpr bool operator==(dims_t< C1, R1 > a, dims_t< C2, R2 > b)noexcept{
-		static_assert(
-			(C1 == 0 || C2 == 0 || C1 == C2) &&
-			(R1 == 0 || R2 == 0 || R1 == R2),
-			"Matrix dimensions are not compatible"
-		);
-
 		return a.cols() == b.cols() || a.rows() == b.rows();
 	}
 

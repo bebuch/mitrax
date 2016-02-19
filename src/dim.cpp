@@ -264,17 +264,17 @@ BOOST_AUTO_TEST_CASE(test_compare_dims_t){
 	BOOST_TEST((d1 == d2));
 	BOOST_TEST((d1 == d3));
 	BOOST_TEST((d1 == d4));
-// 	BOOST_TEST((d1 != d5));
-// 	BOOST_TEST((d1 != d6));
-// 	BOOST_TEST((d1 != d7));
+	BOOST_TEST((d1 != d5));
+	BOOST_TEST((d1 != d6));
+	BOOST_TEST((d1 != d7));
 	BOOST_TEST((d1 != d8));
 
 	BOOST_TEST((d2 == d1));
 	BOOST_TEST((d2 == d2));
 	BOOST_TEST((d2 == d3));
 	BOOST_TEST((d2 == d4));
-// 	BOOST_TEST((d2 != d5));
-// 	BOOST_TEST((d2 != d6));
+	BOOST_TEST((d2 != d5));
+	BOOST_TEST((d2 != d6));
 	BOOST_TEST((d2 != d7));
 	BOOST_TEST((d2 != d8));
 
@@ -282,9 +282,9 @@ BOOST_AUTO_TEST_CASE(test_compare_dims_t){
 	BOOST_TEST((d3 == d2));
 	BOOST_TEST((d3 == d3));
 	BOOST_TEST((d3 == d4));
-// 	BOOST_TEST((d3 != d5));
+	BOOST_TEST((d3 != d5));
 	BOOST_TEST((d3 != d6));
-// 	BOOST_TEST((d3 != d7));
+	BOOST_TEST((d3 != d7));
 	BOOST_TEST((d3 != d8));
 
 	BOOST_TEST((d4 == d1));
@@ -296,17 +296,17 @@ BOOST_AUTO_TEST_CASE(test_compare_dims_t){
 	BOOST_TEST((d4 != d7));
 	BOOST_TEST((d4 != d8));
 
-// 	BOOST_TEST((d5 != d1));
-// 	BOOST_TEST((d5 != d2));
-// 	BOOST_TEST((d5 != d3));
+	BOOST_TEST((d5 != d1));
+	BOOST_TEST((d5 != d2));
+	BOOST_TEST((d5 != d3));
 	BOOST_TEST((d5 != d4));
 	BOOST_TEST((d5 == d5));
 	BOOST_TEST((d5 == d6));
 	BOOST_TEST((d5 == d7));
 	BOOST_TEST((d5 == d8));
 
-// 	BOOST_TEST((d6 != d1));
-// 	BOOST_TEST((d6 != d2));
+	BOOST_TEST((d6 != d1));
+	BOOST_TEST((d6 != d2));
 	BOOST_TEST((d6 != d3));
 	BOOST_TEST((d6 != d4));
 	BOOST_TEST((d6 == d5));
@@ -314,9 +314,9 @@ BOOST_AUTO_TEST_CASE(test_compare_dims_t){
 	BOOST_TEST((d6 == d7));
 	BOOST_TEST((d6 == d8));
 
-// 	BOOST_TEST((d7 != d1));
+	BOOST_TEST((d7 != d1));
 	BOOST_TEST((d7 != d2));
-// 	BOOST_TEST((d7 != d3));
+	BOOST_TEST((d7 != d3));
 	BOOST_TEST((d7 != d4));
 	BOOST_TEST((d7 == d5));
 	BOOST_TEST((d7 == d6));
@@ -337,17 +337,17 @@ BOOST_AUTO_TEST_CASE(test_compare_dims_t){
 	BOOST_TEST(!(d1 != d2));
 	BOOST_TEST(!(d1 != d3));
 	BOOST_TEST(!(d1 != d4));
-// 	BOOST_TEST(!(d1 == d5));
-// 	BOOST_TEST(!(d1 == d6));
-// 	BOOST_TEST(!(d1 == d7));
+	BOOST_TEST(!(d1 == d5));
+	BOOST_TEST(!(d1 == d6));
+	BOOST_TEST(!(d1 == d7));
 	BOOST_TEST(!(d1 == d8));
 
 	BOOST_TEST(!(d2 != d1));
 	BOOST_TEST(!(d2 != d2));
 	BOOST_TEST(!(d2 != d3));
 	BOOST_TEST(!(d2 != d4));
-// 	BOOST_TEST(!(d2 == d5));
-// 	BOOST_TEST(!(d2 == d6));
+	BOOST_TEST(!(d2 == d5));
+	BOOST_TEST(!(d2 == d6));
 	BOOST_TEST(!(d2 == d7));
 	BOOST_TEST(!(d2 == d8));
 
@@ -355,9 +355,9 @@ BOOST_AUTO_TEST_CASE(test_compare_dims_t){
 	BOOST_TEST(!(d3 != d2));
 	BOOST_TEST(!(d3 != d3));
 	BOOST_TEST(!(d3 != d4));
-// 	BOOST_TEST(!(d3 == d5));
+	BOOST_TEST(!(d3 == d5));
 	BOOST_TEST(!(d3 == d6));
-// 	BOOST_TEST(!(d3 == d7));
+	BOOST_TEST(!(d3 == d7));
 	BOOST_TEST(!(d3 == d8));
 
 	BOOST_TEST(!(d4 != d1));
@@ -369,17 +369,17 @@ BOOST_AUTO_TEST_CASE(test_compare_dims_t){
 	BOOST_TEST(!(d4 == d7));
 	BOOST_TEST(!(d4 == d8));
 
-// 	BOOST_TEST(!(d5 == d1));
-// 	BOOST_TEST(!(d5 == d2));
-// 	BOOST_TEST(!(d5 == d3));
+	BOOST_TEST(!(d5 == d1));
+	BOOST_TEST(!(d5 == d2));
+	BOOST_TEST(!(d5 == d3));
 	BOOST_TEST(!(d5 == d4));
 	BOOST_TEST(!(d5 != d5));
 	BOOST_TEST(!(d5 != d6));
 	BOOST_TEST(!(d5 != d7));
 	BOOST_TEST(!(d5 != d8));
 
-// 	BOOST_TEST(!(d6 == d1));
-// 	BOOST_TEST(!(d6 == d2));
+	BOOST_TEST(!(d6 == d1));
+	BOOST_TEST(!(d6 == d2));
 	BOOST_TEST(!(d6 == d3));
 	BOOST_TEST(!(d6 == d4));
 	BOOST_TEST(!(d6 != d5));
@@ -387,9 +387,9 @@ BOOST_AUTO_TEST_CASE(test_compare_dims_t){
 	BOOST_TEST(!(d6 != d7));
 	BOOST_TEST(!(d6 != d8));
 
-// 	BOOST_TEST(!(d7 == d1));
+	BOOST_TEST(!(d7 == d1));
 	BOOST_TEST(!(d7 == d2));
-// 	BOOST_TEST(!(d7 == d3));
+	BOOST_TEST(!(d7 == d3));
 	BOOST_TEST(!(d7 == d4));
 	BOOST_TEST(!(d7 != d5));
 	BOOST_TEST(!(d7 != d6));
