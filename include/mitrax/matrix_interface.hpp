@@ -24,7 +24,7 @@ namespace mitrax{
 
 
 	template < typename M, size_t Cols, size_t Rows >
-	class matrix_base{
+	class matrix{
 	public:
 		/// \brief Type of the data that administrates the matrix
 		using value_type = value_type_t< M >;
@@ -66,18 +66,18 @@ namespace mitrax{
 		using const_reverse_iterator = typename M::const_reverse_iterator;
 
 
-		constexpr matrix_base() = default;
+		constexpr matrix() = default;
 
-		constexpr matrix_base(M&& m): m_(std::move(m)) {}
+		constexpr matrix(M&& m): m_(std::move(m)) {}
 
-		constexpr matrix_base(matrix_base&&) = default;
+		constexpr matrix(matrix&&) = default;
 
-		constexpr matrix_base(matrix_base const&) = default;
+		constexpr matrix(matrix const&) = default;
 
 
-		constexpr matrix_base& operator=(matrix_base&&) = default;
+		constexpr matrix& operator=(matrix&&) = default;
 
-		constexpr matrix_base& operator=(matrix_base const&) = default;
+		constexpr matrix& operator=(matrix const&) = default;
 
 
 		constexpr col_t< Cols != 0, Cols > cols()const noexcept{
@@ -110,6 +110,50 @@ namespace mitrax{
 			assert(x < m_.cols());
 			assert(y < m_.rows());
 			return m_(x, y);
+		}
+
+
+		constexpr decltype(auto) operator[](size_t i){
+			static_assert(
+				Cols == 1 || Rows == 1,
+				"access operator only allowed for compile time dim vectors"
+			);
+
+			if(Cols == 1){
+				if(Rows == 1){
+					assert(i == 0);
+					return m_(0, 0);
+				}
+				return m_(0, i);
+			}
+			return m_(i, 0);
+		}
+
+		constexpr decltype(auto) operator[](size_t i)const{
+			static_assert(
+				Cols == 1 || Rows == 1,
+				"access operator only allowed for compile time dim vectors"
+			);
+
+			if(Cols == 1){
+				if(Rows == 1){
+					assert(i == 0);
+					return m_(0, 0);
+				}
+				return m_(0, i);
+			}
+			return m_(i, 0);
+		}
+
+
+		constexpr operator value_type()const{
+			static_assert(
+				Cols == 1 && Rows == 1,
+				"value conversion is only allowed for compile time dim "
+				"matrices with one element"
+			);
+
+			return m_(0, 0);
 		}
 
 
@@ -382,92 +426,6 @@ namespace mitrax{
 				throw std::logic_error("matrix dimensions not compatible");
 			}
 		}
-	};
-
-
-	template < typename M, size_t Cols, size_t Rows >
-	class matrix: public matrix_base< M, Cols, Rows >{
-	public:
-		using value_type = value_type_t< matrix_base< M, Cols, Rows > >;
-
-		using matrix_base< M, Cols, Rows >::matrix_base;
-
-
-	private:
-		using matrix_base< M, Cols, Rows >::m_;
-	};
-
-
-	template < typename M, size_t Rows >
-	class matrix< M, 1, Rows >: public matrix_base< M, 1, Rows >{
-	public:
-		using value_type = value_type_t< matrix_base< M, 1, Rows > >;
-
-		using matrix_base< M, 1, Rows >::matrix_base;
-
-
-		constexpr decltype(auto) operator[](size_t i){
-			return m_(0, i);
-		}
-
-		constexpr decltype(auto) operator[](size_t i)const{
-			return m_(0, i);
-		}
-
-
-	private:
-		using matrix_base< M, 1, Rows >::m_;
-	};
-
-
-	template < typename M, size_t Cols >
-	class matrix< M, Cols, 1 >: public matrix_base< M, Cols, 1 >{
-	public:
-		using value_type = value_type_t< matrix_base< M, Cols, 1 > >;
-
-		using matrix_base< M, Cols, 1 >::matrix_base;
-
-
-		constexpr decltype(auto) operator[](size_t i){
-			return m_(i, 0);
-		}
-
-		constexpr decltype(auto) operator[](size_t i)const{
-			return m_(i, 0);
-		}
-
-
-	private:
-		using matrix_base< M, Cols, 1 >::m_;
-	};
-
-
-	template < typename M >
-	class matrix< M, 1, 1 >: public matrix_base< M, 1, 1 >{
-	public:
-		using value_type = value_type_t< matrix_base< M, 1, 1 > >;
-
-		using matrix_base< M, 1, 1 >::matrix_base;
-
-
-		constexpr decltype(auto) operator[](size_t i){
-			assert(i == 0); (void)i;
-			return m_(0, 0);
-		}
-
-		constexpr decltype(auto) operator[](size_t i)const{
-			assert(i == 0); (void)i;
-			return m_(0, 0);
-		}
-
-
-		constexpr operator value_type()const{
-			return m_(0, 0);
-		}
-
-
-	private:
-		using matrix_base< M, 1, 1 >::m_;
 	};
 
 
