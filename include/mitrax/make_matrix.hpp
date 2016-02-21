@@ -148,7 +148,7 @@ namespace mitrax{
 
 		template < typename T, size_t N >
 		struct init_diag_by_array{
-			T(&v)[N];
+			T const(&v)[N];
 
 			constexpr auto operator()(size_t x, size_t y)const{
 				return x == y ? v[x] : T();
@@ -267,7 +267,7 @@ namespace mitrax{
 
 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 	constexpr raw_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
-	make_matrix(col_t< Cct, C > c, row_t< Rct, R > r, T(&v)[R][C]){
+	make_matrix(col_t< Cct, C > c, row_t< Rct, R > r, T const(&v)[R][C]){
 		return raw_matrix_impl<
 			std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
 		>(
@@ -293,7 +293,7 @@ namespace mitrax{
 	}
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_square_matrix(dim_t< Nct, N > n, T(&v)[N][N]){
+	constexpr auto make_square_matrix(dim_t< Nct, N > n, T const(&v)[N][N]){
 		return make_matrix(n.as_col(), n.as_row(), v);
 	}
 
@@ -321,7 +321,7 @@ namespace mitrax{
 
 	template < typename T, bool Nct, size_t N >
 	constexpr raw_col_vector< std::remove_cv_t< T >, dim(Nct, N) >
-	make_col_vector(row_t< Nct, N > r, T(&v)[N]){
+	make_col_vector(row_t< Nct, N > r, T const(&v)[N]){
 		using namespace literals;
 		return raw_matrix_impl< std::remove_cv_t< T >, 1, dim(Nct, N) >(
 			1_C, r,
@@ -353,7 +353,7 @@ namespace mitrax{
 
 	template < typename T, bool Nct, size_t N >
 	constexpr raw_row_vector< std::remove_cv_t< T >, dim(Nct, N) >
-	make_row_vector(col_t< Nct, N > c, T(&v)[N]){
+	make_row_vector(col_t< Nct, N > c, T const(&v)[N]){
 		using namespace literals;
 		return raw_matrix_impl< std::remove_cv_t< T >, dim(Nct, N), 1 >(
 			c, 1_R,
@@ -407,7 +407,7 @@ namespace mitrax{
 	}
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_diag_matrix(dim_t< Nct, N > n, T(&v)[N]){
+	constexpr auto make_diag_matrix(dim_t< Nct, N > n, T const(&v)[N]){
 		return make_square_matrix_by_function(n,
 			detail::init_diag_by_array< T, N >{v});
 	}

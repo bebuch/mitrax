@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_SUITE(test_suite_output)
 namespace{
 
 
-	int m33[3][3] = {
+	constexpr int m33[3][3] = {
 		{1, 2, 3},
 		{4, 5, 6},
 		{7, 8, 9}
@@ -34,7 +34,7 @@ namespace{
 
 	constexpr char const* m33_ref = "[3,3]((1,2,3),(4,5,6),(7,8,9))";
 
-	int m23[3][2] = {
+	constexpr int m23[3][2] = {
 		{1, 2},
 		{4, 5},
 		{7, 8}
@@ -42,7 +42,7 @@ namespace{
 
 	constexpr char const* m23_ref = "[2,3]((1,2),(4,5),(7,8))";
 
-	int m32[2][3] = {
+	constexpr int m32[2][3] = {
 		{1, 2, 3},
 		{4, 5, 6}
 	};
