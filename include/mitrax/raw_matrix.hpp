@@ -15,7 +15,7 @@
 namespace mitrax{
 
 
-	template < typename T, size_t Cols, size_t Rows >
+	template < typename T, size_t C, size_t R >
 	class raw_matrix_impl{
 	public:
 		/// \brief Type of the data that administrates the matrix
@@ -23,19 +23,19 @@ namespace mitrax{
 
 		/// \brief Type of a iterator for data
 		using iterator = typename
-			std::array< value_type, Cols * Rows >::iterator;
+			std::array< value_type, C * R >::iterator;
 
 		/// \brief Type of a iterator for const data
 		using const_iterator = typename
-			std::array< value_type, Cols * Rows >::const_iterator;
+			std::array< value_type, C * R >::const_iterator;
 
 		/// \brief Type of a reverse iterator for data
 		using reverse_iterator = typename
-			std::array< value_type, Cols * Rows >::reverse_iterator;
+			std::array< value_type, C * R >::reverse_iterator;
 
 		/// \brief Type of a reverse iterator for const data
 		using const_reverse_iterator = typename
-			std::array< value_type, Cols * Rows >::const_reverse_iterator;
+			std::array< value_type, C * R >::const_reverse_iterator;
 
 
 		constexpr raw_matrix_impl(raw_matrix_impl&&) = default;
@@ -43,8 +43,8 @@ namespace mitrax{
 		constexpr raw_matrix_impl(raw_matrix_impl const&) = default;
 
 		constexpr raw_matrix_impl(
-			col_t< true, Cols >, row_t< true, Rows >,
-			std::array< value_type, Cols * Rows >&& values
+			col_t< true, C >, row_t< true, R >,
+			std::array< value_type, C * R >&& values
 		):
 			values_(std::move(values))
 			{}
@@ -64,12 +64,12 @@ namespace mitrax{
 		}
 
 
-		constexpr col_t< Cols != 0, Cols > cols()const noexcept{
-			return col_t< Cols != 0, Cols >();
+		constexpr col_t< C != 0, C > cols()const noexcept{
+			return col_t< C != 0, C >();
 		}
 
-		constexpr row_t< Rows != 0, Rows > rows()const noexcept{
-			return row_t< Rows != 0, Rows >();
+		constexpr row_t< R != 0, R > rows()const noexcept{
+			return row_t< R != 0, R >();
 		}
 
 
@@ -106,21 +106,21 @@ namespace mitrax{
 		}
 
 
-		constexpr std::array< value_type, Cols * Rows >& data(){
+		constexpr std::array< value_type, C * R >& data(){
 			return values_;
 		}
 
-		constexpr std::array< value_type, Cols * Rows > const& data()const{
+		constexpr std::array< value_type, C * R > const& data()const{
 			return values_;
 		}
 
 
 	private:
-		std::array< value_type, Cols * Rows > values_;
+		std::array< value_type, C * R > values_;
 	};
 
 
-	template < typename T, size_t Cols, size_t Rows >
+	template < typename T, size_t C, size_t R >
 	class raw_matrix_impl_base{
 	public:
 		/// \brief Type of the data that administrates the matrix
@@ -148,7 +148,7 @@ namespace mitrax{
 		raw_matrix_impl_base(raw_matrix_impl_base const&) = default;
 
 		raw_matrix_impl_base(
-			col_t< Cols != 0, Cols > c, row_t< Rows != 0, Rows > r,
+			col_t< C != 0, C > c, row_t< R != 0, R > r,
 			boost::container::vector< value_type >&& values
 		):
 			values_(std::move(values)),
@@ -171,11 +171,11 @@ namespace mitrax{
 		}
 
 
-		constexpr col_t< Cols != 0, Cols > cols()const noexcept{
+		constexpr col_t< C != 0, C > cols()const noexcept{
 			return cols_;
 		}
 
-		constexpr row_t< Rows != 0, Rows > rows()const noexcept{
+		constexpr row_t< R != 0, R > rows()const noexcept{
 			return rows_;
 		}
 
@@ -224,24 +224,24 @@ namespace mitrax{
 
 	protected:
 		boost::container::vector< value_type > values_;
-		col_t< Cols != 0, Cols > cols_;
-		row_t< Rows != 0, Rows > rows_;
+		col_t< C != 0, C > cols_;
+		row_t< R != 0, R > rows_;
 	};
 
 
-	template < typename T, size_t Rows >
-	class raw_matrix_impl< T, 0, Rows >:
-		public raw_matrix_impl_base< T, 0, Rows >{
+	template < typename T, size_t R >
+	class raw_matrix_impl< T, 0, R >:
+		public raw_matrix_impl_base< T, 0, R >{
 	public:
-		using raw_matrix_impl_base< T, 0, Rows >::raw_matrix_impl_base;
+		using raw_matrix_impl_base< T, 0, R >::raw_matrix_impl_base;
 	};
 
 
-	template < typename T, size_t Cols >
-	class raw_matrix_impl< T, Cols, 0 >:
-		public raw_matrix_impl_base< T, Cols, 0 >{
+	template < typename T, size_t C >
+	class raw_matrix_impl< T, C, 0 >:
+		public raw_matrix_impl_base< T, C, 0 >{
 	public:
-		using raw_matrix_impl_base< T, Cols, 0 >::raw_matrix_impl_base;
+		using raw_matrix_impl_base< T, C, 0 >::raw_matrix_impl_base;
 	};
 
 
