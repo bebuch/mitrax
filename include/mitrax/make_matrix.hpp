@@ -82,9 +82,7 @@ namespace mitrax{
 		constexpr auto to_raw_matrix_data(
 			std::false_type, col_t< Cct, C > c, row_t< Rct, R > r, T const& v
 		){
-			return boost::container::vector< T >(
-				static_cast< size_t >(c) * static_cast< size_t >(r), v
-			);
+			return boost::container::vector< T >(size_t(c) * size_t(r), v);
 		}
 
 

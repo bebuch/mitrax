@@ -249,29 +249,29 @@ namespace mitrax{
 
 
 	constexpr auto col_t< false, 0 >::as_row()const noexcept{
-		return row_t< false, 0 >(static_cast< size_t >(*this));
+		return row_t< false, 0 >(size_t(*this));
 	}
 
 	constexpr auto col_t< false, 0 >::as_dim()const noexcept{
-		return dim_t< false, 0 >(static_cast< size_t >(*this));
+		return dim_t< false, 0 >(size_t(*this));
 	}
 
 
 	constexpr auto row_t< false, 0 >::as_col()const noexcept{
-		return col_t< false, 0 >(static_cast< size_t >(*this));
+		return col_t< false, 0 >(size_t(*this));
 	}
 
 	constexpr auto row_t< false, 0 >::as_dim()const noexcept{
-		return dim_t< false, 0 >(static_cast< size_t >(*this));
+		return dim_t< false, 0 >(size_t(*this));
 	}
 
 
 	constexpr auto dim_t< false, 0 >::as_col()const noexcept{
-		return col_t< false, 0 >(static_cast< size_t >(*this));
+		return col_t< false, 0 >(size_t(*this));
 	}
 
 	constexpr auto dim_t< false, 0 >::as_row()const noexcept{
-		return row_t< false, 0 >(static_cast< size_t >(*this));
+		return row_t< false, 0 >(size_t(*this));
 	}
 
 
@@ -418,52 +418,44 @@ namespace mitrax{
 		struct col_op{
 			template < bool Ict1, size_t I1, bool Ict2, size_t I2 >
 			constexpr auto operator()(
-				col_t< Ict1, I1 > d1, col_t< Ict2, I2 > d2
+				col_t< Ict1, I1 > /*d1*/, col_t< Ict2, I2 > /*d2*/
 			)const noexcept{
-				return col_t< Ict1 && Ict2, Op()(
-					static_cast< size_t >(d1), static_cast< size_t >(d2)
-				) >();
+				return col_t< Ict1 && Ict2, Op()(I1, I2) >();
 			}
 
 			template < bool Ict1, bool Ict2, size_t I2 >
 			constexpr auto operator()(
 				col_t< Ict1, 0 > d1, col_t< Ict2, I2 > d2
 			)const noexcept{
-				return col_t< Ict1 && Ict2, 0 >(
-					Op()(static_cast< size_t >(d1), static_cast< size_t >(d2))
-				);
+				return col_t< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
 			}
 
 			template < bool Ict1, size_t I1, bool Ict2 >
 			constexpr auto operator()(
 				col_t< Ict1, I1 > d1, col_t< Ict2, 0 > d2
 			)const noexcept{
-				return col_t< Ict1 && Ict2, 0 >(
-					Op()(static_cast< size_t >(d1), static_cast< size_t >(d2))
-				);
+				return col_t< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
 			}
 
 			template < bool Ict1, bool Ict2 >
 			constexpr auto operator()(
 				col_t< Ict1, 0 > d1, col_t< Ict2, 0 > d2
 			)const noexcept{
-				return col_t< Ict1 && Ict2, 0 >(
-					Op()(static_cast< size_t >(d1), static_cast< size_t >(d2))
-				);
+				return col_t< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
 			}
 
 			template < bool Ict1, size_t I1 >
 			constexpr auto operator()(
 				col_t< Ict1, I1 > d1, size_t d2
 			)const noexcept{
-				return col_t< false, 0 >(Op()(static_cast< size_t >(d1), d2));
+				return col_t< false, 0 >(Op()(size_t(d1), d2));
 			}
 
 			template < bool Ict2, size_t I2 >
 			constexpr auto operator()(
 				size_t d1, col_t< Ict2, I2 > d2
 			)const noexcept{
-				return col_t< false, 0 >(Op()(d1, static_cast< size_t >(d2)));
+				return col_t< false, 0 >(Op()(d1, size_t(d2)));
 			}
 		};
 
@@ -472,52 +464,44 @@ namespace mitrax{
 		struct row_op{
 			template < bool Ict1, size_t I1, bool Ict2, size_t I2 >
 			constexpr auto operator()(
-				row_t< Ict1, I1 > d1, row_t< Ict2, I2 > d2
+				row_t< Ict1, I1 > /*d1*/, row_t< Ict2, I2 > /*d2*/
 			)const noexcept{
-				return row_t< Ict1 && Ict2, Op()(
-					static_cast< size_t >(d1), static_cast< size_t >(d2)
-				) >();
+				return row_t< Ict1 && Ict2, Op()(I1, I2) >();
 			}
 
 			template < bool Ict1, bool Ict2, size_t I2 >
 			constexpr auto operator()(
 				row_t< Ict1, 0 > d1, row_t< Ict2, I2 > d2
 			)const noexcept{
-				return row_t< Ict1 && Ict2, 0 >(
-					Op()(static_cast< size_t >(d1), static_cast< size_t >(d2))
-				);
+				return row_t< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
 			}
 
 			template < bool Ict1, size_t I1, bool Ict2 >
 			constexpr auto operator()(
 				row_t< Ict1, I1 > d1, row_t< Ict2, 0 > d2
 			)const noexcept{
-				return row_t< Ict1 && Ict2, 0 >(
-					Op()(static_cast< size_t >(d1), static_cast< size_t >(d2))
-				);
+				return row_t< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
 			}
 
 			template < bool Ict1, bool Ict2 >
 			constexpr auto operator()(
 				row_t< Ict1, 0 > d1, row_t< Ict2, 0 > d2
 			)const noexcept{
-				return row_t< Ict1 && Ict2, 0 >(
-					Op()(static_cast< size_t >(d1), static_cast< size_t >(d2))
-				);
+				return row_t< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
 			}
 
 			template < bool Ict1, size_t I1 >
 			constexpr auto operator()(
 				row_t< Ict1, I1 > d1, size_t d2
 			)const noexcept{
-				return row_t< false, 0 >(Op()(static_cast< size_t >(d1), d2));
+				return row_t< false, 0 >(Op()(size_t(d1), d2));
 			}
 
 			template < bool Ict2, size_t I2 >
 			constexpr auto operator()(
 				size_t d1, row_t< Ict2, I2 > d2
 			)const noexcept{
-				return row_t< false, 0 >(Op()(d1, static_cast< size_t >(d2)));
+				return row_t< false, 0 >(Op()(d1, size_t(d2)));
 			}
 		};
 

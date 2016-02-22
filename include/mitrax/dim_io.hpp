@@ -22,7 +22,7 @@ namespace mitrax{
 		std::basic_ostream< charT, traits >& os,
 		col_t< Cct, C > col
 	){
-		return os << static_cast< size_t >(col);
+		return os << size_t(col);
 	}
 
 	template < typename charT, typename traits, bool Rct, size_t R >
@@ -30,7 +30,7 @@ namespace mitrax{
 		std::basic_ostream< charT, traits >& os,
 		row_t< Rct, R > row
 	){
-		return os << static_cast< size_t >(row);
+		return os << size_t(row);
 	}
 
 	template < typename charT, typename traits, bool Nct, size_t N >
@@ -38,7 +38,7 @@ namespace mitrax{
 		std::basic_ostream< charT, traits >& os,
 		dim_t< Nct, N > dim
 	){
-		return os << static_cast< size_t >(dim);
+		return os << size_t(dim);
 	}
 
 	template < typename charT, typename traits, size_t C, size_t R >

@@ -72,7 +72,7 @@ namespace mitrax{
 			std::index_sequence<>
 		){
 			boost::container::vector< fn_xy< F > > res;
-			res.reserve(static_cast< size_t >(c) * static_cast< size_t >(r));
+			res.reserve(size_t(c) * size_t(r));
 
 			for(size_t y = 0; y < r; ++y){
 				for(size_t x = 0; x < c; ++x){
