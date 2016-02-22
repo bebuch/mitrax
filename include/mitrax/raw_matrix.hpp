@@ -148,34 +148,7 @@ namespace mitrax{
 		raw_matrix_impl_base(raw_matrix_impl_base const&) = default;
 
 		raw_matrix_impl_base(
-			col_t< true, Cols > c, row_t< true, Rows > r,
-			boost::container::vector< value_type >&& values
-		):
-			values_(std::move(values)),
-			cols_(c),
-			rows_(r)
-			{}
-
-		raw_matrix_impl_base(
-			col_t< true, Cols > c, row_t< false, Rows > r,
-			boost::container::vector< value_type >&& values
-		):
-			values_(std::move(values)),
-			cols_(c),
-			rows_(r)
-			{}
-
-		raw_matrix_impl_base(
-			col_t< false, Cols > c, row_t< true, Rows > r,
-			boost::container::vector< value_type >&& values
-		):
-			values_(std::move(values)),
-			cols_(c),
-			rows_(r)
-			{}
-
-		raw_matrix_impl_base(
-			col_t< false, Cols > c, row_t< false, Rows > r,
+			col_t< Cols != 0, Cols > c, row_t< Rows != 0, Rows > r,
 			boost::container::vector< value_type >&& values
 		):
 			values_(std::move(values)),
