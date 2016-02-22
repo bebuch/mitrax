@@ -89,10 +89,7 @@ namespace mitrax{
 		}
 
 		constexpr dims_t< Cols, Rows > dims()const noexcept{
-			col_t< Cols != 0, Cols > c = cols();
-			row_t< Rows != 0, Rows > r = rows();
-			dims_t< Cols, Rows > d = mitrax::dims(c, r);
-			return d;
+			return mitrax::dims(cols(), rows());
 		}
 
 		constexpr size_t point_count()const noexcept{
