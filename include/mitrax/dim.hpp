@@ -279,26 +279,8 @@ namespace mitrax{
 	class dims_t{
 	public:
 		constexpr dims_t(
-			col_t< true, C > cols,
-			row_t< true, R > rows
-		)noexcept:
-			cols_(cols), rows_(rows) {}
-
-		constexpr dims_t(
-			col_t< false, C > cols,
-			row_t< true, R > rows
-		)noexcept:
-			cols_(cols), rows_(rows) {}
-
-		constexpr dims_t(
-			col_t< true, C > cols,
-			row_t< false, R > rows
-		)noexcept:
-			cols_(cols), rows_(rows) {}
-
-		constexpr dims_t(
-			col_t< false, C > cols,
-			row_t< false, R > rows
+			col_t< C != 0, C > cols,
+			row_t< R != 0, R > rows
 		)noexcept:
 			cols_(cols), rows_(rows) {}
 
