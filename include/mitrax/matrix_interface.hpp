@@ -361,11 +361,7 @@ namespace mitrax{
 			col_t< Cct, C > c, row_t< Rct, R > r
 		){
 			return raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
-				c, r,
-				mitrax::sub_matrix< V >(
-					x, y, c, r,
-					static_cast< matrix< M, Cols, Rows >& >(*this)
-				)
+				c, r, mitrax::sub_matrix< V >(x, y, c, r, *this)
 			);
 		}
 
@@ -382,11 +378,7 @@ namespace mitrax{
 			col_t< Cct, C > c, row_t< Rct, R > r
 		)const{
 			return raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
-				c, r,
-				mitrax::sub_matrix< V >(
-					x, y, c, r,
-					static_cast< matrix< M, Cols, Rows > const& >(*this)
-				)
+				c, r, mitrax::sub_matrix< V >(x, y, c, r, *this)
 			);
 		}
 
