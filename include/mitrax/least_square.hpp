@@ -13,6 +13,8 @@
 #include "operator.hpp"
 #include "gaussian_elimination.hpp"
 
+#include <boost/container/vector.hpp>
+
 #include <cmath>
 
 

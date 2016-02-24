@@ -9,9 +9,7 @@
 #ifndef _mitrax__convert__hpp_INCLUDED_
 #define _mitrax__convert__hpp_INCLUDED_
 
-#include "dim.hpp"
-
-#include <boost/container/vector.hpp>
+#include "dyn_array.hpp"
 
 #include <array>
 #include <utility>
@@ -81,61 +79,49 @@ namespace mitrax{
 
 
 		template < typename T >
-		auto convert(std::true_type, boost::container::vector< T >&& v){
+		auto convert(std::true_type, dyn_array< T >&& v){
 			return std::move(v);
 		}
 
 		template < typename T >
-		auto convert(std::true_type, boost::container::vector< T >& v){
+		auto convert(std::true_type, dyn_array< T >& v){
 			return v;
 		}
 
 		template < typename T >
-		auto convert(std::true_type, boost::container::vector< T > const& v){
+		auto convert(std::true_type, dyn_array< T > const& v){
 			return v;
 		}
 
 
 		template < typename T, typename U >
-		auto convert(std::false_type, boost::container::vector< U >&& v){
-			return boost::container::vector< T >(
-				std::make_move_iterator(v.begin()),
-				std::make_move_iterator(v.end())
-			);
+		auto convert(std::false_type, dyn_array< U >&& v){
+			return dyn_array< T >(std::move(v));
 		}
 
 		template < typename T, typename U >
-		auto convert(std::false_type, boost::container::vector< U >& v){
-			return boost::container::vector< T >(v.begin(), v.end());
+		auto convert(std::false_type, dyn_array< U >& v){
+			return dyn_array< T >(v);
 		}
 
 		template < typename T, typename U >
-		auto convert(std::false_type, boost::container::vector< U > const& v){
-			return boost::container::vector< T >(v.begin(), v.end());
+		auto convert(std::false_type, dyn_array< U > const& v){
+			return dyn_array< T >(v);
 		}
 
 
 		template < size_t N, typename T, size_t ... I >
-		auto to_array(
-			boost::container::vector< T >&& v,
-			std::index_sequence< I ... >
-		){
+		auto to_array(dyn_array< T >&& v, std::index_sequence< I ... >){
 			return std::array< T, N >{{ std::move(v[I]) ... }};
 		}
 
 		template < size_t N, typename T, size_t ... I >
-		auto to_array(
-			boost::container::vector< T >& v,
-			std::index_sequence< I ... >
-		){
+		auto to_array(dyn_array< T >& v, std::index_sequence< I ... >){
 			return std::array< T, N >{{ v[I] ... }};
 		}
 
 		template < size_t N, typename T, size_t ... I >
-		auto to_array(
-			boost::container::vector< T > const& v,
-			std::index_sequence< I ... >
-		){
+		auto to_array(dyn_array< T > const& v, std::index_sequence< I ... >){
 			return std::array< T, N >{{ v[I] ... }};
 		}
 
@@ -160,17 +146,17 @@ namespace mitrax{
 
 
 	template < typename T, typename U >
-	auto convert(boost::container::vector< U >&& v){
+	auto convert(dyn_array< U >&& v){
 		return detail::convert< T >(std::is_same< T, U >(), std::move(v));
 	}
 
 	template < typename T, typename U >
-	auto convert(boost::container::vector< U >& v){
+	auto convert(dyn_array< U >& v){
 		return detail::convert< T >(std::is_same< T, U >(), v);
 	}
 
 	template < typename T, typename U >
-	auto convert(boost::container::vector< U > const& v){
+	auto convert(dyn_array< U > const& v){
 		return detail::convert< T >(std::is_same< T, U >(), v);
 	}
 
@@ -203,7 +189,7 @@ namespace mitrax{
 	template < typename T, typename U, size_t N >
 	auto convert(
 		std::true_type /*to_static*/,
-		boost::container::vector< U >&& v
+		dyn_array< U >&& v
 	){
 		// TODO: Do it faster!!!
 		auto d = convert< T >(std::move(v));
@@ -216,7 +202,7 @@ namespace mitrax{
 	template < typename T, typename U, size_t N >
 	auto convert(
 		std::true_type /*to_static*/,
-		boost::container::vector< U >& v
+		dyn_array< U >& v
 	){
 		// TODO: Do it faster!!!
 		auto d = convert< T >(v);
@@ -229,7 +215,7 @@ namespace mitrax{
 	template < typename T, typename U, size_t N >
 	auto convert(
 		std::true_type /*to_static*/,
-		boost::container::vector< U > const& v
+		dyn_array< U > const& v
 	){
 		// TODO: Do it faster!!!
 		auto d = convert< T >(v);
@@ -245,12 +231,7 @@ namespace mitrax{
 		std::false_type /*to_static*/,
 		std::array< U, N >&& v
 	){
-		// TODO: Do it faster!!!
-		auto d = convert< T >(std::move(v));
-		return boost::container::vector< T >(
-			std::make_move_iterator(d.begin()),
-			std::make_move_iterator(d.end())
-		);
+		return dyn_array< T >(std::move(v));
 	}
 
 	template < typename T, typename U, size_t N >
@@ -258,12 +239,7 @@ namespace mitrax{
 		std::false_type /*to_static*/,
 		std::array< U, N >& v
 	){
-		// TODO: Do it faster!!!
-		auto d = convert< T >(v);
-		return boost::container::vector< T >(
-			std::make_move_iterator(d.begin()),
-			std::make_move_iterator(d.end())
-		);
+		return convert< T >(v);
 	}
 
 	template < typename T, typename U, size_t N >
@@ -271,27 +247,22 @@ namespace mitrax{
 		std::false_type /*to_static*/,
 		std::array< U, N > const& v
 	){
-		// TODO: Do it faster!!!
-		auto d = convert< T >(v);
-		return boost::container::vector< T >(
-			std::make_move_iterator(d.begin()),
-			std::make_move_iterator(d.end())
-		);
+		return dyn_array< T >(v);
 	}
 
 
 	template < typename T, typename U, size_t N >
 	auto convert(
 		std::false_type /*to_static*/,
-		boost::container::vector< U >&& v
+		dyn_array< U >&& v
 	){
-		return convert< T >(std::move(v));
+		return dyn_array< T >(std::move(v));
 	}
 
 	template < typename T, typename U, size_t N >
 	auto convert(
 		std::false_type /*to_static*/,
-		boost::container::vector< U >& v
+		dyn_array< U >& v
 	){
 		return convert< T >(v);
 	}
@@ -299,9 +270,9 @@ namespace mitrax{
 	template < typename T, typename U, size_t N >
 	auto convert(
 		std::false_type /*to_static*/,
-		boost::container::vector< U > const& v
+		dyn_array< U > const& v
 	){
-		return convert< T >(v);
+		return dyn_array< T >(v);
 	}
 
 

@@ -10,8 +10,7 @@
 #define _mitrax__sub_matrix__hpp_INCLUDED_
 
 #include "matrix_fwd.hpp"
-
-#include <boost/container/vector.hpp>
+#include "dyn_array.hpp"
 
 #include <array>
 #include <utility>
@@ -64,45 +63,37 @@ namespace mitrax{
 		}
 
 		template <
-			typename T,
-			typename M, size_t C, size_t R
+			typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
+			typename M, size_t C2, size_t R2
 		>
 		auto sub_matrix_to_vector(
 			size_t x,
 			size_t y,
-			size_t c,
-			size_t r,
-			matrix< M, C, R >& m
+			col_t< Cct1, C1 > c,
+			row_t< Rct1, R1 > r,
+			matrix< M, C2, R2 >& m
 		){
-			boost::container::vector< T > result;
-			result.reserve(c * r);
-			for(size_t yi = 0; yi < r; ++yi){
-				for(size_t xi = 0; xi < c; ++xi){
-					result.emplace_back(m(x + xi, y + yi));
-				}
-			}
-			return result;
+			return dyn_array< T >(c, r,
+				[x, y, &m](size_t xi, size_t yi) -> value_type_t< M >&{
+					return m(x + xi, y + yi);
+				});
 		}
 
 		template <
-			typename T,
-			typename M, size_t C, size_t R
+			typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
+			typename M, size_t C2, size_t R2
 		>
 		auto sub_matrix_to_vector(
 			size_t x,
 			size_t y,
-			size_t c,
-			size_t r,
-			matrix< M, C, R > const& m
+			col_t< Cct1, C1 > c,
+			row_t< Rct1, R1 > r,
+			matrix< M, C2, R2 > const& m
 		){
-			boost::container::vector< T > result;
-			result.reserve(c * r);
-			for(size_t yi = 0; yi < r; ++yi){
-				for(size_t xi = 0; xi < c; ++xi){
-					result.emplace_back(m(x + xi, y + yi));
-				}
-			}
-			return result;
+			return dyn_array< T >(c, r,
+				[x, y, &m](size_t xi, size_t yi) -> value_type_t< M > const&{
+					return m(x + xi, y + yi);
+				});
 		}
 
 

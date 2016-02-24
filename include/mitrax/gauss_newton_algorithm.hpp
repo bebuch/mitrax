@@ -14,6 +14,8 @@
 #include <mitrax/operator.hpp>
 #include <mitrax/norm.hpp>
 
+#include <boost/container/vector.hpp>
+
 #include <mitrax/output.hpp>
 #include <iostream>
 

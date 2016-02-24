@@ -10,6 +10,9 @@
 #define _mitrax__raw_matrix__hpp_INCLUDED_
 
 #include "matrix_interface.hpp"
+#include "dyn_array.hpp"
+
+#include <iterator>
 
 
 namespace mitrax{
@@ -127,20 +130,16 @@ namespace mitrax{
 		using value_type = T;
 
 		/// \brief Type of a iterator for data
-		using iterator = typename
-			boost::container::vector< value_type >::iterator;
+		using iterator = value_type*;
 
 		/// \brief Type of a iterator for const data
-		using const_iterator = typename
-			boost::container::vector< value_type >::const_iterator;
+		using const_iterator = value_type const*;
 
 		/// \brief Type of a reverse iterator for data
-		using reverse_iterator = typename
-			boost::container::vector< value_type >::reverse_iterator;
+		using reverse_iterator = std::reverse_iterator< iterator >;
 
 		/// \brief Type of a reverse iterator for const data
-		using const_reverse_iterator = typename
-			boost::container::vector< value_type >::const_reverse_iterator;
+		using const_reverse_iterator = std::reverse_iterator< const_iterator >;
 
 
 		raw_matrix_impl_base(raw_matrix_impl_base&&) = default;
@@ -149,7 +148,7 @@ namespace mitrax{
 
 		raw_matrix_impl_base(
 			col_t< C != 0, C > c, row_t< R != 0, R > r,
-			boost::container::vector< value_type >&& values
+			dyn_array< value_type >&& values
 		):
 			values_(std::move(values)),
 			cols_(c),
@@ -181,49 +180,49 @@ namespace mitrax{
 
 
 		iterator begin(){
-			return values_.begin();
+			return values_.data();
 		}
 
 		const_iterator begin()const{
-			return values_.begin();
+			return values_.data();
 		}
 
 		iterator end(){
-			return values_.end();
+			return values_.data() + values_.size();
 		}
 
 		const_iterator end()const{
-			return values_.end();
+			return values_.data() + values_.size();
 		}
 
 		reverse_iterator rbegin(){
-			return values_.rbegin();
+			return std::make_reverse_iterator(end());
 		}
 
 		const_reverse_iterator rbegin()const{
-			return values_.rbegin();
+			return std::make_reverse_iterator(end());
 		}
 
 		reverse_iterator rend(){
-			return values_.rend();
+			return std::make_reverse_iterator(begin());
 		}
 
 		const_reverse_iterator rend()const{
-			return values_.rend();
+			return std::make_reverse_iterator(begin());
 		}
 
 
-		boost::container::vector< value_type >& data(){
+		dyn_array< value_type >& data(){
 			return values_;
 		}
 
-		boost::container::vector< value_type > const& data()const{
+		dyn_array< value_type > const& data()const{
 			return values_;
 		}
 
 
 	protected:
-		boost::container::vector< value_type > values_;
+		dyn_array< value_type > values_;
 		col_t< C != 0, C > cols_;
 		row_t< R != 0, R > rows_;
 	};
