@@ -72,7 +72,7 @@ namespace mitrax{
 		value_type_t< M > const& default_value
 	){
 		return pass_in(
-			dims.cols().init(), dims.rows().init(), m, default_value
+			dims.cols(), dims.rows(), m, default_value
 		);
 	}
 

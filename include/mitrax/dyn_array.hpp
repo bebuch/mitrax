@@ -186,8 +186,11 @@ namespace mitrax{
 		dyn_array& operator=(dyn_array&& a){
 			value_ = a.value_;
 			size_ = a.size_;
+
 			a.value_ = nullptr;
 			a.size_ = 0;
+
+			return *this;
 		}
 
 		dyn_array& operator=(dyn_array const& a){
@@ -195,6 +198,7 @@ namespace mitrax{
 
 			try{
 				std::uninitialized_copy_n(a.value_, a.size_, value);
+				return *this;
 			}catch(...){
 				alloc_.deallocate(value, a.size_);
 				throw;
@@ -204,6 +208,8 @@ namespace mitrax{
 
 			value_ = value;
 			size_ = a.size_;
+
+			return *this;
 		}
 
 

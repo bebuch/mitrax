@@ -23,14 +23,14 @@ namespace mitrax{
 		using value_type = value_type_t< M >;
 
 		auto const identity = make_identity_matrix< value_type >(
-			m.rows().init().as_dim()
+			m.rows().as_dim()
 		);
 
 		auto r = m;
 		auto q = identity;
 
 		for(size_t i = 0; i < m.cols() - 1_C; ++i){
-			auto v = make_col_vector_by_function(m.rows().init(),
+			auto v = make_col_vector_by_function(m.rows(),
 				[i, &r](size_t y){
 					if(y < i) return value_type();
 					return r(i, y);

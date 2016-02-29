@@ -368,7 +368,7 @@ namespace mitrax{
 		template < typename V, size_t C, size_t R >
 		constexpr raw_matrix< V, C, R >
 		sub_matrix(size_t x, size_t y, dims_t< C, R > d){
-			return sub_matrix< V >(x, y, d.cols().init(), d.rows().init());
+			return sub_matrix< V >(x, y, d.cols(), d.rows());
 		}
 
 		template < typename V, bool Cct, size_t C, bool Rct, size_t R >
@@ -385,7 +385,7 @@ namespace mitrax{
 		template < typename V, size_t C, size_t R >
 		constexpr raw_matrix< V, C, R >
 		sub_matrix(size_t x, size_t y, dims_t< C, R > d)const{
-			return sub_matrix< V >(x, y, d.cols().init(), d.rows().init());
+			return sub_matrix< V >(x, y, d.cols(), d.rows());
 		}
 
 

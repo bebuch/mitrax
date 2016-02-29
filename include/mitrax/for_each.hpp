@@ -53,7 +53,7 @@ namespace mitrax{
 		matrix< M, C, R > const& ... images
 	){
 		for_each_view(
-			f, view_dims.cols().init(), view_dims.rows().init(), images ...
+			f, view_dims.cols(), view_dims.rows(), images ...
 		);
 	}
 

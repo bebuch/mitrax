@@ -71,6 +71,15 @@ namespace mitrax{
 
 		constexpr size_rt(size_t v)noexcept: v_(v) {}
 
+		constexpr size_rt(size_rt&&)noexcept = default;
+
+		constexpr size_rt(size_rt const&)noexcept = default;
+
+
+		constexpr size_rt& operator=(size_rt&&)noexcept = default;
+
+		constexpr size_rt& operator=(size_rt const&)noexcept = default;
+
 
 		constexpr operator size_t()const noexcept{
 			return v_;
@@ -117,6 +126,10 @@ namespace mitrax{
 		constexpr col_t(col_t< true, C > const&)noexcept{}
 
 
+		constexpr col_t& operator=(col_t&&)noexcept = default;
+		constexpr col_t& operator=(col_t const&)noexcept = default;
+
+
 		constexpr auto as_row()const noexcept{
 			return row_t< false, C >();
 		}
@@ -140,6 +153,11 @@ namespace mitrax{
 		constexpr col_t(col_t< Cct, C > const&)noexcept: size_rt(C) {}
 
 		using size_rt::size_rt;
+
+
+		constexpr col_t& operator=(col_t&&)noexcept = default;
+		constexpr col_t& operator=(col_t const&)noexcept = default;
+
 
 		constexpr auto as_row()const noexcept;
 		constexpr auto as_dim()const noexcept;
@@ -168,6 +186,10 @@ namespace mitrax{
 		constexpr row_t(row_t< true, R > const&)noexcept{}
 
 
+		constexpr row_t& operator=(row_t&&)noexcept = default;
+		constexpr row_t& operator=(row_t const&)noexcept = default;
+
+
 		constexpr auto as_col()const noexcept{
 			return col_t< false, R >();
 		}
@@ -189,6 +211,9 @@ namespace mitrax{
 
 		template < bool Rct, size_t R >
 		constexpr row_t(row_t< Rct, R > const&)noexcept: size_rt(R) {}
+
+		constexpr row_t& operator=(row_t&&)noexcept = default;
+		constexpr row_t& operator=(row_t const&)noexcept = default;
 
 		using size_rt::size_rt;
 
@@ -219,6 +244,10 @@ namespace mitrax{
 		constexpr dim_t(dim_t< true, N > const&)noexcept{}
 
 
+		constexpr dim_t& operator=(dim_t&&)noexcept = default;
+		constexpr dim_t& operator=(dim_t const&)noexcept = default;
+
+
 		constexpr auto as_col()const noexcept{
 			return col_t< false, N >();
 		}
@@ -242,6 +271,11 @@ namespace mitrax{
 		constexpr dim_t(dim_t< Nct, N > const&)noexcept: size_rt(N) {}
 
 		using size_rt::size_rt;
+
+
+		constexpr dim_t& operator=(dim_t&&)noexcept = default;
+		constexpr dim_t& operator=(dim_t const&)noexcept = default;
+
 
 		constexpr auto as_col()const noexcept;
 		constexpr auto as_row()const noexcept;
