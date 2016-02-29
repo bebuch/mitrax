@@ -71,15 +71,6 @@ namespace mitrax{
 
 		constexpr size_rt(size_t v)noexcept: v_(v) {}
 
-		constexpr size_rt(size_rt&&)noexcept = default;
-
-		constexpr size_rt(size_rt const&)noexcept = default;
-
-
-		constexpr size_rt& operator=(size_rt&&)noexcept = default;
-
-		constexpr size_rt& operator=(size_rt const&)noexcept = default;
-
 
 		constexpr operator size_t()const noexcept{
 			return v_;
@@ -119,15 +110,8 @@ namespace mitrax{
 	struct col_t< false, C >: size_ct< C >{
 		constexpr col_t()noexcept = default;
 
-		constexpr col_t(col_t&&)noexcept = default;
-		constexpr col_t(col_t const&)noexcept = default;
-
 		constexpr col_t(col_t< true, C >&&)noexcept{}
 		constexpr col_t(col_t< true, C > const&)noexcept{}
-
-
-		constexpr col_t& operator=(col_t&&)noexcept = default;
-		constexpr col_t& operator=(col_t const&)noexcept = default;
 
 
 		constexpr auto as_row()const noexcept{
@@ -143,9 +127,6 @@ namespace mitrax{
 	struct col_t< false, 0 >: size_rt{
 		constexpr col_t()noexcept = default;
 
-		constexpr col_t(col_t&&)noexcept = default;
-		constexpr col_t(col_t const&)noexcept = default;
-
 		template < bool Cct, size_t C >
 		constexpr col_t(col_t< Cct, C >&&)noexcept: size_rt(C) {}
 
@@ -153,10 +134,6 @@ namespace mitrax{
 		constexpr col_t(col_t< Cct, C > const&)noexcept: size_rt(C) {}
 
 		using size_rt::size_rt;
-
-
-		constexpr col_t& operator=(col_t&&)noexcept = default;
-		constexpr col_t& operator=(col_t const&)noexcept = default;
 
 
 		constexpr auto as_row()const noexcept;
@@ -179,15 +156,8 @@ namespace mitrax{
 	struct row_t< false, R >: size_ct< R >{
 		constexpr row_t()noexcept = default;
 
-		constexpr row_t(row_t&&)noexcept = default;
-		constexpr row_t(row_t const&)noexcept = default;
-
 		constexpr row_t(row_t< true, R >&&)noexcept{}
 		constexpr row_t(row_t< true, R > const&)noexcept{}
-
-
-		constexpr row_t& operator=(row_t&&)noexcept = default;
-		constexpr row_t& operator=(row_t const&)noexcept = default;
 
 
 		constexpr auto as_col()const noexcept{
@@ -203,19 +173,14 @@ namespace mitrax{
 	struct row_t< false, 0 >: size_rt{
 		constexpr row_t()noexcept = default;
 
-		constexpr row_t(row_t&&)noexcept = default;
-		constexpr row_t(row_t const&)noexcept = default;
-
 		template < bool Rct, size_t R >
 		constexpr row_t(row_t< Rct, R >&&)noexcept: size_rt(R) {}
 
 		template < bool Rct, size_t R >
 		constexpr row_t(row_t< Rct, R > const&)noexcept: size_rt(R) {}
 
-		constexpr row_t& operator=(row_t&&)noexcept = default;
-		constexpr row_t& operator=(row_t const&)noexcept = default;
-
 		using size_rt::size_rt;
+
 
 		constexpr auto as_col()const noexcept;
 		constexpr auto as_dim()const noexcept;
@@ -237,15 +202,8 @@ namespace mitrax{
 	struct dim_t< false, N >: size_ct< N >{
 		constexpr dim_t()noexcept = default;
 
-		constexpr dim_t(dim_t&&)noexcept = default;
-		constexpr dim_t(dim_t const&)noexcept = default;
-
 		constexpr dim_t(dim_t< true, N >&&)noexcept{}
 		constexpr dim_t(dim_t< true, N > const&)noexcept{}
-
-
-		constexpr dim_t& operator=(dim_t&&)noexcept = default;
-		constexpr dim_t& operator=(dim_t const&)noexcept = default;
 
 
 		constexpr auto as_col()const noexcept{
@@ -261,9 +219,6 @@ namespace mitrax{
 	struct dim_t< false, 0 >: size_rt{
 		constexpr dim_t()noexcept = default;
 
-		constexpr dim_t(dim_t&&)noexcept = default;
-		constexpr dim_t(dim_t const&)noexcept = default;
-
 		template < bool Nct, size_t N >
 		constexpr dim_t(dim_t< Nct, N >&&)noexcept: size_rt(N) {}
 
@@ -271,10 +226,6 @@ namespace mitrax{
 		constexpr dim_t(dim_t< Nct, N > const&)noexcept: size_rt(N) {}
 
 		using size_rt::size_rt;
-
-
-		constexpr dim_t& operator=(dim_t&&)noexcept = default;
-		constexpr dim_t& operator=(dim_t const&)noexcept = default;
 
 
 		constexpr auto as_col()const noexcept;
@@ -312,20 +263,13 @@ namespace mitrax{
 	template < size_t C, size_t R >
 	class dims_t{
 	public:
+		constexpr dims_t()noexcept = default;
+
 		constexpr dims_t(
 			col_t< C != 0, C > cols,
 			row_t< R != 0, R > rows
 		)noexcept:
 			cols_(cols), rows_(rows) {}
-
-		constexpr dims_t(dims_t const&)noexcept = default;
-
-		constexpr dims_t(dims_t&&)noexcept = default;
-
-
-		constexpr dims_t& operator=(dims_t const&)noexcept = default;
-
-		constexpr dims_t& operator=(dims_t&&)noexcept = default;
 
 
 		constexpr col_t< C != 0, C > cols()const noexcept{
