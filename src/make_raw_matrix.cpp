@@ -1213,4 +1213,78 @@ BOOST_AUTO_TEST_CASE(test_identity_matrix){
 }
 
 
+BOOST_AUTO_TEST_CASE(test_copy_constructor){
+	constexpr auto m01 = make_matrix(3_C, 3_R, ref_3x3);
+	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_3x3);
+
+	constexpr auto m03 = m01;
+	auto m04 = m02;
+
+	BOOST_TEST((rt_id(m03) == id< raw_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m04) == id< raw_matrix< int, 0, 0 > >));
+
+
+	BOOST_TEST(check_3x3_ref(m03));
+	BOOST_TEST(check_3x3_ref(m04));
+}
+
+
+BOOST_AUTO_TEST_CASE(test_move_constructor){
+	constexpr auto m01 = make_matrix(3_C, 3_R, ref_3x3);
+	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_3x3);
+
+	constexpr auto m03 = std::move(m01);
+	auto m04 = std::move(m02);
+
+	BOOST_TEST((rt_id(m03) == id< raw_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m04) == id< raw_matrix< int, 0, 0 > >));
+
+
+	BOOST_TEST(check_3x3_ref(m03));
+	BOOST_TEST(check_3x3_ref(m04));
+}
+
+
+BOOST_AUTO_TEST_CASE(test_copy_assignment){
+	constexpr auto m01 = make_matrix(3_C, 3_R, ref_3x3);
+	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_3x3);
+
+	auto m03 = make_matrix(3_C, 3_R, 0);
+	auto m04 = make_matrix(0_C_rt, 0_R_rt, 0);
+
+
+	m03 = m01;
+	m04 = m02;
+
+
+	BOOST_TEST((rt_id(m03) == id< raw_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m04) == id< raw_matrix< int, 0, 0 > >));
+
+
+	BOOST_TEST(check_3x3_ref(m03));
+	BOOST_TEST(check_3x3_ref(m04));
+}
+
+
+BOOST_AUTO_TEST_CASE(test_move_assignment){
+	constexpr auto m01 = make_matrix(3_C, 3_R, ref_3x3);
+	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_3x3);
+
+	auto m03 = make_matrix(3_C, 3_R, 0);
+	auto m04 = make_matrix(0_C_rt, 0_R_rt, 0);
+
+
+	m03 = std::move(m01);
+	m04 = std::move(m02);
+
+
+	BOOST_TEST((rt_id(m03) == id< raw_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m04) == id< raw_matrix< int, 0, 0 > >));
+
+
+	BOOST_TEST(check_3x3_ref(m03));
+	BOOST_TEST(check_3x3_ref(m04));
+}
+
+
 BOOST_AUTO_TEST_SUITE_END()
