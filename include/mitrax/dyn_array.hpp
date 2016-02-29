@@ -172,14 +172,7 @@ namespace mitrax{
 
 
 		~dyn_array(){
-			auto first = reinterpret_cast< T* >(value_);
-			auto const last = value_ + size_;
-
-			for(; first != last; ++first){
-				alloc_.destroy(first);
-			}
-
-			alloc_.deallocate(value_, size_);
+			destroy();
 		}
 
 
@@ -198,13 +191,12 @@ namespace mitrax{
 
 			try{
 				std::uninitialized_copy_n(a.value_, a.size_, value);
-				return *this;
 			}catch(...){
 				alloc_.deallocate(value, a.size_);
 				throw;
 			}
 
-			~dyn_array();
+			destroy();
 
 			value_ = value;
 			size_ = a.size_;
@@ -239,6 +231,18 @@ namespace mitrax{
 		std::allocator< T > alloc_;
 		T* value_;
 		size_t size_;
+
+		void destroy()noexcept{
+			auto first = reinterpret_cast< T* >(value_);
+			auto const last = value_ + size_;
+
+			for(; first != last; ++first){
+				alloc_.destroy(first);
+			}
+
+			alloc_.deallocate(value_, size_);
+		}
+
 	};
 
 
