@@ -25,20 +25,16 @@ namespace mitrax{
 		using value_type = T;
 
 		/// \brief Type of a iterator for data
-		using iterator = typename
-			std::array< value_type, C * R >::iterator;
+		using iterator = value_type*;
 
 		/// \brief Type of a iterator for const data
-		using const_iterator = typename
-			std::array< value_type, C * R >::const_iterator;
+		using const_iterator = value_type const*;
 
 		/// \brief Type of a reverse iterator for data
-		using reverse_iterator = typename
-			std::array< value_type, C * R >::reverse_iterator;
+		using reverse_iterator = std::reverse_iterator< iterator >;
 
 		/// \brief Type of a reverse iterator for const data
-		using const_reverse_iterator = typename
-			std::array< value_type, C * R >::const_reverse_iterator;
+		using const_reverse_iterator = std::reverse_iterator< const_iterator >;
 
 
 		constexpr raw_matrix_impl(raw_matrix_impl&&) = default;
