@@ -10,7 +10,7 @@
 #define _mitrax__sub_matrix__hpp_INCLUDED_
 
 #include "matrix_fwd.hpp"
-#include "array_dyn.hpp"
+#include "array_d.hpp"
 
 #include <array>
 #include <utility>
@@ -73,7 +73,7 @@ namespace mitrax{
 			row_t< Rct1, R1 > r,
 			matrix< M, C2, R2 >& m
 		){
-			return array_dyn< T >(c, r,
+			return array_d< T >(c, r,
 				[x, y, &m](size_t xi, size_t yi) -> value_type_t< M >&{
 					return m(x + xi, y + yi);
 				});
@@ -90,7 +90,7 @@ namespace mitrax{
 			row_t< Rct1, R1 > r,
 			matrix< M, C2, R2 > const& m
 		){
-			return array_dyn< T >(c, r,
+			return array_d< T >(c, r,
 				[x, y, &m](size_t xi, size_t yi) -> value_type_t< M > const&{
 					return m(x + xi, y + yi);
 				});

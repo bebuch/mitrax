@@ -70,39 +70,39 @@ namespace mitrax{
 
 		template < typename T, size_t N >
 		constexpr auto to_raw_matrix_data(std::false_type, T(&&v)[N]){
-			return array_dyn< T >(std::move(v));
+			return array_d< T >(std::move(v));
 		}
 
 		template < typename T, size_t N >
 		constexpr auto to_raw_matrix_data(std::false_type, T(&v)[N]){
-			return array_dyn< T >(v);
+			return array_d< T >(v);
 		}
 
 		template < typename T, size_t N >
 		constexpr auto to_raw_matrix_data(std::false_type, T const(&v)[N]){
-			return array_dyn< T >(v);
+			return array_d< T >(v);
 		}
 
 		template < typename T, size_t C, size_t R >
 		constexpr auto to_raw_matrix_data(std::false_type, T(&&v)[R][C]){
-			return array_dyn< T >(std::move(v));
+			return array_d< T >(std::move(v));
 		}
 
 		template < typename T, size_t C, size_t R >
 		constexpr auto to_raw_matrix_data(std::false_type, T(&v)[R][C]){
-			return array_dyn< T >(v);
+			return array_d< T >(v);
 		}
 
 		template < typename T, size_t C, size_t R >
 		constexpr auto to_raw_matrix_data(std::false_type, T const(&v)[R][C]){
-			return array_dyn< T >(v);
+			return array_d< T >(v);
 		}
 
 		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 		constexpr auto to_raw_matrix_data(
 			std::false_type, col_t< Cct, C > c, row_t< Rct, R > r, T const& v
 		){
-			return array_dyn< T >(size_t(c) * size_t(r), v);
+			return array_d< T >(size_t(c) * size_t(r), v);
 		}
 
 
@@ -126,14 +126,14 @@ namespace mitrax{
 			std::false_type,
 			col_t< Cct, C > c, row_t< Rct, R > r, F const& f
 		){
-			return array_dyn< fn_xy< F > >(c, r, f);
+			return array_d< fn_xy< F > >(c, r, f);
 		}
 
 		template < typename F, bool Nct, size_t N >
 		constexpr auto function_i_to_raw_matrix_data(
 			std::false_type, dim_t< Nct, N > n, F const& f
 		){
-			return array_dyn< fn_i< F > >(n, f);
+			return array_d< fn_i< F > >(n, f);
 		}
 
 

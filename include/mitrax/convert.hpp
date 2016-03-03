@@ -9,7 +9,7 @@
 #ifndef _mitrax__convert__hpp_INCLUDED_
 #define _mitrax__convert__hpp_INCLUDED_
 
-#include "array_dyn.hpp"
+#include "array_d.hpp"
 #include "to_array.hpp"
 
 #include <array>
@@ -80,49 +80,49 @@ namespace mitrax{
 
 
 		template < typename T >
-		auto convert(std::true_type, array_dyn< T >&& v){
+		auto convert(std::true_type, array_d< T >&& v){
 			return std::move(v);
 		}
 
 		template < typename T >
-		auto convert(std::true_type, array_dyn< T >& v){
+		auto convert(std::true_type, array_d< T >& v){
 			return v;
 		}
 
 		template < typename T >
-		auto convert(std::true_type, array_dyn< T > const& v){
+		auto convert(std::true_type, array_d< T > const& v){
 			return v;
 		}
 
 
 		template < typename T, typename U >
-		auto convert(std::false_type, array_dyn< U >&& v){
-			return array_dyn< T >(std::move(v));
+		auto convert(std::false_type, array_d< U >&& v){
+			return array_d< T >(std::move(v));
 		}
 
 		template < typename T, typename U >
-		auto convert(std::false_type, array_dyn< U >& v){
-			return array_dyn< T >(v);
+		auto convert(std::false_type, array_d< U >& v){
+			return array_d< T >(v);
 		}
 
 		template < typename T, typename U >
-		auto convert(std::false_type, array_dyn< U > const& v){
-			return array_dyn< T >(v);
+		auto convert(std::false_type, array_d< U > const& v){
+			return array_d< T >(v);
 		}
 
 
 		template < size_t N, typename T, size_t ... I >
-		auto to_array(array_dyn< T >&& v, std::index_sequence< I ... >){
+		auto to_array(array_d< T >&& v, std::index_sequence< I ... >){
 			return std::array< T, N >{{ std::move(v[I]) ... }};
 		}
 
 		template < size_t N, typename T, size_t ... I >
-		auto to_array(array_dyn< T >& v, std::index_sequence< I ... >){
+		auto to_array(array_d< T >& v, std::index_sequence< I ... >){
 			return std::array< T, N >{{ v[I] ... }};
 		}
 
 		template < size_t N, typename T, size_t ... I >
-		auto to_array(array_dyn< T > const& v, std::index_sequence< I ... >){
+		auto to_array(array_d< T > const& v, std::index_sequence< I ... >){
 			return std::array< T, N >{{ v[I] ... }};
 		}
 
@@ -147,17 +147,17 @@ namespace mitrax{
 
 
 	template < typename T, typename U >
-	auto convert(detail::array_dyn< U >&& v){
+	auto convert(detail::array_d< U >&& v){
 		return detail::convert< T >(std::is_same< T, U >(), std::move(v));
 	}
 
 	template < typename T, typename U >
-	auto convert(detail::array_dyn< U >& v){
+	auto convert(detail::array_d< U >& v){
 		return detail::convert< T >(std::is_same< T, U >(), v);
 	}
 
 	template < typename T, typename U >
-	auto convert(detail::array_dyn< U > const& v){
+	auto convert(detail::array_d< U > const& v){
 		return detail::convert< T >(std::is_same< T, U >(), v);
 	}
 
@@ -190,7 +190,7 @@ namespace mitrax{
 	template < typename T, typename U, size_t N >
 	auto convert(
 		std::true_type /*to_static*/,
-		detail::array_dyn< U >&& v
+		detail::array_d< U >&& v
 	){
 		// TODO: Do it faster!!!
 		auto d = convert< T >(std::move(v));
@@ -203,7 +203,7 @@ namespace mitrax{
 	template < typename T, typename U, size_t N >
 	auto convert(
 		std::true_type /*to_static*/,
-		detail::array_dyn< U >& v
+		detail::array_d< U >& v
 	){
 		// TODO: Do it faster!!!
 		auto d = convert< T >(v);
@@ -216,7 +216,7 @@ namespace mitrax{
 	template < typename T, typename U, size_t N >
 	auto convert(
 		std::true_type /*to_static*/,
-		detail::array_dyn< U > const& v
+		detail::array_d< U > const& v
 	){
 		// TODO: Do it faster!!!
 		auto d = convert< T >(v);
@@ -232,7 +232,7 @@ namespace mitrax{
 		std::false_type /*to_static*/,
 		std::array< U, N >&& v
 	){
-		return detail::array_dyn< T >(std::move(v));
+		return detail::array_d< T >(std::move(v));
 	}
 
 	template < typename T, typename U, size_t N >
@@ -248,22 +248,22 @@ namespace mitrax{
 		std::false_type /*to_static*/,
 		std::array< U, N > const& v
 	){
-		return detail::array_dyn< T >(v);
+		return detail::array_d< T >(v);
 	}
 
 
 	template < typename T, typename U, size_t N >
 	auto convert(
 		std::false_type /*to_static*/,
-		detail::array_dyn< U >&& v
+		detail::array_d< U >&& v
 	){
-		return detail::array_dyn< T >(std::move(v));
+		return detail::array_d< T >(std::move(v));
 	}
 
 	template < typename T, typename U, size_t N >
 	auto convert(
 		std::false_type /*to_static*/,
-		detail::array_dyn< U >& v
+		detail::array_d< U >& v
 	){
 		return convert< T >(v);
 	}
@@ -271,9 +271,9 @@ namespace mitrax{
 	template < typename T, typename U, size_t N >
 	auto convert(
 		std::false_type /*to_static*/,
-		detail::array_dyn< U > const& v
+		detail::array_d< U > const& v
 	){
-		return detail::array_dyn< T >(v);
+		return detail::array_d< T >(v);
 	}
 
 
