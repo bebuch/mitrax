@@ -10,7 +10,7 @@
 #define _mitrax__raw_matrix__hpp_INCLUDED_
 
 #include "matrix_interface.hpp"
-#include "dyn_array.hpp"
+#include "array_dyn.hpp"
 
 #include <iterator>
 
@@ -144,7 +144,7 @@ namespace mitrax{
 
 		raw_matrix_impl_base(
 			col_t< C != 0, C > c, row_t< R != 0, R > r,
-			detail::dyn_array< value_type >&& values
+			detail::array_dyn< value_type >&& values
 		):
 			values_(std::move(values)),
 			cols_(c),
@@ -208,17 +208,17 @@ namespace mitrax{
 		}
 
 
-		detail::dyn_array< value_type >& data(){
+		detail::array_dyn< value_type >& data(){
 			return values_;
 		}
 
-		detail::dyn_array< value_type > const& data()const{
+		detail::array_dyn< value_type > const& data()const{
 			return values_;
 		}
 
 
 	protected:
-		detail::dyn_array< value_type > values_;
+		detail::array_dyn< value_type > values_;
 		col_t< C != 0, C > cols_;
 		row_t< R != 0, R > rows_;
 	};

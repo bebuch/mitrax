@@ -10,8 +10,6 @@
 #define _mitrax__matrix_interface__hpp_INCLUDED_
 
 #include "point.hpp"
-#include "to_array.hpp"
-#include "to_vector.hpp"
 #include "convert.hpp"
 #include "sub_matrix.hpp"
 

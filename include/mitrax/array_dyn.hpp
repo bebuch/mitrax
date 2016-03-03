@@ -6,8 +6,8 @@
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 //-----------------------------------------------------------------------------
-#ifndef _mitrax__dyn_array__hpp_INCLUDED_
-#define _mitrax__dyn_array__hpp_INCLUDED_
+#ifndef _mitrax__array_dyn__hpp_INCLUDED_
+#define _mitrax__array_dyn__hpp_INCLUDED_
 
 #include "dim.hpp"
 
@@ -18,11 +18,11 @@ namespace mitrax{ namespace detail{
 
 
 	template < typename T >
-	class dyn_array{
+	class array_dyn{
 	public:
-		dyn_array(): value_(nullptr) {}
+		array_dyn(): value_(nullptr) {}
 
-		dyn_array(dyn_array&& a):
+		array_dyn(array_dyn&& a):
 			value_(a.value_),
 			size_(a.size_)
 		{
@@ -30,7 +30,7 @@ namespace mitrax{ namespace detail{
 			a.size_ = 0;
 		}
 
-		dyn_array(dyn_array const& a):
+		array_dyn(array_dyn const& a):
 			value_(alloc_.allocate(a.size_)),
 			size_(0)
 		{
@@ -38,7 +38,7 @@ namespace mitrax{ namespace detail{
 			size_ = a.size_;
 		}
 
-		dyn_array(size_t size, T const& v = T()):
+		array_dyn(size_t size, T const& v = T()):
 			value_(alloc_.allocate(size)),
 			size_(0)
 		{
@@ -47,7 +47,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < typename U >
-		dyn_array(dyn_array< U >&& a):
+		array_dyn(array_dyn< U >&& a):
 			value_(alloc_.allocate(a.size())),
 			size_(0)
 		{
@@ -58,7 +58,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < typename U >
-		dyn_array(dyn_array< U >& a):
+		array_dyn(array_dyn< U >& a):
 			value_(alloc_.allocate(a.size())),
 			size_(0)
 		{
@@ -67,7 +67,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < typename U >
-		dyn_array(dyn_array< U > const& a):
+		array_dyn(array_dyn< U > const& a):
 			value_(alloc_.allocate(a.size())),
 			size_(0)
 		{
@@ -76,7 +76,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < typename U, size_t N >
-		dyn_array(std::array< U, N >&& a):
+		array_dyn(std::array< U, N >&& a):
 			value_(alloc_.allocate(N)),
 			size_(0)
 		{
@@ -87,7 +87,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < typename U, size_t N >
-		dyn_array(std::array< U, N >& a):
+		array_dyn(std::array< U, N >& a):
 			value_(alloc_.allocate(N)),
 			size_(0)
 		{
@@ -96,7 +96,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < typename U, size_t N >
-		dyn_array(std::array< U, N > const& a):
+		array_dyn(std::array< U, N > const& a):
 			value_(alloc_.allocate(N)),
 			size_(0)
 		{
@@ -105,7 +105,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < size_t N >
-		dyn_array(T(&&v)[N]):
+		array_dyn(T(&&v)[N]):
 			value_(alloc_.allocate(N)),
 			size_(0)
 		{
@@ -114,7 +114,16 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < size_t N >
-		dyn_array(T const(&v)[N]):
+		array_dyn(T(&v)[N]):
+			value_(alloc_.allocate(N)),
+			size_(0)
+		{
+			std::uninitialized_copy_n(v, N, value_);
+			size_ = N;
+		}
+
+		template < size_t N >
+		array_dyn(T const(&v)[N]):
 			value_(alloc_.allocate(N)),
 			size_(0)
 		{
@@ -123,7 +132,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < size_t C, size_t R >
-		dyn_array(T(&&v)[R][C]):
+		array_dyn(T(&&v)[R][C]):
 			value_(alloc_.allocate(C * R)),
 			size_(0)
 		{
@@ -136,7 +145,18 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < size_t C, size_t R >
-		dyn_array(T const(&v)[R][C]):
+		array_dyn(T(&v)[R][C]):
+			value_(alloc_.allocate(C * R)),
+			size_(0)
+		{
+			for(size_t i = 0; i < R; ++i){
+				std::uninitialized_copy_n(v[i], C, value_ + i * C);
+				size_ += C;
+			}
+		}
+
+		template < size_t C, size_t R >
+		array_dyn(T const(&v)[R][C]):
 			value_(alloc_.allocate(C * R)),
 			size_(0)
 		{
@@ -147,7 +167,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < typename F, bool Nct, size_t N >
-		dyn_array(dim_t< Nct, N > n, F const& f):
+		array_dyn(dim_t< Nct, N > n, F const& f):
 			value_(alloc_.allocate(n)),
 			size_(0)
 		{
@@ -158,7 +178,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-		dyn_array(col_t< Cct, C > c, row_t< Rct, R > r, F const& f):
+		array_dyn(col_t< Cct, C > c, row_t< Rct, R > r, F const& f):
 			value_(alloc_.allocate(size_t(c) * size_t(r))),
 			size_(0)
 		{
@@ -171,12 +191,12 @@ namespace mitrax{ namespace detail{
 		}
 
 
-		~dyn_array(){
+		~array_dyn(){
 			destroy();
 		}
 
 
-		dyn_array& operator=(dyn_array&& a){
+		array_dyn& operator=(array_dyn&& a){
 			value_ = a.value_;
 			size_ = a.size_;
 
@@ -186,7 +206,7 @@ namespace mitrax{ namespace detail{
 			return *this;
 		}
 
-		dyn_array& operator=(dyn_array const& a){
+		array_dyn& operator=(array_dyn const& a){
 			auto value = alloc_.allocate(a.size_);
 
 			try{
