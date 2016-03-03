@@ -14,7 +14,7 @@
 #include <memory>
 
 
-namespace mitrax{
+namespace mitrax{ namespace detail{
 
 
 	template < typename T >
@@ -246,7 +246,7 @@ namespace mitrax{
 	};
 
 
-}
+} }
 
 
 #endif

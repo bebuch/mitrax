@@ -144,7 +144,7 @@ namespace mitrax{
 
 		raw_matrix_impl_base(
 			col_t< C != 0, C > c, row_t< R != 0, R > r,
-			dyn_array< value_type >&& values
+			detail::dyn_array< value_type >&& values
 		):
 			values_(std::move(values)),
 			cols_(c),
@@ -208,17 +208,17 @@ namespace mitrax{
 		}
 
 
-		dyn_array< value_type >& data(){
+		detail::dyn_array< value_type >& data(){
 			return values_;
 		}
 
-		dyn_array< value_type > const& data()const{
+		detail::dyn_array< value_type > const& data()const{
 			return values_;
 		}
 
 
 	protected:
-		dyn_array< value_type > values_;
+		detail::dyn_array< value_type > values_;
 		col_t< C != 0, C > cols_;
 		row_t< R != 0, R > rows_;
 	};
