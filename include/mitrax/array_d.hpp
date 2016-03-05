@@ -104,8 +104,8 @@ namespace mitrax{ namespace detail{
 			size_ = N;
 		}
 
-		template < size_t N >
-		array_d(T(&&v)[N]):
+		template < typename U, size_t N >
+		array_d(U(&&v)[N]):
 			value_(alloc_.allocate(N)),
 			size_(0)
 		{
@@ -113,8 +113,8 @@ namespace mitrax{ namespace detail{
 			size_ = N;
 		}
 
-		template < size_t N >
-		array_d(T(&v)[N]):
+		template < typename U, size_t N >
+		array_d(U(&v)[N]):
 			value_(alloc_.allocate(N)),
 			size_(0)
 		{
@@ -122,17 +122,8 @@ namespace mitrax{ namespace detail{
 			size_ = N;
 		}
 
-		template < size_t N >
-		array_d(T const(&v)[N]):
-			value_(alloc_.allocate(N)),
-			size_(0)
-		{
-			std::uninitialized_copy_n(v, N, value_);
-			size_ = N;
-		}
-
-		template < size_t C, size_t R >
-		array_d(T(&&v)[R][C]):
+		template < typename U, size_t C, size_t R >
+		array_d(U(&&v)[R][C]):
 			value_(alloc_.allocate(C * R)),
 			size_(0)
 		{
@@ -144,19 +135,8 @@ namespace mitrax{ namespace detail{
 			}
 		}
 
-		template < size_t C, size_t R >
-		array_d(T(&v)[R][C]):
-			value_(alloc_.allocate(C * R)),
-			size_(0)
-		{
-			for(size_t i = 0; i < R; ++i){
-				std::uninitialized_copy_n(v[i], C, value_ + i * C);
-				size_ += C;
-			}
-		}
-
-		template < size_t C, size_t R >
-		array_d(T const(&v)[R][C]):
+		template < typename U, size_t C, size_t R >
+		array_d(U(&v)[R][C]):
 			value_(alloc_.allocate(C * R)),
 			size_(0)
 		{
