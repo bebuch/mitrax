@@ -22,43 +22,36 @@ namespace mitrax{
 
 
 		template < typename T, size_t N, size_t ... I >
-		constexpr auto to_array(T(&&v)[N], std::index_sequence< I ... >){
-			return std::array< std::remove_cv_t< T >, N >{{
-				std::move(v[I]) ...
-			}};
+		constexpr std::array< std::remove_cv_t< T >, N >
+		to_array(T(&a)[N], std::index_sequence< I ... >){
+			return {{ a[I] ... }};
 		}
 
 		template < typename T, size_t N, size_t ... I >
-		constexpr auto to_array(T const(&v)[N], std::index_sequence< I ... >){
-			return std::array< std::remove_cv_t< T >, N >{{ v[I] ... }};
-		}
-
-
-		template < typename T, size_t C, size_t R, size_t ... I >
-		constexpr auto to_array(T(&&v)[R][C], std::index_sequence< I ... >){
-			return std::array< std::remove_cv_t< T >, C * R >{{
-				std::move(v[I / C][I % C]) ...
-			}};
+		constexpr std::array< std::remove_cv_t< T >, N >
+		to_array(T(&&a)[N], std::index_sequence< I ... >){
+			return {{ std::move(a[I]) ... }};
 		}
 
 		template < typename T, size_t C, size_t R, size_t ... I >
-		constexpr auto to_array(
-			T const(&v)[R][C],
-			std::index_sequence< I ... >
-		){
-			return std::array< std::remove_cv_t< T >, C * R >{{
-				v[I / C][I % C] ...
-			}};
+		constexpr std::array< std::remove_cv_t< T >, C * R >
+		to_array(T(&a)[R][C], std::index_sequence< I ... >){
+			return {{ a[I / C][I % C] ... }};
+		}
+
+		template < typename T, size_t C, size_t R, size_t ... I >
+		constexpr std::array< std::remove_cv_t< T >, C * R >
+		to_array(T(&&a)[R][C], std::index_sequence< I ... >){
+			return {{ std::move(a[I / C][I % C]) ... }};
 		}
 
 		template < size_t, typename T >
-		constexpr auto nop(T const& v){ return v; }
+		constexpr T const& nop(T const& v){ return v; }
 
 		template < typename T, size_t ... I >
-		constexpr auto init_array(T const& v, std::index_sequence< I ... >){
-			return std::array< std::remove_cv_t< T >, sizeof...(I) >{{
-				nop< I >(v) ...
-			}};
+		constexpr std::array< std::remove_cv_t< T >, sizeof...(I) >
+		init_array(T const& v, std::index_sequence< I ... >){
+			return {{ nop< I >(v) ... }};
 		}
 
 		template < size_t C, size_t R, typename F, size_t ... I >
@@ -91,7 +84,7 @@ namespace mitrax{
 	}
 
 	template < typename T, size_t N >
-	constexpr auto to_array(T const(&v)[N]){
+	constexpr auto to_array(T(&v)[N]){
 		return detail::to_array(
 			v, std::make_index_sequence< N >()
 		);
@@ -106,7 +99,7 @@ namespace mitrax{
 	}
 
 	template < typename T, size_t C, size_t R >
-	constexpr auto to_array(T const(&v)[R][C]){
+	constexpr auto to_array(T(&v)[R][C]){
 		return detail::to_array(
 			v, std::make_index_sequence< C * R >()
 		);

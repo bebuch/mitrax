@@ -32,50 +32,50 @@ namespace mitrax{
 
 
 		template < typename T, size_t N >
-		constexpr auto to_raw_matrix_data(std::true_type, T(&&v)[N]){
-			return mitrax::to_array(std::move(v));
+		constexpr auto to_raw_matrix_data(std::true_type, T(&&a)[N]){
+			return to_array(std::move(a), std::make_index_sequence< N >());
 		}
 
 		template < typename T, size_t N >
-		constexpr auto to_raw_matrix_data(std::true_type, T(&v)[N]){
-			return mitrax::to_array(v);
+		constexpr auto to_raw_matrix_data(std::true_type, T(&a)[N]){
+			return to_array(a, std::make_index_sequence< N >());
 		}
 
 		template < typename T, size_t C, size_t R >
-		constexpr auto to_raw_matrix_data(std::true_type, T(&&v)[R][C]){
-			return mitrax::to_array(std::move(v));
+		constexpr auto to_raw_matrix_data(std::true_type, T(&&a)[R][C]){
+			return to_array(std::move(a), std::make_index_sequence< C * R >());
 		}
 
 		template < typename T, size_t C, size_t R >
-		constexpr auto to_raw_matrix_data(std::true_type, T(&v)[R][C]){
-			return mitrax::to_array(v);
+		constexpr auto to_raw_matrix_data(std::true_type, T(&a)[R][C]){
+			return to_array(a, std::make_index_sequence< C * R >());
 		}
 
 		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 		constexpr auto to_raw_matrix_data(
 			std::true_type, col_t< Cct, C >, row_t< Rct, R >, T const& v
 		){
-			return mitrax::init_array< C * R >(v);
+			return init_array(v, std::make_index_sequence< C * R >());
 		}
 
 		template < typename T, size_t N >
-		constexpr auto to_raw_matrix_data(std::false_type, T(&&v)[N]){
-			return array_d< std::remove_cv_t< T > >(std::move(v));
+		constexpr auto to_raw_matrix_data(std::false_type, T(&&a)[N]){
+			return array_d< std::remove_cv_t< T > >(std::move(a));
 		}
 
 		template < typename T, size_t N >
-		constexpr auto to_raw_matrix_data(std::false_type, T(&v)[N]){
-			return array_d< std::remove_cv_t< T > >(v);
+		constexpr auto to_raw_matrix_data(std::false_type, T(&a)[N]){
+			return array_d< std::remove_cv_t< T > >(a);
 		}
 
 		template < typename T, size_t C, size_t R >
-		constexpr auto to_raw_matrix_data(std::false_type, T(&&v)[R][C]){
-			return array_d< std::remove_cv_t< T > >(std::move(v));
+		constexpr auto to_raw_matrix_data(std::false_type, T(&&a)[R][C]){
+			return array_d< std::remove_cv_t< T > >(std::move(a));
 		}
 
 		template < typename T, size_t C, size_t R >
-		constexpr auto to_raw_matrix_data(std::false_type, T(&v)[R][C]){
-			return array_d< std::remove_cv_t< T > >(v);
+		constexpr auto to_raw_matrix_data(std::false_type, T(&a)[R][C]){
+			return array_d< std::remove_cv_t< T > >(a);
 		}
 
 		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
