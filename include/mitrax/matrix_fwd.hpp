@@ -31,11 +31,16 @@ namespace mitrax{
 	using bitmap = matrix< M, 0, 0 >;
 
 
-	template < typename T, size_t Cols, size_t Rows >
-	class raw_matrix_impl;
+	namespace detail{
+
+		template < typename T, size_t Cols, size_t Rows >
+		class raw_matrix_impl;
+
+	}
 
 	template < typename T, size_t Cols, size_t Rows >
-	using raw_matrix = matrix< raw_matrix_impl< T, Cols, Rows >, Cols, Rows >;
+	using raw_matrix =
+		matrix< detail::raw_matrix_impl< T, Cols, Rows >, Cols, Rows >;
 
 	template < typename T, size_t N >
 	using raw_square_matrix = raw_matrix< T, N, N >;

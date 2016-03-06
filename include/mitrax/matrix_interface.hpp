@@ -203,21 +203,21 @@ namespace mitrax{
 
 		template < typename V >
 		constexpr raw_matrix< V, Cols, Rows > convert_by_move(){
-			return raw_matrix_impl< V, Cols, Rows >(
+			return detail::raw_matrix_impl< V, Cols, Rows >(
 				cols(), rows(), mitrax::convert< V >(std::move(m_.data()))
 			);
 		}
 
 		template < typename V >
 		constexpr raw_matrix< V, Cols, Rows > convert(){
-			return raw_matrix_impl< V, Cols, Rows >(
+			return detail::raw_matrix_impl< V, Cols, Rows >(
 				cols(), rows(), mitrax::convert< V >(m_.data())
 			);
 		}
 
 		template < typename V >
 		constexpr raw_matrix< V, Cols, Rows > convert()const{
-			return raw_matrix_impl< V, Cols, Rows >(
+			return detail::raw_matrix_impl< V, Cols, Rows >(
 				cols(), rows(), mitrax::convert< V >(m_.data())
 			);
 		}
@@ -264,7 +264,7 @@ namespace mitrax{
 		constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
 		convert_by_move(col_t< Cct, C > c, row_t< Rct, R > r){
 			check_dims(c, r);
-			return raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
+			return detail::raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
 				c, r, mitrax::convert<
 					V,
 					value_type,
@@ -280,7 +280,7 @@ namespace mitrax{
 		constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
 		convert(col_t< Cct, C > c, row_t< Rct, R > r){
 			check_dims(c, r);
-			return raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
+			return detail::raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
 				c, r, mitrax::convert<
 					V,
 					value_type,
@@ -296,7 +296,7 @@ namespace mitrax{
 		constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
 		convert(col_t< Cct, C > c, row_t< Rct, R > r)const{
 			check_dims(c, r);
-			return raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
+			return detail::raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
 				c, r, mitrax::convert<
 					V,
 					value_type,
@@ -358,7 +358,7 @@ namespace mitrax{
 			size_t x, size_t y,
 			col_t< Cct, C > c, row_t< Rct, R > r
 		){
-			return raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
+			return detail::raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
 				c, r, mitrax::sub_matrix< V >(x, y, c, r, *this)
 			);
 		}
@@ -375,7 +375,7 @@ namespace mitrax{
 			size_t x, size_t y,
 			col_t< Cct, C > c, row_t< Rct, R > r
 		)const{
-			return raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
+			return detail::raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
 				c, r, mitrax::sub_matrix< V >(x, y, c, r, *this)
 			);
 		}

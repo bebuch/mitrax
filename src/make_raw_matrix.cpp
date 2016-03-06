@@ -406,42 +406,42 @@ namespace{
 BOOST_AUTO_TEST_CASE(test_raw_matrix_types){
 	BOOST_TEST((
 		id< raw_matrix< int, 3, 4 > > ==
-		id< matrix< raw_matrix_impl< int, 3, 4 >, 3, 4 > >
+		id< matrix< detail::raw_matrix_impl< int, 3, 4 >, 3, 4 > >
 	));
 
 	BOOST_TEST((
 		id< raw_bitmap< int > > ==
-		id< bitmap< raw_matrix_impl< int, 0, 0 > > >
+		id< bitmap< detail::raw_matrix_impl< int, 0, 0 > > >
 	));
 
 	BOOST_TEST((
 		id< raw_col_vector< int, 4 > > ==
-		id< col_vector< raw_matrix_impl< int, 1, 4 >, 4 > >
+		id< col_vector< detail::raw_matrix_impl< int, 1, 4 >, 4 > >
 	));
 
 	BOOST_TEST((
 		id< raw_col_vector< int, 4 > > ==
-		id< matrix< raw_matrix_impl< int, 1, 4 >, 1, 4 > >
+		id< matrix< detail::raw_matrix_impl< int, 1, 4 >, 1, 4 > >
 	));
 
 	BOOST_TEST((
 		id< raw_row_vector< int, 4 > > ==
-		id< row_vector< raw_matrix_impl< int, 4, 1 >, 4 > >
+		id< row_vector< detail::raw_matrix_impl< int, 4, 1 >, 4 > >
 	));
 
 	BOOST_TEST((
 		id< raw_row_vector< int, 4 > > ==
-		id< matrix< raw_matrix_impl< int, 4, 1 >, 4, 1 > >
+		id< matrix< detail::raw_matrix_impl< int, 4, 1 >, 4, 1 > >
 	));
 
 	BOOST_TEST((
 		id< raw_square_matrix< int, 4 > > ==
-		id< square_matrix< raw_matrix_impl< int, 4, 4 >, 4 > >
+		id< square_matrix< detail::raw_matrix_impl< int, 4, 4 >, 4 > >
 	));
 
 	BOOST_TEST((
 		id< raw_square_matrix< int, 4 > > ==
-		id< matrix< raw_matrix_impl< int, 4, 4 >, 4, 4 > >
+		id< matrix< detail::raw_matrix_impl< int, 4, 4 >, 4, 4 > >
 	));
 }
 

@@ -15,7 +15,7 @@
 #include <iterator>
 
 
-namespace mitrax{
+namespace mitrax{ namespace detail{
 
 
 	template < typename T, size_t C, size_t R >
@@ -248,7 +248,7 @@ namespace mitrax{
 	};
 
 
-}
+} }
 
 
 #endif

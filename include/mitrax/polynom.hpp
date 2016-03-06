@@ -21,10 +21,11 @@ namespace mitrax{
 		using value_type = T;
 
 
-		constexpr polynom(): coefficients_(init_array< Degree + 1 >(T())) {}
+		constexpr polynom():
+			coefficients_(detail::init_array< Degree + 1 >(T())) {}
 
 		constexpr polynom(T const(&)[Degree + 1]):
-			coefficients_(to_array< Degree + 1 >(T())) {}
+			coefficients_(detail::to_array< Degree + 1 >(T())) {}
 
 
 		constexpr value_type& operator[](size_t i){
