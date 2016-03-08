@@ -10,6 +10,7 @@
 #define _mitrax__make_matrix__hpp_INCLUDED_
 
 #include "raw_matrix.hpp"
+#include "to_array.hpp"
 
 
 namespace mitrax{
@@ -89,14 +90,14 @@ namespace mitrax{
 		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
 		constexpr auto function_xy_to_raw_matrix_data(
 			std::true_type,
-			col_t< Cct, C >, row_t< Rct, R >, F const& f
+			col_t< Cct, C >, row_t< Rct, R >, F&& f
 		){
 			return function_xy_to_array< C, R >(f);
 		}
 
 		template < typename F, bool Nct, size_t N >
 		constexpr auto function_i_to_raw_matrix_data(
-			std::true_type, dim_t< Nct, N >, F const& f
+			std::true_type, dim_t< Nct, N >, F&& f
 		){
 			return function_i_to_array< N >(f);
 		}
@@ -104,14 +105,14 @@ namespace mitrax{
 		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
 		constexpr auto function_xy_to_raw_matrix_data(
 			std::false_type,
-			col_t< Cct, C > c, row_t< Rct, R > r, F const& f
+			col_t< Cct, C > c, row_t< Rct, R > r, F&& f
 		){
 			return array_d< fn_xy< F > >(c, r, f);
 		}
 
 		template < typename F, bool Nct, size_t N >
 		constexpr auto function_i_to_raw_matrix_data(
-			std::false_type, dim_t< Nct, N > n, F const& f
+			std::false_type, dim_t< Nct, N > n, F&& f
 		){
 			return array_d< fn_i< F > >(n, f);
 		}
@@ -119,13 +120,17 @@ namespace mitrax{
 
 		template < typename F >
 		struct init_diag_by_function{
-			F const& f;
+			F f;
 
-			constexpr std::remove_cv_t< decltype(f(size_t())) >
-			operator()(size_t x, size_t y)const{
+			constexpr fn_i< F > operator()(size_t x, size_t y){
 				return x == y ? f(x) : decltype(f(x))();
 			}
 		};
+
+		template < typename F >
+		constexpr auto make_init_diag_by_function(F&& f){
+			return init_diag_by_function< F&& >{static_cast< F&& >(f)};
+		}
 
 		template < typename T >
 		struct init_diag_by_value{
@@ -164,7 +169,7 @@ namespace mitrax{
 	template < typename F, bool Cct, size_t C, bool Rct, size_t R >
 	constexpr raw_matrix< fn_xy< F >, dim(Cct, C), dim(Rct, R) >
 	make_matrix_by_function(
-		col_t< Cct, C > c, row_t< Rct, R > r, F const& f
+		col_t< Cct, C > c, row_t< Rct, R > r, F&& f
 	){
 		return detail::raw_matrix_impl< fn_xy< F >, dim(Cct, C), dim(Rct, R) >(
 			c, r, detail::function_xy_to_raw_matrix_data(
@@ -175,19 +180,19 @@ namespace mitrax{
 
 	template < typename F, size_t C, size_t R >
 	constexpr auto
-	make_matrix_by_function(dims_t< C, R > const& d, F const& f){
+	make_matrix_by_function(dims_t< C, R > const& d, F&& f){
 		return make_matrix_by_function(d.cols(), d.rows(), f);
 	}
 
 	template < typename F, bool Nct, size_t N >
 	constexpr auto
-	make_square_matrix_by_function(dim_t< Nct, N > n, F const& f){
+	make_square_matrix_by_function(dim_t< Nct, N > n, F&& f){
 		return make_matrix_by_function(n.as_col(), n.as_row(), f);
 	}
 
 	template < typename F, bool Nct, size_t N >
 	constexpr raw_col_vector< fn_i< F >, dim(Nct, N) >
-	make_col_vector_by_function(row_t< Nct, N > r, F const& f){
+	make_col_vector_by_function(row_t< Nct, N > r, F&& f){
 		using namespace literals;
 		return detail::raw_matrix_impl< fn_i< F >, 1, dim(Nct, N) >(
 			1_C, r, detail::function_i_to_raw_matrix_data(
@@ -198,7 +203,7 @@ namespace mitrax{
 
 	template < typename F, bool Nct, size_t N >
 	constexpr raw_row_vector< fn_i< F >, dim(Nct, N) >
-	make_row_vector_by_function(col_t< Nct, N > c, F const& f){
+	make_row_vector_by_function(col_t< Nct, N > c, F&& f){
 		using namespace literals;
 		return detail::raw_matrix_impl< fn_i< F >, dim(Nct, N), 1 >(
 			c, 1_R, detail::function_i_to_raw_matrix_data(
@@ -208,7 +213,7 @@ namespace mitrax{
 	}
 
 	template < typename F, size_t C, size_t R >
-	auto make_bitmap_by_function(dims_t< C, R > const& d, F const& f){
+	auto make_bitmap_by_function(dims_t< C, R > const& d, F&& f){
 		return make_matrix_by_function(
 			col_t< false, 0 >(d.cols()),
 			row_t< false, 0 >(d.rows()),
@@ -217,7 +222,7 @@ namespace mitrax{
 	}
 
 	template < typename F >
-	auto make_bitmap_by_function(size_t c, size_t r, F const& f){
+	auto make_bitmap_by_function(size_t c, size_t r, F&& f){
 		return make_matrix_by_function(
 			col_t< false, 0 >(c), row_t< false, 0 >(r), f
 		);
@@ -226,9 +231,9 @@ namespace mitrax{
 
 	template < typename F, bool Nct, size_t N >
 	constexpr auto
-	make_diag_matrix_by_function(dim_t< Nct, N > n, F const& f){
+	make_diag_matrix_by_function(dim_t< Nct, N > n, F&& f){
 		return make_square_matrix_by_function(n,
-			detail::init_diag_by_function< F >{f});
+			detail::make_init_diag_by_function(static_cast< F&& >(f)));
 	}
 
 

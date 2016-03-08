@@ -53,7 +53,7 @@ namespace mitrax{ namespace detail{
 
 	template < size_t C, size_t R, typename F, size_t ... I >
 	constexpr auto function_xy_to_array(
-		F const& f, std::index_sequence< I ... >
+		F&& f, std::index_sequence< I ... >
 	){
 		return std::array< fn_xy< F >, sizeof...(I) >{{
 			f(I % C, I / C) ...
@@ -62,7 +62,7 @@ namespace mitrax{ namespace detail{
 
 	template < typename F, size_t ... I >
 	constexpr auto function_i_to_array(
-		F const& f, std::index_sequence< I ... >
+		F&& f, std::index_sequence< I ... >
 	){
 		return std::array< fn_i< F >, sizeof...(I) >{{
 			f(I) ...
@@ -107,14 +107,14 @@ namespace mitrax{ namespace detail{
 	}
 
 	template < size_t C, size_t R, typename F >
-	constexpr auto function_xy_to_array(F const& f){
+	constexpr auto function_xy_to_array(F&& f){
 		return function_xy_to_array< C, R >(
 			f, std::make_index_sequence< C * R >()
 		);
 	}
 
 	template < size_t N, typename F >
-	constexpr auto function_i_to_array(F const& f){
+	constexpr auto function_i_to_array(F&& f){
 		return function_i_to_array(
 			f, std::make_index_sequence< N >()
 		);

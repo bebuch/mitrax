@@ -147,7 +147,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < typename F, bool Nct, size_t N >
-		array_d(dim_t< Nct, N > n, F const& f):
+		array_d(dim_t< Nct, N > n, F&& f):
 			value_(alloc_.allocate(n)),
 			size_(0)
 		{
@@ -158,7 +158,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-		array_d(col_t< Cct, C > c, row_t< Rct, R > r, F const& f):
+		array_d(col_t< Cct, C > c, row_t< Rct, R > r, F&& f):
 			value_(alloc_.allocate(size_t(c) * size_t(r))),
 			size_(0)
 		{

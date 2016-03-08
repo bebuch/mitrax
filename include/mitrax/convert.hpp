@@ -9,11 +9,7 @@
 #ifndef _mitrax__convert__hpp_INCLUDED_
 #define _mitrax__convert__hpp_INCLUDED_
 
-#include "array_d.hpp"
-#include "to_array.hpp"
-
-#include <array>
-#include <utility>
+#include "make_matrix.hpp"
 
 
 namespace mitrax{
@@ -22,259 +18,139 @@ namespace mitrax{
 	namespace detail{
 
 
-		template < typename T, typename U, size_t N, size_t ... I >
-		constexpr auto
-		convert(std::array< U, N >&& v, std::index_sequence< I ... >){
-			return std::array< T, N >{{ T(std::move(v[I])) ... }};
-		}
+		template < typename T, typename M >
+		struct convert_fn{
+			M m;
 
-		template < typename T, typename U, size_t N, size_t ... I >
-		constexpr auto
-		convert(std::array< U, N >& v, std::index_sequence< I ... >){
-			return std::array< T, N >{{ T(v[I]) ... }};
-		}
+			constexpr T operator()(size_t x, size_t y){
+				return m(x, y);
+			}
+		};
 
-		template < typename T, typename U, size_t N, size_t ... I >
-		constexpr auto
-		convert(std::array< U, N > const& v, std::index_sequence< I ... >){
-			return std::array< T, N >{{ T(v[I]) ... }};
-		}
-
-
-		template < typename T, size_t N >
-		constexpr auto convert(std::true_type, std::array< T, N >&& v){
-			return std::move(v);
-		}
-
-		template < typename T, size_t N >
-		constexpr auto convert(std::true_type, std::array< T, N >& v){
-			return v;
-		}
-
-		template < typename T, size_t N >
-		constexpr auto convert(std::true_type, std::array< T, N > const& v){
-			return v;
-		}
-
-
-		template < typename T, typename U, size_t N >
-		constexpr auto convert(std::false_type, std::array< U, N >&& v){
-			return convert< T >(
-				std::move(v), std::make_index_sequence< N >()
-			);
-		}
-
-		template < typename T, typename U, size_t N >
-		constexpr auto convert(std::false_type, std::array< U, N >& v){
-			return convert< T >(
-				v, std::make_index_sequence< N >()
-			);
-		}
-
-		template < typename T, typename U, size_t N >
-		constexpr auto convert(std::false_type, std::array< U, N > const& v){
-			return convert< T >(
-				v, std::make_index_sequence< N >()
-			);
-		}
-
-
-		template < typename T >
-		auto convert(std::true_type, array_d< T >&& v){
-			return std::move(v);
-		}
-
-		template < typename T >
-		auto convert(std::true_type, array_d< T >& v){
-			return v;
-		}
-
-		template < typename T >
-		auto convert(std::true_type, array_d< T > const& v){
-			return v;
-		}
-
-
-		template < typename T, typename U >
-		auto convert(std::false_type, array_d< U >&& v){
-			return array_d< T >(std::move(v));
-		}
-
-		template < typename T, typename U >
-		auto convert(std::false_type, array_d< U >& v){
-			return array_d< T >(v);
-		}
-
-		template < typename T, typename U >
-		auto convert(std::false_type, array_d< U > const& v){
-			return array_d< T >(v);
-		}
-
-
-		template < size_t N, typename T, size_t ... I >
-		auto to_array(array_d< T >&& v, std::index_sequence< I ... >){
-			return std::array< T, N >{{ std::move(v[I]) ... }};
-		}
-
-		template < size_t N, typename T, size_t ... I >
-		auto to_array(array_d< T >& v, std::index_sequence< I ... >){
-			return std::array< T, N >{{ v[I] ... }};
-		}
-
-		template < size_t N, typename T, size_t ... I >
-		auto to_array(array_d< T > const& v, std::index_sequence< I ... >){
-			return std::array< T, N >{{ v[I] ... }};
+		template < typename T, typename M >
+		constexpr auto make_convert_fn(M&& m){
+			return convert_fn< T, M&& >{static_cast< M&& >(m)};
 		}
 
 
 	}
 
 
-	template < typename T, typename U, size_t N >
-	constexpr auto convert(std::array< U, N >&& v){
-		return detail::convert< T >(std::is_same< T, U >(), std::move(v));
-	}
-
-	template < typename T, typename U, size_t N >
-	constexpr auto convert(std::array< U, N >& v){
-		return detail::convert< T >(std::is_same< T, U >(), v);
-	}
-
-	template < typename T, typename U, size_t N >
-	constexpr auto convert(std::array< U, N > const& v){
-		return detail::convert< T >(std::is_same< T, U >(), v);
-	}
-
-
-	template < typename T, typename U >
-	auto convert(detail::array_d< U >&& v){
-		return detail::convert< T >(std::is_same< T, U >(), std::move(v));
-	}
-
-	template < typename T, typename U >
-	auto convert(detail::array_d< U >& v){
-		return detail::convert< T >(std::is_same< T, U >(), v);
-	}
-
-	template < typename T, typename U >
-	auto convert(detail::array_d< U > const& v){
-		return detail::convert< T >(std::is_same< T, U >(), v);
-	}
-
-
-	template < typename T, typename U, size_t N >
+	template <
+		typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
+		typename M, size_t C2, size_t R2
+	>
 	constexpr auto convert(
-		std::true_type /*to_static*/,
-		std::array< U, N >&& v
+		matrix< M, C2, R2 >& m,
+		col_t< Cct1, C1 > c,
+		row_t< Rct1, R1 > r
 	){
-		return convert< T >(std::move(v));
+		auto fn = detail::make_convert_fn< T >(m);
+		return make_matrix_by_function(c, r, fn);
 	}
 
-	template < typename T, typename U, size_t N >
+	template <
+		typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
+		typename M, size_t C2, size_t R2
+	>
 	constexpr auto convert(
-		std::true_type /*to_static*/,
-		std::array< U, N >& v
+		matrix< M, C2, R2 > const& m,
+		col_t< Cct1, C1 > c,
+		row_t< Rct1, R1 > r
 	){
-		return convert< T >(v);
+		auto fn = detail::make_convert_fn< T >(m);
+		return make_matrix_by_function(c, r, fn);
 	}
 
-	template < typename T, typename U, size_t N >
+	template <
+		typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
+		typename M, size_t C2, size_t R2
+	>
 	constexpr auto convert(
-		std::true_type /*to_static*/,
-		std::array< U, N > const& v
+		matrix< M, C2, R2 >&& m,
+		col_t< Cct1, C1 > c,
+		row_t< Rct1, R1 > r
 	){
-		return convert< T >(v);
+		auto fn = detail::make_convert_fn< T >(std::move(m));
+		return make_matrix_by_function(c, r, fn);
 	}
 
 
-	template < typename T, typename U, size_t N >
-	auto convert(
-		std::true_type /*to_static*/,
-		detail::array_d< U >&& v
-	){
-		// TODO: Do it faster!!!
-		auto d = convert< T >(std::move(v));
-		return detail::to_array< N >(
-			std::move(d),
-			std::make_index_sequence< N >()
-		);
-	}
-
-	template < typename T, typename U, size_t N >
-	auto convert(
-		std::true_type /*to_static*/,
-		detail::array_d< U >& v
-	){
-		// TODO: Do it faster!!!
-		auto d = convert< T >(v);
-		return detail::to_array< N >(
-			std::move(d),
-			std::make_index_sequence< N >()
-		);
-	}
-
-	template < typename T, typename U, size_t N >
-	auto convert(
-		std::true_type /*to_static*/,
-		detail::array_d< U > const& v
-	){
-		// TODO: Do it faster!!!
-		auto d = convert< T >(v);
-		return detail::to_array< N >(
-			std::move(d),
-			std::make_index_sequence< N >()
-		);
-	}
-
-
-	template < typename T, typename U, size_t N >
+	template <
+		bool Cct1, size_t C1, bool Rct1, size_t R1,
+		typename M, size_t C2, size_t R2
+	>
 	constexpr auto convert(
-		std::false_type /*to_static*/,
-		std::array< U, N >&& v
+		matrix< M, C2, R2 >& m,
+		col_t< Cct1, C1 > c,
+		row_t< Rct1, R1 > r
 	){
-		return detail::array_d< T >(std::move(v));
+		auto fn = detail::make_convert_fn< fn_xy< M > >(m);
+		return make_matrix_by_function(c, r, fn);
 	}
 
-	template < typename T, typename U, size_t N >
+	template <
+		bool Cct1, size_t C1, bool Rct1, size_t R1,
+		typename M, size_t C2, size_t R2
+	>
 	constexpr auto convert(
-		std::false_type /*to_static*/,
-		std::array< U, N >& v
+		matrix< M, C2, R2 > const& m,
+		col_t< Cct1, C1 > c,
+		row_t< Rct1, R1 > r
 	){
-		return convert< T >(v);
+		auto fn = detail::make_convert_fn< fn_xy< M > >(m);
+		return make_matrix_by_function(c, r, fn);
 	}
 
-	template < typename T, typename U, size_t N >
+	template <
+		bool Cct1, size_t C1, bool Rct1, size_t R1,
+		typename M, size_t C2, size_t R2
+	>
 	constexpr auto convert(
-		std::false_type /*to_static*/,
-		std::array< U, N > const& v
+		matrix< M, C2, R2 >&& m,
+		col_t< Cct1, C1 > c,
+		row_t< Rct1, R1 > r
 	){
-		return detail::array_d< T >(v);
+		auto fn = detail::make_convert_fn< fn_xy< M > >(std::move(m));
+		return make_matrix_by_function(c, r, fn);
 	}
 
-
-	template < typename T, typename U, size_t N >
-	auto convert(
-		std::false_type /*to_static*/,
-		detail::array_d< U >&& v
-	){
-		return detail::array_d< T >(std::move(v));
+	template < typename T, typename M, size_t C, size_t R >
+	constexpr auto convert(matrix< M, C, R >& m){
+		auto fn = detail::make_convert_fn< T >(m);
+		return make_matrix_by_function(m.dims(), fn);
 	}
 
-	template < typename T, typename U, size_t N >
-	auto convert(
-		std::false_type /*to_static*/,
-		detail::array_d< U >& v
-	){
-		return convert< T >(v);
+	template < typename T, typename M, size_t C, size_t R >
+	constexpr auto convert(matrix< M, C, R > const& m){
+		auto fn = detail::make_convert_fn< T >(m);
+		return make_matrix_by_function(m.dims(), fn);
 	}
 
-	template < typename T, typename U, size_t N >
-	auto convert(
-		std::false_type /*to_static*/,
-		detail::array_d< U > const& v
-	){
-		return detail::array_d< T >(v);
+	template < typename T, typename M, size_t C, size_t R >
+	constexpr auto convert(matrix< M, C, R >&& m){
+		auto fn = detail::make_convert_fn< T >(std::move(m));
+		return make_matrix_by_function(m.dims(), fn);
 	}
+
+	template < typename M, size_t C, size_t R >
+	constexpr auto as_raw_matrix(matrix< M, C, R >& m){
+		auto fn = detail::make_convert_fn< fn_xy< M > >(m);
+		return make_matrix_by_function(m.dims(), fn);
+	}
+
+	template < typename M, size_t C, size_t R >
+	constexpr auto as_raw_matrix(matrix< M, C, R > const& m){
+		auto fn = detail::make_convert_fn< fn_xy< M > >(m);
+		return make_matrix_by_function(m.dims(), fn);
+	}
+
+	template < typename M, size_t C, size_t R >
+	constexpr auto as_raw_matrix(matrix< M, C, R >&& m){
+		auto fn = detail::make_convert_fn< fn_xy< M > >(std::move(m));
+		return make_matrix_by_function(m.dims(), fn);
+	}
+
 
 
 }

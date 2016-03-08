@@ -9,7 +9,7 @@
 #ifndef _mitrax__gaussian_elimination__hpp_INCLUDED_
 #define _mitrax__gaussian_elimination__hpp_INCLUDED_
 
-#include "make_matrix.hpp"
+#include "convert.hpp"
 #include "swap_matrix.hpp"
 
 
@@ -28,7 +28,7 @@ namespace mitrax{
 		// Compiler may optimize with the compile time dimension
 		size_t const size = C == 0 ? in.rows() : in.cols();
 
-		auto m = in.template convert< value_type_t< M > >();
+		auto m = convert< value_type_t< M > >(in);
 
 		for(size_t i = 0; i < size; ++i){
 			if(m(i, i) == 0){
@@ -77,7 +77,7 @@ namespace mitrax{
 			);
 		}
 
-		auto b = v.template convert< value_type >();
+		auto b = convert< value_type >(v);
 
 		// Compiler may optimize with the compile time dimension
 		size_t const size = C1 != 0 ? m.cols() : R1 != 0 ? m.rows() : b.rows();

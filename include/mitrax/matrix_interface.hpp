@@ -10,7 +10,6 @@
 #define _mitrax__matrix_interface__hpp_INCLUDED_
 
 #include "point.hpp"
-#include "convert.hpp"
 #include "sub_matrix.hpp"
 
 #include <utility>
@@ -198,127 +197,6 @@ namespace mitrax{
 
 		constexpr const_reverse_iterator crend()const{
 			return rend();
-		}
-
-
-		template < typename V >
-		constexpr raw_matrix< V, Cols, Rows > convert_by_move(){
-			return detail::raw_matrix_impl< V, Cols, Rows >(
-				cols(), rows(), mitrax::convert< V >(std::move(m_.data()))
-			);
-		}
-
-		template < typename V >
-		constexpr raw_matrix< V, Cols, Rows > convert(){
-			return detail::raw_matrix_impl< V, Cols, Rows >(
-				cols(), rows(), mitrax::convert< V >(m_.data())
-			);
-		}
-
-		template < typename V >
-		constexpr raw_matrix< V, Cols, Rows > convert()const{
-			return detail::raw_matrix_impl< V, Cols, Rows >(
-				cols(), rows(), mitrax::convert< V >(m_.data())
-			);
-		}
-
-
-		template < bool Cct, size_t C, bool Rct, size_t R >
-		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
-		convert_by_move(col_t< Cct, C > c, row_t< Rct, R > r){
-			return convert_by_move< value_type >(c, r);
-		}
-
-		template < size_t C, size_t R >
-		constexpr raw_matrix< value_type, C, R >
-		convert_by_move(dims_t< C, R > d){
-			return convert_by_move< value_type >(d);
-		}
-
-		template < bool Cct, size_t C, bool Rct, size_t R >
-		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
-		convert(col_t< Cct, C > c, row_t< Rct, R > r){
-			return convert< value_type >(c, r);
-		}
-
-		template < size_t C, size_t R >
-		constexpr raw_matrix< value_type, C, R >
-		convert(dims_t< C, R > d){
-			return convert< value_type >(d);
-		}
-
-		template < bool Cct, size_t C, bool Rct, size_t R >
-		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
-		convert(col_t< Cct, C > c, row_t< Rct, R > r)const{
-			return convert< value_type >(c, r);
-		}
-
-		template < size_t C, size_t R >
-		constexpr raw_matrix< value_type, C, R >
-		convert(dims_t< C, R > d)const{
-			return convert< value_type >(d);
-		}
-
-
-		template < typename V, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
-		convert_by_move(col_t< Cct, C > c, row_t< Rct, R > r){
-			check_dims(c, r);
-			return detail::raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
-				c, r, mitrax::convert<
-					V,
-					value_type,
-					std::max(dim(Cct, C) * dim(Rct, R), Cols * Rows)
-				>(
-					bool_t< dim(Cct, C) * dim(Rct, R) != 0 >(),
-					std::move(m_.data())
-				)
-			);
-		}
-
-		template < typename V, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
-		convert(col_t< Cct, C > c, row_t< Rct, R > r){
-			check_dims(c, r);
-			return detail::raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
-				c, r, mitrax::convert<
-					V,
-					value_type,
-					std::max(dim(Cct, C) * dim(Rct, R), Cols * Rows)
-				>(
-					bool_t< dim(Cct, C) * dim(Rct, R) != 0 >(),
-					m_.data()
-				)
-			);
-		}
-
-		template < typename V, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
-		convert(col_t< Cct, C > c, row_t< Rct, R > r)const{
-			check_dims(c, r);
-			return detail::raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
-				c, r, mitrax::convert<
-					V,
-					value_type,
-					std::max(dim(Cct, C) * dim(Rct, R), Cols * Rows)
-				>(
-					bool_t< dim(Cct, C) * dim(Rct, R) != 0 >(),
-					m_.data()
-				)
-			);
-		}
-
-
-		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix_by_move(){
-			return convert_by_move< value_type >();
-		}
-
-		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix(){
-			return convert< value_type >();
-		}
-
-		constexpr raw_matrix< value_type, Cols, Rows > as_raw_matrix()const{
-			return convert< value_type >();
 		}
 
 
