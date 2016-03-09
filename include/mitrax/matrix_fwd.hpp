@@ -55,6 +55,13 @@ namespace mitrax{
 	using raw_bitmap = raw_matrix< T, 0, 0 >;
 
 
+	using bitmap_col_t = col_t< false, 0 >;
+
+	using bitmap_row_t = row_t< false, 0 >;
+
+	using bitmap_dims_t = dims_t< 0, 0 >;
+
+
 }
 
 
