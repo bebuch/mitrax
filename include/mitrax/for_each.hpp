@@ -9,7 +9,7 @@
 #ifndef _mitrax__for_each__hpp_INCLUDED_
 #define _mitrax__for_each__hpp_INCLUDED_
 
-#include "matrix.hpp"
+#include "sub_matrix.hpp"
 
 
 namespace mitrax{
@@ -39,7 +39,7 @@ namespace mitrax{
 		auto rows = get_rows(images ...);
 		for(std::size_t y = 0; y < rows - view_rows; ++y){
 			for(std::size_t x = 0; x < cols - view_cols; ++x){
-				f(images.sub_matrix(x, y, view_cols, view_rows) ...);
+				f(sub_matrix(images, x, y, view_cols, view_rows) ...);
 			}
 		}
 	}

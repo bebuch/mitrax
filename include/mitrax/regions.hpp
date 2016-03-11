@@ -10,7 +10,9 @@
 #define _mitrax__region__hpp_INCLUDED_
 
 #include "multi_invoke_adapter.hpp"
-#include "matrix.hpp"
+#include "sub_matrix.hpp"
+
+#include <vector>
 
 
 namespace mitrax{
@@ -29,7 +31,7 @@ namespace mitrax{
 			constexpr auto operator()(M const& m, size_t x, size_t y)const{
 				x = static_cast< size_t >(x * x_factor + 0.5);
 				y = static_cast< size_t >(y * y_factor + 0.5);
-				return m.sub_matrix(x, y, region_dims);
+				return sub_matrix(m, x, y, region_dims);
 			}
 		};
 
@@ -173,8 +175,8 @@ namespace mitrax{
 		std::sort(y_bounds.begin(), y_bounds.end());
 
 		// pair< start in image, start in region, count of regions >
-		boost::container::vector< std::tuple< size_t, size_t, size_t > > x_sc;
-		boost::container::vector< std::tuple< size_t, size_t, size_t > > y_sc;
+		std::vector< std::tuple< size_t, size_t, size_t > > x_sc;
+		std::vector< std::tuple< size_t, size_t, size_t > > y_sc;
 
 		for(size_t x = 0, s = 0, c = 0; x < x_bounds.rows() - 1_R; ++x){
 			if(x_bounds[x].second){
@@ -212,7 +214,7 @@ namespace mitrax{
 				--x;
 				--y;
 
-				boost::container::vector< value_type_t< M > > input;
+				std::vector< value_type_t< M > > input;
 				input.reserve(std::get< 2 >(x_sc[x]) * std::get< 2 >(y_sc[y]));
 
 				for(size_t dy = 0; dy < std::get< 2 >(y_sc[y]); ++dy){

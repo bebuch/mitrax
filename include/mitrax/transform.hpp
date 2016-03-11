@@ -10,7 +10,7 @@
 #define _mitrax__transform__hpp_INCLUDED_
 
 #include "multi_invoke_adapter.hpp"
-#include "matrix.hpp"
+#include "sub_matrix.hpp"
 
 
 namespace mitrax{
@@ -32,7 +32,7 @@ namespace mitrax{
 
 			template < typename M >
 			constexpr auto operator()(M const& m, size_t x, size_t y)const{
-				return m.sub_matrix(x, y, dims);
+				return sub_matrix(m, x, y, dims);
 			}
 		};
 
