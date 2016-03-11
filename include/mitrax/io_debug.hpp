@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Copyright (c) 2013-2015 Benjamin Buch
+// Copyright (c) 2013-2016 Benjamin Buch
 //
 // https://github.com/bebuch/mitrax
 //
