@@ -10,7 +10,6 @@
 #define _mitrax__make_matrix__hpp_INCLUDED_
 
 #include "raw_matrix.hpp"
-#include "to_array.hpp"
 
 
 namespace mitrax{

@@ -10,6 +10,7 @@
 #define _mitrax__raw_matrix__hpp_INCLUDED_
 
 #include "matrix_interface.hpp"
+#include "to_array.hpp"
 #include "array_d.hpp"
 
 #include <iterator>
@@ -36,6 +37,8 @@ namespace mitrax{ namespace detail{
 		/// \brief Type of a reverse iterator for const data
 		using const_reverse_iterator = std::reverse_iterator< const_iterator >;
 
+
+		constexpr raw_matrix_impl(): values_(init_array(value_type())) {}
 
 		constexpr raw_matrix_impl(raw_matrix_impl&&) = default;
 
@@ -137,6 +140,8 @@ namespace mitrax{ namespace detail{
 		/// \brief Type of a reverse iterator for const data
 		using const_reverse_iterator = std::reverse_iterator< const_iterator >;
 
+
+		raw_matrix_impl_base() = default;
 
 		raw_matrix_impl_base(raw_matrix_impl_base&&) = default;
 

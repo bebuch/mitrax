@@ -9,8 +9,9 @@
 #ifndef _mitrax__matrix_interface__hpp_INCLUDED_
 #define _mitrax__matrix_interface__hpp_INCLUDED_
 
+#include "dim.hpp"
 #include "point.hpp"
-#include "sub_matrix.hpp"
+#include "matrix_fwd.hpp"
 
 #include <utility>
 #include <cassert>
@@ -199,71 +200,6 @@ namespace mitrax{
 
 		constexpr const_reverse_iterator crend()const{
 			return rend();
-		}
-
-
-		template < bool Cct, size_t C, bool Rct, size_t R >
-		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
-		sub_matrix(
-			size_t x, size_t y,
-			col_t< Cct, C > c, row_t< Rct, R > r
-		){
-			return sub_matrix< value_type >(x, y, c, r);
-		}
-
-		template < size_t C, size_t R >
-		constexpr raw_matrix< value_type, C, R >
-		sub_matrix(size_t x, size_t y, dims_t< C, R > d){
-			return sub_matrix< value_type >(x, y, d);
-		}
-
-		template < bool Cct, size_t C, bool Rct, size_t R >
-		constexpr raw_matrix< value_type, dim(Cct, C), dim(Rct, R) >
-		sub_matrix(
-			size_t x, size_t y,
-			col_t< Cct, C > c, row_t< Rct, R > r
-		)const{
-			return sub_matrix< value_type >(x, y, c, r);
-		}
-
-		template < size_t C, size_t R >
-		constexpr raw_matrix< value_type, C, R >
-		sub_matrix(size_t x, size_t y, dims_t< C, R > d)const{
-			return sub_matrix< value_type >(x, y, d);
-		}
-
-		template < typename V, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
-		sub_matrix(
-			size_t x, size_t y,
-			col_t< Cct, C > c, row_t< Rct, R > r
-		){
-			return detail::raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
-				c, r, mitrax::sub_matrix< V >(x, y, c, r, *this)
-			);
-		}
-
-		template < typename V, size_t C, size_t R >
-		constexpr raw_matrix< V, C, R >
-		sub_matrix(size_t x, size_t y, dims_t< C, R > d){
-			return sub_matrix< V >(x, y, d.cols(), d.rows());
-		}
-
-		template < typename V, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr raw_matrix< V, dim(Cct, C), dim(Rct, R) >
-		sub_matrix(
-			size_t x, size_t y,
-			col_t< Cct, C > c, row_t< Rct, R > r
-		)const{
-			return detail::raw_matrix_impl< V, dim(Cct, C), dim(Rct, R) >(
-				c, r, mitrax::sub_matrix< V >(x, y, c, r, *this)
-			);
-		}
-
-		template < typename V, size_t C, size_t R >
-		constexpr raw_matrix< V, C, R >
-		sub_matrix(size_t x, size_t y, dims_t< C, R > d)const{
-			return sub_matrix< V >(x, y, d.cols(), d.rows());
 		}
 
 

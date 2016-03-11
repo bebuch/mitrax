@@ -8,7 +8,7 @@
 //-----------------------------------------------------------------------------
 #include <boost/test/unit_test.hpp>
 
-#include <mitrax/matrix.hpp>
+#include <mitrax/sub_matrix.hpp>
 
 
 using boost::typeindex::type_id;
@@ -87,53 +87,53 @@ namespace{
 BOOST_AUTO_TEST_CASE(test_sub_matrix_2x2){
 	constexpr auto m = ref;
 
-	constexpr auto sub = m.sub_matrix(0, 0, 2_C, 2_R);
+	constexpr auto sub = sub_matrix(m, 0, 0, 2_C, 2_R);
 	auto type = type_id< raw_matrix< int, 2, 2 > >();
 	BOOST_TEST(type_id_runtime(sub) == type);
 
-	BOOST_TEST(check1(m.sub_matrix(0, 0, 2_C, 2_R)));
-	BOOST_TEST(check2(m.sub_matrix(1, 0, 2_C, 2_R)));
-	BOOST_TEST(check3(m.sub_matrix(0, 1, 2_C, 2_R)));
-	BOOST_TEST(check4(m.sub_matrix(1, 1, 2_C, 2_R)));
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, 2_C, 2_R)));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, 2_C, 2_R)));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, 2_C, 2_R)));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, 2_C, 2_R)));
 }
 
 BOOST_AUTO_TEST_CASE(test_sub_matrix_2rtx2){
 	auto m = ref;
 
-	auto sub = m.sub_matrix(0, 0, 2_C_rt, 2_R);
+	auto sub = sub_matrix(m, 0, 0, 2_C_rt, 2_R);
 	auto type = type_id< raw_matrix< int, 0, 2 > >();
 	BOOST_TEST(type_id_runtime(sub) == type);
 
-	BOOST_TEST(check1(m.sub_matrix(0, 0, 2_C_rt, 2_R)));
-	BOOST_TEST(check2(m.sub_matrix(1, 0, 2_C_rt, 2_R)));
-	BOOST_TEST(check3(m.sub_matrix(0, 1, 2_C_rt, 2_R)));
-	BOOST_TEST(check4(m.sub_matrix(1, 1, 2_C_rt, 2_R)));
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, 2_C_rt, 2_R)));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, 2_C_rt, 2_R)));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, 2_C_rt, 2_R)));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, 2_C_rt, 2_R)));
 }
 
 BOOST_AUTO_TEST_CASE(test_sub_matrix_2x2rt){
 	auto m = ref;
 
-	auto sub = m.sub_matrix(0, 0, 2_C, 2_R_rt);
+	auto sub = sub_matrix(m, 0, 0, 2_C, 2_R_rt);
 	auto type = type_id< raw_matrix< int, 2, 0 > >();
 	BOOST_TEST(type_id_runtime(sub) == type);
 
-	BOOST_TEST(check1(m.sub_matrix(0, 0, 2_C, 2_R_rt)));
-	BOOST_TEST(check2(m.sub_matrix(1, 0, 2_C, 2_R_rt)));
-	BOOST_TEST(check3(m.sub_matrix(0, 1, 2_C, 2_R_rt)));
-	BOOST_TEST(check4(m.sub_matrix(1, 1, 2_C, 2_R_rt)));
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, 2_C, 2_R_rt)));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, 2_C, 2_R_rt)));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, 2_C, 2_R_rt)));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, 2_C, 2_R_rt)));
 }
 
 BOOST_AUTO_TEST_CASE(test_sub_matrix_2rtx2rt){
 	auto m = ref;
 
-	auto sub = m.sub_matrix(0, 0, 2_C_rt, 2_R_rt);
+	auto sub = sub_matrix(m, 0, 0, 2_C_rt, 2_R_rt);
 	auto type = type_id< raw_matrix< int, 0, 0 > >();
 	BOOST_TEST(type_id_runtime(sub) == type);
 
-	BOOST_TEST(check1(m.sub_matrix(0, 0, 2_C_rt, 2_R_rt)));
-	BOOST_TEST(check2(m.sub_matrix(1, 0, 2_C_rt, 2_R_rt)));
-	BOOST_TEST(check3(m.sub_matrix(0, 1, 2_C_rt, 2_R_rt)));
-	BOOST_TEST(check4(m.sub_matrix(1, 1, 2_C_rt, 2_R_rt)));
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, 2_C_rt, 2_R_rt)));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, 2_C_rt, 2_R_rt)));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, 2_C_rt, 2_R_rt)));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, 2_C_rt, 2_R_rt)));
 }
 
 
