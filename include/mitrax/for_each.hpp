@@ -16,7 +16,7 @@ namespace mitrax{
 
 
 	template < typename F, typename ... M, size_t ... C, size_t ... R >
-	constexpr void for_each(F const& f, matrix< M, C, R > const& ... images){
+	constexpr void for_each(F&& f, matrix< M, C, R > const& ... images){
 		auto size = get_dims(images ...);
 		for(std::size_t y = 0; y < size.rows(); ++y){
 			for(std::size_t x = 0; x < size.cols(); ++x){
@@ -30,7 +30,7 @@ namespace mitrax{
 		typename F, bool Ccto, size_t Co, bool Rcto, size_t Ro, 
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr void for_each_view(
-		F const& f,
+		F&& f,
 		col_t< Ccto, Co > view_cols,
 		row_t< Rcto, Ro > view_rows,
 		matrix< M, C, R > const& ... images
@@ -48,12 +48,15 @@ namespace mitrax{
 		typename F, size_t Co, size_t Ro, 
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr void for_each_view(
-		F const& f,
+		F&& f,
 		dims_t< Co, Ro > view_dims,
 		matrix< M, C, R > const& ... images
 	){
 		for_each_view(
-			f, view_dims.cols(), view_dims.rows(), images ...
+			static_cast< F&& >(f),
+			view_dims.cols(),
+			view_dims.rows(),
+			images ...
 		);
 	}
 

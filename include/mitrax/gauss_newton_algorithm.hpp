@@ -25,7 +25,7 @@ namespace mitrax{
 
 	template < typename F, typename M, size_t R, typename T, typename ... V >
 	auto gauss_newton_algorithm(
-		F const& f,
+		F&& f,
 		col_vector< M, R > const& start_value,
 		T const& threshold,
 		boost::container::vector< std::tuple< V ... > > const& data
@@ -74,7 +74,7 @@ namespace mitrax{
 
 	template < typename F, typename M, size_t R, typename T, typename ... V >
 	auto levenberg_marquardt_algorithm(
-		F const& f,
+		F&& f,
 		col_vector< M, R > const& start_value,
 		T const& threshold,
 		T mu,

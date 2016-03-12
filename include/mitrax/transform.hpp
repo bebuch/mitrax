@@ -46,10 +46,10 @@ namespace mitrax{
 
 
 	template < typename F, typename ... M, size_t ... C, size_t ... R >
-	constexpr auto transform(F const& f, matrix< M, C, R > const& ... images){
+	constexpr auto transform(F&& f, matrix< M, C, R > const& ... images){
 		return make_matrix_by_function(get_dims(images ...),
 			make_multi_invoke_adapter(
-				f, detail::call_func_operator(), images ...
+				static_cast< F&& >(f), detail::call_func_operator(), images ...
 			)
 		);
 	}
@@ -59,7 +59,7 @@ namespace mitrax{
 		typename F, size_t Co, size_t Ro, 
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto transform_per_view(
-		F const& f,
+		F&& f,
 		dims_t< Co, Ro > const& view_dims,
 		matrix< M, C, R > const& ... images
 	){
@@ -67,7 +67,9 @@ namespace mitrax{
 		return make_matrix_by_function(
 			get_dims(images ...) + dims(1_C, 1_R) - view_dims,
 			make_multi_invoke_adapter(
-				f, detail::make_call_sub_matrix(view_dims), images ...
+				static_cast< F&& >(f),
+				detail::make_call_sub_matrix(view_dims),
+				images ...
 			)
 		);
 	}
@@ -77,12 +79,16 @@ namespace mitrax{
 		typename F, bool Ccto, size_t Co, bool Rcto, size_t Ro, 
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto transform_per_view(
-		F const& f,
+		F&& f,
 		col_t< Ccto, Co > view_cols,
 		row_t< Rcto, Ro > view_rows,
 		matrix< M, C, R > const& ... images
 	){
-		return transform_per_view(f, dims(view_cols, view_rows), images ...);
+		return transform_per_view(
+			static_cast< F&& >(f),
+			dims(view_cols, view_rows),
+			images ...
+		);
 	}
 
 

@@ -18,32 +18,44 @@ namespace mitrax{
 
 	template < typename F, typename S, typename ... T >
 	struct multi_invoke_adapter{
-		constexpr multi_invoke_adapter(
-			F const& f, S const& single_call, T const& ... arg
-		): f_(f), single_call_(single_call), arg_(arg ...) {}
+		constexpr multi_invoke_adapter(F&& f, S&& single_call, T&& ... arg):
+			f_(static_cast< F >(f)),
+			single_call_(static_cast< S >(single_call)),
+			arg_(static_cast< T >(arg) ...)
+			{}
 
-		F const& f_;
-		S const& single_call_;
-		std::tuple< T const& ... > arg_;
+		F f_;
+		S single_call_;
+		std::tuple< T ... > arg_;
 
 		template < typename ... A >
 		constexpr auto operator()(A&& ... arg)const{
-			return (*this)(std::index_sequence_for< T ... >(), arg ...);
+			return (*this)(
+				std::index_sequence_for< T ... >(),
+				static_cast< A >(arg) ...
+			);
 		}
 
 		template < size_t ... I, typename ... A >
 		constexpr auto
 		operator()(std::index_sequence< I ... >, A&& ... arg)const{
-			return f_(single_call_(std::get< I >(arg_), arg ...) ...);
+			return f_(single_call_(
+				std::get< I >(arg_),
+				static_cast< A >(arg) ...
+			) ...);
 		}
 	};
 
 	template < typename F, typename S, typename ... T >
 	constexpr auto
 	make_multi_invoke_adapter(
-		F const& f, S const& single_call, T const& ... arg
+		F&& f, S&& single_call, T&& ... arg
 	){
-		return multi_invoke_adapter< F, S, T ... >(f, single_call, arg ...);
+		return multi_invoke_adapter< F, S, T ... >(
+			static_cast< F >(f),
+			static_cast< S >(single_call),
+			static_cast< T >(arg) ...
+		);
 	}
 
 

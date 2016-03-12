@@ -56,7 +56,7 @@ namespace mitrax{
 		size_t Co, size_t Ro,
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto calc_regions(
-		F const& f,
+		F&& f,
 		dims_t< Cr, Rr > const& region_dims,
 		dims_t< Co, Ro > const& overlapp_dims,
 		matrix< M, C, R > const& ... images
@@ -92,7 +92,7 @@ namespace mitrax{
 		return make_matrix_by_function(
 			result_dims,
 			make_multi_invoke_adapter(
-				f, detail::make_region_sub_matrix(
+				static_cast< F&& >(f), detail::make_region_sub_matrix(
 					region_dims, x_factor, y_factor
 				), images ...
 			));
@@ -105,7 +105,7 @@ namespace mitrax{
 		bool Ccto, size_t Co, bool Rcto, size_t Ro,
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto calc_regions(
-		F const& f,
+		F&& f,
 		col_t< Cctr, Cr > region_cols,
 		row_t< Rctr, Rr > region_rows,
 		col_t< Ccto, Co > overlapp_cols,
@@ -113,7 +113,7 @@ namespace mitrax{
 		matrix< M, C, R > const& ... images
 	){
 		return calc_regions(
-			f,
+			static_cast< F&& >(f),
 			dims(region_cols, region_rows),
 			dims(overlapp_cols, overlapp_rows),
 			images ...
@@ -127,7 +127,7 @@ namespace mitrax{
 		typename M, size_t C, size_t R,
 		typename ... Mi, size_t ... Ci, size_t ... Ri
 	> auto apply_regions(
-		F const& f,
+		F&& f,
 		dims_t< Cr, Rr > const& region_dims,
 		matrix< M, C, R > const& regions,
 		matrix< Mi, Ci, Ri > const& ... images
@@ -237,14 +237,14 @@ namespace mitrax{
 		typename M, size_t C, size_t R,
 		typename ... Mi, size_t ... Ci, size_t ... Ri
 	> auto apply_regions(
-		F const& f,
+		F&& f,
 		col_t< Cctr, Cr > region_cols,
 		row_t< Rctr, Rr > region_rows,
 		matrix< M, C, R > const& regions,
 		matrix< Mi, Ci, Ri > const& ... images
 	){
 		return apply_regions(
-			f,
+			static_cast< F&& >(f),
 			dims(region_cols, region_rows),
 			regions, images ...
 		);
