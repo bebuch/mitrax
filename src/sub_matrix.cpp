@@ -94,9 +94,9 @@ namespace{
 BOOST_AUTO_TEST_CASE(test_sub_matrix_3x3){
 	constexpr auto m = make_matrix(3_C, 3_R, org);
 
-	constexpr auto sub = sub_matrix(m, 0, 0, 2_C, 2_R);
-	auto type = id< raw_matrix< int, 2, 2 > >;
-	BOOST_TEST(rt_id(sub) == type);
+	constexpr auto sub1 = sub_matrix(m, 0, 0, 2_C, 2_R);
+	auto type1 = id< raw_matrix< int, 2, 2 > >;
+	BOOST_TEST(rt_id(sub1) == type1);
 	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, 2_C_rt, 2_R)) ==
 		id< raw_matrix< int, 0, 2 > >));
 	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, 2_C, 2_R_rt)) ==
@@ -123,6 +123,37 @@ BOOST_AUTO_TEST_CASE(test_sub_matrix_3x3){
 	BOOST_TEST(check2(sub_matrix(m, 1, 0, 2_C_rt, 2_R_rt)));
 	BOOST_TEST(check3(sub_matrix(m, 0, 1, 2_C_rt, 2_R_rt)));
 	BOOST_TEST(check4(sub_matrix(m, 1, 1, 2_C_rt, 2_R_rt)));
+
+
+	constexpr auto sub2 = sub_matrix(m, 0, 0, dims(2_C, 2_R));
+	auto type2 = id< raw_matrix< int, 2, 2 > >;
+	BOOST_TEST(rt_id(sub2) == type2);
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R))) ==
+		id< raw_matrix< int, 0, 2 > >));
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C, 2_R_rt))) ==
+		id< raw_matrix< int, 2, 0 > >));
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R_rt))) == 
+		id< raw_matrix< int, 0, 0 > >));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C, 2_R))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C, 2_R))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C, 2_R))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C, 2_R))));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C_rt, 2_R))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C_rt, 2_R))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C_rt, 2_R))));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C, 2_R_rt))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C, 2_R_rt))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C, 2_R_rt))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C, 2_R_rt))));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R_rt))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C_rt, 2_R_rt))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C_rt, 2_R_rt))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C_rt, 2_R_rt))));
 }
 
 BOOST_AUTO_TEST_CASE(test_sub_matrix_3rtx3){
@@ -156,6 +187,35 @@ BOOST_AUTO_TEST_CASE(test_sub_matrix_3rtx3){
 	BOOST_TEST(check2(sub_matrix(m, 1, 0, 2_C_rt, 2_R_rt)));
 	BOOST_TEST(check3(sub_matrix(m, 0, 1, 2_C_rt, 2_R_rt)));
 	BOOST_TEST(check4(sub_matrix(m, 1, 1, 2_C_rt, 2_R_rt)));
+
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C, 2_R))) ==
+		id< raw_matrix< int, 2, 2 > >));
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R))) ==
+		id< raw_matrix< int, 0, 2 > >));
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C, 2_R_rt))) ==
+		id< raw_matrix< int, 2, 0 > >));
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R_rt))) == 
+		id< raw_matrix< int, 0, 0 > >));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C, 2_R))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C, 2_R))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C, 2_R))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C, 2_R))));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C_rt, 2_R))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C_rt, 2_R))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C_rt, 2_R))));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C, 2_R_rt))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C, 2_R_rt))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C, 2_R_rt))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C, 2_R_rt))));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R_rt))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C_rt, 2_R_rt))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C_rt, 2_R_rt))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C_rt, 2_R_rt))));
 }
 
 BOOST_AUTO_TEST_CASE(test_sub_matrix_3x3rt){
@@ -189,6 +249,35 @@ BOOST_AUTO_TEST_CASE(test_sub_matrix_3x3rt){
 	BOOST_TEST(check2(sub_matrix(m, 1, 0, 2_C_rt, 2_R_rt)));
 	BOOST_TEST(check3(sub_matrix(m, 0, 1, 2_C_rt, 2_R_rt)));
 	BOOST_TEST(check4(sub_matrix(m, 1, 1, 2_C_rt, 2_R_rt)));
+
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C, 2_R))) ==
+		id< raw_matrix< int, 2, 2 > >));
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R))) ==
+		id< raw_matrix< int, 0, 2 > >));
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C, 2_R_rt))) ==
+		id< raw_matrix< int, 2, 0 > >));
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R_rt))) == 
+		id< raw_matrix< int, 0, 0 > >));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C, 2_R))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C, 2_R))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C, 2_R))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C, 2_R))));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C_rt, 2_R))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C_rt, 2_R))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C_rt, 2_R))));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C, 2_R_rt))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C, 2_R_rt))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C, 2_R_rt))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C, 2_R_rt))));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R_rt))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C_rt, 2_R_rt))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C_rt, 2_R_rt))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C_rt, 2_R_rt))));
 }
 
 BOOST_AUTO_TEST_CASE(test_sub_matrix_3rtx3rt){
@@ -222,6 +311,35 @@ BOOST_AUTO_TEST_CASE(test_sub_matrix_3rtx3rt){
 	BOOST_TEST(check2(sub_matrix(m, 1, 0, 2_C_rt, 2_R_rt)));
 	BOOST_TEST(check3(sub_matrix(m, 0, 1, 2_C_rt, 2_R_rt)));
 	BOOST_TEST(check4(sub_matrix(m, 1, 1, 2_C_rt, 2_R_rt)));
+
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C, 2_R))) ==
+		id< raw_matrix< int, 2, 2 > >));
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R))) ==
+		id< raw_matrix< int, 0, 2 > >));
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C, 2_R_rt))) ==
+		id< raw_matrix< int, 2, 0 > >));
+	BOOST_TEST((rt_id(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R_rt))) == 
+		id< raw_matrix< int, 0, 0 > >));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C, 2_R))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C, 2_R))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C, 2_R))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C, 2_R))));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C_rt, 2_R))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C_rt, 2_R))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C_rt, 2_R))));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C, 2_R_rt))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C, 2_R_rt))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C, 2_R_rt))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C, 2_R_rt))));
+
+	BOOST_TEST(check1(sub_matrix(m, 0, 0, dims(2_C_rt, 2_R_rt))));
+	BOOST_TEST(check2(sub_matrix(m, 1, 0, dims(2_C_rt, 2_R_rt))));
+	BOOST_TEST(check3(sub_matrix(m, 0, 1, dims(2_C_rt, 2_R_rt))));
+	BOOST_TEST(check4(sub_matrix(m, 1, 1, dims(2_C_rt, 2_R_rt))));
 }
 
 
