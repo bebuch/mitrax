@@ -76,35 +76,35 @@ namespace mitrax{ namespace detail{
 
 
 		constexpr iterator begin(){
-			return values_.begin();
+			return values_.data();
 		}
 
 		constexpr const_iterator begin()const{
-			return values_.begin();
+			return values_.data();
 		}
 
 		constexpr iterator end(){
-			return values_.end();
+			return values_.data() + C * R;
 		}
 
 		constexpr const_iterator end()const{
-			return values_.end();
+			return values_.data() + C * R;
 		}
 
 		constexpr reverse_iterator rbegin(){
-			return values_.rbegin();
+			return std::make_reverse_iterator(end());
 		}
 
 		constexpr const_reverse_iterator rbegin()const{
-			return values_.rbegin();
+			return std::make_reverse_iterator(end());
 		}
 
 		constexpr reverse_iterator rend(){
-			return values_.rend();
+			return std::make_reverse_iterator(begin());
 		}
 
 		constexpr const_reverse_iterator rend()const{
-			return values_.rend();
+			return std::make_reverse_iterator(begin());
 		}
 
 
