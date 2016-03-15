@@ -38,7 +38,7 @@ namespace mitrax{
 
 
 	private:
-		std::array< T, Degree + 1 > coefficients_;
+		detail::array_s< T, Degree + 1 > coefficients_;
 	};
 
 

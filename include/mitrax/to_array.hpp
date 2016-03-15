@@ -10,8 +10,8 @@
 #define _mitrax__detail__to_array__hpp_INCLUDED_
 
 #include "dim.hpp"
+#include "array_s.hpp"
 
-#include <array>
 #include <utility>
 
 
@@ -19,25 +19,25 @@ namespace mitrax{ namespace detail{
 
 
 	template < typename T, size_t N, size_t ... I >
-	constexpr std::array< std::remove_cv_t< T >, N >
+	constexpr array_s< std::remove_cv_t< T >, N >
 	to_array(T(&a)[N], std::index_sequence< I ... >){
 		return {{ a[I] ... }};
 	}
 
 	template < typename T, size_t N, size_t ... I >
-	constexpr std::array< std::remove_cv_t< T >, N >
+	constexpr array_s< std::remove_cv_t< T >, N >
 	to_array(T(&&a)[N], std::index_sequence< I ... >){
 		return {{ std::move(a[I]) ... }};
 	}
 
 	template < typename T, size_t C, size_t R, size_t ... I >
-	constexpr std::array< std::remove_cv_t< T >, C * R >
+	constexpr array_s< std::remove_cv_t< T >, C * R >
 	to_array(T(&a)[R][C], std::index_sequence< I ... >){
 		return {{ a[I / C][I % C] ... }};
 	}
 
 	template < typename T, size_t C, size_t R, size_t ... I >
-	constexpr std::array< std::remove_cv_t< T >, C * R >
+	constexpr array_s< std::remove_cv_t< T >, C * R >
 	to_array(T(&&a)[R][C], std::index_sequence< I ... >){
 		return {{ std::move(a[I / C][I % C]) ... }};
 	}
@@ -46,7 +46,7 @@ namespace mitrax{ namespace detail{
 	constexpr T const& nop(T const& v){ return v; }
 
 	template < typename T, size_t ... I >
-	constexpr std::array< std::remove_cv_t< T >, sizeof...(I) >
+	constexpr array_s< std::remove_cv_t< T >, sizeof...(I) >
 	init_array(T const& v, std::index_sequence< I ... >){
 		return {{ nop< I >(v) ... }};
 	}
@@ -55,7 +55,7 @@ namespace mitrax{ namespace detail{
 	constexpr auto function_xy_to_array(
 		F&& f, std::index_sequence< I ... >
 	){
-		return std::array< fn_xy< F >, sizeof...(I) >{{
+		return array_s< fn_xy< F >, sizeof...(I) >{{
 			f(I % C, I / C) ...
 		}};
 	}
@@ -64,7 +64,7 @@ namespace mitrax{ namespace detail{
 	constexpr auto function_i_to_array(
 		F&& f, std::index_sequence< I ... >
 	){
-		return std::array< fn_i< F >, sizeof...(I) >{{
+		return array_s< fn_i< F >, sizeof...(I) >{{
 			f(I) ...
 		}};
 	}

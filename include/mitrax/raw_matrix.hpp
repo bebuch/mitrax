@@ -46,7 +46,7 @@ namespace mitrax{ namespace detail{
 
 		constexpr raw_matrix_impl(
 			col_t< true, C >, row_t< true, R >,
-			std::array< value_type, C * R >&& values
+			array_s< value_type, C * R >&& values
 		):
 			values_(std::move(values))
 			{}
@@ -108,17 +108,17 @@ namespace mitrax{ namespace detail{
 		}
 
 
-		constexpr std::array< value_type, C * R >& data(){
+		constexpr array_s< value_type, C * R >& data(){
 			return values_;
 		}
 
-		constexpr std::array< value_type, C * R > const& data()const{
+		constexpr array_s< value_type, C * R > const& data()const{
 			return values_;
 		}
 
 
 	private:
-		std::array< value_type, C * R > values_;
+		array_s< value_type, C * R > values_;
 	};
 
 

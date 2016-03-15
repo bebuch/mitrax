@@ -10,6 +10,7 @@
 #define _mitrax__detail__array_d__hpp_INCLUDED_
 
 #include "dim.hpp"
+#include "array_s.hpp"
 
 #include <memory>
 
@@ -76,7 +77,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < typename U, size_t N >
-		array_d(std::array< U, N >&& a):
+		array_d(array_s< U, N >&& a):
 			value_(alloc_.allocate(N)),
 			size_(0)
 		{
@@ -87,7 +88,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < typename U, size_t N >
-		array_d(std::array< U, N >& a):
+		array_d(array_s< U, N >& a):
 			value_(alloc_.allocate(N)),
 			size_(0)
 		{
@@ -96,7 +97,7 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < typename U, size_t N >
-		array_d(std::array< U, N > const& a):
+		array_d(array_s< U, N > const& a):
 			value_(alloc_.allocate(N)),
 			size_(0)
 		{
