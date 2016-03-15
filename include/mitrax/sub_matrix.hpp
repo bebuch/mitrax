@@ -60,6 +60,28 @@ namespace mitrax{
 		return sub_matrix(m, x, y, dims.cols(), dims.rows());
 	}
 
+	template <
+		bool Cct1, size_t C1, bool Rct1, size_t R1,
+		typename M, size_t C2, size_t R2
+	>
+	constexpr auto sub_matrix(
+		matrix< M, C2, R2 > const& m,
+		point< size_t > xy, col_t< Cct1, C1 > c, row_t< Rct1, R1 > r
+ 	){
+		return sub_matrix(m, xy.x(), xy.y(), c, r);
+	}
+
+	template <
+		size_t C1, size_t R1,
+		typename M, size_t C2, size_t R2
+	>
+	constexpr auto sub_matrix(
+		matrix< M, C2, R2 > const& m,
+		point< size_t > xy, dims_t< C1, R1 > dims
+ 	){
+		return sub_matrix(m, xy.x(), xy.y(), dims.cols(), dims.rows());
+	}
+
 
 }
 
