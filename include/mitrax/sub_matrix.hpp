@@ -37,7 +37,10 @@ namespace mitrax{
 			M&& m,
 			size_t x, size_t y, col_t< Cct1, C1 > c, row_t< Rct1, R1 > r
 		){
-			if(x + c > m.cols() || y + r > m.rows()){
+			if(
+				x >= m.cols() || x + c > m.cols() ||
+				y >= m.rows() || y + r > m.rows()
+			){
 				throw std::out_of_range("sub_matrix");
 			}
 
