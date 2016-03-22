@@ -38,7 +38,8 @@ namespace mitrax{ namespace detail{
 		using const_reverse_iterator = std::reverse_iterator< const_iterator >;
 
 
-		constexpr raw_matrix_impl(): values_(init_array(value_type())) {}
+		constexpr raw_matrix_impl():
+			values_(init_array< C * R >(value_type())) {}
 
 		constexpr raw_matrix_impl(raw_matrix_impl&&) = default;
 
