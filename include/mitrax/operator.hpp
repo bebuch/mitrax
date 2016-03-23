@@ -389,7 +389,7 @@ namespace mitrax{
 		// Compiler may optimize with the compile time dimension
 		size_t size = C1 == 0 ? m2.rows() : m1.cols();
 
-		auto m = make_matrix< value_type >(m2.cols(), m1.rows());
+		auto m = make_matrix_by_default< value_type >(m2.cols(), m1.rows());
 
 		for(size_t r1 = 0; r1 < m1.rows(); ++r1){
 			for(size_t c2 = 0; c2 < m2.cols(); ++c2){

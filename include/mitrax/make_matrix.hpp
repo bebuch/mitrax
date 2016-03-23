@@ -238,15 +238,19 @@ namespace mitrax{
 
 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 	constexpr raw_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
-	make_matrix(col_t< Cct, C > c, row_t< Rct, R > r, T const& v = T()){
+	make_matrix_by_default(
+		col_t< Cct, C > c, row_t< Rct, R > r, T const& v = T()
+	){
 		return detail::raw_matrix_impl<
 			std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
 		>(c, r, detail::to_raw_matrix_data(bool_t< Cct && Rct >(), c, r, v));
 	}
 
 	template < typename T, size_t C, size_t R >
-	constexpr auto make_matrix(dims_t< C, R > const& d, T const& v = T()){
-		return make_matrix(d.cols(), d.rows(), v);
+	constexpr auto make_matrix_by_default(
+		dims_t< C, R > const& d, T const& v = T()
+	){
+		return make_matrix_by_default(d.cols(), d.rows(), v);
 	}
 
 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
@@ -273,8 +277,10 @@ namespace mitrax{
 
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_square_matrix(dim_t< Nct, N > n, T const& v = T()){
-		return make_matrix(n.as_col(), n.as_row(), v);
+	constexpr auto make_square_matrix_by_default(
+		dim_t< Nct, N > n, T const& v = T()
+	){
+		return make_matrix_by_default(n.as_col(), n.as_row(), v);
 	}
 
 	template < typename T, bool Nct, size_t N >
@@ -289,9 +295,11 @@ namespace mitrax{
 
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_col_vector(row_t< Nct, N > r, T const& v = T()){
+	constexpr auto make_col_vector_by_default(
+		row_t< Nct, N > r, T const& v = T()
+	){
 		using namespace literals;
-		return make_matrix(1_C, r, v);
+		return make_matrix_by_default(1_C, r, v);
 	}
 
 	template < typename T, bool Nct, size_t N >
@@ -320,9 +328,11 @@ namespace mitrax{
 
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_row_vector(col_t< Nct, N > c, T const& v = T()){
+	constexpr auto make_row_vector_by_default(
+		col_t< Nct, N > c, T const& v = T()
+	){
 		using namespace literals;
-		return make_matrix(c, 1_R, v);
+		return make_matrix_by_default(c, 1_R, v);
 	}
 
 	template < typename T, bool Nct, size_t N >
@@ -350,8 +360,8 @@ namespace mitrax{
 	}
 
 	template < typename T, size_t C, size_t R >
-	auto make_bitmap(dims_t< C, R > const& d, T const& v = T()){
-		return make_matrix(
+	auto make_bitmap_by_default(dims_t< C, R > const& d, T const& v = T()){
+		return make_matrix_by_default(
 			col_t< false, 0 >(d.cols()),
 			row_t< false, 0 >(d.rows()),
 			v
@@ -359,13 +369,17 @@ namespace mitrax{
 	}
 
 	template < typename T >
-	auto make_bitmap(size_t c, size_t r, T const& v = T()){
-		return make_matrix(col_t< false, 0 >(c), row_t< false, 0 >(r), v);
+	auto make_bitmap_by_default(size_t c, size_t r, T const& v = T()){
+		return make_matrix_by_default(
+			col_t< false, 0 >(c), row_t< false, 0 >(r), v
+		);
 	}
 
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_diag_matrix(dim_t< Nct, N > n, T const& v = T()){
+	constexpr auto make_diag_matrix_by_default(
+		dim_t< Nct, N > n, T const& v = T()
+	){
 		return make_square_matrix_by_function(n,
 			detail::init_diag_by_value< T >{v});
 	}
@@ -385,7 +399,7 @@ namespace mitrax{
 
 	template < typename T, bool Nct, size_t N >
 	constexpr auto make_identity_matrix(dim_t< Nct, N > n){
-		return make_diag_matrix(n, T(1));
+		return make_diag_matrix_by_default(n, T(1));
 	}
 
 
