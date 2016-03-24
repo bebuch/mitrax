@@ -11,6 +11,8 @@
 
 #include "make_matrix.hpp"
 
+#include <string>
+
 
 namespace mitrax{
 
@@ -41,7 +43,13 @@ namespace mitrax{
 				x >= m.cols() || x + c > m.cols() ||
 				y >= m.rows() || y + r > m.rows()
 			){
-				throw std::out_of_range("sub_matrix");
+				throw std::out_of_range("sub_matrix out of range (matrix: " +
+					std::to_string(size_t(m.cols())) + "x" +
+					std::to_string(size_t(m.rows())) + "; sub-pos: " +
+					std::to_string(x) + "x" +
+					std::to_string(y) + "; sub-dims: " +
+					std::to_string(size_t(c)) + "x" +
+					std::to_string(size_t(r)) + ")");
 			}
 
 			return sub_matrix_t< M&& >{static_cast< M&& >(m), x, y};
