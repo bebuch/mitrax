@@ -272,11 +272,11 @@ namespace mitrax{
 			cols_(cols), rows_(rows) {}
 
 
-		constexpr col_t< C != 0, C > cols()const noexcept{
+		constexpr col_t< C != 0, C > const& cols()const noexcept{
 			return cols_;
 		}
 
-		constexpr row_t< R != 0, R > rows()const noexcept{
+		constexpr row_t< R != 0, R > const& rows()const noexcept{
 			return rows_;
 		}
 
