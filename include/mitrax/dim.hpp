@@ -38,6 +38,60 @@ namespace mitrax{
 	using bool_t = std::integral_constant< bool, I >;
 
 
+	template < typename ArrayRef >
+	struct array_1d_element{
+		using type = std::remove_extent_t<
+			std::remove_reference_t< ArrayRef > >;
+	};
+
+	template < typename ArrayRef >
+	using array_1d_element_t =
+		typename array_1d_element< ArrayRef >::type;
+
+
+	template < typename ArrayRef >
+	struct array_2d_element{
+		using type = std::remove_extent_t< std::remove_extent_t<
+			std::remove_reference_t< ArrayRef > > >;
+	};
+
+	template < typename ArrayRef >
+	using array_2d_element_t =
+		typename array_2d_element< ArrayRef >::type;
+
+
+	template < typename ArrayRef >
+	struct array_1d_element_ref{
+		using value_type = array_1d_element_t< ArrayRef >;
+
+		using type = std::conditional_t<
+				std::is_rvalue_reference< ArrayRef >::value,
+				std::add_rvalue_reference_t< value_type >,
+				std::add_lvalue_reference_t< value_type >
+			>;
+	};
+
+	template < typename ArrayRef >
+	using array_1d_element_ref_t =
+		typename array_1d_element_ref< ArrayRef >::type;
+
+
+	template < typename ArrayRef >
+	struct array_2d_element_ref{
+		using value_type = array_2d_element_t< ArrayRef >;
+
+		using type = std::conditional_t<
+				std::is_rvalue_reference< ArrayRef >::value,
+				std::add_rvalue_reference_t< value_type >,
+				std::add_lvalue_reference_t< value_type >
+			>;
+	};
+
+	template < typename ArrayRef >
+	using array_2d_element_ref_t =
+	typename array_2d_element_ref< ArrayRef >::type;
+
+
 	constexpr size_t dim(bool is_compile_time, size_t n)noexcept{
 		return is_compile_time ? n : 0;
 	}

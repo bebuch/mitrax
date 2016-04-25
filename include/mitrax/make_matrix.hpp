@@ -141,23 +141,14 @@ namespace mitrax{
 			}
 		};
 
-		template < typename T, size_t N >
-		struct init_diag_by_move_array{
-			T(&&v)[N];
-
-			constexpr std::remove_cv_t< T >
-			operator()(size_t x, size_t y)const{
-				return x == y ? std::move(v[x]) : std::remove_cv_t< T >();
-			}
-		};
-
-		template < typename T, size_t N >
+		template < typename Array >
 		struct init_diag_by_array{
-			T(&v)[N];
+			Array array;
 
-			constexpr std::remove_cv_t< T >
-			operator()(size_t x, size_t y)const{
-				return x == y ? v[x] : std::remove_cv_t< T >();
+			constexpr auto operator()(size_t x, size_t y){
+				return x == y ?
+					static_cast< array_1d_element_ref_t< Array > >(array[x]) :
+					array_1d_element_t< Array >();
 			}
 		};
 
@@ -387,13 +378,13 @@ namespace mitrax{
 	template < typename T, bool Nct, size_t N >
 	constexpr auto make_diag_matrix(dim_t< Nct, N > n, T(&&v)[N]){
 		return make_square_matrix_by_function(n,
-			detail::init_diag_by_move_array< T, N >{std::move(v)});
+			detail::init_diag_by_array< T(&&)[N] >{std::move(v)});
 	}
 
 	template < typename T, bool Nct, size_t N >
 	constexpr auto make_diag_matrix(dim_t< Nct, N > n, T(&v)[N]){
 		return make_square_matrix_by_function(n,
-			detail::init_diag_by_array< T, N >{v});
+			detail::init_diag_by_array< T(&)[N] >{v});
 	}
 
 
