@@ -212,6 +212,25 @@ namespace mitrax{
 		}
 
 
+		constexpr value_type* data(){
+			static_assert(
+				has_data< M >::value,
+				"The underlaying matrix implementation doesn't support "
+				"m.data()"
+			);
+			return m_.data();
+		}
+
+		constexpr value_type const* data()const{
+			static_assert(
+				has_data< M const >::value,
+				"The underlaying matrix implementation doesn't support "
+				"m.data()const"
+			);
+			return m_.data();
+		}
+
+
 	protected:
 		M m_;
 
@@ -229,6 +248,16 @@ namespace mitrax{
 				throw std::logic_error("matrix dimensions not compatible");
 			}
 		}
+
+		template< typename T, typename = void >
+		struct has_data: std::false_type{};
+
+		template< typename T >
+		struct has_data< T, decltype(
+			static_cast< std::conditional_t<
+				std::is_const< T >::value, value_type const*, value_type*
+			> >(std::declval< T >().data()), void())
+		>: std::true_type{};
 	};
 
 

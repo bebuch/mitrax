@@ -22,7 +22,9 @@ namespace mitrax{ namespace detail{
 		// element access:
 		constexpr T& operator[](std::size_t n){ return elems[n]; }
 
-		constexpr T const& operator[](std::size_t n)const{ return elems[n]; }
+		constexpr T const& operator[](std::size_t n)const{
+			return elems[n];
+		}
 
 		constexpr T& at(std::size_t n){
 			if(n >= N) throw std::out_of_range("array_s");

@@ -109,12 +109,12 @@ namespace mitrax{ namespace detail{
 		}
 
 
-		constexpr array_s< value_type, C * R >& data(){
-			return values_;
+		constexpr value_type* data(){
+			return values_.data();
 		}
 
-		constexpr array_s< value_type, C * R > const& data()const{
-			return values_;
+		constexpr value_type const* data()const{
+			return values_.data();
 		}
 
 
@@ -214,12 +214,12 @@ namespace mitrax{ namespace detail{
 		}
 
 
-		detail::array_d< value_type >& data(){
-			return values_;
+		value_type* data(){
+			return values_.data();
 		}
 
-		detail::array_d< value_type > const& data()const{
-			return values_;
+		value_type const* data()const{
+			return values_.data();
 		}
 
 
