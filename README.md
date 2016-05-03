@@ -7,6 +7,6 @@ Design goals are:
 * Usability
 * Expandebility
 * Zero performance loss through data structures
-* constexpr-nal processing
+* `constexpr` processing
 
 <b>This software is highly experimental. Do not use it in production code!</b>
