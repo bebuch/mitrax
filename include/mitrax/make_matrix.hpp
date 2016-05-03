@@ -88,8 +88,7 @@ namespace mitrax{
 
 		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
 		constexpr auto function_xy_to_raw_matrix_data(
-			std::true_type,
-			col_t< Cct, C >, row_t< Rct, R >, F&& f
+			std::true_type, col_t< Cct, C >, row_t< Rct, R >, F&& f
 		){
 			return function_xy_to_array< C, R >(f);
 		}
@@ -103,8 +102,7 @@ namespace mitrax{
 
 		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
 		constexpr auto function_xy_to_raw_matrix_data(
-			std::false_type,
-			col_t< Cct, C > c, row_t< Rct, R > r, F&& f
+			std::false_type, col_t< Cct, C > c, row_t< Rct, R > r, F&& f
 		){
 			return array_d< fn_xy< F > >(c, r, f);
 		}
@@ -167,14 +165,12 @@ namespace mitrax{
 	}
 
 	template < typename F, size_t C, size_t R >
-	constexpr auto
-	make_matrix_fn(dims_t< C, R > const& d, F&& f){
+	constexpr auto make_matrix_fn(dims_t< C, R > const& d, F&& f){
 		return make_matrix_fn(d.cols(), d.rows(), f);
 	}
 
 	template < typename F, bool Nct, size_t N >
-	constexpr auto
-	make_square_matrix_fn(dim_t< Nct, N > n, F&& f){
+	constexpr auto make_square_matrix_fn(dim_t< Nct, N > n, F&& f){
 		return make_matrix_fn(n.as_col(), n.as_row(), f);
 	}
 
@@ -276,7 +272,7 @@ namespace mitrax{
 
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_col_vector_by_default(
+	constexpr auto make_col_vector_v(
 		row_t< Nct, N > r, T const& v = T()
 	){
 		using namespace literals;
@@ -309,7 +305,7 @@ namespace mitrax{
 
 
 	template < typename T, bool Nct, size_t N >
-	constexpr auto make_row_vector_by_default(
+	constexpr auto make_row_vector_v(
 		col_t< Nct, N > c, T const& v = T()
 	){
 		using namespace literals;

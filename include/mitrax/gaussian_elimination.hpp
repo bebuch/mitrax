@@ -313,7 +313,7 @@ namespace mitrax{
 			);
 		}
 
-		auto result = make_col_vector_by_default< value_type >(
+		auto result = make_col_vector_v< value_type >(
 			m.cols().as_row()
 		);
 

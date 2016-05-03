@@ -839,16 +839,16 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_3x2){
 
 BOOST_AUTO_TEST_CASE(test_raw_matrix_1x3){
 	constexpr auto m01 = make_matrix_v< int >(1_C, 3_R);
-	auto m02 = make_col_vector_by_default< int >(3_R);
+	auto m02 = make_col_vector_v< int >(3_R);
 	auto m03 = make_matrix_v< int >(1_C, 3_R_rt);
-	auto m04 = make_col_vector_by_default< int >(3_R_rt);
+	auto m04 = make_col_vector_v< int >(3_R_rt);
 	constexpr auto m05 = make_matrix_v< int >(dims(1_C, 3_R));
 	auto m06 = make_matrix_v< int >(dims(1_C, 3_R_rt));
 
 	constexpr auto m07 = make_matrix_v(1_C, 3_R, 7);
-	auto m08 = make_col_vector_by_default(3_R, 7);
+	auto m08 = make_col_vector_v(3_R, 7);
 	auto m09 = make_matrix_v(1_C, 3_R_rt, 7);
-	auto m10 = make_col_vector_by_default(3_R_rt, 7);
+	auto m10 = make_col_vector_v(3_R_rt, 7);
 	constexpr auto m11 = make_matrix_v(dims(1_C, 3_R), 7);
 	auto m12 = make_matrix_v(dims(1_C, 3_R_rt), 7);
 
@@ -933,16 +933,16 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_1x3){
 
 BOOST_AUTO_TEST_CASE(test_raw_matrix_3x1){
 	constexpr auto m01 = make_matrix_v< int >(3_C, 1_R);
-	auto m02 = make_row_vector_by_default< int >(3_C);
+	auto m02 = make_row_vector_v< int >(3_C);
 	auto m03 = make_matrix_v< int >(3_C_rt, 1_R);
-	auto m04 = make_row_vector_by_default< int >(3_C_rt);
+	auto m04 = make_row_vector_v< int >(3_C_rt);
 	constexpr auto m05 = make_matrix_v< int >(dims(3_C, 1_R));
 	auto m06 = make_matrix_v< int >(dims(3_C_rt, 1_R));
 
 	constexpr auto m07 = make_matrix_v(3_C, 1_R, 7);
-	auto m08 = make_row_vector_by_default(3_C, 7);
+	auto m08 = make_row_vector_v(3_C, 7);
 	auto m09 = make_matrix_v(3_C_rt, 1_R, 7);
-	auto m10 = make_row_vector_by_default(3_C_rt, 7);
+	auto m10 = make_row_vector_v(3_C_rt, 7);
 	constexpr auto m11 = make_matrix_v(dims(3_C, 1_R), 7);
 	auto m12 = make_matrix_v(dims(3_C_rt, 1_R), 7);
 
@@ -1027,14 +1027,14 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_3x1){
 
 BOOST_AUTO_TEST_CASE(test_raw_matrix_1x1){
 	constexpr auto m01 = make_matrix_v< int >(1_C, 1_R);
-	auto m02 = make_row_vector_by_default< int >(1_C);
-	auto m03 = make_col_vector_by_default< int >(1_R);
+	auto m02 = make_row_vector_v< int >(1_C);
+	auto m03 = make_col_vector_v< int >(1_R);
 	constexpr auto m04 = make_matrix_v< int >(dims(1_C, 1_R));
 	constexpr auto m05 = make_square_matrix_v< int >(1_D);
 
 	constexpr auto m06 = make_matrix_v(1_C, 1_R, 7);
-	auto m07 = make_row_vector_by_default(1_C, 7);
-	auto m08 = make_col_vector_by_default(1_R, 7);
+	auto m07 = make_row_vector_v(1_C, 7);
+	auto m08 = make_col_vector_v(1_R, 7);
 	constexpr auto m09 = make_matrix_v(dims(1_C, 1_R), 7);
 	constexpr auto m10 = make_square_matrix_v(1_D, 7);
 
