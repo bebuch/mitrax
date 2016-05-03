@@ -48,9 +48,7 @@ namespace mitrax{
 
 	template < typename F, typename S, typename ... T >
 	constexpr auto
-	make_multi_invoke_adapter(
-		F&& f, S&& single_call, T&& ... arg
-	){
+	make_multi_invoke_adapter(F&& f, S&& single_call, T&& ... arg){
 		return multi_invoke_adapter< F, S, T ... >(
 			static_cast< F >(f),
 			static_cast< S >(single_call),

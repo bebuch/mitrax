@@ -43,25 +43,17 @@ namespace mitrax{
 
 
 		/// \brief The x
-		constexpr x_value_type& x(){
-			return x_;
-		}
+		constexpr x_value_type& x(){ return x_; }
 
 		/// \brief The y
-		constexpr y_value_type& y(){
-			return y_;
-		}
+		constexpr y_value_type& y(){ return y_; }
 
 
 		/// \brief The x
-		constexpr x_value_type const& x()const{
-			return x_;
-		}
+		constexpr x_value_type const& x()const{ return x_; }
 
 		/// \brief The y
-		constexpr y_value_type const& y()const{
-			return y_;
-		}
+		constexpr y_value_type const& y()const{ return y_; }
 
 
 		/// \brief Set x and y

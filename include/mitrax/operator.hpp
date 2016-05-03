@@ -132,50 +132,35 @@ namespace mitrax{
 
 
 	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto& element_plus_assign(
-		matrix< M, C, R >& m,
-		T const& v
-	){
+	constexpr auto& element_plus_assign(matrix< M, C, R >& m, T const& v){
 		detail::m1op(m, v, detail::plus_assign());
 		return m;
 	}
 
 
 	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto& element_minus_assign(
-		matrix< M, C, R >& m,
-		T const& v
-	){
+	constexpr auto& element_minus_assign(matrix< M, C, R >& m, T const& v){
 		detail::m1op(m, v, detail::minus_assign());
 		return m;
 	}
 
 
 	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto& operator*=(
-		matrix< M, C, R >& m,
-		T const& v
-	){
+	constexpr auto& operator*=(matrix< M, C, R >& m, T const& v){
 		detail::m1op(m, v, detail::multiplies_assign());
 		return m;
 	}
 
 
 	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto& operator/=(
-		matrix< M, C, R >& m,
-		T const& v
-	){
+	constexpr auto& operator/=(matrix< M, C, R >& m, T const& v){
 		detail::m1op(m, v, detail::divides_assign());
 		return m;
 	}
 
 
 	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto& operator%=(
-		matrix< M, C, R >& m,
-		T const& v
-	){
+	constexpr auto& operator%=(matrix< M, C, R >& m, T const& v){
 		detail::m1op(m, v, detail::modulus_assign());
 		return m;
 	}
@@ -244,54 +229,36 @@ namespace mitrax{
 
 
 	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto element_plus(
-		matrix< M, C, R > const& m,
-		T const& v
-	){
+	constexpr auto element_plus(matrix< M, C, R > const& m, T const& v){
 		auto t = convert< std::common_type_t< value_type_t< M >, T > >(m);
 		return element_plus_assign(t, v);
 	}
 
 	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto element_minus(
-		matrix< M, C, R > const& m,
-		T const& v
-	){
+	constexpr auto element_minus(matrix< M, C, R > const& m, T const& v){
 		auto t = convert< std::common_type_t< value_type_t< M >, T > >(m);
 		return element_minus_assign(t, v);
 	}
 
 	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto operator*(
-		matrix< M, C, R > const& m,
-		T const& v
-	){
+	constexpr auto operator*(matrix< M, C, R > const& m, T const& v){
 		auto t = convert< std::common_type_t< value_type_t< M >, T > >(m);
 		return t *= v;
 	}
 
 	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto operator*(
-		T const& v,
-		matrix< M, C, R > const& m
-	){
+	constexpr auto operator*(T const& v, matrix< M, C, R > const& m){
 		return m * v;
 	}
 
 	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto operator/(
-		matrix< M, C, R > const& m,
-		T const& v
-	){
+	constexpr auto operator/(matrix< M, C, R > const& m, T const& v){
 		auto t = convert< std::common_type_t< value_type_t< M >, T > >(m);
 		return t /= v;
 	}
 
 	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto operator%(
-		matrix< M, C, R > const& m,
-		T const& v
-	){
+	constexpr auto operator%(matrix< M, C, R > const& m, T const& v){
 		auto t = convert< std::common_type_t< value_type_t< M >, T > >(m);
 		return t %= v;
 	}

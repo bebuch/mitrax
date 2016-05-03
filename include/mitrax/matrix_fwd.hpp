@@ -38,6 +38,7 @@ namespace mitrax{
 
 	}
 
+
 	template < typename T, size_t Cols, size_t Rows >
 	using raw_matrix =
 		matrix< detail::raw_matrix_impl< T, Cols, Rows >, Cols, Rows >;

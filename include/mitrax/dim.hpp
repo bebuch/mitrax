@@ -45,8 +45,7 @@ namespace mitrax{
 	};
 
 	template < typename ArrayRef >
-	using array_1d_element_t =
-		typename array_1d_element< ArrayRef >::type;
+	using array_1d_element_t = typename array_1d_element< ArrayRef >::type;
 
 
 	template < typename ArrayRef >
@@ -56,8 +55,7 @@ namespace mitrax{
 	};
 
 	template < typename ArrayRef >
-	using array_2d_element_t =
-		typename array_2d_element< ArrayRef >::type;
+	using array_2d_element_t = typename array_2d_element< ArrayRef >::type;
 
 
 	template < typename ArrayRef >
@@ -89,7 +87,7 @@ namespace mitrax{
 
 	template < typename ArrayRef >
 	using array_2d_element_ref_t =
-	typename array_2d_element_ref< ArrayRef >::type;
+		typename array_2d_element_ref< ArrayRef >::type;
 
 
 	constexpr size_t dim(bool is_compile_time, size_t n)noexcept{
@@ -104,13 +102,8 @@ namespace mitrax{
 		using value_type = size_t;
 
 
-		constexpr operator size_t()const noexcept{
-			return value;
-		}
-
-		constexpr size_t operator()()const noexcept{
-			return value;
-		}
+		constexpr operator size_t()const noexcept{ return value; }
+		constexpr size_t operator()()const noexcept{ return value; }
 	};
 
 
@@ -122,17 +115,11 @@ namespace mitrax{
 
 
 		constexpr size_rt()noexcept: v_(0) {}
-
 		constexpr size_rt(size_t v)noexcept: v_(v) {}
 
 
-		constexpr operator size_t()const noexcept{
-			return v_;
-		}
-
-		constexpr size_t operator()()const noexcept{
-			return v_;
-		}
+		constexpr operator size_t()const noexcept{ return v_; }
+		constexpr size_t operator()()const noexcept{ return v_; }
 
 	public:
 		size_t v_;
@@ -151,13 +138,8 @@ namespace mitrax{
 
 	template < size_t C >
 	struct col_t< true, C >: size_ct< C >{
-		constexpr auto as_row()const noexcept{
-			return row_t< true, C >();
-		}
-
-		constexpr auto as_dim()const noexcept{
-			return dim_t< true, C >();
-		}
+		constexpr auto as_row()const noexcept{ return row_t< true, C >(); }
+		constexpr auto as_dim()const noexcept{ return dim_t< true, C >(); }
 	};
 
 	template < size_t C >
@@ -167,14 +149,8 @@ namespace mitrax{
 		constexpr col_t(col_t< true, C >&&)noexcept{}
 		constexpr col_t(col_t< true, C > const&)noexcept{}
 
-
-		constexpr auto as_row()const noexcept{
-			return row_t< false, C >();
-		}
-
-		constexpr auto as_dim()const noexcept{
-			return dim_t< false, C >();
-		}
+		constexpr auto as_row()const noexcept{ return row_t< false, C >(); }
+		constexpr auto as_dim()const noexcept{ return dim_t< false, C >(); }
 	};
 
 	template <>
@@ -197,13 +173,8 @@ namespace mitrax{
 
 	template < size_t R >
 	struct row_t< true, R >: size_ct< R >{
-		constexpr auto as_col()const noexcept{
-			return col_t< true, R >();
-		}
-
-		constexpr auto as_dim()const noexcept{
-			return dim_t< true, R >();
-		}
+		constexpr auto as_col()const noexcept{ return col_t< true, R >(); }
+		constexpr auto as_dim()const noexcept{ return dim_t< true, R >(); }
 	};
 
 	template < size_t R >
@@ -214,13 +185,8 @@ namespace mitrax{
 		constexpr row_t(row_t< true, R > const&)noexcept{}
 
 
-		constexpr auto as_col()const noexcept{
-			return col_t< false, R >();
-		}
-
-		constexpr auto as_dim()const noexcept{
-			return dim_t< false, R >();
-		}
+		constexpr auto as_col()const noexcept{ return col_t< false, R >(); }
+		constexpr auto as_dim()const noexcept{ return dim_t< false, R >(); }
 	};
 
 	template <>
@@ -259,14 +225,8 @@ namespace mitrax{
 		constexpr dim_t(dim_t< true, N >&&)noexcept{}
 		constexpr dim_t(dim_t< true, N > const&)noexcept{}
 
-
-		constexpr auto as_col()const noexcept{
-			return col_t< false, N >();
-		}
-
-		constexpr auto as_row()const noexcept{
-			return row_t< false, N >();
-		}
+		constexpr auto as_col()const noexcept{ return col_t< false, N >(); }
+		constexpr auto as_row()const noexcept{ return row_t< false, N >(); }
 	};
 
 	template <>
@@ -322,8 +282,7 @@ namespace mitrax{
 		constexpr dims_t(
 			col_t< C != 0, C > cols,
 			row_t< R != 0, R > rows
-		)noexcept:
-			cols_(cols), rows_(rows) {}
+		)noexcept: cols_(cols), rows_(rows) {}
 
 
 		constexpr col_t< C != 0, C > const& cols()const noexcept{
@@ -398,49 +357,29 @@ namespace mitrax{
 	void dims(row_t< Rct, R >, row_t< Cct, C >) = delete;
 
 
-	constexpr auto cols(size_t c)noexcept{
-		return col_t< false, 0 >(c);
-	}
-
-	constexpr auto rows(size_t r)noexcept{
-		return row_t< false, 0 >(r);
-	}
-
-	constexpr auto dims(size_t d)noexcept{
-		return dim_t< false, 0 >(d);
-	}
+	constexpr auto cols(size_t c)noexcept{ return col_t< false, 0 >(c); }
+	constexpr auto rows(size_t r)noexcept{ return row_t< false, 0 >(r); }
+	constexpr auto dims(size_t d)noexcept{ return dim_t< false, 0 >(d); }
 
 
 	template < size_t I >
-	constexpr auto cols()noexcept{
-		return col_t< true, I >();
-	}
+	constexpr auto cols()noexcept{ return col_t< true, I >(); }
 
 	template < size_t I >
-	constexpr auto rows()noexcept{
-		return row_t< true, I >();
-	}
+	constexpr auto rows()noexcept{ return row_t< true, I >(); }
 
 	template < size_t I >
-	constexpr auto dims()noexcept{
-		return dim_t< true, I >();
-	}
+	constexpr auto dims()noexcept{ return dim_t< true, I >(); }
 
 
 	template < size_t I >
-	constexpr auto cols_rt()noexcept{
-		return col_t< false, I >();
-	}
+	constexpr auto cols_rt()noexcept{ return col_t< false, I >(); }
 
 	template < size_t I >
-	constexpr auto rows_rt()noexcept{
-		return row_t< false, I >();
-	}
+	constexpr auto rows_rt()noexcept{ return row_t< false, I >(); }
 
 	template < size_t I >
-	constexpr auto dims_rt()noexcept{
-		return dim_t< false, I >();
-	}
+	constexpr auto dims_rt()noexcept{ return dim_t< false, I >(); }
 
 
 	namespace detail{

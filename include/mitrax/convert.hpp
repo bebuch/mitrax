@@ -39,8 +39,7 @@ namespace mitrax{
 	template <
 		typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
 		typename M, size_t C2, size_t R2
-	>
-	constexpr auto convert(
+	> constexpr auto convert(
 		matrix< M, C2, R2 >& m,
 		col_t< Cct1, C1 > c,
 		row_t< Rct1, R1 > r
@@ -51,8 +50,7 @@ namespace mitrax{
 	template <
 		typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
 		typename M, size_t C2, size_t R2
-	>
-	constexpr auto convert(
+	> constexpr auto convert(
 		matrix< M, C2, R2 > const& m,
 		col_t< Cct1, C1 > c,
 		row_t< Rct1, R1 > r
@@ -63,8 +61,7 @@ namespace mitrax{
 	template <
 		typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
 		typename M, size_t C2, size_t R2
-	>
-	constexpr auto convert(
+	> constexpr auto convert(
 		matrix< M, C2, R2 >&& m,
 		col_t< Cct1, C1 > c,
 		row_t< Rct1, R1 > r
@@ -77,8 +74,7 @@ namespace mitrax{
 	template <
 		bool Cct1, size_t C1, bool Rct1, size_t R1,
 		typename M, size_t C2, size_t R2
-	>
-	constexpr auto convert(
+	> constexpr auto convert(
 		matrix< M, C2, R2 >& m,
 		col_t< Cct1, C1 > c,
 		row_t< Rct1, R1 > r
@@ -89,8 +85,7 @@ namespace mitrax{
 	template <
 		bool Cct1, size_t C1, bool Rct1, size_t R1,
 		typename M, size_t C2, size_t R2
-	>
-	constexpr auto convert(
+	> constexpr auto convert(
 		matrix< M, C2, R2 > const& m,
 		col_t< Cct1, C1 > c,
 		row_t< Rct1, R1 > r
@@ -101,8 +96,7 @@ namespace mitrax{
 	template <
 		bool Cct1, size_t C1, bool Rct1, size_t R1,
 		typename M, size_t C2, size_t R2
-	>
-	constexpr auto convert(
+	> constexpr auto convert(
 		matrix< M, C2, R2 >&& m,
 		col_t< Cct1, C1 > c,
 		row_t< Rct1, R1 > r

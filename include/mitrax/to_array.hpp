@@ -52,72 +52,50 @@ namespace mitrax{ namespace detail{
 	}
 
 	template < size_t C, size_t R, typename F, size_t ... I >
-	constexpr auto function_xy_to_array(
-		F&& f, std::index_sequence< I ... >
-	){
-		return array_s< fn_xy< F >, sizeof...(I) >{{
-			f(I % C, I / C) ...
-		}};
+	constexpr auto fn_xy_to_array(F&& f, std::index_sequence< I ... >){
+		return array_s< fn_xy< F >, sizeof...(I) >{{ f(I % C, I / C) ... }};
 	}
 
 	template < typename F, size_t ... I >
-	constexpr auto function_i_to_array(
-		F&& f, std::index_sequence< I ... >
-	){
-		return array_s< fn_i< F >, sizeof...(I) >{{
-			f(I) ...
-		}};
+	constexpr auto fn_i_to_array(F&& f, std::index_sequence< I ... >){
+		return array_s< fn_i< F >, sizeof...(I) >{{ f(I) ... }};
 	}
 
 
 	template < typename T, size_t N >
 	constexpr auto to_array(T(&&v)[N]){
-		return to_array(
-			std::move(v), std::make_index_sequence< N >()
-		);
+		return to_array(std::move(v), std::make_index_sequence< N >());
 	}
 
 	template < typename T, size_t N >
 	constexpr auto to_array(T(&v)[N]){
-		return to_array(
-			v, std::make_index_sequence< N >()
-		);
+		return to_array(v, std::make_index_sequence< N >());
 	}
 
 
 	template < typename T, size_t C, size_t R >
 	constexpr auto to_array(T(&&v)[R][C]){
-		return to_array(
-			std::move(v), std::make_index_sequence< C * R >()
-		);
+		return to_array(std::move(v), std::make_index_sequence< C * R >());
 	}
 
 	template < typename T, size_t C, size_t R >
 	constexpr auto to_array(T(&v)[R][C]){
-		return to_array(
-			v, std::make_index_sequence< C * R >()
-		);
+		return to_array(v, std::make_index_sequence< C * R >());
 	}
 
 	template < size_t N, typename T >
 	constexpr auto init_array(T const& v){
-		return init_array(
-			v, std::make_index_sequence< N >()
-		);
+		return init_array(v, std::make_index_sequence< N >());
 	}
 
 	template < size_t C, size_t R, typename F >
-	constexpr auto function_xy_to_array(F&& f){
-		return function_xy_to_array< C, R >(
-			f, std::make_index_sequence< C * R >()
-		);
+	constexpr auto fn_xy_to_array(F&& f){
+		return fn_xy_to_array< C, R >(f, std::make_index_sequence< C * R >());
 	}
 
 	template < size_t N, typename F >
-	constexpr auto function_i_to_array(F&& f){
-		return function_i_to_array(
-			f, std::make_index_sequence< N >()
-		);
+	constexpr auto fn_i_to_array(F&& f){
+		return fn_i_to_array(f, std::make_index_sequence< N >());
 	}
 
 

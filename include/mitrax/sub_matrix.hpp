@@ -34,8 +34,7 @@ namespace mitrax{
 		template <
 			bool Cct1, size_t C1, bool Rct1, size_t R1,
 			typename M
-		>
-		constexpr auto make_sub_matrix_t(
+		> constexpr auto make_sub_matrix_t(
 			M&& m,
 			size_t x, size_t y, col_t< Cct1, C1 > c, row_t< Rct1, R1 > r
 		){
@@ -62,8 +61,7 @@ namespace mitrax{
 	template <
 		bool Cct1, size_t C1, bool Rct1, size_t R1,
 		typename M, size_t C2, size_t R2
-	>
-	constexpr auto sub_matrix(
+	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 > const& m,
 		size_t x, size_t y, col_t< Cct1, C1 > c, row_t< Rct1, R1 > r
  	){
@@ -73,8 +71,7 @@ namespace mitrax{
 	template <
 		bool Cct1, size_t C1, bool Rct1, size_t R1,
 		typename M, size_t C2, size_t R2
-	>
-	constexpr auto sub_matrix(
+	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 >&& m,
 		size_t x, size_t y, col_t< Cct1, C1 > c, row_t< Rct1, R1 > r
  	){
@@ -85,8 +82,7 @@ namespace mitrax{
 	template <
 		size_t C1, size_t R1,
 		typename M, size_t C2, size_t R2
-	>
-	constexpr auto sub_matrix(
+	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 > const& m,
 		size_t x, size_t y, dims_t< C1, R1 > dims
  	){
@@ -96,8 +92,7 @@ namespace mitrax{
 	template <
 		size_t C1, size_t R1,
 		typename M, size_t C2, size_t R2
-	>
-	constexpr auto sub_matrix(
+	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 >&& m,
 		size_t x, size_t y, dims_t< C1, R1 > dims
  	){
@@ -107,8 +102,7 @@ namespace mitrax{
 	template <
 		bool Cct1, size_t C1, bool Rct1, size_t R1,
 		typename M, size_t C2, size_t R2
-	>
-	constexpr auto sub_matrix(
+	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 > const& m,
 		point< size_t > xy, col_t< Cct1, C1 > c, row_t< Rct1, R1 > r
  	){
@@ -118,8 +112,7 @@ namespace mitrax{
 	template <
 		bool Cct1, size_t C1, bool Rct1, size_t R1,
 		typename M, size_t C2, size_t R2
-	>
-	constexpr auto sub_matrix(
+	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 >&& m,
 		point< size_t > xy, col_t< Cct1, C1 > c, row_t< Rct1, R1 > r
  	){
@@ -129,8 +122,7 @@ namespace mitrax{
 	template <
 		size_t C1, size_t R1,
 		typename M, size_t C2, size_t R2
-	>
-	constexpr auto sub_matrix(
+	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 > const& m,
 		point< size_t > xy, dims_t< C1, R1 > dims
  	){
@@ -140,8 +132,7 @@ namespace mitrax{
 	template <
 		size_t C1, size_t R1,
 		typename M, size_t C2, size_t R2
-	>
-	constexpr auto sub_matrix(
+	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 >&& m,
 		point< size_t > xy, dims_t< C1, R1 > dims
  	){
