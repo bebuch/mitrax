@@ -21,7 +21,7 @@ namespace mitrax{
 	class segmentor{
 	public:
 		constexpr segmentor(dims_t< C, R > const& dims):
-			used_(make_matrix_by_default< bool >(dims, false)) {}
+			used_(make_matrix_v< bool >(dims, false)) {}
 
 		template < typename F >
 		size_t operator()(size_t x, size_t y, F&& f){

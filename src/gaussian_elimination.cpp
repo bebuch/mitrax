@@ -124,7 +124,7 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_3){
 
 BOOST_AUTO_TEST_CASE(test_matrix_kernel_numeric){
 	for(size_t i = 0; i < 10; ++i){
-		auto m = make_square_matrix_by_default< double >(dims(i + 1));
+		auto m = make_square_matrix_v< double >(dims(i + 1));
 		size_t j = 5;
 		for(auto& v: m) v = ++j;
 

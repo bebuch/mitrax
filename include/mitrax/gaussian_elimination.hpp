@@ -240,7 +240,7 @@ namespace mitrax{
 		// Compiler may optimize with the compile time dimension
 		size_t const size = C == 0 ? m.rows() : m.cols();
 
-		auto r = make_matrix_by_default< value_type >(m.dims());
+		auto r = make_matrix_v< value_type >(m.dims());
 		for(size_t i = 0; i < size; ++i){
 			r(i, i) = 1;
 		}
