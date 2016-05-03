@@ -30,7 +30,7 @@ namespace mitrax{
 		auto q = identity;
 
 		for(size_t i = 0; i < m.cols() - 1_C; ++i){
-			auto v = make_col_vector_by_function(m.rows(),
+			auto v = make_col_vector_fn(m.rows(),
 				[i, &r](size_t y){
 					if(y < i) return value_type();
 					return r(i, y);

@@ -75,7 +75,7 @@ namespace mitrax{
 			throw std::logic_error("convolution matrix is bigger then image");
 		}
 
-		return make_matrix_by_function(
+		return make_matrix_fn(
 			cols< 1 >() + i.cols() - m.cols(),
 			rows< 1 >() + i.rows() - m.rows(),
 			detail::convolution_worker< M1, C1, R1, M2, C2, R2, Op >{

@@ -406,7 +406,7 @@ namespace mitrax{
 
 	template < typename M, size_t C, size_t R >
 	constexpr auto transpose(matrix< M, C, R > const& m){
-		return make_matrix_by_function(
+		return make_matrix_fn(
 			m.rows().as_col(), m.cols().as_row(),
 			detail::transpose_f< M, C, R >(m)
 		);
@@ -420,13 +420,12 @@ namespace mitrax{
 
 	template < typename M, size_t C, size_t R >
 	constexpr auto operator-(matrix< M, C, R > const& m){
-		return make_matrix_by_function(m.dims(),
-			detail::unary_minus_op< M, C, R >(m));
+		return make_matrix_fn(m.dims(), detail::unary_minus_op< M, C, R >(m));
 	}
 
 	template < typename M, size_t C, size_t R >
 	constexpr auto abs(matrix< M, C, R > const& m){
-		return make_matrix_by_function(m.dims(), detail::abs_op< M, C, R >(m));
+		return make_matrix_fn(m.dims(), detail::abs_op< M, C, R >(m));
 	}
 
 

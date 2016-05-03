@@ -67,8 +67,7 @@ namespace mitrax{
 		matrix< M, C2, R2 > const& m,
 		size_t x, size_t y, col_t< Cct1, C1 > c, row_t< Rct1, R1 > r
  	){
-		return make_matrix_by_function(c, r,
-			detail::make_sub_matrix_t(m, x, y, c, r));
+		return make_matrix_fn(c, r, detail::make_sub_matrix_t(m, x, y, c, r));
 	}
 
 	template <
@@ -79,7 +78,7 @@ namespace mitrax{
 		matrix< M, C2, R2 >&& m,
 		size_t x, size_t y, col_t< Cct1, C1 > c, row_t< Rct1, R1 > r
  	){
-		return make_matrix_by_function(c, r,
+		return make_matrix_fn(c, r,
 			detail::make_sub_matrix_t(std::move(m), x, y, c, r));
 	}
 

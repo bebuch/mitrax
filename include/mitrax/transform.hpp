@@ -47,11 +47,9 @@ namespace mitrax{
 
 	template < typename F, typename ... M, size_t ... C, size_t ... R >
 	constexpr auto transform(F&& f, matrix< M, C, R > const& ... images){
-		return make_matrix_by_function(get_dims(images ...),
-			make_multi_invoke_adapter(
-				static_cast< F&& >(f), detail::call_func_operator(), images ...
-			)
-		);
+		return make_matrix_fn(get_dims(images ...), make_multi_invoke_adapter(
+			static_cast< F&& >(f), detail::call_func_operator(), images ...
+		));
 	}
 
 
@@ -64,7 +62,7 @@ namespace mitrax{
 		matrix< M, C, R > const& ... images
 	){
 		using namespace literals;
-		return make_matrix_by_function(
+		return make_matrix_fn(
 			get_dims(images ...) + dims(1_C, 1_R) - view_dims,
 			make_multi_invoke_adapter(
 				static_cast< F&& >(f),

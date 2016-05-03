@@ -40,7 +40,7 @@ namespace mitrax{
 			return m(x, y);
 		};
 
-		return make_matrix_by_function(c, r, [&](size_t x, size_t y){
+		return make_matrix_fn(c, r, [&](size_t x, size_t y){
 			if(x_even){
 				if(y_even){
 					return g(x - x_offset, y - y_offset);

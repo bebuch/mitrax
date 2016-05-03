@@ -37,13 +37,12 @@ namespace mitrax{
 		for(;;){
 			std::cout << arg << std::endl;
 
-			auto r = make_col_vector_by_function(rows(data.size()),
+			auto r = make_col_vector_fn(rows(data.size()),
 				[&data, &arg, &f](size_t y){
 					return f(arg, data[y]);
 				});
 
-			auto d = make_matrix_by_function(
-				dims(arg.rows().as_col(), data.size()),
+			auto d = make_matrix_fn(dims(arg.rows().as_col(), data.size()),
 				[&data, &arg, &f, &threshold](size_t x, size_t y){
 					auto arg1 = arg;
 					arg1[x] += threshold / 128;
@@ -86,7 +85,7 @@ namespace mitrax{
 
 		auto arg = start_value;
 
-		auto r = make_col_vector_by_function(rows(data.size()),
+		auto r = make_col_vector_fn(rows(data.size()),
 			[&data, &arg, &f](size_t y){
 				return f(arg, data[y]);
 			});
@@ -94,8 +93,7 @@ namespace mitrax{
 		for(;;){
 // 			std::cout << arg << std::endl;
 
-			auto d = make_matrix_by_function(
-				dims(arg.rows().as_col(), data.size()),
+			auto d = make_matrix_fn(dims(arg.rows().as_col(), data.size()),
 				[&data, &arg, &f, &threshold](size_t x, size_t y){
 					auto arg1 = arg;
 					arg1[x] += threshold / 128;
@@ -116,7 +114,7 @@ namespace mitrax{
 					-trans_d * r
 				);
 
-				auto r_new = make_col_vector_by_function(rows(data.size()),
+				auto r_new = make_col_vector_fn(rows(data.size()),
 					[&data, &arg, &s, &f](size_t y){
 						return f(arg + s, data[y]);
 					});

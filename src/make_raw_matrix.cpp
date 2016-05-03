@@ -492,18 +492,18 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_3x3){
 	constexpr auto m35 = make_square_matrix(3_D, ref_3x3);
 	auto m36 = make_square_matrix(3_D_rt, ref_3x3);
 
-	constexpr auto m37 = make_matrix_by_function(3_C, 3_R, f_cr());
-	auto m38 = make_matrix_by_function(3_C_rt, 3_R, f_cr());
-	auto m39 = make_matrix_by_function(3_C, 3_R_rt, f_cr());
-	auto m40 = make_matrix_by_function(3_C_rt, 3_R_rt, f_cr());
-	constexpr auto m41 = make_matrix_by_function(dims(3_C, 3_R), f_cr());
-	auto m42 = make_matrix_by_function(dims(3_C_rt, 3_R), f_cr());
-	auto m43 = make_matrix_by_function(dims(3_C, 3_R_rt), f_cr());
-	auto m44 = make_matrix_by_function(dims(3_C_rt, 3_R_rt), f_cr());
-	constexpr auto m45 = make_square_matrix_by_function(3_D, f_cr());
-	auto m46 = make_square_matrix_by_function(3_D_rt, f_cr());
-	constexpr auto m47 = make_matrix_by_function(dims(3_D), f_cr());
-	auto m48 = make_matrix_by_function(dims(3_D_rt), f_cr());
+	constexpr auto m37 = make_matrix_fn(3_C, 3_R, f_cr());
+	auto m38 = make_matrix_fn(3_C_rt, 3_R, f_cr());
+	auto m39 = make_matrix_fn(3_C, 3_R_rt, f_cr());
+	auto m40 = make_matrix_fn(3_C_rt, 3_R_rt, f_cr());
+	constexpr auto m41 = make_matrix_fn(dims(3_C, 3_R), f_cr());
+	auto m42 = make_matrix_fn(dims(3_C_rt, 3_R), f_cr());
+	auto m43 = make_matrix_fn(dims(3_C, 3_R_rt), f_cr());
+	auto m44 = make_matrix_fn(dims(3_C_rt, 3_R_rt), f_cr());
+	constexpr auto m45 = make_square_matrix_fn(3_D, f_cr());
+	auto m46 = make_square_matrix_fn(3_D_rt, f_cr());
+	constexpr auto m47 = make_matrix_fn(dims(3_D), f_cr());
+	auto m48 = make_matrix_fn(dims(3_D_rt), f_cr());
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 3, 3 > >));
@@ -641,14 +641,14 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_2x3){
 	auto m23 = make_matrix(2_C, 3_R_rt, ref_2x3);
 	auto m24 = make_matrix(2_C_rt, 3_R_rt, ref_2x3);
 
-	constexpr auto m25 = make_matrix_by_function(2_C, 3_R, f_cr());
-	auto m26 = make_matrix_by_function(2_C_rt, 3_R, f_cr());
-	auto m27 = make_matrix_by_function(2_C, 3_R_rt, f_cr());
-	auto m28 = make_matrix_by_function(2_C_rt, 3_R_rt, f_cr());
-	constexpr auto m29 = make_matrix_by_function(dims(2_C, 3_R), f_cr());
-	auto m30 = make_matrix_by_function(dims(2_C_rt, 3_R), f_cr());
-	auto m31 = make_matrix_by_function(dims(2_C, 3_R_rt), f_cr());
-	auto m32 = make_matrix_by_function(dims(2_C_rt, 3_R_rt), f_cr());
+	constexpr auto m25 = make_matrix_fn(2_C, 3_R, f_cr());
+	auto m26 = make_matrix_fn(2_C_rt, 3_R, f_cr());
+	auto m27 = make_matrix_fn(2_C, 3_R_rt, f_cr());
+	auto m28 = make_matrix_fn(2_C_rt, 3_R_rt, f_cr());
+	constexpr auto m29 = make_matrix_fn(dims(2_C, 3_R), f_cr());
+	auto m30 = make_matrix_fn(dims(2_C_rt, 3_R), f_cr());
+	auto m31 = make_matrix_fn(dims(2_C, 3_R_rt), f_cr());
+	auto m32 = make_matrix_fn(dims(2_C_rt, 3_R_rt), f_cr());
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 2, 3 > >));
@@ -753,14 +753,14 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_3x2){
 	auto m23 = make_matrix(3_C, 2_R_rt, ref_3x2);
 	auto m24 = make_matrix(3_C_rt, 2_R_rt, ref_3x2);
 
-	constexpr auto m25 = make_matrix_by_function(3_C, 2_R, f_cr());
-	auto m26 = make_matrix_by_function(3_C_rt, 2_R, f_cr());
-	auto m27 = make_matrix_by_function(3_C, 2_R_rt, f_cr());
-	auto m28 = make_matrix_by_function(3_C_rt, 2_R_rt, f_cr());
-	constexpr auto m29 = make_matrix_by_function(dims(3_C, 2_R), f_cr());
-	auto m30 = make_matrix_by_function(dims(3_C_rt, 2_R), f_cr());
-	auto m31 = make_matrix_by_function(dims(3_C, 2_R_rt), f_cr());
-	auto m32 = make_matrix_by_function(dims(3_C_rt, 2_R_rt), f_cr());
+	constexpr auto m25 = make_matrix_fn(3_C, 2_R, f_cr());
+	auto m26 = make_matrix_fn(3_C_rt, 2_R, f_cr());
+	auto m27 = make_matrix_fn(3_C, 2_R_rt, f_cr());
+	auto m28 = make_matrix_fn(3_C_rt, 2_R_rt, f_cr());
+	constexpr auto m29 = make_matrix_fn(dims(3_C, 2_R), f_cr());
+	auto m30 = make_matrix_fn(dims(3_C_rt, 2_R), f_cr());
+	auto m31 = make_matrix_fn(dims(3_C, 2_R_rt), f_cr());
+	auto m32 = make_matrix_fn(dims(3_C_rt, 2_R_rt), f_cr());
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 3, 2 > >));
@@ -861,12 +861,12 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_1x3){
 	auto m19 = make_matrix(1_C, 3_R_rt, ref_1x3);
 	auto m20 = make_col_vector(3_R_rt, ref_3);
 
-	constexpr auto m21 = make_matrix_by_function(1_C, 3_R, f_cr());
-	auto m22 = make_col_vector_by_function(3_R, f_c());
-	auto m23 = make_matrix_by_function(1_C, 3_R_rt, f_cr());
-	auto m24 = make_col_vector_by_function(3_R_rt, f_c());
-	constexpr auto m25 = make_matrix_by_function(dims(1_C, 3_R), f_cr());
-	auto m26 = make_matrix_by_function(dims(1_C, 3_R_rt), f_cr());
+	constexpr auto m21 = make_matrix_fn(1_C, 3_R, f_cr());
+	auto m22 = make_col_vector_fn(3_R, f_c());
+	auto m23 = make_matrix_fn(1_C, 3_R_rt, f_cr());
+	auto m24 = make_col_vector_fn(3_R_rt, f_c());
+	constexpr auto m25 = make_matrix_fn(dims(1_C, 3_R), f_cr());
+	auto m26 = make_matrix_fn(dims(1_C, 3_R_rt), f_cr());
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 1, 3 > >));
@@ -955,12 +955,12 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_3x1){
 	auto m19 = make_matrix(3_C_rt, 1_R, ref_3x1);
 	auto m20 = make_row_vector(3_C_rt, ref_3);
 
-	constexpr auto m21 = make_matrix_by_function(3_C, 1_R, f_cr());
-	auto m22 = make_row_vector_by_function(3_C, f_r());
-	auto m23 = make_matrix_by_function(3_C_rt, 1_R, f_cr());
-	auto m24 = make_row_vector_by_function(3_C_rt, f_r());
-	constexpr auto m25 = make_matrix_by_function(dims(3_C, 1_R), f_cr());
-	auto m26 = make_matrix_by_function(dims(3_C_rt, 1_R), f_cr());
+	constexpr auto m21 = make_matrix_fn(3_C, 1_R, f_cr());
+	auto m22 = make_row_vector_fn(3_C, f_r());
+	auto m23 = make_matrix_fn(3_C_rt, 1_R, f_cr());
+	auto m24 = make_row_vector_fn(3_C_rt, f_r());
+	constexpr auto m25 = make_matrix_fn(dims(3_C, 1_R), f_cr());
+	auto m26 = make_matrix_fn(dims(3_C_rt, 1_R), f_cr());
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 3, 1 > >));
@@ -1047,11 +1047,11 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_1x1){
 	auto m17 = make_col_vector(1_R, ref_1);
 	constexpr auto m18 = make_square_matrix(1_D, ref_1x1);
 
-	constexpr auto m19 = make_matrix_by_function(1_C, 1_R, f_cr());
-	auto m20 = make_row_vector_by_function(1_C, f_r());
-	auto m21 = make_col_vector_by_function(1_R, f_c());
-	constexpr auto m22 = make_matrix_by_function(dims(1_C, 1_R), f_cr());
-	constexpr auto m23 = make_square_matrix_by_function(1_D, f_cr());
+	constexpr auto m19 = make_matrix_fn(1_C, 1_R, f_cr());
+	auto m20 = make_row_vector_fn(1_C, f_r());
+	auto m21 = make_col_vector_fn(1_R, f_c());
+	constexpr auto m22 = make_matrix_fn(dims(1_C, 1_R), f_cr());
+	constexpr auto m23 = make_square_matrix_fn(1_D, f_cr());
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 1, 1 > >));
@@ -1121,10 +1121,10 @@ BOOST_AUTO_TEST_CASE(test_raw_bitmap){
 	auto m07 = make_bitmap_v(dims(2, 3), 7);
 	auto m08 = make_bitmap_v(dims(3, 2), 7);
 
-	auto m09 = make_bitmap_by_function(2, 3, f_cr());
-	auto m10 = make_bitmap_by_function(3, 2, f_cr());
-	auto m11 = make_bitmap_by_function(dims(2, 3), f_cr());
-	auto m12 = make_bitmap_by_function(dims(3, 2), f_cr());
+	auto m09 = make_bitmap_fn(2, 3, f_cr());
+	auto m10 = make_bitmap_fn(3, 2, f_cr());
+	auto m11 = make_bitmap_fn(dims(2, 3), f_cr());
+	auto m12 = make_bitmap_fn(dims(3, 2), f_cr());
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 0, 0 > >));
 	BOOST_TEST((rt_id(m02) == id< raw_matrix< int, 0, 0 > >));
@@ -1170,8 +1170,8 @@ BOOST_AUTO_TEST_CASE(test_diag_matrix){
 	constexpr auto m07 = make_diag_matrix(3_D, ref_3);
 	auto m08 = make_diag_matrix(3_D_rt, ref_3);
 
-	constexpr auto m09 = make_diag_matrix_by_function(3_D, f_r());
-	auto m10 = make_diag_matrix_by_function(3_D_rt, f_r());
+	constexpr auto m09 = make_diag_matrix_fn(3_D, f_r());
+	auto m10 = make_diag_matrix_fn(3_D_rt, f_r());
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 3, 3 > >));

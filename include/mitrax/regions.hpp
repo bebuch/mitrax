@@ -89,13 +89,11 @@ namespace mitrax{
 			static_cast< double >(size.rows() - region_dims.rows()) /
 			static_cast< double >(result_dims.rows() - 1_R);
 
-		return make_matrix_by_function(
-			result_dims,
-			make_multi_invoke_adapter(
-				static_cast< F&& >(f), detail::make_region_sub_matrix(
-					region_dims, x_factor, y_factor
-				), images ...
-			));
+		return make_matrix_fn(result_dims, make_multi_invoke_adapter(
+			static_cast< F&& >(f), detail::make_region_sub_matrix(
+				region_dims, x_factor, y_factor
+			), images ...
+		));
 	}
 
 
@@ -147,8 +145,7 @@ namespace mitrax{
 			static_cast< double >(regions.rows() - 1_R);
 
 
-		auto x_bounds = make_col_vector_by_function(
-			regions.cols().as_row() * 2_R,
+		auto x_bounds = make_col_vector_fn(regions.cols().as_row() * 2_R,
 			[x_factor, &region_dims](size_t i){
 				auto p = static_cast< size_t >((i / 2) * x_factor + 0.5);
 				bool begin = i % 2 == 0;
@@ -159,8 +156,7 @@ namespace mitrax{
 			}
 		);
 
-		auto y_bounds = make_col_vector_by_function(
-			regions.rows() * 2_R,
+		auto y_bounds = make_col_vector_fn(regions.rows() * 2_R,
 			[y_factor, &region_dims](size_t i){
 				auto p = static_cast< size_t >((i / 2) * y_factor + 0.5);
 				bool begin = i % 2 == 0;
@@ -204,7 +200,7 @@ namespace mitrax{
 			y_sc.emplace_back(y_bounds[y].first, s, c);
 		}
 
-		return make_matrix_by_function(size,
+		return make_matrix_fn(size,
 			[&f, &x_sc, &y_sc, &regions, &images ...](size_t c, size_t r){
 				size_t x = 0;
 				size_t y = 0;
