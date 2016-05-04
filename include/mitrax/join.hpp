@@ -17,6 +17,7 @@ namespace mitrax{
 
 	// TODO: Test for same value_type
 	// TODO; Allow values
+	// TODO; Add some kind of join_grid
 	namespace detail{
 
 
