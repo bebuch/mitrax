@@ -24,6 +24,15 @@ BOOST_AUTO_TEST_SUITE(test_suite_householder_transformation)
 namespace{
 
 
+	template < typename T >
+	auto rt_id(T&& v){
+		return boost::typeindex::type_id_runtime(static_cast< T&& >(v));
+	}
+
+	template < typename T >
+	auto const id = boost::typeindex::type_id< T >();
+
+
 	template < typename T, typename U >
 	constexpr bool equal(T const& a, U const& b){
 		using std::abs;
@@ -59,12 +68,12 @@ namespace{
 }
 
 
-BOOST_AUTO_TEST_CASE(test_join){
+BOOST_AUTO_TEST_CASE(test_join_ct){
 	constexpr auto m1 = make_matrix(2_C, 2_R, {{0, 1}, {3, 4}});
 	constexpr auto m2 = make_matrix(1_C, 2_R, {{2}, {5}});
 	constexpr auto m3 = make_matrix(2_C, 1_R, {{6, 7}});
 	constexpr auto m4 = make_matrix(1_C, 1_R, {{8}});
-	
+
 	constexpr auto m5 = join(join_v(
 		join_h(m1, m2),
 		join_h(m3, m4)
@@ -77,6 +86,94 @@ BOOST_AUTO_TEST_CASE(test_join){
 
 	constexpr auto m7 = join(
 		join_v(join_h(join_v(m1, m3), join_v(m2, m4), m5), join_h(m5, m6)));
+
+	BOOST_TEST((rt_id(m5) == id< raw_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m6) == id< raw_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m7) == id< raw_matrix< int, 6, 6 > >));
+
+	BOOST_TEST((m5 == ref3x3));
+	BOOST_TEST((m6 == ref3x3));
+	BOOST_TEST((m7 == ref6x6));
+}
+
+BOOST_AUTO_TEST_CASE(test_join_rt){
+	auto m1 = make_matrix(2_C_rt, 2_R_rt, {{0, 1}, {3, 4}});
+	auto m2 = make_matrix(1_C_rt, 2_R_rt, {{2}, {5}});
+	auto m3 = make_matrix(2_C_rt, 1_R_rt, {{6, 7}});
+	auto m4 = make_matrix(1_C_rt, 1_R_rt, {{8}});
+
+	auto m5 = join(join_v(
+		join_h(m1, m2),
+		join_h(m3, m4)
+	));
+
+	auto m6 = join(join_h(
+		join_v(m1, m3),
+		join_v(m2, m4)
+	));
+
+	auto m7 = join(
+		join_v(join_h(join_v(m1, m3), join_v(m2, m4), m5), join_h(m5, m6)));
+
+	BOOST_TEST((rt_id(m5) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m6) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m7) == id< raw_matrix< int, 0, 0 > >));
+
+	BOOST_TEST((m5 == ref3x3));
+	BOOST_TEST((m6 == ref3x3));
+	BOOST_TEST((m7 == ref6x6));
+}
+
+BOOST_AUTO_TEST_CASE(test_join_ct_and_rt_1){
+	auto m1 = make_matrix(2_C_rt, 2_R_rt, {{0, 1}, {3, 4}});
+	constexpr auto m2 = make_matrix(1_C, 2_R, {{2}, {5}});
+	constexpr auto m3 = make_matrix(2_C, 1_R, {{6, 7}});
+	constexpr auto m4 = make_matrix(1_C, 1_R, {{8}});
+
+	auto m5 = join(join_v(
+		join_h(m1, m2),
+		join_h(m3, m4)
+	));
+
+	auto m6 = join(join_h(
+		join_v(m1, m3),
+		join_v(m2, m4)
+	));
+
+	auto m7 = join(
+		join_v(join_h(join_v(m1, m3), join_v(m2, m4), m5), join_h(m5, m6)));
+
+	BOOST_TEST((rt_id(m5) == id< raw_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m6) == id< raw_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m7) == id< raw_matrix< int, 6, 6 > >));
+
+	BOOST_TEST((m5 == ref3x3));
+	BOOST_TEST((m6 == ref3x3));
+	BOOST_TEST((m7 == ref6x6));
+}
+
+BOOST_AUTO_TEST_CASE(test_join_ct_and_rt_2){
+	auto m1 = make_matrix(2_C_rt, 2_R_rt, {{0, 1}, {3, 4}});
+	constexpr auto m2 = make_matrix(1_C, 2_R, {{2}, {5}});
+	constexpr auto m3 = make_matrix(2_C, 1_R, {{6, 7}});
+	auto m4 = make_matrix(1_C_rt, 1_R_rt, {{8}});
+
+	auto m5 = join(join_v(
+		join_h(m1, m2),
+		join_h(m3, m4)
+	));
+
+	auto m6 = join(join_h(
+		join_v(m1, m3),
+		join_v(m2, m4)
+	));
+
+	auto m7 = join(
+		join_v(join_h(join_v(m1, m3), join_v(m2, m4), m5), join_h(m5, m6)));
+
+	BOOST_TEST((rt_id(m5) == id< raw_matrix< int, 0, 3 > >));
+	BOOST_TEST((rt_id(m6) == id< raw_matrix< int, 3, 0 > >));
+	BOOST_TEST((rt_id(m7) == id< raw_matrix< int, 0, 6 > >));
 
 	BOOST_TEST((m5 == ref3x3));
 	BOOST_TEST((m6 == ref3x3));
