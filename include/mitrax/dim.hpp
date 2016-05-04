@@ -861,18 +861,8 @@ namespace mitrax{
 		}
 
 		template < template < bool, size_t > class init, bool Nct, size_t N >
-		constexpr auto get(init< Nct, N > d){
+		constexpr auto get_same(init< Nct, N > d){
 			return d;
-		}
-
-		template <
-			template < bool, size_t > class init,
-			bool Nct1, size_t N1, bool Nct2, size_t N2
-		> constexpr auto get(
-			init< Nct1, N1 > d1,
-			init< Nct2, N2 > d2
-		){
-			return get_ct_if_available< init >(d1, d2);
 		}
 
 		template <
@@ -880,12 +870,13 @@ namespace mitrax{
 			bool Nct1, size_t N1,
 			bool Nct2, size_t N2,
 			bool ... NctN, size_t ... Nn
-		> constexpr auto get(
+		> constexpr auto get_same(
 			init< Nct1, N1 > d1,
 			init< Nct2, N2 > d2,
 			init< NctN, Nn > ... dn
 		){
-			return get< init >(get_ct_if_available< init >(d1, d2), dn ...);
+			return get_same< init >(
+				get_ct_if_available< init >(d1, d2), dn ...);
 		}
 
 
@@ -894,17 +885,17 @@ namespace mitrax{
 
 	template < bool ... Nct, size_t ... N >
 	constexpr auto get(col_t< Nct, N > ... v){
-		return detail::get< col_t >(v ...);
+		return detail::get_same< col_t >(v ...);
 	}
 
 	template < bool ... Nct, size_t ... N >
 	constexpr auto get(row_t< Nct, N > ... v){
-		return detail::get< row_t >(v ...);
+		return detail::get_same< row_t >(v ...);
 	}
 
 	template < bool ... Nct, size_t ... N >
 	constexpr auto get(dim_t< Nct, N > ... v){
-		return detail::get< dim_t >(v ...);
+		return detail::get_same< dim_t >(v ...);
 	}
 
 	template < size_t ... C, size_t ... R >
