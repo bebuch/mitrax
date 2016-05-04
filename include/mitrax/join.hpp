@@ -15,6 +15,8 @@
 namespace mitrax{
 
 
+	// TODO: Test for same value_type
+	// TODO; Allow values
 	namespace detail{
 
 
