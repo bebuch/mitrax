@@ -1,10 +1,8 @@
-path-constant LIBRARIES
-	# path to your libraries directory
-	: /media/data/libraries/src
-	; 
+import os ;
+local boost = [ os.environ BOOST ] ;
 
 use-project /boost
-	: $(LIBRARIES)/boost
+	: $(boost)
 	;
 
 project mitrax_test
@@ -31,7 +29,7 @@ project mitrax_test
 	<toolset>clang:<linkflags>-lc++abi
 	<toolset>clang:<linkflags>-stdlib=libc++
 
-	<include>$(LIBRARIES)/boost
+	<include>$(boost)
 	:
 	usage-requirements <include>include
 	;
