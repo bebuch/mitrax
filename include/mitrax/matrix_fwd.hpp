@@ -15,33 +15,8 @@
 namespace mitrax{
 
 
-	template < typename M, size_t Cols, size_t Rows >
-	class matrix;
-
-	template < typename M, size_t N >
-	using square_matrix = matrix< M, N, N >;
-
-	template < typename M, size_t Rows >
-	using col_vector = matrix< M, 1, Rows >;
-
-	template < typename M, size_t Cols >
-	using row_vector = matrix< M, Cols, 1 >;
-
-	template < typename M >
-	using bitmap = matrix< M, 0, 0 >;
-
-
-	namespace detail{
-
-		template < typename T, size_t Cols, size_t Rows >
-		class raw_matrix_impl;
-
-	}
-
-
 	template < typename T, size_t Cols, size_t Rows >
-	using raw_matrix =
-		matrix< detail::raw_matrix_impl< T, Cols, Rows >, Cols, Rows >;
+	class raw_matrix;
 
 	template < typename T, size_t N >
 	using raw_square_matrix = raw_matrix< T, N, N >;

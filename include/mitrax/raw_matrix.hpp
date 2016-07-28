@@ -16,14 +16,17 @@
 #include <iterator>
 
 
-namespace mitrax{ namespace detail{
+namespace mitrax{
 
 
 	template < typename T, size_t C, size_t R >
-	class raw_matrix_impl{
+	class raw_matrix: matrix< raw_matrix< T, C, R > >{
 	public:
 		/// \brief Type of the data that administrates the matrix
 		using value_type = T;
+
+		/// \brief Type of matrix dimensions (cols and rows)
+		using dimension_type = dims_t< C, R >;
 
 		/// \brief Type of a iterator for data
 		using iterator = value_type*;
@@ -38,24 +41,24 @@ namespace mitrax{ namespace detail{
 		using const_reverse_iterator = std::reverse_iterator< const_iterator >;
 
 
-		constexpr raw_matrix_impl():
-			values_(init_array< C * R >(value_type())) {}
+		constexpr raw_matrix():
+			values_(detail::init_array< C * R >(value_type())) {}
 
-		constexpr raw_matrix_impl(raw_matrix_impl&&) = default;
+		constexpr raw_matrix(raw_matrix&&) = default;
 
-		constexpr raw_matrix_impl(raw_matrix_impl const&) = default;
+		constexpr raw_matrix(raw_matrix const&) = default;
 
-		constexpr raw_matrix_impl(
+		constexpr raw_matrix(
 			col_t< true, C >, row_t< true, R >,
-			array_s< value_type, C * R >&& values
+			detail::array_s< value_type, C * R >&& values
 		):
 			values_(std::move(values))
 			{}
 
 
-		constexpr raw_matrix_impl& operator=(raw_matrix_impl&&) = default;
+		constexpr raw_matrix& operator=(raw_matrix&&) = default;
 
-		constexpr raw_matrix_impl& operator=(raw_matrix_impl const&) = default;
+		constexpr raw_matrix& operator=(raw_matrix const&) = default;
 
 
 		constexpr value_type& operator()(size_t x, size_t y){
@@ -119,12 +122,12 @@ namespace mitrax{ namespace detail{
 
 
 	private:
-		array_s< value_type, C * R > values_;
+		detail::array_s< value_type, C * R > values_;
 	};
 
 
 	template < typename T, size_t C, size_t R >
-	class raw_matrix_impl_base{
+	class raw_matrix_base: matrix< raw_matrix< T, C, R > >{
 	public:
 		/// \brief Type of the data that administrates the matrix
 		using value_type = T;
@@ -142,13 +145,13 @@ namespace mitrax{ namespace detail{
 		using const_reverse_iterator = std::reverse_iterator< const_iterator >;
 
 
-		raw_matrix_impl_base() = default;
+		raw_matrix_base() = default;
 
-		raw_matrix_impl_base(raw_matrix_impl_base&&) = default;
+		raw_matrix_base(raw_matrix_base&&) = default;
 
-		raw_matrix_impl_base(raw_matrix_impl_base const&) = default;
+		raw_matrix_base(raw_matrix_base const&) = default;
 
-		raw_matrix_impl_base(
+		raw_matrix_base(
 			col_t< C != 0, C > c, row_t< R != 0, R > r,
 			detail::array_d< value_type >&& values
 		):
@@ -158,9 +161,9 @@ namespace mitrax{ namespace detail{
 			{}
 
 
-		raw_matrix_impl_base& operator=(raw_matrix_impl_base&&) = default;
+		raw_matrix_base& operator=(raw_matrix_base&&) = default;
 
-		raw_matrix_impl_base& operator=(raw_matrix_impl_base const&) = default;
+		raw_matrix_base& operator=(raw_matrix_base const&) = default;
 
 
 		value_type& operator()(size_t x, size_t y){
@@ -231,30 +234,30 @@ namespace mitrax{ namespace detail{
 
 
 	template < typename T, size_t R >
-	class raw_matrix_impl< T, 0, R >:
-		public raw_matrix_impl_base< T, 0, R >{
+	class raw_matrix< T, 0, R >:
+		public raw_matrix_base< T, 0, R >{
 	public:
-		using raw_matrix_impl_base< T, 0, R >::raw_matrix_impl_base;
+		using raw_matrix_base< T, 0, R >::raw_matrix_base;
 	};
 
 
 	template < typename T, size_t C >
-	class raw_matrix_impl< T, C, 0 >:
-		public raw_matrix_impl_base< T, C, 0 >{
+	class raw_matrix< T, C, 0 >:
+		public raw_matrix_base< T, C, 0 >{
 	public:
-		using raw_matrix_impl_base< T, C, 0 >::raw_matrix_impl_base;
+		using raw_matrix_base< T, C, 0 >::raw_matrix_base;
 	};
 
 
 	template < typename T >
-	class raw_matrix_impl< T, 0, 0 >:
-		public raw_matrix_impl_base< T, 0, 0 >{
+	class raw_matrix< T, 0, 0 >:
+		public raw_matrix_base< T, 0, 0 >{
 	public:
-		using raw_matrix_impl_base< T, 0, 0 >::raw_matrix_impl_base;
+		using raw_matrix_base< T, 0, 0 >::raw_matrix_base;
 	};
 
 
-} }
+}
 
 
 #endif

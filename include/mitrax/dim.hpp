@@ -277,6 +277,9 @@ namespace mitrax{
 	template < size_t C, size_t R >
 	class dims_t{
 	public:
+		static constexpr size_t ct_cols = C;
+		static constexpr size_t ct_rows = R;
+
 		constexpr dims_t()noexcept = default;
 
 		constexpr dims_t(
@@ -902,6 +905,54 @@ namespace mitrax{
 	constexpr auto get(dims_t< C, R > ... v){
 		return dims(get(v.cols() ...), get(v.rows() ...));
 	}
+
+
+	template < typename T >
+	struct is_row_vector: std::bool_constant<
+		is_row_vector< typename T::dimension_type >::value >{};
+
+	template < size_t C, size_t R >
+	struct is_row_vector< dims_t< C, R > >:
+		std::bool_constant< R == 1 >{};
+
+	template < typename T >
+	constexpr bool is_row_vector_v = is_row_vector< T >::value;
+
+
+	template < typename T >
+	struct is_col_vector: std::bool_constant<
+		is_col_vector< typename T::dimension_type >::value >{};
+
+	template < size_t C, size_t R >
+	struct is_col_vector< dims_t< C, R > >:
+		std::bool_constant< C == 1 >{};
+
+	template < typename T >
+	constexpr bool is_col_vector_v = is_col_vector< T >::value;
+
+
+	template < typename T >
+	struct is_vector: std::bool_constant<
+		is_vector< typename T::dimension_type >::value >{};
+
+	template < size_t C, size_t R >
+	struct is_vector< dims_t< C, R > >:
+		std::bool_constant< C == 1 || R == 1 >{};
+
+	template < typename T >
+	constexpr bool is_vector_v = is_vector< T >::value;
+
+
+	template < typename T >
+	struct is_value: std::bool_constant<
+		is_value< typename T::dimension_type >::value >{};
+
+	template < size_t C, size_t R >
+	struct is_value< dims_t< C, R > >:
+		std::bool_constant< C == 1 && R == 1 >{};
+
+	template < typename T >
+	constexpr bool is_value_v = is_value< T >::value;
 
 
 }

@@ -38,9 +38,9 @@ namespace mitrax{
 
 	template <
 		typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
-		typename M, size_t C2, size_t R2
+		typename M, typename = enable_matrix_t< M >
 	> constexpr auto convert(
-		matrix< M, C2, R2 >& m,
+		M& m,
 		col_t< Cct1, C1 > c,
 		row_t< Rct1, R1 > r
 	){
@@ -49,9 +49,9 @@ namespace mitrax{
 
 	template <
 		typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
-		typename M, size_t C2, size_t R2
+		typename M, typename = enable_matrix_t< M >
 	> constexpr auto convert(
-		matrix< M, C2, R2 > const& m,
+		M const& m,
 		col_t< Cct1, C1 > c,
 		row_t< Rct1, R1 > r
 	){
@@ -60,9 +60,9 @@ namespace mitrax{
 
 	template <
 		typename T, bool Cct1, size_t C1, bool Rct1, size_t R1,
-		typename M, size_t C2, size_t R2
+		typename M, typename = enable_matrix_t< M >
 	> constexpr auto convert(
-		matrix< M, C2, R2 >&& m,
+		M&& m,
 		col_t< Cct1, C1 > c,
 		row_t< Rct1, R1 > r
 	){
@@ -73,9 +73,9 @@ namespace mitrax{
 
 	template <
 		bool Cct1, size_t C1, bool Rct1, size_t R1,
-		typename M, size_t C2, size_t R2
+		typename M, typename = enable_matrix_t< M >
 	> constexpr auto convert(
-		matrix< M, C2, R2 >& m,
+		M& m,
 		col_t< Cct1, C1 > c,
 		row_t< Rct1, R1 > r
 	){
@@ -84,9 +84,9 @@ namespace mitrax{
 
 	template <
 		bool Cct1, size_t C1, bool Rct1, size_t R1,
-		typename M, size_t C2, size_t R2
+		typename M, typename = enable_matrix_t< M >
 	> constexpr auto convert(
-		matrix< M, C2, R2 > const& m,
+		M const& m,
 		col_t< Cct1, C1 > c,
 		row_t< Rct1, R1 > r
 	){
@@ -95,9 +95,9 @@ namespace mitrax{
 
 	template <
 		bool Cct1, size_t C1, bool Rct1, size_t R1,
-		typename M, size_t C2, size_t R2
+		typename M, typename = enable_matrix_t< M >
 	> constexpr auto convert(
-		matrix< M, C2, R2 >&& m,
+		M&& m,
 		col_t< Cct1, C1 > c,
 		row_t< Rct1, R1 > r
 	){
@@ -105,36 +105,36 @@ namespace mitrax{
 			detail::make_convert_fn< fn_xy< M > >(std::move(m)));
 	}
 
-	template < typename T, typename M, size_t C, size_t R >
-	constexpr auto convert(matrix< M, C, R >& m){
+	template < typename T, typename M, typename = enable_matrix_t< M > >
+	constexpr auto convert(M& m){
 		return make_matrix_fn(m.dims(), detail::make_convert_fn< T >(m));
 	}
 
-	template < typename T, typename M, size_t C, size_t R >
-	constexpr auto convert(matrix< M, C, R > const& m){
+	template < typename T, typename M, typename = enable_matrix_t< M > >
+	constexpr auto convert(M const& m){
 		return make_matrix_fn(m.dims(), detail::make_convert_fn< T >(m));
 	}
 
-	template < typename T, typename M, size_t C, size_t R >
-	constexpr auto convert(matrix< M, C, R >&& m){
+	template < typename T, typename M, typename = enable_matrix_t< M > >
+	constexpr auto convert(M&& m){
 		return make_matrix_fn(m.dims(),
 			detail::make_convert_fn< T >(std::move(m)));
 	}
 
-	template < typename M, size_t C, size_t R >
-	constexpr auto as_raw_matrix(matrix< M, C, R >& m){
+	template < typename M, typename = enable_matrix_t< M > >
+	constexpr auto as_raw_matrix(M& m){
 		return make_matrix_fn(m.dims(),
 			detail::make_convert_fn< fn_xy< M > >(m));
 	}
 
-	template < typename M, size_t C, size_t R >
-	constexpr auto as_raw_matrix(matrix< M, C, R > const& m){
+	template < typename M, typename = enable_matrix_t< M > >
+	constexpr auto as_raw_matrix(M const& m){
 		return make_matrix_fn(m.dims(),
 			detail::make_convert_fn< fn_xy< M > >(m));
 	}
 
-	template < typename M, size_t C, size_t R >
-	constexpr auto as_raw_matrix(matrix< M, C, R >&& m){
+	template < typename M, typename = enable_matrix_t< M > >
+	constexpr auto as_raw_matrix(M&& m){
 		return make_matrix_fn(m.dims(),
 			detail::make_convert_fn< fn_xy< M > >(std::move(m)));
 	}

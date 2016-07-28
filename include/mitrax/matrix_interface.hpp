@@ -21,13 +21,21 @@
 namespace mitrax{
 
 
-	template < typename M, size_t Cols, size_t Rows >
+	template < typename M >
 	class matrix{
 	public:
+// 		static_assert(
+// 			std::is_base_of_v< matrix, M >,
+// 			"M must be derived from matrix"
+// 		);
+
+		/// M needs:
+		/// - a typedef dimension_type of type dims_t
+
 		// TODO: Check if M is a matrix_impl type!!!
 
-		/// \brief Type of the data that administrates the matrix
-		using value_type = value_type_t< M >;
+		/// \brief Type of derived class
+		using self_type = M;
 
 		/// \brief Unsigned integral type (size_t)
 		using size_type = size_t;
@@ -38,20 +46,17 @@ namespace mitrax{
 		/// \brief Type of points in the matrix
 		using point_type = point< size_t >;
 
-		/// \brief Type of matrix dimensions (cols and rows)
-		using dimension_type = dims_t< Cols, Rows >;
-
 		/// \brief Type of a reference to data
-		using reference = value_type&;
+		using reference = typename M::value_type&;
 
 		/// \brief Type of a reference to const data
-		using const_reference = value_type const&;
+		using const_reference = typename M::value_type const&;
 
 		/// \brief Type of a pointer to data
-		using pointer = value_type*;
+		using pointer = typename M::value_type*;
 
 		/// \brief Type of a pointer to const data
-		using const_pointer = value_type const*;
+		using const_pointer = typename M::value_type const*;
 
 		/// \brief Type of a iterator for data
 		using iterator = typename M::iterator;
@@ -68,8 +73,6 @@ namespace mitrax{
 
 		constexpr matrix() = default;
 
-		constexpr matrix(M&& m): m_(std::move(m)) {}
-
 		constexpr matrix(matrix&&) = default;
 
 		constexpr matrix(matrix const&) = default;
@@ -80,15 +83,15 @@ namespace mitrax{
 		constexpr matrix& operator=(matrix const&) = default;
 
 
-		constexpr col_t< Cols != 0, Cols > cols()const noexcept{
-			return m_.cols();
+		constexpr auto cols()const noexcept{
+			return m().cols();
 		}
 
-		constexpr row_t< Rows != 0, Rows > rows()const noexcept{
-			return m_.rows();
+		constexpr auto rows()const noexcept{
+			return m().rows();
 		}
 
-		constexpr dims_t< Cols, Rows > dims()const noexcept{
+		constexpr auto dims()const noexcept{
 			return mitrax::dims(cols(), rows());
 		}
 
@@ -98,92 +101,92 @@ namespace mitrax{
 
 
 		constexpr decltype(auto) operator()(size_t x, size_t y){
-			assert(x < m_.cols());
-			assert(y < m_.rows());
-			return m_(x, y);
+			assert(x < cols());
+			assert(y < rows());
+			return m()(x, y);
 		}
 
 		constexpr decltype(auto) operator()(size_t x, size_t y)const{
-			assert(x < m_.cols());
-			assert(y < m_.rows());
-			return m_(x, y);
+			assert(x < cols());
+			assert(y < rows());
+			return m()(x, y);
 		}
 
 
 		constexpr decltype(auto) operator[](size_t i){
 			static_assert(
-				Cols == 1 || Rows == 1,
+				is_vector_v< M >,
 				"access operator only allowed for compile time dim vectors"
 			);
 
-			if(Cols == 1){
-				if(Rows == 1){
-					assert(i == 0);
-					return m_(0, 0);
-				}
-				return m_(0, i);
+			if(is_value_v< M >){
+				assert(i == 0);
+				return m()(0, 0);
+			}else if(is_col_vector_v< M >){
+				return m()(0, i);
+			}else{
+				return m()(i, 0);
 			}
-			return m_(i, 0);
 		}
 
 		constexpr decltype(auto) operator[](size_t i)const{
 			static_assert(
-				Cols == 1 || Rows == 1,
+				is_vector_v< M >,
 				"access operator only allowed for compile time dim vectors"
 			);
 
-			if(Cols == 1){
-				if(Rows == 1){
-					assert(i == 0);
-					return m_(0, 0);
-				}
-				return m_(0, i);
+			if(is_value_v< M >){
+				assert(i == 0);
+				return m()(0, 0);
+			}else if(is_col_vector_v< M >){
+				return m()(0, i);
+			}else{
+				return m()(i, 0);
 			}
-			return m_(i, 0);
 		}
 
 
-		constexpr operator value_type()const{
+		constexpr operator typename M::value_type()const{
 			static_assert(
-				Cols == 1 && Rows == 1,
+				is_value_v< M >,
 				"value conversion is only allowed for compile time dim "
 				"matrices with one element"
 			);
 
-			return m_(0, 0);
+			return m()(0, 0);
 		}
 
 
 		constexpr iterator begin(){
-			return m_.begin();
+			return m().begin();
 		}
 
 		constexpr const_iterator begin()const{
-			return m_.begin();
+			return m().begin();
 		}
 
 		constexpr iterator end(){
-			return m_.end();
+			return m().end();
 		}
 
 		constexpr const_iterator end()const{
-			return m_.end();
+			return m().end();
 		}
 
 		constexpr reverse_iterator rbegin(){
-			return m_.rbegin();
+			return m().rbegin();
 		}
 
 		constexpr const_reverse_iterator rbegin()const{
-			return m_.rbegin();
+			return m().rbegin();
 		}
 
 		constexpr reverse_iterator rend(){
-			return m_.rend();
+			return m().rend();
 		}
 
 		constexpr const_reverse_iterator rend()const{
-			return m_.rend();
+			return m().rend();
 		}
 
 		constexpr const_iterator cbegin()const{
@@ -203,44 +206,33 @@ namespace mitrax{
 		}
 
 
-		constexpr M& impl(){
-			return m_;
-		}
-
-		constexpr M const& impl()const{
-			return m_;
-		}
-
-
-		constexpr value_type* data(){
+		constexpr auto data(){
 			static_assert(
 				has_data< M >::value,
 				"The underlaying matrix implementation doesn't support "
 				"m.data()"
 			);
-			return m_.data();
+			return m().data();
 		}
 
-		constexpr value_type const* data()const{
+		constexpr auto data()const{
 			static_assert(
 				has_data< M const >::value,
 				"The underlaying matrix implementation doesn't support "
 				"m.data()const"
 			);
-			return m_.data();
+			return m().data();
 		}
 
 
-	protected:
-		M m_;
-
 	private:
 		template < bool Cct, size_t C, bool Rct, size_t R >
-		constexpr void
-		check_dims(col_t< Cct, C > c, row_t< Rct, R > r)const{
+		constexpr void check_dims(col_t< Cct, C > c, row_t< Rct, R > r)const{
 			static_assert(
-				(Cols == 0 || !Cct || Cols == C) &&
-				(Rows == 0 || !Rct || Rows == R),
+				(M::dimension_type::ct_cols == 0 || !Cct ||
+					M::dimension_type::ct_cols == C) &&
+				(M::dimension_type::ct_rows == 0 || !Rct ||
+					M::dimension_type::ct_rows == R),
 				"matrix dimensions not compatible"
 			);
 
@@ -248,6 +240,16 @@ namespace mitrax{
 				throw std::logic_error("matrix dimensions not compatible");
 			}
 		}
+
+
+		constexpr M& m(){
+			return static_cast< M& >(*this);
+		}
+
+		constexpr M const& m()const{
+			return static_cast< M const& >(*this);
+		}
+
 
 		template< typename T, typename = void >
 		struct has_data: std::false_type{};
@@ -261,18 +263,33 @@ namespace mitrax{
 	};
 
 
-	template < typename ... M, size_t ... C, size_t ... R >
-	constexpr auto get_cols(matrix< M, C, R > const& ... m){
+	template < typename M >
+	struct is_matrix:
+		std::bool_constant< std::is_base_of_v< matrix< M >, M > >{};
+
+	template < typename M >
+	constexpr bool is_matrix_v = is_matrix< M >::value;
+
+
+	template < typename M >
+	struct enable_matrix: std::enable_if< is_matrix_v< M > >{};
+
+	template < typename M >
+	using enable_matrix_t = typename enable_matrix< M >::type;
+
+
+	template < typename ... M >
+	constexpr auto get_cols(M const& ... m){
 		return get(m.cols() ...);
 	}
 
-	template < typename ... M, size_t ... C, size_t ... R >
-	constexpr auto get_rows(matrix< M, C, R > const& ... m){
+	template < typename ... M >
+	constexpr auto get_rows(M const& ... m){
 		return get(m.rows() ...);
 	}
 
-	template < typename ... M, size_t ... C, size_t ... R >
-	constexpr auto get_dims(matrix< M, C, R > const& ... m){
+	template < typename ... M >
+	constexpr auto get_dims(M const& ... m){
 		return get(m.dims() ...);
 	}
 
