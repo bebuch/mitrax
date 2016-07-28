@@ -14,13 +14,13 @@ project mitrax_test
 	<warnings>all
 	<c++-template-depth>1024
 
-	<toolset>gcc:<cxxflags>-std=c++14
+	<toolset>gcc:<cxxflags>-std=c++1z
 	<toolset>gcc:<cxxflags>-fconstexpr-depth=1024
 	<toolset>gcc:<cxxflags>-Wall
 	<toolset>gcc:<cxxflags>-Wextra
 	<toolset>gcc:<linkflags>-lpthread
 
-	<toolset>clang:<cxxflags>-std=c++14
+	<toolset>clang:<cxxflags>-std=c++1z
 	<toolset>clang:<cxxflags>-fconstexpr-depth=1024
 	<toolset>clang:<cxxflags>-Wall
 	<toolset>clang:<cxxflags>-Wextra

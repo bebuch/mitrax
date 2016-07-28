@@ -1,6 +1,6 @@
 # Mitrax
 
-Mitrax is a C++14 template library for linear algebra and image processing.
+Mitrax is a C++17 template library for linear algebra and image processing.
 
 Design goals are:
 
