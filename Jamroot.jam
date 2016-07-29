@@ -7,7 +7,7 @@ use-project /boost
 
 project mitrax_test
 	:
-	source-location src
+	source-location test
 	:
 	requirements <include>include
 
