@@ -1,0 +1,40 @@
+lib libpng12 : :
+	# watch out for empty spaces, they are mandatory
+	<file>/usr/lib/x86_64-linux-gnu/libpng12.so ;
+
+
+project mitrax
+	:
+	source-location .
+	:
+	requirements <include>../include
+
+	<warnings>all
+	<c++-template-depth>1024
+
+	<toolset>gcc:<cxxflags>-std=c++1z
+	<toolset>gcc:<cxxflags>-fconstexpr-depth=1024
+	<toolset>gcc:<cxxflags>-Wall
+	<toolset>gcc:<cxxflags>-Wextra
+	<toolset>gcc:<linkflags>-lpthread
+
+	<toolset>clang:<cxxflags>-std=c++1z
+	<toolset>clang:<cxxflags>-fconstexpr-depth=1024
+	<toolset>clang:<cxxflags>-Wall
+	<toolset>clang:<cxxflags>-Wextra
+	<toolset>clang:<cxxflags>-stdlib=libc++
+	<toolset>clang:<linkflags>-lpthread
+	<toolset>clang:<linkflags>-lc++abi
+	<toolset>clang:<linkflags>-stdlib=libc++
+
+	<include>/usr/include
+	<include>/usr/include/libpng12
+	:
+	usage-requirements <include>../include
+	;
+
+exe convolution
+	:
+	convolution.cpp
+	libpng12
+	;
