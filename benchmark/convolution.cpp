@@ -19,7 +19,7 @@ int main(){
 	using namespace mitrax::literals;
 
 	auto m = make_matrix_v< std::uint8_t >(3264_C_rt, 2448_R_rt);
-	mitrax::png::load(m, "image_00.png");
+	mitrax::png::load(m, "image_01.png");
 
 	constexpr auto sobel_x = make_square_matrix< int >(3_D, {
 		{1, 0, -1},

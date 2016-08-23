@@ -38,3 +38,9 @@ exe convolution
 	convolution.cpp
 	libpng12
 	;
+
+exe rgb2grayscale
+	:
+	rgb2grayscale.cpp
+	libpng12
+	;
