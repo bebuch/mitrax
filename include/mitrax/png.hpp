@@ -13,6 +13,7 @@
 #include "pixel.hpp"
 
 #include <string>
+#include <type_traits>
 
 #include <png++/png.hpp>
 
@@ -69,12 +70,20 @@ namespace mitrax{ namespace png{
 
 
 		template < typename T, typename PNG_Pixel >
-		T pngxx2mitrax(PNG_Pixel&& v){
+		T pngxx2mitrax(PNG_Pixel const& v){
 			static_assert(
 				sizeof(T) == sizeof(PNG_Pixel),
 				"Matrix pixel type T is not compatible with type PNG_Pixel"
 			);
-			return *reinterpret_cast< T* >(&v);
+			static_assert(
+				std::is_pod_v< T >, "Matrix pixel type T must be a POD-type"
+			);
+			static_assert(
+				std::is_trivially_copyable_v< PNG_Pixel >,
+				"Type PNG_Pixel must be trivially copyable"
+			);
+
+			return *reinterpret_cast< T const* >(&v);
 		}
 
 		template < typename PNG_Pixel, typename T >
@@ -83,6 +92,14 @@ namespace mitrax{ namespace png{
 				sizeof(T) == sizeof(PNG_Pixel),
 				"Matrix pixel type T is not compatible with type PNG_Pixel"
 			);
+			static_assert(
+				std::is_pod_v< T >, "Matrix pixel type T must be a POD-type"
+			);
+			static_assert(
+				std::is_trivially_copyable_v< PNG_Pixel >,
+				"Type PNG_Pixel must be trivially copyable"
+			);
+
 			return *reinterpret_cast< T const* >(&v);
 		}
 
