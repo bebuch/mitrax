@@ -108,6 +108,18 @@ namespace mitrax{
 	template <
 		typename M1, size_t C1, size_t R1,
 		typename M2, size_t C2, size_t R2
+	> constexpr auto gradient_magnitude_approximately(
+		matrix< M1, C1, R1 > const& mx,
+		matrix< M2, C2, R2 > const& my
+	){
+		return make_matrix_fn(get_dims(mx, my), [&mx, &my](auto j, auto k){
+			return std::abs(my(j, k)) + std::abs(mx(j, k));
+		});
+	}
+
+	template <
+		typename M1, size_t C1, size_t R1,
+		typename M2, size_t C2, size_t R2
 	> constexpr auto gradient_direction(
 		matrix< M1, C1, R1 > const& mx,
 		matrix< M2, C2, R2 > const& my
