@@ -37,11 +37,13 @@ int main(){
 	{
 		auto mx = roberts_cross_x(m);
 		auto my = roberts_cross_y(m);
-		auto ma = gradient_magnitude(mx, my);
+		auto mm = gradient_magnitude(mx, my);
+		auto ma = gradient_magnitude_approximately(mx, my);
 		auto md = gradient_direction(mx, my);
 
 		mitrax::png::save(normalize(mx), "image_X0.png");
 		mitrax::png::save(normalize(my), "image_Y0.png");
+		mitrax::png::save(normalize(mm), "image_M0.png");
 		mitrax::png::save(normalize(ma), "image_A0.png");
 		mitrax::png::save(normalize(md), "image_D0.png");
 	}
@@ -49,11 +51,13 @@ int main(){
 	{
 		auto mx = prewitt_x(m);
 		auto my = prewitt_y(m);
-		auto ma = gradient_magnitude(mx, my);
+		auto mm = gradient_magnitude(mx, my);
+		auto ma = gradient_magnitude_approximately(mx, my);
 		auto md = gradient_direction(mx, my);
 
 		mitrax::png::save(normalize(mx), "image_X1.png");
 		mitrax::png::save(normalize(my), "image_Y1.png");
+		mitrax::png::save(normalize(mm), "image_M1.png");
 		mitrax::png::save(normalize(ma), "image_A1.png");
 		mitrax::png::save(normalize(md), "image_D1.png");
 	}
@@ -61,11 +65,13 @@ int main(){
 	{
 		auto mx = sobel_x(m);
 		auto my = sobel_y(m);
-		auto ma = gradient_magnitude(mx, my);
+		auto mm = gradient_magnitude(mx, my);
+		auto ma = gradient_magnitude_approximately(mx, my);
 		auto md = gradient_direction(mx, my);
 
 		mitrax::png::save(normalize(mx), "image_X2.png");
 		mitrax::png::save(normalize(my), "image_Y2.png");
+		mitrax::png::save(normalize(mm), "image_M2.png");
 		mitrax::png::save(normalize(ma), "image_A2.png");
 		mitrax::png::save(normalize(md), "image_D2.png");
 	}
@@ -73,11 +79,13 @@ int main(){
 	{
 		auto mx = scharr_x(m);
 		auto my = scharr_y(m);
-		auto ma = gradient_magnitude(mx, my);
+		auto mm = gradient_magnitude(mx, my);
+		auto ma = gradient_magnitude_approximately(mx, my);
 		auto md = gradient_direction(mx, my);
 
 		mitrax::png::save(normalize(mx), "image_X3.png");
 		mitrax::png::save(normalize(my), "image_Y3.png");
+		mitrax::png::save(normalize(mm), "image_M3.png");
 		mitrax::png::save(normalize(ma), "image_A3.png");
 		mitrax::png::save(normalize(md), "image_D3.png");
 	}
