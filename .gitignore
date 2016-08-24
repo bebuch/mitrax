@@ -1,4 +1,6 @@
 # ignore bin directory
 bin
 test/bin
+benchmark/bin
+benchmark/image*
 todo
