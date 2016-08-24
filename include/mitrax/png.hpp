@@ -10,6 +10,7 @@
 #define _mitrax__png__hpp_INCLUDED_
 
 #include "matrix_interface.hpp"
+#include "pixel.hpp"
 
 #include <string>
 
@@ -17,69 +18,6 @@
 
 
 namespace mitrax{ namespace png{
-
-
-	template < typename T, typename PNG_type >
-	struct basic_ga{
-		T g, a;
-
-		basic_ga(): g(0), a(0) {}
-
-		basic_ga(T g, T a):
-			g(g), a(a) {}
-
-		basic_ga(::png::basic_ga_pixel< PNG_type > const& v):
-			g(v.value), a(v.alpha) {}
-
-		operator ::png::basic_ga_pixel< PNG_type >()const{
-			return {g, a};
-		}
-	};
-
-	using ga8 = basic_ga< std::uint8_t, unsigned char >;
-	using ga16 = basic_ga< std::uint16_t, unsigned short >;
-
-
-	template < typename T, typename PNG_type >
-	struct basic_rgb{
-		T r, g, b;
-
-		basic_rgb(): r(0), g(0), b(0) {}
-
-		basic_rgb(T r, T g, T b):
-			r(r), g(g), b(b) {}
-
-		basic_rgb(::png::basic_rgb_pixel< PNG_type > const& v):
-			r(v.red), g(v.green), b(v.blue) {}
-
-		operator ::png::basic_rgb_pixel< PNG_type >()const{
-			return {r, g, b};
-		}
-	};
-
-	using rgb8 = basic_rgb< std::uint8_t, unsigned char >;
-	using rgb16 = basic_rgb< std::uint16_t, unsigned short >;
-
-
-	template < typename T, typename PNG_type >
-	struct basic_rgba{
-		T r, g, b, a;
-
-		basic_rgba(): r(0), g(0), b(0), a(0) {}
-
-		basic_rgba(T r, T g, T b, T a):
-			r(r), g(g), b(b), a(a) {}
-
-		basic_rgba(::png::basic_rgba_pixel< PNG_type > const& v):
-			r(v.red), g(v.green), b(v.blue), a(v.alpha) {}
-
-		operator ::png::basic_rgba_pixel< PNG_type >()const{
-			return {r, g, b, a};
-		}
-	};
-
-	using rgba8 = basic_rgba< std::uint8_t, unsigned char >;
-	using rgba16 = basic_rgba< std::uint16_t, unsigned short >;
 
 
 	namespace detail{
@@ -98,21 +36,55 @@ namespace mitrax{ namespace png{
 			{ using type = ::png::gray_pixel_16; };
 		template <> struct png_type< std::uint16_t >
 			{ using type = ::png::gray_pixel_16; };
-		template <> struct png_type< png::ga8 >
+
+		template <> struct png_type< pixel::ga8 >
 			{ using type = ::png::ga_pixel; };
-		template <> struct png_type< png::ga16 >
+		template <> struct png_type< pixel::ga8u >
+			{ using type = ::png::ga_pixel; };
+		template <> struct png_type< pixel::ga16 >
 			{ using type = ::png::ga_pixel_16; };
-		template <> struct png_type< png::rgb8 >
+		template <> struct png_type< pixel::ga16u >
+			{ using type = ::png::ga_pixel_16; };
+
+		template <> struct png_type< pixel::rgb8 >
 			{ using type = ::png::rgb_pixel; };
-		template <> struct png_type< png::rgb16 >
+		template <> struct png_type< pixel::rgb8u >
+			{ using type = ::png::rgb_pixel; };
+		template <> struct png_type< pixel::rgb16 >
 			{ using type = ::png::rgb_pixel_16; };
-		template <> struct png_type< png::rgba8 >
+		template <> struct png_type< pixel::rgb16u >
+			{ using type = ::png::rgb_pixel_16; };
+
+		template <> struct png_type< pixel::rgba8 >
 			{ using type = ::png::rgba_pixel; };
-		template <> struct png_type< png::rgba16 >
+		template <> struct png_type< pixel::rgba8u >
+			{ using type = ::png::rgba_pixel; };
+		template <> struct png_type< pixel::rgba16 >
+			{ using type = ::png::rgba_pixel_16; };
+		template <> struct png_type< pixel::rgba16u >
 			{ using type = ::png::rgba_pixel_16; };
 
 		template < typename T >
 		using png_type_t = typename png_type< T >::type;
+
+
+		template < typename T, typename PNG_Pixel >
+		T pngxx2mitrax(PNG_Pixel&& v){
+			static_assert(
+				sizeof(T) == sizeof(PNG_Pixel),
+				"Matrix pixel type T is not compatible with type PNG_Pixel"
+			);
+			return *reinterpret_cast< T* >(&v);
+		}
+
+		template < typename PNG_Pixel, typename T >
+		PNG_Pixel mitrax2pngxx(T const& v){
+			static_assert(
+				sizeof(T) == sizeof(PNG_Pixel),
+				"Matrix pixel type T is not compatible with type PNG_Pixel"
+			);
+			return *reinterpret_cast< T const* >(&v);
+		}
 
 
 	}
@@ -131,7 +103,7 @@ namespace mitrax{ namespace png{
 
 		for(std::size_t y = 0; y < output.get_height(); ++y){
 			for(std::size_t x = 0; x < output.get_width(); ++x){
-				m(x, y) = static_cast< value_type >(output[y][x]);
+				m(x, y) = detail::pngxx2mitrax< value_type >(output[y][x]);
 			}
 		}
 	}
@@ -147,7 +119,7 @@ namespace mitrax{ namespace png{
 
 		for(std::size_t y = 0; y < output.get_height(); ++y){
 			for(std::size_t x = 0; x < output.get_width(); ++x){
-				output[y][x] = static_cast< ivalue_type >(m(x, y));
+				output[y][x] = detail::mitrax2pngxx< ivalue_type >(m(x, y));
 			}
 		}
 
