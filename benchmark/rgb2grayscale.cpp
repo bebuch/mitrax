@@ -22,7 +22,7 @@ int main(){
 
 	auto g = make_matrix_fn(m.dims(), [&m](auto x, auto y){
 		auto rgb = m(x, y);
-		return std::uint8_t((rgb.r + rgb.g + rgb.b) / 3);
+		return std::uint16_t((rgb.r + rgb.g + rgb.b) * 256 / 3);
 	});
 
 	mitrax::png::save(g, "image_01.png");

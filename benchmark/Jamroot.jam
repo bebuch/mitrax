@@ -1,3 +1,15 @@
+import os ;
+local boost = [ os.environ BOOST ] ;
+local disposer = [ os.environ DISPOSER ] ;
+
+use-project /boost
+	: $(boost)
+	;
+
+use-project /disposer
+	: $(disposer)
+	;
+
 lib libpng12 : :
 	# watch out for empty spaces, they are mandatory
 	<file>/usr/lib/x86_64-linux-gnu/libpng12.so ;
@@ -27,6 +39,8 @@ project mitrax
 	<toolset>clang:<linkflags>-lc++abi
 	<toolset>clang:<linkflags>-stdlib=libc++
 
+	<include>$(boost)
+	<include>$(disposer)/include
 	<include>/usr/include
 	<include>/usr/include/libpng12
 	:
