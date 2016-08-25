@@ -31,6 +31,16 @@ namespace mitrax{
 	using fn_i = std::decay_t< decltype(std::declval< F >()(size_t())) >;
 
 
+	template < typename T, typename Auto >
+	using auto_t = std::conditional_t< std::is_void_v< T >, Auto, T >;
+
+	template < typename T, typename Auto >
+	constexpr auto auto_ref(Auto&& v)
+	-> auto_t< T, decltype(static_cast< Auto&& >(v)) >{
+		return static_cast< Auto&& >(v);
+	}
+
+
 	template < typename T >
 	using value_type_t = typename T::value_type;
 
