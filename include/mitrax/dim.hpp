@@ -287,6 +287,9 @@ namespace mitrax{
 	template < size_t C, size_t R >
 	class dims_t{
 	public:
+		static constexpr size_t static_cols = C;
+		static constexpr size_t static_rows = R;
+
 		constexpr dims_t()noexcept = default;
 
 		constexpr dims_t(
@@ -321,6 +324,11 @@ namespace mitrax{
 		}
 
 
+		size_t point_count()const{
+			return size_t(cols_) * size_t(rows_);
+		}
+
+
 	private:
 		col_t< C != 0, C > cols_;
 		row_t< R != 0, R > rows_;
@@ -329,6 +337,11 @@ namespace mitrax{
 
 	constexpr auto dims(size_t c, size_t r)noexcept{
 		return dims_t< 0, 0 >(col_t< false, 0 >(c), row_t< false, 0 >(r));
+	}
+
+	template < size_t C, size_t R >
+	constexpr auto dims()noexcept{
+		return dims_t< C, R >();
 	}
 
 	template < bool Cct, size_t C >
