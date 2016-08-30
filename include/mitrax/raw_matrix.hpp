@@ -254,6 +254,20 @@ namespace mitrax{ namespace detail{
 	};
 
 
+	template < typename T, size_t C, size_t R >
+	class raw_heap_matrix_impl:
+		public raw_matrix_impl_base< T, C, R >{
+	public:
+		static_assert(
+			C > 0 && R > 0,
+			"raw_heap_matrix_impl< T, C, R > is for static dimensions only, "
+			"use raw_matrix_impl< T, C, R > instead"
+		);
+
+		using raw_matrix_impl_base< T, C, R >::raw_matrix_impl_base;
+	};
+
+
 } }
 
 

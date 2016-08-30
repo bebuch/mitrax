@@ -36,6 +36,9 @@ namespace mitrax{
 		template < typename T, size_t Cols, size_t Rows >
 		class raw_matrix_impl;
 
+		template < typename T, size_t Cols, size_t Rows >
+		class raw_heap_matrix_impl;
+
 	}
 
 
@@ -54,6 +57,20 @@ namespace mitrax{
 
 	template < typename T >
 	using raw_bitmap = raw_matrix< T, 0, 0 >;
+
+
+	template < typename T, size_t Cols, size_t Rows >
+	using raw_heap_matrix =
+		matrix< detail::raw_heap_matrix_impl< T, Cols, Rows >, Cols, Rows >;
+
+	template < typename T, size_t N >
+	using raw_heap_square_matrix = raw_heap_matrix< T, N, N >;
+
+	template < typename T, size_t Rows >
+	using raw_heap_col_vector = raw_heap_matrix< T, 1, Rows >;
+
+	template < typename T, size_t Cols >
+	using raw_heap_row_vector = raw_heap_matrix< T, Cols, 1 >;
 
 
 	using bitmap_col_t = col_t< false, 0 >;
