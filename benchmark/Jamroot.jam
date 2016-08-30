@@ -1,6 +1,11 @@
 import os ;
 local benchmark = [ os.environ GOOGLE_BENCHMARK ] ;
 local Eigen = [ os.environ EIGEN ] ;
+local boost = [ os.environ BOOST ] ;
+
+use-project /boost
+	: $(boost)
+	;
 
 lib benchmark : :
 	# watch out for empty spaces, they are mandatory
@@ -33,6 +38,7 @@ project mitrax
 
 	<include>$(benchmark)/include
 	<include>$(Eigen)
+	<include>$(boost)
 	:
 	usage-requirements <include>../include
 	;
@@ -61,3 +67,34 @@ exe sobel_uBLAS
 #	sobel.GIL.cpp
 #	benchmark
 #	;
+
+
+exe matrix_multiplication_mitrax
+	:
+	matrix_multiplication.mitrax.cpp
+	benchmark
+	;
+
+exe matrix_multiplication_mitrax_static
+	:
+	matrix_multiplication.mitrax_static.cpp
+	benchmark
+	;
+
+exe matrix_multiplication_Eigen
+	:
+	matrix_multiplication.Eigen.cpp
+	benchmark
+	;
+
+exe matrix_multiplication_Eigen_static
+	:
+	matrix_multiplication.Eigen_static.cpp
+	benchmark
+	;
+
+exe matrix_multiplication_uBLAS
+	:
+	matrix_multiplication.uBLAS.cpp
+	benchmark
+	;
