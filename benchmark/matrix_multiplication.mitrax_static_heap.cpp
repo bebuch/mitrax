@@ -28,12 +28,12 @@ void BM_matrix_multiplication(benchmark::State& state){
 	auto m1 = make_matrix_fn(cols< C >(), rows< R >(),
 		[&dis, &gen](auto, auto){
 			return dis(gen);
-		});
+		}, memory_heap);
 
 	auto m2 = make_matrix_fn(cols< R >(), rows< C >(),
 		[&dis, &gen](auto, auto){
 			return dis(gen);
-		});
+		}, memory_heap);
 
 	while(state.KeepRunning()){
 		auto res = m1 * m2;

@@ -81,6 +81,12 @@ exe matrix_multiplication_mitrax_static
 	benchmark
 	;
 
+exe matrix_multiplication_mitrax_static_heap
+	:
+	matrix_multiplication.mitrax_static_heap.cpp
+	benchmark
+	;
+
 exe matrix_multiplication_Eigen
 	:
 	matrix_multiplication.Eigen.cpp

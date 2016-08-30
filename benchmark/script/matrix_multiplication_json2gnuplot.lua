@@ -32,7 +32,7 @@ for i, v in ipairs(data.benchmarks) do
 	elseif string.ends(v.name, "_stddev") then
 		stddev = v.real_time
 		line = line + 1
-		print(line, last_name, (mean - stddev) / div, min / div, max / div, (mean + stddev) / div)
+		print(last_name, mean / div, (mean - stddev) / div, min / div, max / div, (mean + stddev) / div)
 	else
 		min = v.real_time
 		max = v.real_time
