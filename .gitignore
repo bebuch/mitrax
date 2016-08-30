@@ -1,6 +1,16 @@
 # ignore bin directory
 bin
 test/bin
+examples/bin
+examples/image*
 benchmark/bin
-benchmark/image*
+benchmark/Eigen/bin
+benchmark/Eigen/image*
+benchmark/GIL/bin
+benchmark/GIL/image*
+benchmark/uBLAS/bin
+benchmark/uBLAS/image*
+benchmark/*.json
+benchmark/*.dat
+benchmark/*.svg
 todo

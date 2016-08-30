@@ -1,0 +1,63 @@
+import os ;
+local benchmark = [ os.environ GOOGLE_BENCHMARK ] ;
+local Eigen = [ os.environ EIGEN ] ;
+
+lib benchmark : :
+	# watch out for empty spaces, they are mandatory
+	<file>$(benchmark)/src/libbenchmark.so ;
+
+
+project mitrax
+	:
+	source-location .
+	:
+	requirements <include>../include
+
+	<warnings>all
+	<c++-template-depth>1024
+
+	<toolset>gcc:<cxxflags>-std=c++1z
+	<toolset>gcc:<cxxflags>-fconstexpr-depth=1024
+	<toolset>gcc:<cxxflags>-Wall
+	<toolset>gcc:<cxxflags>-Wextra
+	<toolset>gcc:<linkflags>-lpthread
+
+	<toolset>clang:<cxxflags>-std=c++1z
+	<toolset>clang:<cxxflags>-fconstexpr-depth=1024
+	<toolset>clang:<cxxflags>-Wall
+	<toolset>clang:<cxxflags>-Wextra
+	<toolset>clang:<cxxflags>-stdlib=libc++
+	<toolset>clang:<linkflags>-lpthread
+	<toolset>clang:<linkflags>-lc++abi
+	<toolset>clang:<linkflags>-stdlib=libc++
+
+	<include>$(benchmark)/include
+	<include>$(Eigen)
+	:
+	usage-requirements <include>../include
+	;
+
+exe sobel_mitrax
+	:
+	sobel.mitrax.cpp
+	benchmark
+	;
+
+exe sobel_Eigen
+	:
+	sobel.Eigen.cpp
+	benchmark
+	;
+
+exe sobel_uBLAS
+	:
+	sobel.uBLAS.cpp
+	benchmark
+	;
+
+# doesn't work yet
+#exe sobel_GIL
+#	:
+#	sobel.GIL.cpp
+#	benchmark
+#	;
