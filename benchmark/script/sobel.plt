@@ -3,7 +3,7 @@ set output 'sobel.svg'
 
 set title "Sobel-Operator Benchmark"
 set xlabel "Benchmark"
-set ylabel "Laufzeit in µs"
+set ylabel "Runtime in µs"
 
 set grid y
 set boxwidth 0.1 absolute
@@ -17,7 +17,7 @@ set key left
 
 ## Last datafile plotted: "sobel.dat"
 plot \
-	'sobel_mitrax.dat' using 1:5:xticlabels(2) linetype -3 notitle, \
+	'sobel_uBLAS.dat' using 1:5:xticlabels(2) linetype -3 notitle, \
 	'sobel_mitrax.dat' using ($1 - 0.15):3:4:5:6 with candlesticks title "mitrax", \
 	'sobel_Eigen.dat' using ($1 + 0.00):3:4:5:6 with candlesticks title "Eigen", \
 	'sobel_uBLAS.dat' using ($1 + 0.15):3:4:5:6 with candlesticks title "uBLAS", \

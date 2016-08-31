@@ -5,60 +5,78 @@
 #include <random>
 #include <string>
 
+#include "include/get_binaryop.hpp"
+
 
 using namespace mitrax;
 using namespace mitrax::literals;
 
 
-template < typename T1, typename T2, typename T >
-void BM_matrix_multiplication(benchmark::State& state, T dims){
+template < typename Op, typename T, typename D >
+void BM_binaryop(benchmark::State& state, Op op, D dims1, D dims2){
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_int_distribution< T1 > dis1(
-		std::numeric_limits< T1 >::min(),
-		std::numeric_limits< T1 >::max()
-	);
-	std::uniform_int_distribution< T2 > dis2(
-		std::numeric_limits< T2 >::min(),
-		std::numeric_limits< T2 >::max()
+	std::uniform_int_distribution< T > dis(
+		std::numeric_limits< T >::min(),
+		std::numeric_limits< T >::max()
 	);
 
-	auto m1 = make_matrix_fn(dims.cols(), dims.rows(),
-		[&dis1, &gen](auto, auto){
-			return dis1(gen);
+	auto m1 = make_matrix_fn(dims1,
+		[&dis, &gen](auto, auto){
+			return dis(gen);
 		});
 
-	auto m2 = make_matrix_fn(dims.rows().as_col(), dims.cols().as_row(),
-		[&dis2, &gen](auto, auto){
-			return dis2(gen);
+	auto m2 = make_matrix_fn(dims2,
+		[&dis, &gen](auto, auto){
+			return dis(gen);
 		});
 
 	while(state.KeepRunning()){
-		auto res = m1 * m2;
+		auto res = op(m1, m2);
+		benchmark::DoNotOptimize(res);
 	}
 }
 
 int main(int argc, char** argv){
 	using f4 = float;
 
-	for(auto& dim: std::vector< dims_t< 0, 0 > >{
-		{2, 2},
-		{4, 2},
-		{8, 2},
-		{16, 2},
-		{16, 4},
-		{16, 8},
-		{16, 16},
-		{16, 32},
-		{16, 64},
-		{16, 128},
-		{16, 256}
-	}){
-		benchmark::RegisterBenchmark(
-			std::to_string(dim.point_count()).c_str(),
-			BM_matrix_multiplication< f4, f4, dims_t< 0, 0 > >,
-			dim
-		);
+	auto register_fn = [](auto op, auto transfrom_dim){
+		for(auto& d1: std::vector< dims_t< 0, 0 > >{
+			{2, 2},
+			{4, 2},
+			{8, 2},
+			{8, 4},
+			{8, 8},
+			{8, 16},
+			{8, 32},
+			{8, 64},
+			{16, 64},
+			{32, 64},
+			{64, 64},
+			{128, 64},
+			{256, 64},
+			{256, 128},
+			{256, 256}
+		}){
+			auto d2 = transfrom_dim(d1);
+			benchmark::RegisterBenchmark(
+				std::to_string(d1.point_count()).c_str(),
+				BM_binaryop< decltype(op), f4, dims_t< 0, 0 > >,
+				op, d1, d2
+			);
+		}
+	};
+
+	switch(mitrax::get_binaryop(argc, argv)){
+		case mitrax::op::unknown: return 1;
+		case mitrax::op::plus:{
+			register_fn(std::plus<>(), [](auto d){ return d; });
+		}break;
+		case mitrax::op::mul:{
+			register_fn(std::multiplies<>(), [](auto d){
+				return dims(d.rows().as_col(), d.cols().as_row());
+			});
+		}break;
 	}
 
 	benchmark::Initialize(&argc, argv);

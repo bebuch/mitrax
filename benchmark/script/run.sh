@@ -1,10 +1,11 @@
 #!/bin/bash
 
-repetitions=2
-
 cd ..
 
+
 # Sobel benchmarks
+repetitions=2
+
 echo "run sobel.Eigen benchmark"
 bin/clang-*/release/sobel_Eigen --benchmark_repetitions=$repetitions --benchmark_format=json > sobel_Eigen.json
 echo "run sobel.uBLAS benchmark"
@@ -18,15 +19,32 @@ bin/clang-*/release/sobel_mitrax --benchmark_repetitions=$repetitions --benchmar
 # Matrix multiplication
 # repetitions=2
 
-echo "run binaryop.Eigen matrix multiplication benchmark"
-bin/clang-*/release/binaryop_Eigen --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_mul_Eigen.json
-echo "run binaryop.Eigen_ctdim matrix multiplication benchmark"
-bin/clang-*/release/binaryop_Eigen --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_mul_Eigen_ctdim.json
-echo "run binaryop.mitrax matrix multiplication benchmark"
-bin/clang-*/release/binaryop_mitrax --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_mul_mitrax.json
-echo "run binaryop.mitrax_ctdim matrix multiplication benchmark"
-bin/clang-*/release/binaryop_mitrax_ctdim --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_mul_mitrax_ctdim.json
-echo "run binaryop.mitrax_ctdim_heap matrix multiplication benchmark"
-bin/clang-*/release/binaryop_mitrax_ctdim_heap --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_mul_mitrax_ctdim_heap.json
-echo "run binaryop.uBLAS matrix multiplication benchmark"
-bin/clang-*/release/binaryop_uBLAS --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_mul_uBLAS.json
+echo "run benchmark matrix multiplication binaryop.Eigen"
+bin/clang-*/release/binaryop_Eigen --op=* --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_mul_Eigen.json
+echo "run benchmark matrix multiplication binaryop.Eigen_ctdim"
+bin/clang-*/release/binaryop_Eigen_ctdim --op=* --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_mul_Eigen_ctdim.json
+echo "run benchmark matrix multiplication binaryop.mitrax"
+bin/clang-*/release/binaryop_mitrax --op=* --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_mul_mitrax.json
+echo "run benchmark matrix multiplication binaryop.mitrax_ctdim"
+bin/clang-*/release/binaryop_mitrax_ctdim --op=* --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_mul_mitrax_ctdim.json
+echo "run benchmark matrix multiplication binaryop.mitrax_ctdim_heap"
+bin/clang-*/release/binaryop_mitrax_ctdim_heap --op=* --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_mul_mitrax_ctdim_heap.json
+echo "run benchmark matrix multiplication binaryop.uBLAS"
+bin/clang-*/release/binaryop_uBLAS --op=* --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_mul_uBLAS.json
+
+
+# Matrix plus
+# repetitions=2
+
+echo "run benchmark matrix plus binaryop.Eigen"
+bin/clang-*/release/binaryop_Eigen --op=+ --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_plus_Eigen.json
+echo "run benchmark matrix plus binaryop.Eigen_ctdim"
+bin/clang-*/release/binaryop_Eigen_ctdim --op=+ --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_plus_Eigen_ctdim.json
+echo "run benchmark matrix plus binaryop.mitrax"
+bin/clang-*/release/binaryop_mitrax --op=+ --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_plus_mitrax.json
+echo "run benchmark matrix plus binaryop.mitrax_ctdim"
+bin/clang-*/release/binaryop_mitrax_ctdim --op=+ --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_plus_mitrax_ctdim.json
+echo "run benchmark matrix plus binaryop.mitrax_ctdim_heap"
+bin/clang-*/release/binaryop_mitrax_ctdim_heap --op=+ --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_plus_mitrax_ctdim_heap.json
+echo "run benchmark matrix plus binaryop.uBLAS"
+bin/clang-*/release/binaryop_uBLAS --op=+ --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_plus_uBLAS.json

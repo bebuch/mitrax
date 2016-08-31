@@ -3,7 +3,7 @@ set output 'matrix_mul.svg'
 
 set title "Matrix multiplication Benchmark"
 set xlabel "Number of elements"
-set ylabel "Laufzeit in µs"
+set ylabel "Runtime in µs"
 
 set grid y
 set boxwidth 0.1 absolute
@@ -17,7 +17,7 @@ set key left
 
 ## Last datafile plotted: "sobel.dat"
 plot \
-	'matrix_mul_mitrax_ctdim_heap.dat' using 0:2:xticlabels(1) linetype -3 notitle, \
+	'matrix_mul_uBLAS.dat' using 0:2:xticlabels(1) linetype -3 notitle, \
 	'matrix_mul_mitrax.dat' using 0:2 with linespoints title "mitrax", \
 	'matrix_mul_mitrax_ctdim.dat' using 0:2 with linespoints title "mitrax ctdim", \
 	'matrix_mul_mitrax_ctdim_heap.dat' using 0:2 with linespoints title "mitrax ctdim heap", \
