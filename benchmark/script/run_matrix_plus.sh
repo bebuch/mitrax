@@ -9,6 +9,8 @@ then
 	repetitions=2
 fi
 
+echo "repetitons: $repetitions (set it with 'export repetitions=N')"
+
 echo "run benchmark matrix plus binaryop.Eigen"
 bin/clang-*/release/binaryop_Eigen --op=+ --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_plus_Eigen.json
 echo "run benchmark matrix plus binaryop.Eigen_ctdim"

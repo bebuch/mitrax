@@ -9,6 +9,8 @@ then
 	repetitions=2
 fi
 
+echo "repetitons: $repetitions (set it with 'export repetitions=N')"
+
 echo "run benchmark make random matrix make.Eigen"
 bin/clang-*/release/make_Eigen --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_make_Eigen.json
 echo "run benchmark make random matrix make.Eigen_ctdim"

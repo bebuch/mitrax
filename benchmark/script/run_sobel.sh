@@ -9,6 +9,8 @@ then
 	repetitions=2
 fi
 
+echo "repetitons: $repetitions (set it with 'export repetitions=N')"
+
 echo "run sobel.Eigen benchmark"
 bin/clang-*/release/sobel_Eigen --benchmark_repetitions=$repetitions --benchmark_format=json > sobel_Eigen.json
 echo "run sobel.uBLAS benchmark"
