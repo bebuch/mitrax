@@ -11,6 +11,8 @@ set offset 0.5, 0.5, 0, 0
 set xtics rotate
 set datafile separator '\t'
 
+set log y
+
 set key left
 
 ## Last datafile plotted: "sobel.dat"

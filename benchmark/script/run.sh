@@ -1,6 +1,6 @@
 #!/bin/bash
 
-repetitions=2
+repetitions=100
 
 cd ..
 
@@ -16,7 +16,7 @@ bin/clang-*/release/sobel_mitrax --benchmark_repetitions=$repetitions --benchmar
 
 
 # Matrix multiplication
-repetitions=2
+# repetitions=2
 
 echo "run matrix_multiplication.Eigen benchmark"
 bin/clang-*/release/matrix_multiplication_Eigen --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_multiplication_Eigen.json
