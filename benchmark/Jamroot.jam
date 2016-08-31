@@ -110,6 +110,43 @@ exe make_uBLAS
 	;
 
 
+exe make_v_mitrax
+	:
+	make_v.mitrax.cpp
+	benchmark
+	;
+
+exe make_v_mitrax_ctdim
+	:
+	make_v.mitrax_ctdim.cpp
+	benchmark
+	;
+
+exe make_v_mitrax_ctdim_heap
+	:
+	make_v.mitrax_ctdim_heap.cpp
+	benchmark
+	;
+
+exe make_v_Eigen
+	:
+	make_v.Eigen.cpp
+	benchmark
+	;
+
+exe make_v_Eigen_ctdim
+	:
+	make_v.Eigen_ctdim.cpp
+	benchmark
+	;
+
+exe make_v_uBLAS
+	:
+	make_v.uBLAS.cpp
+	benchmark
+	;
+
+
 exe binaryop_mitrax
 	:
 	binaryop.mitrax.cpp
