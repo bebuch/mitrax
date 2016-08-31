@@ -13,11 +13,11 @@ gnuplot script/sobel.plt
 
 
 # Matrix multiplication
-lua script/matrix_multiplication_json2gnuplot.lua matrix_multiplication_Eigen.json > matrix_multiplication_Eigen.dat
-lua script/matrix_multiplication_json2gnuplot.lua matrix_multiplication_Eigen_static.json > matrix_multiplication_Eigen_static.dat
-lua script/matrix_multiplication_json2gnuplot.lua matrix_multiplication_mitrax.json > matrix_multiplication_mitrax.dat
-lua script/matrix_multiplication_json2gnuplot.lua matrix_multiplication_mitrax_static.json > matrix_multiplication_mitrax_static.dat
-lua script/matrix_multiplication_json2gnuplot.lua matrix_multiplication_mitrax_static_heap.json > matrix_multiplication_mitrax_static_heap.dat
-lua script/matrix_multiplication_json2gnuplot.lua matrix_multiplication_uBLAS.json > matrix_multiplication_uBLAS.dat
+lua script/binaryop_json2gnuplot.lua matrix_mul_Eigen.json > matrix_mul_Eigen.dat
+lua script/binaryop_json2gnuplot.lua matrix_mul_Eigen_ctdim.json > matrix_mul_Eigen_ctdim.dat
+lua script/binaryop_json2gnuplot.lua matrix_mul_mitrax.json > matrix_mul_mitrax.dat
+lua script/binaryop_json2gnuplot.lua matrix_mul_mitrax_ctdim.json > matrix_mul_mitrax_ctdim.dat
+lua script/binaryop_json2gnuplot.lua matrix_mul_mitrax_ctdim_heap.json > matrix_mul_mitrax_ctdim_heap.dat
+lua script/binaryop_json2gnuplot.lua matrix_mul_uBLAS.json > matrix_mul_uBLAS.dat
 
-gnuplot script/matrix_multiplication.plt
+gnuplot script/matrix_mul.plt

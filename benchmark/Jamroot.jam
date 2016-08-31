@@ -69,38 +69,38 @@ exe sobel_uBLAS
 #	;
 
 
-exe matrix_multiplication_mitrax
+exe binaryop_mitrax
 	:
-	matrix_multiplication.mitrax.cpp
+	binaryop.mitrax.cpp
 	benchmark
 	;
 
-exe matrix_multiplication_mitrax_static
+exe binaryop_mitrax_ctdim
 	:
-	matrix_multiplication.mitrax_static.cpp
+	binaryop.mitrax_ctdim.cpp
 	benchmark
 	;
 
-exe matrix_multiplication_mitrax_static_heap
+exe binaryop_mitrax_ctdim_heap
 	:
-	matrix_multiplication.mitrax_static_heap.cpp
+	binaryop.mitrax_ctdim_heap.cpp
 	benchmark
 	;
 
-exe matrix_multiplication_Eigen
+exe binaryop_Eigen
 	:
-	matrix_multiplication.Eigen.cpp
+	binaryop.Eigen.cpp
 	benchmark
 	;
 
-exe matrix_multiplication_Eigen_static
+exe binaryop_Eigen_ctdim
 	:
-	matrix_multiplication.Eigen_static.cpp
+	binaryop.Eigen_ctdim.cpp
 	benchmark
 	;
 
-exe matrix_multiplication_uBLAS
+exe binaryop_uBLAS
 	:
-	matrix_multiplication.uBLAS.cpp
+	binaryop.uBLAS.cpp
 	benchmark
 	;
