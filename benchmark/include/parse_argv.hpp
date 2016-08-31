@@ -16,17 +16,18 @@
 namespace mitrax{
 
 
-std::pair< std::string, std::string > parse_argv(std::string const& in){
-	if(in.size() < 3) return {};
-	if(in[0] != '-' || in[1] != '-') return {};
+	inline std::pair< std::string, std::string >
+	parse_argv(std::string const& in){
+		if(in.size() < 3) return {};
+		if(in[0] != '-' || in[1] != '-') return {};
 
-	auto pos = in.find('=', 2);
-	if(pos == std::string::npos){
-		return {in.substr(2), ""};
-	}else{
-		return {in.substr(2, pos - 2), in.substr(pos + 1)};
+		auto pos = in.find('=', 2);
+		if(pos == std::string::npos){
+			return {in.substr(2), ""};
+		}else{
+			return {in.substr(2, pos - 2), in.substr(pos + 1)};
+		}
 	}
-}
 
 
 }

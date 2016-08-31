@@ -25,6 +25,8 @@ project mitrax
 	<toolset>gcc:<cxxflags>-fconstexpr-depth=1024
 	<toolset>gcc:<cxxflags>-Wall
 	<toolset>gcc:<cxxflags>-Wextra
+	<toolset>gcc:<cxxflags>-DNDEBUG
+	<toolset>gcc:<cxxflags>-DBOOST_UBLAS_NDEBUG
 	<toolset>gcc:<linkflags>-lpthread
 
 	<toolset>clang:<cxxflags>-std=c++1z
@@ -32,6 +34,8 @@ project mitrax
 	<toolset>clang:<cxxflags>-Wall
 	<toolset>clang:<cxxflags>-Wextra
 	<toolset>clang:<cxxflags>-stdlib=libc++
+	<toolset>clang:<cxxflags>-DNDEBUG
+	<toolset>clang:<cxxflags>-DBOOST_UBLAS_NDEBUG
 	<toolset>clang:<linkflags>-lpthread
 	<toolset>clang:<linkflags>-lc++abi
 	<toolset>clang:<linkflags>-stdlib=libc++
@@ -67,6 +71,43 @@ exe sobel_uBLAS
 #	sobel.GIL.cpp
 #	benchmark
 #	;
+
+
+exe make_mitrax
+	:
+	make.mitrax.cpp
+	benchmark
+	;
+
+exe make_mitrax_ctdim
+	:
+	make.mitrax_ctdim.cpp
+	benchmark
+	;
+
+exe make_mitrax_ctdim_heap
+	:
+	make.mitrax_ctdim_heap.cpp
+	benchmark
+	;
+
+exe make_Eigen
+	:
+	make.Eigen.cpp
+	benchmark
+	;
+
+exe make_Eigen_ctdim
+	:
+	make.Eigen_ctdim.cpp
+	benchmark
+	;
+
+exe make_uBLAS
+	:
+	make.uBLAS.cpp
+	benchmark
+	;
 
 
 exe binaryop_mitrax

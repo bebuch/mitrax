@@ -23,7 +23,7 @@ namespace mitrax{
 		mul
 	};
 
-	op get_binaryop(int argc, char** argv){
+	inline op get_binaryop(int argc, char** argv){
 		for(int i = 1; i < argc; ++i){
 			auto pair = parse_argv(argv[i]);
 
