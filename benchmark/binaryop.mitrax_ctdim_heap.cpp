@@ -56,9 +56,9 @@ int main(int argc, char** argv){
 				dims< 8, 16 >(),
 				dims< 8, 32 >(),
 				dims< 8, 64 >(),
-				dims< 16, 64 >()
-// 				dims< 32, 64 >(),
-// 				dims< 64, 64 >(),
+				dims< 16, 64 >(),
+				dims< 32, 64 >(),
+				dims< 64, 64 >()
 // 				dims< 128, 64 >(),
 // 				dims< 256, 64 >(),
 // 				dims< 256, 128 >(),
