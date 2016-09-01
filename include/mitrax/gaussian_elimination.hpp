@@ -26,7 +26,7 @@ namespace mitrax{
 		}
 
 		// Compiler may optimize with the compile time dimension
-		size_t const size = C == 0 ? in.rows() : in.cols();
+		size_t const size = C == 0 ? size_t(in.rows()) : size_t(in.cols());
 
 		auto m = convert< value_type_t< M > >(in);
 
@@ -80,7 +80,8 @@ namespace mitrax{
 		auto b = convert< value_type >(v);
 
 		// Compiler may optimize with the compile time dimension
-		size_t const size = C1 != 0 ? m.cols() : R1 != 0 ? m.rows() : b.rows();
+		size_t const size = C1 != 0 ?
+			size_t(m.cols()) : R1 != 0 ? size_t(m.rows()) : size_t(b.rows());
 
 		size_t swap_count = 0;
 		for(size_t i = 0; i < size; ++i){
@@ -172,7 +173,8 @@ namespace mitrax{
 			});
 
 		// Compiler may optimize with the compile time dimension
-		size_t const size = C1 != 0 ? m.cols() : R1 != 0 ? m.rows() : b.rows();
+		size_t const size = C1 != 0 ?
+			size_t(m.cols()) : R1 != 0 ? size_t(m.rows()) : size_t(b.rows());
 
 		size_t swap_count = 0;
 		for(size_t i = 0; i < size; ++i){
@@ -236,7 +238,7 @@ namespace mitrax{
 		}
 
 		// Compiler may optimize with the compile time dimension
-		size_t const size = C == 0 ? m.rows() : m.cols();
+		size_t const size = C == 0 ? size_t(m.rows()) : size_t(m.cols());
 
 		auto r = make_matrix_v< value_type >(m.dims());
 		for(size_t i = 0; i < size; ++i){
@@ -318,7 +320,7 @@ namespace mitrax{
 		);
 
 		// Compiler may optimize with the compile time dimension
-		size_t const size = C == 0 ? m.rows() : m.cols();
+		size_t const size = C == 0 ? size_t(m.rows()) : size_t(m.cols());
 
 		for(size_t i = 0; i < size; ++i){
 			if(m(i, i) == 0){

@@ -354,7 +354,7 @@ namespace mitrax{
 			std::common_type_t< value_type_t< M1 >, value_type_t< M2 > >;
 
 		// Compiler may optimize with the compile time dimension
-		size_t size = C1 == 0 ? m2.rows() : m1.cols();
+		size_t const size = C1 == 0 ? size_t(m2.rows()) : size_t(m1.cols());
 
 		auto m = make_matrix_v< value_type >(m2.cols(), m1.rows());
 
