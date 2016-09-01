@@ -22,7 +22,7 @@ namespace mitrax{
 
 
 	template < typename M, size_t Cols, size_t Rows >
-	class matrix{
+	class matrix final{
 	public:
 		// TODO: Check if M is a matrix_impl type!!!
 
@@ -231,10 +231,10 @@ namespace mitrax{
 		}
 
 
-	protected:
+	private:
 		M m_;
 
-	private:
+
 		template < bool Cct, size_t C, bool Rct, size_t R >
 		constexpr void
 		check_dims(col_t< Cct, C > c, row_t< Rct, R > r)const{
