@@ -235,20 +235,6 @@ namespace mitrax{
 		M m_;
 
 
-		template < bool Cct, size_t C, bool Rct, size_t R >
-		constexpr void
-		check_dims(col_t< Cct, C > c, row_t< Rct, R > r)const{
-			static_assert(
-				(Cols == 0 || !Cct || Cols == C) &&
-				(Rows == 0 || !Rct || Rows == R),
-				"matrix dimensions not compatible"
-			);
-
-			if(cols() != c || rows() != r){
-				throw std::logic_error("matrix dimensions not compatible");
-			}
-		}
-
 		template< typename T, typename = void >
 		struct has_data: std::false_type{};
 
