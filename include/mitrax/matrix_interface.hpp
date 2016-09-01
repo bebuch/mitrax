@@ -214,18 +214,18 @@ namespace mitrax{
 
 		constexpr value_type* data(){
 			static_assert(
-				has_data< M >::value,
+				has_data< decltype(m_) >::value,
 				"The underlaying matrix implementation doesn't support "
-				"m.data()"
+				"'value_type* m.data()'"
 			);
 			return m_.data();
 		}
 
 		constexpr value_type const* data()const{
 			static_assert(
-				has_data< M const >::value,
+				has_data< decltype(m_) >::value,
 				"The underlaying matrix implementation doesn't support "
-				"m.data()const"
+				"'value_type const* m.data()const'"
 			);
 			return m_.data();
 		}
@@ -240,10 +240,13 @@ namespace mitrax{
 
 		template< typename T >
 		struct has_data< T, decltype(
-			static_cast< std::conditional_t<
-				std::is_const< T >::value, value_type const*, value_type*
-			> >(std::declval< T >().data()), void())
-		>: std::true_type{};
+			(void)static_cast< value_type* >(std::declval< T >().data())
+		) >: std::true_type{};
+
+		template< typename T >
+		struct has_data< T const, decltype(
+			(void)static_cast< value_type const* >(std::declval< T >().data())
+		) >: std::true_type{};
 	};
 
 
