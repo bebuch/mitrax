@@ -344,7 +344,7 @@ namespace mitrax{
 		);
 
 		// Compiler should skip this for compile time dimensions
-		if(m1.cols() != m2.rows()){
+		if(size_t(m1.cols()) != size_t(m2.rows())){
 			throw std::logic_error(
 				"matrix dimensions not compatible while comparing"
 			);

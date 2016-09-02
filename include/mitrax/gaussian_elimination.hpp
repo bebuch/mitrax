@@ -19,7 +19,7 @@ namespace mitrax{
 	template < typename M, size_t C, size_t R >
 	constexpr raw_matrix< value_type_t< M >, C, R >
 	upper_triangular_matrix(matrix< M, C, R > const& in){
-		if(in.rows() != in.cols()){
+		if(size_t(in.rows()) != size_t(in.cols())){
 			throw std::logic_error(
 				"lower_triangular_matrix with non square matrix"
 			);
@@ -71,7 +71,7 @@ namespace mitrax{
 			value_type_t< M1 >, value_type_t< M2 >
 		>;
 
-		if(m.cols() != m.rows() || m.rows() != v.rows()){
+		if(size_t(m.cols()) != size_t(m.rows()) || m.rows() != v.rows()){
 			throw std::logic_error(
 				"gaussian_elimination: incompatible dimensions"
 			);
@@ -146,7 +146,9 @@ namespace mitrax{
 			value_type_t< M1 >, value_type_t< M2 >, value_type_t< M3 >
 		>;
 
-		if(a.rows() == v.rows() && a.cols() != v.rows() + defaults.rows()){
+		if(
+			a.rows() == v.rows() &&
+			size_t(a.cols()) != size_t(v.rows() + defaults.rows())){
 			throw std::logic_error(
 				"gaussian_elimination: incompatible dimensions"
 			);
@@ -231,7 +233,7 @@ namespace mitrax{
 	inverse(matrix< M, C, R > m){
 		using value_type = value_type_t< M >;
 
-		if(m.cols() != m.rows()){
+		if(size_t(m.cols()) != size_t(m.rows())){
 			throw std::logic_error(
 				"inverse with non square matrix"
 			);
@@ -309,7 +311,7 @@ namespace mitrax{
 	constexpr auto matrix_kernel(matrix< M, C, R > m){
 		using value_type = value_type_t< M >;
 
-		if(m.cols() != m.rows()){
+		if(size_t(m.cols()) != size_t(m.rows())){
 			throw std::logic_error(
 				"matrix_kernel does up to now only work for square matrices"
 			);
