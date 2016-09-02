@@ -406,7 +406,7 @@ namespace mitrax{
 	namespace detail{
 
 
-		template < template < bool, size_t > typename DimT, typename Op >
+		template < template< bool, size_t > typename DimT, typename Op >
 		struct all_op{
 			template < bool Ict1, size_t I1, bool Ict2, size_t I2 >
 			constexpr auto operator()(
@@ -452,296 +452,167 @@ namespace mitrax{
 		};
 
 
-		template < typename Op >
-		using col_op = all_op< col_t, Op >;
-
-		template < typename Op >
-		using row_op = all_op< row_t, Op >;
-
-		template < typename Op >
-		using dim_op = all_op< dim_t, Op >;
-
-
 	}
 
 
-	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	template < template< bool, size_t > typename DimT,
+		bool Cct1, size_t C1, bool Cct2, size_t C2 >
 	constexpr auto operator+(
-		col_t< Cct1, C1 > c1, col_t< Cct2, C2 > c2
+		DimT< Cct1, C1 > c1, DimT< Cct2, C2 > c2
 	)noexcept{
-		return detail::col_op< std::plus< size_t > >()(c1, c2);
+		return detail::all_op< DimT, std::plus< size_t > >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1, typename T,
+	template < template< bool, size_t > typename DimT,
+		bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator+(col_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::col_op< std::plus< size_t > >()(c1, c2);
+	constexpr auto operator+(DimT< Cct1, C1 > c1, T c2)noexcept{
+		return detail::all_op< DimT, std::plus< size_t > >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2, typename T,
+	template < template< bool, size_t > typename DimT,
+		bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator+(T c1, col_t< Cct2, C2 > c2)noexcept{
-		return detail::col_op< std::plus< size_t > >()(c1, c2);
+	constexpr auto operator+(T c1, DimT< Cct2, C2 > c2)noexcept{
+		return detail::all_op< DimT, std::plus< size_t > >()(c1, c2);
 	}
 
 
-	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	template < template< bool, size_t > typename DimT,
+		bool Cct1, size_t C1, bool Cct2, size_t C2 >
 	constexpr auto operator-(
-		col_t< Cct1, C1 > c1, col_t< Cct2, C2 > c2
+		DimT< Cct1, C1 > c1, DimT< Cct2, C2 > c2
 	)noexcept{
-		return detail::col_op< std::minus< size_t > >()(c1, c2);
+		return detail::all_op< DimT, std::minus< size_t > >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1, typename T,
+	template < template< bool, size_t > typename DimT,
+		bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator-(col_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::col_op< std::minus< size_t > >()(c1, c2);
+	constexpr auto operator-(DimT< Cct1, C1 > c1, T c2)noexcept{
+		return detail::all_op< DimT, std::minus< size_t > >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2, typename T,
+	template < template< bool, size_t > typename DimT,
+		bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator-(T c1, col_t< Cct2, C2 > c2)noexcept{
-		return detail::col_op< std::minus< size_t > >()(c1, c2);
+	constexpr auto operator-(T c1, DimT< Cct2, C2 > c2)noexcept{
+		return detail::all_op< DimT, std::minus< size_t > >()(c1, c2);
 	}
 
 
-	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	template < template< bool, size_t > typename DimT,
+		bool Cct1, size_t C1, bool Cct2, size_t C2 >
 	constexpr auto operator*(
-		col_t< Cct1, C1 > c1, col_t< Cct2, C2 > c2
+		DimT< Cct1, C1 > c1, DimT< Cct2, C2 > c2
 	)noexcept{
-		return detail::col_op< std::multiplies< size_t > >()(c1, c2);
+		return detail::all_op< DimT, std::multiplies< size_t > >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1, typename T,
+	template < template< bool, size_t > typename DimT,
+		bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator*(col_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::col_op< std::multiplies< size_t > >()(c1, c2);
+	constexpr auto operator*(DimT< Cct1, C1 > c1, T c2)noexcept{
+		return detail::all_op< DimT, std::multiplies< size_t > >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2, typename T,
+	template < template< bool, size_t > typename DimT,
+		bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator*(T c1, col_t< Cct2, C2 > c2)noexcept{
-		return detail::col_op< std::multiplies< size_t > >()(c1, c2);
+	constexpr auto operator*(T c1, DimT< Cct2, C2 > c2)noexcept{
+		return detail::all_op< DimT, std::multiplies< size_t > >()(c1, c2);
 	}
 
 
-	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	template < template< bool, size_t > typename DimT,
+		bool Cct1, size_t C1, bool Cct2, size_t C2 >
 	constexpr auto operator/(
-		col_t< Cct1, C1 > c1, col_t< Cct2, C2 > c2
+		DimT< Cct1, C1 > c1, DimT< Cct2, C2 > c2
 	)noexcept{
-		return detail::col_op< std::divides< size_t > >()(c1, c2);
+		return detail::all_op< DimT, std::divides< size_t > >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1, typename T,
+	template < template< bool, size_t > typename DimT,
+		bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator/(col_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::col_op< std::divides< size_t > >()(c1, c2);
+	constexpr auto operator/(DimT< Cct1, C1 > c1, T c2)noexcept{
+		return detail::all_op< DimT, std::divides< size_t > >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2, typename T,
+	template < template< bool, size_t > typename DimT,
+		bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator/(T c1, col_t< Cct2, C2 > c2)noexcept{
-		return detail::col_op< std::divides< size_t > >()(c1, c2);
+	constexpr auto operator/(T c1, DimT< Cct2, C2 > c2)noexcept{
+		return detail::all_op< DimT, std::divides< size_t > >()(c1, c2);
 	}
 
 
-	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	template < template< bool, size_t > typename DimT,
+		bool Cct1, size_t C1, bool Cct2, size_t C2 >
 	constexpr auto operator%(
-		col_t< Cct1, C1 > c1, col_t< Cct2, C2 > c2
+		DimT< Cct1, C1 > c1, DimT< Cct2, C2 > c2
 	)noexcept{
-		return detail::col_op< std::modulus< size_t > >()(c1, c2);
+		return detail::all_op< DimT, std::modulus< size_t > >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1, typename T,
+	template < template< bool, size_t > typename DimT,
+		bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator%(col_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::col_op< std::modulus< size_t > >()(c1, c2);
+	constexpr auto operator%(DimT< Cct1, C1 > c1, T c2)noexcept{
+		return detail::all_op< DimT, std::modulus< size_t > >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2, typename T,
+	template < template< bool, size_t > typename DimT,
+		bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator%(T c1, col_t< Cct2, C2 > c2)noexcept{
-		return detail::col_op< std::modulus< size_t > >()(c1, c2);
+	constexpr auto operator%(T c1, DimT< Cct2, C2 > c2)noexcept{
+		return detail::all_op< DimT, std::modulus< size_t > >()(c1, c2);
 	}
 
 
-	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	template < template< bool, size_t > typename DimT,
+		bool Cct1, size_t C1, bool Cct2, size_t C2 >
 	constexpr auto operator==(
-		col_t< Cct1, C1 > c1, col_t< Cct2, C2 > c2
+		DimT< Cct1, C1 > c1, DimT< Cct2, C2 > c2
 	)noexcept{
-		return detail::col_op< std::equal_to< size_t > >()(c1, c2);
+		return detail::all_op< DimT, std::equal_to< size_t > >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1, typename T,
+	template < template< bool, size_t > typename DimT,
+		bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator==(col_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::col_op< std::equal_to< size_t > >()(c1, c2);
+	constexpr auto operator==(DimT< Cct1, C1 > c1, T c2)noexcept{
+		return detail::all_op< DimT, std::equal_to< size_t > >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2, typename T,
+	template < template< bool, size_t > typename DimT,
+		bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator==(T c1, col_t< Cct2, C2 > c2)noexcept{
-		return detail::col_op< std::equal_to< size_t > >()(c1, c2);
+	constexpr auto operator==(T c1, DimT< Cct2, C2 > c2)noexcept{
+		return detail::all_op< DimT, std::equal_to< size_t > >()(c1, c2);
 	}
 
 
-	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	template < template< bool, size_t > typename DimT,
+		bool Cct1, size_t C1, bool Cct2, size_t C2 >
 	constexpr auto operator!=(
-		col_t< Cct1, C1 > c1, col_t< Cct2, C2 > c2
+		DimT< Cct1, C1 > c1, DimT< Cct2, C2 > c2
 	)noexcept{
-		return detail::col_op< std::not_equal_to< size_t > >()(c1, c2);
+		return detail::all_op< DimT, std::not_equal_to< size_t > >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1, typename T,
+	template < template< bool, size_t > typename DimT,
+		bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator!=(col_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::col_op< std::not_equal_to< size_t > >()(c1, c2);
+	constexpr auto operator!=(DimT< Cct1, C1 > c1, T c2)noexcept{
+		return detail::all_op< DimT, std::not_equal_to< size_t > >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2, typename T,
+	template < template< bool, size_t > typename DimT,
+		bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator!=(T c1, col_t< Cct2, C2 > c2)noexcept{
-		return detail::col_op< std::not_equal_to< size_t > >()(c1, c2);
-	}
-
-
-	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
-	constexpr auto operator+(
-		row_t< Cct1, C1 > c1, row_t< Cct2, C2 > c2
-	)noexcept{
-		return detail::row_op< std::plus< size_t > >()(c1, c2);
-	}
-
-	template < bool Cct1, size_t C1, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator+(row_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::row_op< std::plus< size_t > >()(c1, c2);
-	}
-
-	template < bool Cct2, size_t C2, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator+(T c1, row_t< Cct2, C2 > c2)noexcept{
-		return detail::row_op< std::plus< size_t > >()(c1, c2);
-	}
-
-
-	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
-	constexpr auto operator-(
-		row_t< Cct1, C1 > c1, row_t< Cct2, C2 > c2
-	)noexcept{
-		return detail::row_op< std::minus< size_t > >()(c1, c2);
-	}
-
-	template < bool Cct1, size_t C1, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator-(row_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::row_op< std::minus< size_t > >()(c1, c2);
-	}
-
-	template < bool Cct2, size_t C2, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator-(T c1, row_t< Cct2, C2 > c2)noexcept{
-		return detail::row_op< std::minus< size_t > >()(c1, c2);
-	}
-
-
-	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
-	constexpr auto operator*(
-		row_t< Cct1, C1 > c1, row_t< Cct2, C2 > c2
-	)noexcept{
-		return detail::row_op< std::multiplies< size_t > >()(c1, c2);
-	}
-
-	template < bool Cct1, size_t C1, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator*(row_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::row_op< std::multiplies< size_t > >()(c1, c2);
-	}
-
-	template < bool Cct2, size_t C2, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator*(T c1, row_t< Cct2, C2 > c2)noexcept{
-		return detail::row_op< std::multiplies< size_t > >()(c1, c2);
-	}
-
-
-	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
-	constexpr auto operator/(
-		row_t< Cct1, C1 > c1, row_t< Cct2, C2 > c2
-	)noexcept{
-		return detail::row_op< std::divides< size_t > >()(c1, c2);
-	}
-
-	template < bool Cct1, size_t C1, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator/(row_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::row_op< std::divides< size_t > >()(c1, c2);
-	}
-
-	template < bool Cct2, size_t C2, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator/(T c1, row_t< Cct2, C2 > c2)noexcept{
-		return detail::row_op< std::divides< size_t > >()(c1, c2);
-	}
-
-
-	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
-	constexpr auto operator%(
-		row_t< Cct1, C1 > c1, row_t< Cct2, C2 > c2
-	)noexcept{
-		return detail::row_op< std::modulus< size_t > >()(c1, c2);
-	}
-
-	template < bool Cct1, size_t C1, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator%(row_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::row_op< std::modulus< size_t > >()(c1, c2);
-	}
-
-	template < bool Cct2, size_t C2, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator%(T c1, row_t< Cct2, C2 > c2)noexcept{
-		return detail::row_op< std::modulus< size_t > >()(c1, c2);
-	}
-
-
-	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
-	constexpr auto operator==(
-		row_t< Cct1, C1 > c1, row_t< Cct2, C2 > c2
-	)noexcept{
-		return detail::row_op< std::equal_to< size_t > >()(c1, c2);
-	}
-
-	template < bool Cct1, size_t C1, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator==(row_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::row_op< std::equal_to< size_t > >()(c1, c2);
-	}
-
-	template < bool Cct2, size_t C2, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator==(T c1, row_t< Cct2, C2 > c2)noexcept{
-		return detail::row_op< std::equal_to< size_t > >()(c1, c2);
-	}
-
-
-	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
-	constexpr auto operator!=(
-		row_t< Cct1, C1 > c1, row_t< Cct2, C2 > c2
-	)noexcept{
-		return detail::row_op< std::not_equal_to< size_t > >()(c1, c2);
-	}
-
-	template < bool Cct1, size_t C1, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator!=(row_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::row_op< std::not_equal_to< size_t > >()(c1, c2);
-	}
-
-	template < bool Cct2, size_t C2, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
-	constexpr auto operator!=(T c1, row_t< Cct2, C2 > c2)noexcept{
-		return detail::row_op< std::not_equal_to< size_t > >()(c1, c2);
+	constexpr auto operator!=(T c1, DimT< Cct2, C2 > c2)noexcept{
+		return detail::all_op< DimT, std::not_equal_to< size_t > >()(c1, c2);
 	}
 
 
