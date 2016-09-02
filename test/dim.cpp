@@ -594,9 +594,9 @@ BOOST_AUTO_TEST_CASE(
 	BOOST_TEST(rt_id(d14 % d24) == (id< dims_t< 0, 0 > >));
 
 	BOOST_TEST(CP(d11 * 4 == dims(36_C, 36_R)));
-	BOOST_TEST(CP(d11 * 4 == dims(36_C, 36_R)));
-	BOOST_TEST(CP(d11 * 4 == dims(36_C, 36_R)));
-	BOOST_TEST(CP(d11 * 4 == dims(36_C, 36_R)));
+	BOOST_TEST(CP(d12 * 4 == dims(36_C, 36_R)));
+	BOOST_TEST(CP(d13 * 4 == dims(36_C, 36_R)));
+	BOOST_TEST(CP(d14 * 4 == dims(36_C, 36_R)));
 
 	BOOST_TEST(rt_id(d11 * 4) == (id< dims_t< 0, 0 > >));
 	BOOST_TEST(rt_id(d12 * 4) == (id< dims_t< 0, 0 > >));
@@ -604,9 +604,9 @@ BOOST_AUTO_TEST_CASE(
 	BOOST_TEST(rt_id(d14 * 4) == (id< dims_t< 0, 0 > >));
 
 	BOOST_TEST(CP(d11 / 4 == dims(2_C, 2_R)));
-	BOOST_TEST(CP(d11 / 4 == dims(2_C, 2_R)));
-	BOOST_TEST(CP(d11 / 4 == dims(2_C, 2_R)));
-	BOOST_TEST(CP(d11 / 4 == dims(2_C, 2_R)));
+	BOOST_TEST(CP(d12 / 4 == dims(2_C, 2_R)));
+	BOOST_TEST(CP(d13 / 4 == dims(2_C, 2_R)));
+	BOOST_TEST(CP(d14 / 4 == dims(2_C, 2_R)));
 
 	BOOST_TEST(rt_id(d11 / 4) == (id< dims_t< 0, 0 > >));
 	BOOST_TEST(rt_id(d12 / 4) == (id< dims_t< 0, 0 > >));
@@ -614,9 +614,9 @@ BOOST_AUTO_TEST_CASE(
 	BOOST_TEST(rt_id(d14 / 4) == (id< dims_t< 0, 0 > >));
 
 	BOOST_TEST(CP(d11 % 4 == dims(1_C, 1_R)));
-	BOOST_TEST(CP(d11 % 4 == dims(1_C, 1_R)));
-	BOOST_TEST(CP(d11 % 4 == dims(1_C, 1_R)));
-	BOOST_TEST(CP(d11 % 4 == dims(1_C, 1_R)));
+	BOOST_TEST(CP(d12 % 4 == dims(1_C, 1_R)));
+	BOOST_TEST(CP(d13 % 4 == dims(1_C, 1_R)));
+	BOOST_TEST(CP(d14 % 4 == dims(1_C, 1_R)));
 
 	BOOST_TEST(rt_id(d11 % 4) == (id< dims_t< 0, 0 > >));
 	BOOST_TEST(rt_id(d12 % 4) == (id< dims_t< 0, 0 > >));
