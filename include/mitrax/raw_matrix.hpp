@@ -20,7 +20,7 @@ namespace mitrax{ namespace detail{
 
 
 	template < typename T, size_t C, size_t R >
-	class raw_matrix_impl{
+	class raw_matrix_impl: public dims_t< C, R >{
 	public:
 		/// \brief Type of the data that administrates the matrix
 		using value_type = T;
@@ -59,20 +59,11 @@ namespace mitrax{ namespace detail{
 
 
 		constexpr value_type& operator()(size_t x, size_t y){
-			return values_[y * cols() + x];
+			return values_[y * this->cols() + x];
 		}
 
 		constexpr value_type const& operator()(size_t x, size_t y)const{
-			return values_[y * cols() + x];
-		}
-
-
-		constexpr col_t< C != 0, C > cols()const noexcept{
-			return col_t< C != 0, C >();
-		}
-
-		constexpr row_t< R != 0, R > rows()const noexcept{
-			return row_t< R != 0, R >();
+			return values_[y * this->cols() + x];
 		}
 
 
@@ -124,7 +115,7 @@ namespace mitrax{ namespace detail{
 
 
 	template < typename T, size_t C, size_t R >
-	class raw_matrix_impl_base{
+	class raw_matrix_impl_base: public dims_t< C, R >{
 	public:
 		/// \brief Type of the data that administrates the matrix
 		using value_type = T;
@@ -152,9 +143,8 @@ namespace mitrax{ namespace detail{
 			col_t< C != 0, C > c, row_t< R != 0, R > r,
 			detail::array_d< value_type >&& values
 		):
-			values_(std::move(values)),
-			cols_(c),
-			rows_(r)
+			dims_t< C, R >(c, r),
+			values_(std::move(values))
 			{}
 
 
@@ -164,20 +154,11 @@ namespace mitrax{ namespace detail{
 
 
 		value_type& operator()(size_t x, size_t y){
-			return values_[y * cols() + x];
+			return values_[y * this->cols() + x];
 		}
 
 		value_type const& operator()(size_t x, size_t y)const{
-			return values_[y * cols() + x];
-		}
-
-
-		constexpr col_t< C != 0, C > cols()const noexcept{
-			return cols_;
-		}
-
-		constexpr row_t< R != 0, R > rows()const noexcept{
-			return rows_;
+			return values_[y * this->cols() + x];
 		}
 
 
@@ -230,8 +211,6 @@ namespace mitrax{ namespace detail{
 
 	protected:
 		detail::array_d< value_type > values_;
-		col_t< C != 0, C > cols_;
-		row_t< R != 0, R > rows_;
 	};
 
 

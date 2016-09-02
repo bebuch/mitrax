@@ -58,3 +58,8 @@ exe rgb2grayscale
 	rgb2grayscale.cpp
 	libpng12
 	;
+
+exe sizeof
+	:
+	sizeof.cpp
+	;

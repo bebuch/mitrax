@@ -105,7 +105,9 @@ namespace mitrax{
 	}
 
 
-	template < size_t V >
+	// the second parameter is a hack to reduce the size of
+	// dims_t< C, R > with C == R
+	template < size_t V, typename = void >
 	struct size_ct{
 		static constexpr size_t value = V;
 
@@ -147,13 +149,13 @@ namespace mitrax{
 
 
 	template < size_t C >
-	struct col_t< true, C >: size_ct< C >{
+	struct col_t< true, C >: size_ct< C, col_t< true, C > >{
 		constexpr auto as_row()const noexcept{ return row_t< true, C >(); }
 		constexpr auto as_dim()const noexcept{ return dim_t< true, C >(); }
 	};
 
 	template < size_t C >
-	struct col_t< false, C >: size_ct< C >{
+	struct col_t< false, C >: size_ct< C, col_t< false, C > >{
 		constexpr col_t()noexcept = default;
 
 		constexpr col_t(col_t< true, C >&&)noexcept{}
@@ -182,13 +184,13 @@ namespace mitrax{
 
 
 	template < size_t R >
-	struct row_t< true, R >: size_ct< R >{
+	struct row_t< true, R >: size_ct< R, row_t< true, R > >{
 		constexpr auto as_col()const noexcept{ return col_t< true, R >(); }
 		constexpr auto as_dim()const noexcept{ return dim_t< true, R >(); }
 	};
 
 	template < size_t R >
-	struct row_t< false, R >: size_ct< R >{
+	struct row_t< false, R >: size_ct< R, row_t< false, R > >{
 		constexpr row_t()noexcept = default;
 
 		constexpr row_t(row_t< true, R >&&)noexcept{}
@@ -218,7 +220,7 @@ namespace mitrax{
 
 
 	template < size_t N >
-	struct dim_t< true, N >: size_ct< N >{
+	struct dim_t< true, N >: size_ct< N, dim_t< true, N > >{
 		constexpr auto as_col()const noexcept{
 			return col_t< true, N >();
 		}
@@ -229,7 +231,7 @@ namespace mitrax{
 	};
 
 	template < size_t N >
-	struct dim_t< false, N >: size_ct< N >{
+	struct dim_t< false, N >: size_ct< N, dim_t< false, N > >{
 		constexpr dim_t()noexcept = default;
 
 		constexpr dim_t(dim_t< true, N >&&)noexcept{}
@@ -285,7 +287,7 @@ namespace mitrax{
 
 
 	template < size_t C, size_t R >
-	class dims_t final: private col_t< C != 0, C >, private row_t< R != 0, R >{
+	class dims_t: private col_t< C != 0, C >, private row_t< R != 0, R >{
 	public:
 		static constexpr size_t ct_cols = C;
 		static constexpr size_t ct_rows = R;
@@ -299,11 +301,11 @@ namespace mitrax{
 		)noexcept: col_t< C != 0, C >(cols), row_t< R != 0, R >(rows) {}
 
 
-		constexpr col_t< C != 0, C > const cols()const noexcept{
+		constexpr col_t< C != 0, C > cols()const noexcept{
 			return *this;
 		}
 
-		constexpr row_t< R != 0, R > const rows()const noexcept{
+		constexpr row_t< R != 0, R > rows()const noexcept{
 			return *this;
 		}
 
