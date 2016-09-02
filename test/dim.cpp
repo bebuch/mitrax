@@ -71,6 +71,44 @@ BOOST_AUTO_TEST_CASE(test_col_t){
 	BOOST_TEST((rt_id(rrt.as_dim()) == (id< dim_t< false, 0 > >)));
 }
 
+BOOST_AUTO_TEST_CASE(test_col_t_op){
+	constexpr auto cct = col_t< true, 7 >();
+	constexpr auto crt = col_t< false, 7 >();
+	constexpr auto rrt = col_t< false, 0 >(7);
+	constexpr auto rru = size_t(7);
+	constexpr auto rrs = 7;
+
+	BOOST_TEST((rt_id(cct + cct) == (id< col_t< true, 14 > >)));
+	BOOST_TEST((rt_id(cct + crt) == (id< col_t< false, 14 > >)));
+	BOOST_TEST((rt_id(cct + rrt) == (id< col_t< false, 0 > >)));
+	BOOST_TEST((rt_id(cct + rru) == (id< col_t< false, 0 > >)));
+	BOOST_TEST((rt_id(cct + rrs) == (id< col_t< false, 0 > >)));
+
+	BOOST_TEST((rt_id(crt + cct) == (id< col_t< false, 14 > >)));
+	BOOST_TEST((rt_id(crt + crt) == (id< col_t< false, 14 > >)));
+	BOOST_TEST((rt_id(crt + rrt) == (id< col_t< false, 0 > >)));
+	BOOST_TEST((rt_id(crt + rru) == (id< col_t< false, 0 > >)));
+	BOOST_TEST((rt_id(crt + rrs) == (id< col_t< false, 0 > >)));
+
+	BOOST_TEST((rt_id(rrt + cct) == (id< col_t< false, 0 > >)));
+	BOOST_TEST((rt_id(rrt + crt) == (id< col_t< false, 0 > >)));
+	BOOST_TEST((rt_id(rrt + rrt) == (id< col_t< false, 0 > >)));
+	BOOST_TEST((rt_id(rrt + rru) == (id< col_t< false, 0 > >)));
+	BOOST_TEST((rt_id(rrt + rrs) == (id< col_t< false, 0 > >)));
+
+	BOOST_TEST((rt_id(rru + cct) == (id< col_t< false, 0 > >)));
+	BOOST_TEST((rt_id(rru + crt) == (id< col_t< false, 0 > >)));
+	BOOST_TEST((rt_id(rru + rrt) == (id< col_t< false, 0 > >)));
+	BOOST_TEST((rt_id(rru + rru) == (id< size_t >)));
+	BOOST_TEST((rt_id(rru + rrs) == (id< size_t >)));
+
+	BOOST_TEST((rt_id(rrs + cct) == (id< col_t< false, 0 > >)));
+	BOOST_TEST((rt_id(rrs + crt) == (id< col_t< false, 0 > >)));
+	BOOST_TEST((rt_id(rrs + rrt) == (id< col_t< false, 0 > >)));
+	BOOST_TEST((rt_id(rrs + rru) == (id< size_t >)));
+	BOOST_TEST((rt_id(rrs + rrs) == (id< int >)));
+}
+
 BOOST_AUTO_TEST_CASE(test_row_t){
 	BOOST_TEST((rt_id(7_R) == (id< row_t< true, 7 > >)));
 	BOOST_TEST((rt_id(7_R_rt) == (id< row_t< false, 7 > >)));
