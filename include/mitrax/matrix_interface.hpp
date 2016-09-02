@@ -89,7 +89,7 @@ namespace mitrax{
 		}
 
 		constexpr dims_t< Cols, Rows > dims()const noexcept{
-			return mitrax::dims(cols(), rows());
+			return m_; // m_ is required to be public derived from dims_t
 		}
 
 		constexpr size_t point_count()const noexcept{
