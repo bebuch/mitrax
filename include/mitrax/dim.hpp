@@ -285,7 +285,7 @@ namespace mitrax{
 
 
 	template < size_t C, size_t R >
-	class dims_t{
+	class dims_t final: private col_t< C != 0, C >, private row_t< R != 0, R >{
 	public:
 		static constexpr size_t static_cols = C;
 		static constexpr size_t static_rows = R;
@@ -295,43 +295,38 @@ namespace mitrax{
 		constexpr dims_t(
 			col_t< C != 0, C > cols,
 			row_t< R != 0, R > rows
-		)noexcept: cols_(cols), rows_(rows) {}
+		)noexcept: col_t< C != 0, C >(cols), row_t< R != 0, R >(rows) {}
 
 
-		constexpr col_t< C != 0, C > const& cols()const noexcept{
-			return cols_;
+		constexpr col_t< C != 0, C > const cols()const noexcept{
+			return *this;
 		}
 
-		constexpr row_t< R != 0, R > const& rows()const noexcept{
-			return rows_;
+		constexpr row_t< R != 0, R > const rows()const noexcept{
+			return *this;
 		}
 
 
 		template < bool Cct >
 		constexpr void set_cols(col_t< Cct, C > c)noexcept{
-			cols_ = c;
+			static_cast< col_t< C != 0, C >& >(*this) = c;
 		}
 
 		template < bool Rct >
 		constexpr void set_rows(row_t< Rct, R > r)noexcept{
-			rows_ = r;
+			static_cast< row_t< R != 0, R >& >(*this) = r;
 		}
 
 		template < bool Cct, bool Rct >
 		constexpr void set(col_t< Cct, C > c, row_t< Rct, R > r)noexcept{
-			cols_ = c;
-			rows_ = r;
+			set_cols(c);
+			set_rows(r);
 		}
 
 
 		size_t point_count()const{
-			return size_t(cols_) * size_t(rows_);
+			return size_t(cols()) * size_t(rows());
 		}
-
-
-	private:
-		col_t< C != 0, C > cols_;
-		row_t< R != 0, R > rows_;
 	};
 
 
@@ -510,13 +505,15 @@ namespace mitrax{
 		return detail::col_op< std::plus<> >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1 >
-	constexpr auto operator+(col_t< Cct1, C1 > c1, size_t c2)noexcept{
+	template < bool Cct1, size_t C1, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator+(col_t< Cct1, C1 > c1, T c2)noexcept{
 		return detail::col_op< std::plus<> >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2 >
-	constexpr auto operator+(size_t c1, col_t< Cct2, C2 > c2)noexcept{
+	template < bool Cct2, size_t C2, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator+(T c1, col_t< Cct2, C2 > c2)noexcept{
 		return detail::col_op< std::plus<> >()(c1, c2);
 	}
 
@@ -528,13 +525,15 @@ namespace mitrax{
 		return detail::col_op< std::minus<> >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1 >
-	constexpr auto operator-(col_t< Cct1, C1 > c1, size_t c2)noexcept{
+	template < bool Cct1, size_t C1, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator-(col_t< Cct1, C1 > c1, T c2)noexcept{
 		return detail::col_op< std::minus<> >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2 >
-	constexpr auto operator-(size_t c1, col_t< Cct2, C2 > c2)noexcept{
+	template < bool Cct2, size_t C2, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator-(T c1, col_t< Cct2, C2 > c2)noexcept{
 		return detail::col_op< std::minus<> >()(c1, c2);
 	}
 
@@ -546,13 +545,15 @@ namespace mitrax{
 		return detail::col_op< std::multiplies<> >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1 >
-	constexpr auto operator*(col_t< Cct1, C1 > c1, size_t c2)noexcept{
+	template < bool Cct1, size_t C1, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator*(col_t< Cct1, C1 > c1, T c2)noexcept{
 		return detail::col_op< std::multiplies<> >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2 >
-	constexpr auto operator*(size_t c1, col_t< Cct2, C2 > c2)noexcept{
+	template < bool Cct2, size_t C2, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator*(T c1, col_t< Cct2, C2 > c2)noexcept{
 		return detail::col_op< std::multiplies<> >()(c1, c2);
 	}
 
@@ -564,13 +565,15 @@ namespace mitrax{
 		return detail::col_op< std::divides<> >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1 >
-	constexpr auto operator/(col_t< Cct1, C1 > c1, size_t c2)noexcept{
+	template < bool Cct1, size_t C1, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator/(col_t< Cct1, C1 > c1, T c2)noexcept{
 		return detail::col_op< std::divides<> >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2 >
-	constexpr auto operator/(size_t c1, col_t< Cct2, C2 > c2)noexcept{
+	template < bool Cct2, size_t C2, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator/(T c1, col_t< Cct2, C2 > c2)noexcept{
 		return detail::col_op< std::divides<> >()(c1, c2);
 	}
 
@@ -582,13 +585,15 @@ namespace mitrax{
 		return detail::col_op< std::modulus<> >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1 >
-	constexpr auto operator%(col_t< Cct1, C1 > c1, size_t c2)noexcept{
+	template < bool Cct1, size_t C1, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator%(col_t< Cct1, C1 > c1, T c2)noexcept{
 		return detail::col_op< std::modulus<> >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2 >
-	constexpr auto operator%(size_t c1, col_t< Cct2, C2 > c2)noexcept{
+	template < bool Cct2, size_t C2, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator%(T c1, col_t< Cct2, C2 > c2)noexcept{
 		return detail::col_op< std::modulus<> >()(c1, c2);
 	}
 
@@ -600,13 +605,15 @@ namespace mitrax{
 		return detail::row_op< std::plus<> >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1 >
-	constexpr auto operator+(row_t< Cct1, C1 > c1, size_t c2)noexcept{
+	template < bool Cct1, size_t C1, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator+(row_t< Cct1, C1 > c1, T c2)noexcept{
 		return detail::row_op< std::plus<> >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2 >
-	constexpr auto operator+(size_t c1, row_t< Cct2, C2 > c2)noexcept{
+	template < bool Cct2, size_t C2, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator+(T c1, row_t< Cct2, C2 > c2)noexcept{
 		return detail::row_op< std::plus<> >()(c1, c2);
 	}
 
@@ -618,13 +625,15 @@ namespace mitrax{
 		return detail::row_op< std::minus<> >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1 >
-	constexpr auto operator-(row_t< Cct1, C1 > c1, size_t c2)noexcept{
+	template < bool Cct1, size_t C1, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator-(row_t< Cct1, C1 > c1, T c2)noexcept{
 		return detail::row_op< std::minus<> >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2 >
-	constexpr auto operator-(size_t c1, row_t< Cct2, C2 > c2)noexcept{
+	template < bool Cct2, size_t C2, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator-(T c1, row_t< Cct2, C2 > c2)noexcept{
 		return detail::row_op< std::minus<> >()(c1, c2);
 	}
 
@@ -636,13 +645,15 @@ namespace mitrax{
 		return detail::row_op< std::multiplies<> >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1 >
-	constexpr auto operator*(row_t< Cct1, C1 > c1, size_t c2)noexcept{
+	template < bool Cct1, size_t C1, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator*(row_t< Cct1, C1 > c1, T c2)noexcept{
 		return detail::row_op< std::multiplies<> >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2 >
-	constexpr auto operator*(size_t c1, row_t< Cct2, C2 > c2)noexcept{
+	template < bool Cct2, size_t C2, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator*(T c1, row_t< Cct2, C2 > c2)noexcept{
 		return detail::row_op< std::multiplies<> >()(c1, c2);
 	}
 
@@ -654,13 +665,15 @@ namespace mitrax{
 		return detail::row_op< std::divides<> >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1 >
-	constexpr auto operator/(row_t< Cct1, C1 > c1, size_t c2)noexcept{
+	template < bool Cct1, size_t C1, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator/(row_t< Cct1, C1 > c1, T c2)noexcept{
 		return detail::row_op< std::divides<> >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2 >
-	constexpr auto operator/(size_t c1, row_t< Cct2, C2 > c2)noexcept{
+	template < bool Cct2, size_t C2, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator/(T c1, row_t< Cct2, C2 > c2)noexcept{
 		return detail::row_op< std::divides<> >()(c1, c2);
 	}
 
@@ -672,13 +685,15 @@ namespace mitrax{
 		return detail::row_op< std::modulus<> >()(c1, c2);
 	}
 
-	template < bool Cct1, size_t C1 >
-	constexpr auto operator%(row_t< Cct1, C1 > c1, size_t c2)noexcept{
+	template < bool Cct1, size_t C1, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator%(row_t< Cct1, C1 > c1, T c2)noexcept{
 		return detail::row_op< std::modulus<> >()(c1, c2);
 	}
 
-	template < bool Cct2, size_t C2 >
-	constexpr auto operator%(size_t c1, row_t< Cct2, C2 > c2)noexcept{
+	template < bool Cct2, size_t C2, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator%(T c1, row_t< Cct2, C2 > c2)noexcept{
 		return detail::row_op< std::modulus<> >()(c1, c2);
 	}
 
@@ -708,18 +723,21 @@ namespace mitrax{
 		return dims(d1.cols() % d2.cols(), d1.rows() % d2.rows());
 	}
 
-	template < size_t C, size_t R >
-	constexpr auto operator*(dims_t< C, R > d, size_t v)noexcept{
+	template < size_t C, size_t R, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator*(dims_t< C, R > d, T v)noexcept{
 		return dims(d.cols() * v, d.rows() * v);
 	}
 
-	template < size_t C, size_t R >
-	constexpr auto operator/(dims_t< C, R > d, size_t v)noexcept{
+	template < size_t C, size_t R, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator/(dims_t< C, R > d, T v)noexcept{
 		return dims(d.cols() / v, d.rows() / v);
 	}
 
-	template < size_t C, size_t R >
-	constexpr auto operator%(dims_t< C, R > d, size_t v)noexcept{
+	template < size_t C, size_t R, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator%(dims_t< C, R > d, T v)noexcept{
 		return dims(d.cols() % v, d.rows() % v);
 	}
 
