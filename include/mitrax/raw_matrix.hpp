@@ -223,6 +223,11 @@ namespace mitrax{ namespace detail{
 		}
 
 
+		void resize(dims_t< C, R > const& /*d*/){
+			// TODO: do the resize
+		}
+
+
 	protected:
 		detail::array_d< value_type > values_;
 		col_t< C != 0, C > cols_;
