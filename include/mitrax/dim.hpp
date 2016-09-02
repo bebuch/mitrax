@@ -525,43 +525,43 @@ namespace mitrax{
 
 
 	template < typename L, typename R,
-		typename = detail::enable_if_dim_op_t< L, R > >
+		detail::enable_if_dim_op_t< L, R >* = nullptr >
 	constexpr auto operator+(L l, R r)noexcept{
 		return detail::dim_op< std::plus< size_t > >(l, r);
 	}
 
 	template < typename L, typename R,
-		typename = detail::enable_if_dim_op_t< L, R > >
+		detail::enable_if_dim_op_t< L, R >* = nullptr >
 	constexpr auto operator-(L l, R r)noexcept{
 		return detail::dim_op< std::minus< size_t > >(l, r);
 	}
 
 	template < typename L, typename R,
-		typename = detail::enable_if_dim_op_t< L, R > >
+		detail::enable_if_dim_op_t< L, R >* = nullptr >
 	constexpr auto operator*(L l, R r)noexcept{
 		return detail::dim_op< std::multiplies< size_t > >(l, r);
 	}
 
 	template < typename L, typename R,
-		typename = detail::enable_if_dim_op_t< L, R > >
+		detail::enable_if_dim_op_t< L, R >* = nullptr >
 	constexpr auto operator/(L l, R r)noexcept{
 		return detail::dim_op< std::divides< size_t > >(l, r);
 	}
 
 	template < typename L, typename R,
-		typename = detail::enable_if_dim_op_t< L, R > >
+		detail::enable_if_dim_op_t< L, R >* = nullptr >
 	constexpr auto operator%(L l, R r)noexcept{
 		return detail::dim_op< std::modulus< size_t > >(l, r);
 	}
 
 	template < typename L, typename R,
-		typename = detail::enable_if_dim_op_t< L, R > >
+		detail::enable_if_dim_op_t< L, R >* = nullptr >
 	constexpr auto operator==(L l, R r)noexcept{
 		return detail::dim_op< std::equal_to< size_t > >(l, r);
 	}
 
 	template < typename L, typename R,
-		typename = detail::enable_if_dim_op_t< L, R > >
+		detail::enable_if_dim_op_t< L, R >* = nullptr >
 	constexpr auto operator!=(L l, R r)noexcept{
 		return detail::dim_op< std::not_equal_to< size_t > >(l, r);
 	}
