@@ -406,96 +406,60 @@ namespace mitrax{
 	namespace detail{
 
 
-		template < typename Op >
-		struct col_op{
+		template < template < bool, size_t > typename DimT, typename Op >
+		struct all_op{
 			template < bool Ict1, size_t I1, bool Ict2, size_t I2 >
 			constexpr auto operator()(
-				col_t< Ict1, I1 > /*d1*/, col_t< Ict2, I2 > /*d2*/
+				DimT< Ict1, I1 > /*d1*/, DimT< Ict2, I2 > /*d2*/
 			)const noexcept{
-				return col_t< Ict1 && Ict2, Op()(I1, I2) >();
+				return DimT< Ict1 && Ict2, Op()(I1, I2) >();
 			}
 
 			template < bool Ict1, bool Ict2, size_t I2 >
 			constexpr auto operator()(
-				col_t< Ict1, 0 > d1, col_t< Ict2, I2 > d2
+				DimT< Ict1, 0 > d1, DimT< Ict2, I2 > d2
 			)const noexcept{
-				return col_t< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
+				return DimT< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
 			}
 
 			template < bool Ict1, size_t I1, bool Ict2 >
 			constexpr auto operator()(
-				col_t< Ict1, I1 > d1, col_t< Ict2, 0 > d2
+				DimT< Ict1, I1 > d1, DimT< Ict2, 0 > d2
 			)const noexcept{
-				return col_t< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
+				return DimT< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
 			}
 
 			template < bool Ict1, bool Ict2 >
 			constexpr auto operator()(
-				col_t< Ict1, 0 > d1, col_t< Ict2, 0 > d2
+				DimT< Ict1, 0 > d1, DimT< Ict2, 0 > d2
 			)const noexcept{
-				return col_t< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
+				return DimT< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
 			}
 
 			template < bool Ict1, size_t I1 >
 			constexpr auto operator()(
-				col_t< Ict1, I1 > d1, size_t d2
+				DimT< Ict1, I1 > d1, size_t d2
 			)const noexcept{
-				return col_t< false, 0 >(Op()(size_t(d1), d2));
+				return DimT< false, 0 >(Op()(size_t(d1), d2));
 			}
 
 			template < bool Ict2, size_t I2 >
 			constexpr auto operator()(
-				size_t d1, col_t< Ict2, I2 > d2
+				size_t d1, DimT< Ict2, I2 > d2
 			)const noexcept{
-				return col_t< false, 0 >(Op()(d1, size_t(d2)));
+				return DimT< false, 0 >(Op()(d1, size_t(d2)));
 			}
 		};
 
 
 		template < typename Op >
-		struct row_op{
-			template < bool Ict1, size_t I1, bool Ict2, size_t I2 >
-			constexpr auto operator()(
-				row_t< Ict1, I1 > /*d1*/, row_t< Ict2, I2 > /*d2*/
-			)const noexcept{
-				return row_t< Ict1 && Ict2, Op()(I1, I2) >();
-			}
+		using col_op = all_op< col_t, Op >;
 
-			template < bool Ict1, bool Ict2, size_t I2 >
-			constexpr auto operator()(
-				row_t< Ict1, 0 > d1, row_t< Ict2, I2 > d2
-			)const noexcept{
-				return row_t< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
-			}
+		template < typename Op >
+		using row_op = all_op< row_t, Op >;
 
-			template < bool Ict1, size_t I1, bool Ict2 >
-			constexpr auto operator()(
-				row_t< Ict1, I1 > d1, row_t< Ict2, 0 > d2
-			)const noexcept{
-				return row_t< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
-			}
-
-			template < bool Ict1, bool Ict2 >
-			constexpr auto operator()(
-				row_t< Ict1, 0 > d1, row_t< Ict2, 0 > d2
-			)const noexcept{
-				return row_t< Ict1 && Ict2, 0 >(Op()(size_t(d1), size_t(d2)));
-			}
-
-			template < bool Ict1, size_t I1 >
-			constexpr auto operator()(
-				row_t< Ict1, I1 > d1, size_t d2
-			)const noexcept{
-				return row_t< false, 0 >(Op()(size_t(d1), d2));
-			}
-
-			template < bool Ict2, size_t I2 >
-			constexpr auto operator()(
-				size_t d1, row_t< Ict2, I2 > d2
-			)const noexcept{
-				return row_t< false, 0 >(Op()(d1, size_t(d2)));
-			}
-		};
+		template < typename Op >
+		using dim_op = all_op< dim_t, Op >;
 
 
 	}
@@ -505,19 +469,19 @@ namespace mitrax{
 	constexpr auto operator+(
 		col_t< Cct1, C1 > c1, col_t< Cct2, C2 > c2
 	)noexcept{
-		return detail::col_op< std::plus<> >()(c1, c2);
+		return detail::col_op< std::plus< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator+(col_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::col_op< std::plus<> >()(c1, c2);
+		return detail::col_op< std::plus< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator+(T c1, col_t< Cct2, C2 > c2)noexcept{
-		return detail::col_op< std::plus<> >()(c1, c2);
+		return detail::col_op< std::plus< size_t > >()(c1, c2);
 	}
 
 
@@ -525,19 +489,19 @@ namespace mitrax{
 	constexpr auto operator-(
 		col_t< Cct1, C1 > c1, col_t< Cct2, C2 > c2
 	)noexcept{
-		return detail::col_op< std::minus<> >()(c1, c2);
+		return detail::col_op< std::minus< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator-(col_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::col_op< std::minus<> >()(c1, c2);
+		return detail::col_op< std::minus< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator-(T c1, col_t< Cct2, C2 > c2)noexcept{
-		return detail::col_op< std::minus<> >()(c1, c2);
+		return detail::col_op< std::minus< size_t > >()(c1, c2);
 	}
 
 
@@ -545,19 +509,19 @@ namespace mitrax{
 	constexpr auto operator*(
 		col_t< Cct1, C1 > c1, col_t< Cct2, C2 > c2
 	)noexcept{
-		return detail::col_op< std::multiplies<> >()(c1, c2);
+		return detail::col_op< std::multiplies< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator*(col_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::col_op< std::multiplies<> >()(c1, c2);
+		return detail::col_op< std::multiplies< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator*(T c1, col_t< Cct2, C2 > c2)noexcept{
-		return detail::col_op< std::multiplies<> >()(c1, c2);
+		return detail::col_op< std::multiplies< size_t > >()(c1, c2);
 	}
 
 
@@ -565,19 +529,19 @@ namespace mitrax{
 	constexpr auto operator/(
 		col_t< Cct1, C1 > c1, col_t< Cct2, C2 > c2
 	)noexcept{
-		return detail::col_op< std::divides<> >()(c1, c2);
+		return detail::col_op< std::divides< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator/(col_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::col_op< std::divides<> >()(c1, c2);
+		return detail::col_op< std::divides< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator/(T c1, col_t< Cct2, C2 > c2)noexcept{
-		return detail::col_op< std::divides<> >()(c1, c2);
+		return detail::col_op< std::divides< size_t > >()(c1, c2);
 	}
 
 
@@ -585,19 +549,59 @@ namespace mitrax{
 	constexpr auto operator%(
 		col_t< Cct1, C1 > c1, col_t< Cct2, C2 > c2
 	)noexcept{
-		return detail::col_op< std::modulus<> >()(c1, c2);
+		return detail::col_op< std::modulus< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator%(col_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::col_op< std::modulus<> >()(c1, c2);
+		return detail::col_op< std::modulus< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator%(T c1, col_t< Cct2, C2 > c2)noexcept{
-		return detail::col_op< std::modulus<> >()(c1, c2);
+		return detail::col_op< std::modulus< size_t > >()(c1, c2);
+	}
+
+
+	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator==(
+		col_t< Cct1, C1 > c1, col_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::col_op< std::equal_to< size_t > >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator==(col_t< Cct1, C1 > c1, T c2)noexcept{
+		return detail::col_op< std::equal_to< size_t > >()(c1, c2);
+	}
+
+	template < bool Cct2, size_t C2, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator==(T c1, col_t< Cct2, C2 > c2)noexcept{
+		return detail::col_op< std::equal_to< size_t > >()(c1, c2);
+	}
+
+
+	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator!=(
+		col_t< Cct1, C1 > c1, col_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::col_op< std::not_equal_to< size_t > >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator!=(col_t< Cct1, C1 > c1, T c2)noexcept{
+		return detail::col_op< std::not_equal_to< size_t > >()(c1, c2);
+	}
+
+	template < bool Cct2, size_t C2, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator!=(T c1, col_t< Cct2, C2 > c2)noexcept{
+		return detail::col_op< std::not_equal_to< size_t > >()(c1, c2);
 	}
 
 
@@ -605,19 +609,19 @@ namespace mitrax{
 	constexpr auto operator+(
 		row_t< Cct1, C1 > c1, row_t< Cct2, C2 > c2
 	)noexcept{
-		return detail::row_op< std::plus<> >()(c1, c2);
+		return detail::row_op< std::plus< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator+(row_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::row_op< std::plus<> >()(c1, c2);
+		return detail::row_op< std::plus< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator+(T c1, row_t< Cct2, C2 > c2)noexcept{
-		return detail::row_op< std::plus<> >()(c1, c2);
+		return detail::row_op< std::plus< size_t > >()(c1, c2);
 	}
 
 
@@ -625,19 +629,19 @@ namespace mitrax{
 	constexpr auto operator-(
 		row_t< Cct1, C1 > c1, row_t< Cct2, C2 > c2
 	)noexcept{
-		return detail::row_op< std::minus<> >()(c1, c2);
+		return detail::row_op< std::minus< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator-(row_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::row_op< std::minus<> >()(c1, c2);
+		return detail::row_op< std::minus< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator-(T c1, row_t< Cct2, C2 > c2)noexcept{
-		return detail::row_op< std::minus<> >()(c1, c2);
+		return detail::row_op< std::minus< size_t > >()(c1, c2);
 	}
 
 
@@ -645,19 +649,19 @@ namespace mitrax{
 	constexpr auto operator*(
 		row_t< Cct1, C1 > c1, row_t< Cct2, C2 > c2
 	)noexcept{
-		return detail::row_op< std::multiplies<> >()(c1, c2);
+		return detail::row_op< std::multiplies< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator*(row_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::row_op< std::multiplies<> >()(c1, c2);
+		return detail::row_op< std::multiplies< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator*(T c1, row_t< Cct2, C2 > c2)noexcept{
-		return detail::row_op< std::multiplies<> >()(c1, c2);
+		return detail::row_op< std::multiplies< size_t > >()(c1, c2);
 	}
 
 
@@ -665,19 +669,19 @@ namespace mitrax{
 	constexpr auto operator/(
 		row_t< Cct1, C1 > c1, row_t< Cct2, C2 > c2
 	)noexcept{
-		return detail::row_op< std::divides<> >()(c1, c2);
+		return detail::row_op< std::divides< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator/(row_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::row_op< std::divides<> >()(c1, c2);
+		return detail::row_op< std::divides< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator/(T c1, row_t< Cct2, C2 > c2)noexcept{
-		return detail::row_op< std::divides<> >()(c1, c2);
+		return detail::row_op< std::divides< size_t > >()(c1, c2);
 	}
 
 
@@ -685,19 +689,59 @@ namespace mitrax{
 	constexpr auto operator%(
 		row_t< Cct1, C1 > c1, row_t< Cct2, C2 > c2
 	)noexcept{
-		return detail::row_op< std::modulus<> >()(c1, c2);
+		return detail::row_op< std::modulus< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct1, size_t C1, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator%(row_t< Cct1, C1 > c1, T c2)noexcept{
-		return detail::row_op< std::modulus<> >()(c1, c2);
+		return detail::row_op< std::modulus< size_t > >()(c1, c2);
 	}
 
 	template < bool Cct2, size_t C2, typename T,
 		typename = std::enable_if_t< std::is_integral_v< T > > >
 	constexpr auto operator%(T c1, row_t< Cct2, C2 > c2)noexcept{
-		return detail::row_op< std::modulus<> >()(c1, c2);
+		return detail::row_op< std::modulus< size_t > >()(c1, c2);
+	}
+
+
+	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator==(
+		row_t< Cct1, C1 > c1, row_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::row_op< std::equal_to< size_t > >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator==(row_t< Cct1, C1 > c1, T c2)noexcept{
+		return detail::row_op< std::equal_to< size_t > >()(c1, c2);
+	}
+
+	template < bool Cct2, size_t C2, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator==(T c1, row_t< Cct2, C2 > c2)noexcept{
+		return detail::row_op< std::equal_to< size_t > >()(c1, c2);
+	}
+
+
+	template < bool Cct1, size_t C1, bool Cct2, size_t C2 >
+	constexpr auto operator!=(
+		row_t< Cct1, C1 > c1, row_t< Cct2, C2 > c2
+	)noexcept{
+		return detail::row_op< std::not_equal_to< size_t > >()(c1, c2);
+	}
+
+	template < bool Cct1, size_t C1, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator!=(row_t< Cct1, C1 > c1, T c2)noexcept{
+		return detail::row_op< std::not_equal_to< size_t > >()(c1, c2);
+	}
+
+	template < bool Cct2, size_t C2, typename T,
+		typename = std::enable_if_t< std::is_integral_v< T > > >
+	constexpr auto operator!=(T c1, row_t< Cct2, C2 > c2)noexcept{
+		return detail::row_op< std::not_equal_to< size_t > >()(c1, c2);
 	}
 
 
@@ -841,86 +885,86 @@ namespace mitrax{
 		}
 
 
-		template < template < bool, size_t > class init, size_t N1, size_t N2 >
+		template < template < bool, size_t > typename DimT, size_t N1, size_t N2 >
 		constexpr auto get_ct_if_available(
-			init< true, N1 > a, init< true, N2 > b
+			DimT< true, N1 > a, DimT< true, N2 > b
 		){
 			return get_first_of_same_ct(a, b);
 		}
 
-		template < template < bool, size_t > class init, size_t N1, size_t N2 >
+		template < template < bool, size_t > typename DimT, size_t N1, size_t N2 >
 		constexpr auto get_ct_if_available(
-			init< false, N1 > a, init< false, N2 > b
+			DimT< false, N1 > a, DimT< false, N2 > b
 		){
 			return get_first_of_same_ct(a, b);
 		}
 
-		template < template < bool, size_t > class init, size_t N1, size_t N2 >
+		template < template < bool, size_t > typename DimT, size_t N1, size_t N2 >
 		constexpr auto get_ct_if_available(
-			init< true, N1 > a, init< false, N2 > b
+			DimT< true, N1 > a, DimT< false, N2 > b
 		){
 			return get_first_of_same_ct(a, b);
 		}
 
-		template < template < bool, size_t > class init, size_t N1, size_t N2 >
+		template < template < bool, size_t > typename DimT, size_t N1, size_t N2 >
 		constexpr auto get_ct_if_available(
-			init< false, N1 > a, init< true, N2 > b
+			DimT< false, N1 > a, DimT< true, N2 > b
 		){
 			return get_first_of_same_ct(b, a);
 		}
 
-		template < template < bool, size_t > class init, size_t N1 >
+		template < template < bool, size_t > typename DimT, size_t N1 >
 		constexpr auto get_ct_if_available(
-			init< true, N1 > a, init< false, 0 > b
+			DimT< true, N1 > a, DimT< false, 0 > b
 		){
 			return get_first_of_same_rt(a, b);
 		}
 
-		template < template < bool, size_t > class init, size_t N1 >
+		template < template < bool, size_t > typename DimT, size_t N1 >
 		constexpr auto get_ct_if_available(
-			init< false, N1 > a, init< false, 0 > b
+			DimT< false, N1 > a, DimT< false, 0 > b
 		){
 			return get_first_of_same_rt(a, b);
 		}
 
-		template < template < bool, size_t > class init, size_t N2 >
+		template < template < bool, size_t > typename DimT, size_t N2 >
 		constexpr auto get_ct_if_available(
-			init< false, 0 > a, init< true, N2 > b
+			DimT< false, 0 > a, DimT< true, N2 > b
 		){
 			return get_first_of_same_rt(b, a);
 		}
 
-		template < template < bool, size_t > class init, size_t N2 >
+		template < template < bool, size_t > typename DimT, size_t N2 >
 		constexpr auto get_ct_if_available(
-			init< false, 0 > a, init< false, N2 > b
+			DimT< false, 0 > a, DimT< false, N2 > b
 		){
 			return get_first_of_same_rt(b, a);
 		}
 
-		template < template < bool, size_t > class init >
+		template < template < bool, size_t > typename DimT >
 		constexpr auto get_ct_if_available(
-			init< false, 0 > a, init< false, 0 > b
+			DimT< false, 0 > a, DimT< false, 0 > b
 		){
 			return get_first_of_same_rt(a, b);
 		}
 
-		template < template < bool, size_t > class init, bool Nct, size_t N >
-		constexpr auto get_same(init< Nct, N > d){
+		template < template < bool, size_t > typename DimT, bool Nct, size_t N >
+		constexpr auto get_same(DimT< Nct, N > d){
 			return d;
 		}
 
 		template <
-			template < bool, size_t > class init,
+			template < bool, size_t > typename DimT,
 			bool Nct1, size_t N1,
 			bool Nct2, size_t N2,
 			bool ... NctN, size_t ... Nn
 		> constexpr auto get_same(
-			init< Nct1, N1 > d1,
-			init< Nct2, N2 > d2,
-			init< NctN, Nn > ... dn
+			DimT< Nct1, N1 > d1,
+			DimT< Nct2, N2 > d2,
+			DimT< NctN, Nn > ... dn
 		){
-			return get_same< init >(
-				get_ct_if_available< init >(d1, d2), dn ...);
+			return get_same< DimT >(
+				get_ct_if_available< DimT >(d1, d2), dn ...);
 		}
 
 
