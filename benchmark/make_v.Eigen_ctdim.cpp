@@ -19,7 +19,7 @@ namespace hana = boost::hana;
 template < typename T, typename D1 >
 void BM_make(benchmark::State& state, T v, D1){
 	while(state.KeepRunning()){
-		auto m = Eigen::Matrix< T, D1::static_rows, D1::static_cols >();
+		auto m = Eigen::Matrix< T, D1::ct_rows, D1::ct_cols >();
 		m.fill(v);
 
 		benchmark::DoNotOptimize(m);

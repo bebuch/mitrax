@@ -20,10 +20,10 @@ namespace hana = boost::hana;
 
 template < typename T, typename D1 >
 void BM_make(benchmark::State& state, D1){
-	auto r = mitrax::random_vector< T >(D1::static_rows * D1::static_cols);
+	auto r = mitrax::random_vector< T >(D1::ct_rows * D1::ct_cols);
 
 	while(state.KeepRunning()){
-		auto m = Eigen::Matrix< T, D1::static_rows, D1::static_cols >();
+		auto m = Eigen::Matrix< T, D1::ct_rows, D1::ct_cols >();
 
 		for(int y = 0; y < m.rows(); ++y){
 			for(int x = 0; x < m.cols(); ++x){

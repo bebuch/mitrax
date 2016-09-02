@@ -30,8 +30,8 @@ void BM_binaryop(benchmark::State& state, Op op, D1, D2){
 		std::numeric_limits< T >::max()
 	);
 
-	auto m1 = Eigen::Matrix< T, D1::static_cols, D1::static_rows >::Random();
-	auto m2 = Eigen::Matrix< T, D2::static_cols, D2::static_rows >::Random();
+	auto m1 = Eigen::Matrix< T, D1::ct_cols, D1::ct_rows >::Random();
+	auto m2 = Eigen::Matrix< T, D2::ct_cols, D2::ct_rows >::Random();
 
 	while(state.KeepRunning()){
 		auto res = op(m1, m2);

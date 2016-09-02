@@ -287,8 +287,9 @@ namespace mitrax{
 	template < size_t C, size_t R >
 	class dims_t final: private col_t< C != 0, C >, private row_t< R != 0, R >{
 	public:
-		static constexpr size_t static_cols = C;
-		static constexpr size_t static_rows = R;
+		static constexpr size_t ct_cols = C;
+		static constexpr size_t ct_rows = R;
+
 
 		constexpr dims_t()noexcept = default;
 
