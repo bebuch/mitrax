@@ -112,185 +112,82 @@ namespace mitrax{
 	}
 
 
-	// the second parameter is a hack to reduce the size of
-	// dims_t< C, R > with C == R
-	template < size_t V, typename = void >
-	struct size_ct{
-		static constexpr size_t value = V;
-
-		using value_type = size_t;
+	template < typename Derived >
+	struct dim_base;
 
 
-		constexpr operator size_t()const noexcept{ return value; }
-		constexpr size_t operator()()const noexcept{ return value; }
+	template < bool Cct, size_t C >
+	struct col_t: dim_base< col_t< Cct, C > >{
+		using dim_base< col_t< Cct, C > >::dim_base;
+	};
+
+	template < bool Rct, size_t R >
+	struct row_t: dim_base< row_t< Rct, R > >{
+		using dim_base< row_t< Rct, R > >::dim_base;
+	};
+
+	template < bool Nct, size_t N >
+	struct dim_t: dim_base< dim_t< Nct, N > >{
+		using dim_base< dim_t< Nct, N > >::dim_base;
 	};
 
 
-	struct size_rt{
+	template < template < bool, size_t > typename DimT, size_t N >
+	struct dim_base< DimT< true, N > >{
+		static constexpr size_t value = N;
+
+		using value_type = size_t;
+
+		constexpr dim_base()noexcept = default;
+
+		constexpr operator size_t()const noexcept{ return value; }
+
+		constexpr auto as_col()const noexcept{ return col_t< true, N >(); }
+		constexpr auto as_row()const noexcept{ return row_t< true, N >(); }
+		constexpr auto as_dim()const noexcept{ return dim_t< true, N >(); }
+	};
+
+	template < template < bool, size_t > typename DimT, size_t N >
+	struct dim_base< DimT< false, N > >{
+		static constexpr size_t value = N;
+
+		using value_type = size_t;
+
+		constexpr dim_base()noexcept = default;
+		constexpr dim_base(DimT< true, N >&&)noexcept{}
+		constexpr dim_base(DimT< true, N > const&)noexcept{}
+
+		constexpr operator size_t()const noexcept{ return value; }
+
+		constexpr auto as_col()const noexcept{ return col_t< false, N >(); }
+		constexpr auto as_row()const noexcept{ return row_t< false, N >(); }
+		constexpr auto as_dim()const noexcept{ return dim_t< false, N >(); }
+	};
+
+	template < template < bool, size_t > typename DimT >
+	struct dim_base< DimT< false, 0 > >{
 	public:
 		static constexpr size_t value = 0;
 
 		using value_type = size_t;
 
+		constexpr dim_base(size_t n = 0)noexcept: v_(n) {}
 
-		constexpr size_rt()noexcept: v_(0) {}
-		constexpr size_rt(size_t v)noexcept: v_(v) {}
+		template < bool Nct, size_t N >
+		constexpr dim_base(DimT< Nct, N >&&)noexcept: v_(N) {}
 
+		template < bool Nct, size_t N >
+		constexpr dim_base(DimT< Nct, N > const&)noexcept: v_(N) {}
 
 		constexpr operator size_t()const noexcept{ return v_; }
-		constexpr size_t operator()()const noexcept{ return v_; }
 
-	public:
+		constexpr auto as_col()const noexcept{ return col_t< false, 0 >(v_); }
+		constexpr auto as_row()const noexcept{ return row_t< false, 0 >(v_); }
+		constexpr auto as_dim()const noexcept{ return dim_t< false, 0 >(v_); }
+
+	private:
 		size_t v_;
 	};
-
-
-	template < bool CompileTimeTarget, size_t C >
-	struct col_t;
-
-	template < bool CompileTimeTarget, size_t R >
-	struct row_t;
-
-	template < bool CompileTimeTarget, size_t N >
-	struct dim_t;
-
-
-	template < size_t C >
-	struct col_t< true, C >: size_ct< C, col_t< true, C > >{
-		constexpr auto as_row()const noexcept{ return row_t< true, C >(); }
-		constexpr auto as_dim()const noexcept{ return dim_t< true, C >(); }
-	};
-
-	template < size_t C >
-	struct col_t< false, C >: size_ct< C, col_t< false, C > >{
-		constexpr col_t()noexcept = default;
-
-		constexpr col_t(col_t< true, C >&&)noexcept{}
-		constexpr col_t(col_t< true, C > const&)noexcept{}
-
-		constexpr auto as_row()const noexcept{ return row_t< false, C >(); }
-		constexpr auto as_dim()const noexcept{ return dim_t< false, C >(); }
-	};
-
-	template <>
-	struct col_t< false, 0 >: size_rt{
-		constexpr col_t()noexcept = default;
-
-		template < bool Cct, size_t C >
-		constexpr col_t(col_t< Cct, C >&&)noexcept: size_rt(C) {}
-
-		template < bool Cct, size_t C >
-		constexpr col_t(col_t< Cct, C > const&)noexcept: size_rt(C) {}
-
-		using size_rt::size_rt;
-
-
-		constexpr auto as_row()const noexcept;
-		constexpr auto as_dim()const noexcept;
-	};
-
-
-	template < size_t R >
-	struct row_t< true, R >: size_ct< R, row_t< true, R > >{
-		constexpr auto as_col()const noexcept{ return col_t< true, R >(); }
-		constexpr auto as_dim()const noexcept{ return dim_t< true, R >(); }
-	};
-
-	template < size_t R >
-	struct row_t< false, R >: size_ct< R, row_t< false, R > >{
-		constexpr row_t()noexcept = default;
-
-		constexpr row_t(row_t< true, R >&&)noexcept{}
-		constexpr row_t(row_t< true, R > const&)noexcept{}
-
-
-		constexpr auto as_col()const noexcept{ return col_t< false, R >(); }
-		constexpr auto as_dim()const noexcept{ return dim_t< false, R >(); }
-	};
-
-	template <>
-	struct row_t< false, 0 >: size_rt{
-		constexpr row_t()noexcept = default;
-
-		template < bool Rct, size_t R >
-		constexpr row_t(row_t< Rct, R >&&)noexcept: size_rt(R) {}
-
-		template < bool Rct, size_t R >
-		constexpr row_t(row_t< Rct, R > const&)noexcept: size_rt(R) {}
-
-		using size_rt::size_rt;
-
-
-		constexpr auto as_col()const noexcept;
-		constexpr auto as_dim()const noexcept;
-	};
-
-
-	template < size_t N >
-	struct dim_t< true, N >: size_ct< N, dim_t< true, N > >{
-		constexpr auto as_col()const noexcept{
-			return col_t< true, N >();
-		}
-
-		constexpr auto as_row()const noexcept{
-			return row_t< true, N >();
-		}
-	};
-
-	template < size_t N >
-	struct dim_t< false, N >: size_ct< N, dim_t< false, N > >{
-		constexpr dim_t()noexcept = default;
-
-		constexpr dim_t(dim_t< true, N >&&)noexcept{}
-		constexpr dim_t(dim_t< true, N > const&)noexcept{}
-
-		constexpr auto as_col()const noexcept{ return col_t< false, N >(); }
-		constexpr auto as_row()const noexcept{ return row_t< false, N >(); }
-	};
-
-	template <>
-	struct dim_t< false, 0 >: size_rt{
-		constexpr dim_t()noexcept = default;
-
-		template < bool Nct, size_t N >
-		constexpr dim_t(dim_t< Nct, N >&&)noexcept: size_rt(N) {}
-
-		template < bool Nct, size_t N >
-		constexpr dim_t(dim_t< Nct, N > const&)noexcept: size_rt(N) {}
-
-		using size_rt::size_rt;
-
-
-		constexpr auto as_col()const noexcept;
-		constexpr auto as_row()const noexcept;
-	};
-
-
-	constexpr auto col_t< false, 0 >::as_row()const noexcept{
-		return row_t< false, 0 >(size_t(*this));
-	}
-
-	constexpr auto col_t< false, 0 >::as_dim()const noexcept{
-		return dim_t< false, 0 >(size_t(*this));
-	}
-
-
-	constexpr auto row_t< false, 0 >::as_col()const noexcept{
-		return col_t< false, 0 >(size_t(*this));
-	}
-
-	constexpr auto row_t< false, 0 >::as_dim()const noexcept{
-		return dim_t< false, 0 >(size_t(*this));
-	}
-
-
-	constexpr auto dim_t< false, 0 >::as_col()const noexcept{
-		return col_t< false, 0 >(size_t(*this));
-	}
-
-	constexpr auto dim_t< false, 0 >::as_row()const noexcept{
-		return row_t< false, 0 >(size_t(*this));
-	}
 
 
 	template < size_t C, size_t R >
