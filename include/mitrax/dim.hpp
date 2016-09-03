@@ -310,7 +310,7 @@ namespace mitrax{
 	namespace detail{
 
 
-		template < template< bool, size_t > typename DimT, typename Op >
+		template < template < bool, size_t > typename DimT, typename Op >
 		struct all_op{
 			template < bool Ict1, size_t I1, bool Ict2, size_t I2 >
 			constexpr auto operator()(
@@ -357,22 +357,22 @@ namespace mitrax{
 
 
 		template <
-			template< bool, size_t > typename DimT1,
-			template< bool, size_t > typename DimT2 >
+			template < bool, size_t > typename DimT1,
+			template < bool, size_t > typename DimT2 >
 		struct is_same_dim: std::false_type{};
 
-		template < template< bool, size_t > typename DimT >
+		template < template < bool, size_t > typename DimT >
 		struct is_same_dim< DimT, DimT >: std::true_type{};
 
 		template <
-			template< bool, size_t > typename DimT1,
-			template< bool, size_t > typename DimT2 >
+			template < bool, size_t > typename DimT1,
+			template < bool, size_t > typename DimT2 >
 		constexpr auto is_same_dim_v = is_same_dim< DimT1, DimT2 >();
 
 
 		template < typename Op,
-			template< bool, size_t > typename DimT1, bool Cct1, size_t C1,
-			template< bool, size_t > typename DimT2, bool Cct2, size_t C2 >
+			template < bool, size_t > typename DimT1, bool Cct1, size_t C1,
+			template < bool, size_t > typename DimT2, bool Cct2, size_t C2 >
 		constexpr auto
 		dim_op(DimT1< Cct1, C1 > c1, DimT2< Cct2, C2 > c2)noexcept{
 			static_assert(is_same_dim_v< DimT1, DimT2 >,
@@ -381,15 +381,15 @@ namespace mitrax{
 		}
 
 		template < typename Op,
-			template< bool, size_t > typename DimT, bool Cct1, size_t C1,
-			typename T, typename = std::enable_if_t< std::is_integral_v< T > > >
+			template < bool, size_t > typename DimT, bool Cct1, size_t C1,
+			typename T, std::enable_if_t< std::is_integral_v< T > >* = nullptr >
 		constexpr auto dim_op(DimT< Cct1, C1 > c1, T c2)noexcept{
 			return detail::all_op< DimT, Op >()(c1, c2);
 		}
 
 		template < typename Op,
-			template< bool, size_t > typename DimT, bool Cct2, size_t C2,
-			typename T, typename = std::enable_if_t< std::is_integral_v< T > > >
+			template < bool, size_t > typename DimT, bool Cct2, size_t C2,
+			typename T, std::enable_if_t< std::is_integral_v< T > >* = nullptr >
 		constexpr auto dim_op(T c1, DimT< Cct2, C2 > c2)noexcept{
 			return detail::all_op< DimT, Op >()(c1, c2);
 		}
@@ -408,7 +408,23 @@ namespace mitrax{
 		struct is_a_dim< dim_t< Dct, D > >: std::true_type{};
 
 		template < typename T >
-		constexpr auto is_a_dim_v = is_a_dim< T >{};
+		constexpr auto is_a_dim_v = is_a_dim< T >();
+
+
+		template < template < bool, size_t > typename DimT >
+		struct is_a_dim_template: std::false_type{};
+
+		template <>
+		struct is_a_dim_template< col_t >: std::true_type{};
+
+		template <>
+		struct is_a_dim_template< row_t >: std::true_type{};
+
+		template <>
+		struct is_a_dim_template< dim_t >: std::true_type{};
+
+		template < template < bool, size_t > typename DimT >
+		constexpr auto is_a_dim_template_v = is_a_dim_template< DimT >();
 
 
 		template < typename ... T >
@@ -416,6 +432,7 @@ namespace mitrax{
 			std::enable_if_t<
 				one_of(is_a_dim_v< T > ...) &&
 				all_of(is_a_dim_v< T > || std::is_integral_v< T > ...) >;
+
 
 	}
 
@@ -490,19 +507,19 @@ namespace mitrax{
 	}
 
 	template < size_t C, size_t R, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
+		std::enable_if_t< std::is_integral_v< T > >* = nullptr >
 	constexpr auto operator*(dims_t< C, R > d, T v)noexcept{
 		return dims(d.cols() * v, d.rows() * v);
 	}
 
 	template < size_t C, size_t R, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
+		std::enable_if_t< std::is_integral_v< T > >* = nullptr >
 	constexpr auto operator/(dims_t< C, R > d, T v)noexcept{
 		return dims(d.cols() / v, d.rows() / v);
 	}
 
 	template < size_t C, size_t R, typename T,
-		typename = std::enable_if_t< std::is_integral_v< T > > >
+		std::enable_if_t< std::is_integral_v< T > >* = nullptr >
 	constexpr auto operator%(dims_t< C, R > d, T v)noexcept{
 		return dims(d.cols() % v, d.rows() % v);
 	}
@@ -604,28 +621,32 @@ namespace mitrax{
 		}
 
 
-		template < template < bool, size_t > typename DimT, size_t N1, size_t N2 >
+		template <
+			template < bool, size_t > typename DimT, size_t N1, size_t N2 >
 		constexpr auto get_ct_if_available(
 			DimT< true, N1 > a, DimT< true, N2 > b
 		){
 			return get_first_of_same_ct(a, b);
 		}
 
-		template < template < bool, size_t > typename DimT, size_t N1, size_t N2 >
+		template <
+			template < bool, size_t > typename DimT, size_t N1, size_t N2 >
 		constexpr auto get_ct_if_available(
 			DimT< false, N1 > a, DimT< false, N2 > b
 		){
 			return get_first_of_same_ct(a, b);
 		}
 
-		template < template < bool, size_t > typename DimT, size_t N1, size_t N2 >
+		template <
+			template < bool, size_t > typename DimT, size_t N1, size_t N2 >
 		constexpr auto get_ct_if_available(
 			DimT< true, N1 > a, DimT< false, N2 > b
 		){
 			return get_first_of_same_ct(a, b);
 		}
 
-		template < template < bool, size_t > typename DimT, size_t N1, size_t N2 >
+		template <
+			template < bool, size_t > typename DimT, size_t N1, size_t N2 >
 		constexpr auto get_ct_if_available(
 			DimT< false, N1 > a, DimT< true, N2 > b
 		){
@@ -690,19 +711,11 @@ namespace mitrax{
 	}
 
 
-	template < bool ... Nct, size_t ... N >
-	constexpr auto get(col_t< Nct, N > ... v){
-		return detail::get_same< col_t >(v ...);
-	}
-
-	template < bool ... Nct, size_t ... N >
-	constexpr auto get(row_t< Nct, N > ... v){
-		return detail::get_same< row_t >(v ...);
-	}
-
-	template < bool ... Nct, size_t ... N >
-	constexpr auto get(dim_t< Nct, N > ... v){
-		return detail::get_same< dim_t >(v ...);
+	template <
+		template < bool, size_t > typename DimT, bool ... Nct, size_t ... N,
+		std::enable_if_t< detail::is_a_dim_template_v< DimT > >* = nullptr >
+	constexpr auto get(DimT< Nct, N > ... v){
+		return detail::get_same< DimT >(v ...);
 	}
 
 	template < size_t ... C, size_t ... R >
