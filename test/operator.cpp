@@ -6,13 +6,14 @@
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 //-----------------------------------------------------------------------------
+#define BOOST_TEST_MODULE mitrax operator
 #include <boost/test/unit_test.hpp>
 
 #include <mitrax/operator.hpp>
 #include <mitrax/compare.hpp>
 
 
-BOOST_AUTO_TEST_SUITE(test_suite_matrix_operator)
+BOOST_AUTO_TEST_SUITE(suite_operator)
 
 
 using boost::typeindex::type_id;

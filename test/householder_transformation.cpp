@@ -6,6 +6,7 @@
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 //-----------------------------------------------------------------------------
+#define BOOST_TEST_MODULE mitrax householder_transformation
 #include <boost/test/unit_test.hpp>
 
 #include <mitrax/householder_transformation.hpp>
@@ -21,7 +22,7 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-BOOST_AUTO_TEST_SUITE(test_suite_householder_transformation)
+BOOST_AUTO_TEST_SUITE(suite_householder_transformation)
 
 
 namespace{
@@ -52,12 +53,12 @@ namespace{
 // 		{6, -3, -2},
 // 		{8,  1, -1}
 // 	});
-// 
+//
 // 	auto q = make_square_matrix< double >(3_D);
 // 	auto r = make_square_matrix< double >(3_D);
-// 
+//
 // 	std::tie(q, r) = householder_transformation(m);
-// 
+//
 // 	BOOST_TEST((
 // 		equal(q(0, 0),  0) &&
 // 		equal(q(1, 0),  0.8) &&
@@ -69,7 +70,7 @@ namespace{
 // 		equal(q(1, 2), -0.36) &&
 // 		equal(q(2, 2),  0.48)
 // 	));
-// 
+//
 // 	BOOST_TEST((
 // 		equal(r(0, 0), -10) &&
 // 		equal(r(1, 0),   1) &&
@@ -81,7 +82,7 @@ namespace{
 // 		equal(r(1, 2),   0) &&
 // 		equal(r(2, 2),   2)
 // 	));
-// 
+//
 // 	BOOST_TEST(matrix_equal(q * r, m));
 // }
 

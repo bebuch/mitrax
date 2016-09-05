@@ -47,3 +47,91 @@ exe make_matrix
 	:
 	<dependency>dim
 	;
+
+exe sub_matrix
+	:
+	sub_matrix.cpp
+	/boost//unit_test_framework
+	:
+	<dependency>make_matrix
+	;
+
+exe swap_matrix
+	:
+	swap_matrix.cpp
+	/boost//unit_test_framework
+	:
+	<dependency>make_matrix
+	;
+
+exe convert
+	:
+	convert.cpp
+	/boost//unit_test_framework
+	:
+	<dependency>make_matrix
+	;
+
+exe join
+	:
+	join.cpp
+	/boost//unit_test_framework
+	:
+	<dependency>make_matrix
+	;
+
+exe convolution
+	:
+	convolution.cpp
+	/boost//unit_test_framework
+	:
+	<dependency>make_matrix
+	;
+
+exe data
+	:
+	data.cpp
+	/boost//unit_test_framework
+	:
+	<dependency>make_matrix
+	;
+
+exe operator
+	:
+	operator.cpp
+	/boost//unit_test_framework
+	:
+	<dependency>make_matrix
+	;
+
+exe output
+	:
+	output.cpp
+	/boost//unit_test_framework
+	:
+	<dependency>make_matrix
+	;
+
+exe gauss_newton_algorithm
+	:
+	gauss_newton_algorithm.cpp
+	/boost//unit_test_framework
+	:
+	<dependency>make_matrix
+	;
+
+exe gaussian_elimination
+	:
+	gaussian_elimination.cpp
+	/boost//unit_test_framework
+	:
+	<dependency>make_matrix
+	;
+
+exe householder_transformation
+	:
+	householder_transformation.cpp
+	/boost//unit_test_framework
+	:
+	<dependency>make_matrix
+	;
