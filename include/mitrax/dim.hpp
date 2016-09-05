@@ -107,11 +107,6 @@ namespace mitrax{
 		typename array_2d_element_ref< ArrayRef >::type;
 
 
-	constexpr size_t dim(bool is_compile_time, size_t n)noexcept{
-		return is_compile_time ? n : 0;
-	}
-
-
 	template < typename Derived >
 	struct dim_base;
 
@@ -248,17 +243,17 @@ namespace mitrax{
 
 	template < bool Cct, size_t C >
 	constexpr auto dims(col_t< Cct, C > c, size_t r)noexcept{
-		return dims_t< dim(Cct, C), 0 >(c, row_t< false, 0 >(r));
+		return dims_t< Cct ? C : 0, 0 >(c, row_t< false, 0 >(r));
 	}
 
 	template < bool Rct, size_t R >
 	constexpr auto dims(size_t c, row_t< Rct, R > r)noexcept{
-		return dims_t< 0, dim(Rct, R) >(col_t< false, 0 >(c), r);
+		return dims_t< 0, Rct ? R : 0 >(col_t< false, 0 >(c), r);
 	}
 
 	template < bool Cct, size_t C, bool Rct, size_t R >
 	constexpr auto dims(col_t< Cct, C > c, row_t< Rct, R > r)noexcept{
-		return dims_t< dim(Cct, C), dim(Rct, R) >(c, r);
+		return dims_t< Cct ? C : 0, Rct ? R : 0 >(c, r);
 	}
 
 	template < bool Dct, size_t D >

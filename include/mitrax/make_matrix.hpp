@@ -156,10 +156,10 @@ namespace mitrax{
 
 	struct memory_std_t{
 		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-		static constexpr raw_matrix< fn_xy< F >, dim(Cct, C), dim(Rct, R) >
+		static constexpr raw_matrix< fn_xy< F >, Cct ? C : 0, Rct ? R : 0 >
 		make_matrix_fn(col_t< Cct, C > c, row_t< Rct, R > r, F&& f){
 			return detail::raw_matrix_impl<
-				fn_xy< F >, dim(Cct, C), dim(Rct, R)
+				fn_xy< F >, Cct ? C : 0, Rct ? R : 0
 			>(
 				c, r, detail::fn_xy_to_raw_matrix_data(
 					bool_t< Cct && Rct >(), c, r, static_cast< F&& >(f)
@@ -168,10 +168,10 @@ namespace mitrax{
 		}
 
 		template < typename F, bool Nct, size_t N >
-		static constexpr raw_col_vector< fn_i< F >, dim(Nct, N) >
+		static constexpr raw_col_vector< fn_i< F >, Nct ? N : 0 >
 		make_col_vector_fn(row_t< Nct, N > r, F&& f){
 			using namespace literals;
-			return detail::raw_matrix_impl< fn_i< F >, 1, dim(Nct, N) >(
+			return detail::raw_matrix_impl< fn_i< F >, 1, Nct ? N : 0 >(
 				1_C, r, detail::fn_i_to_raw_matrix_data(
 					bool_t< Nct >(), r.as_dim(), static_cast< F&& >(f)
 				)
@@ -179,10 +179,10 @@ namespace mitrax{
 		}
 
 		template < typename F, bool Nct, size_t N >
-		static constexpr raw_row_vector< fn_i< F >, dim(Nct, N) >
+		static constexpr raw_row_vector< fn_i< F >, Nct ? N : 0 >
 		make_row_vector_fn(col_t< Nct, N > c, F&& f){
 			using namespace literals;
-			return detail::raw_matrix_impl< fn_i< F >, dim(Nct, N), 1 >(
+			return detail::raw_matrix_impl< fn_i< F >, Nct ? N : 0, 1 >(
 				c, 1_R, detail::fn_i_to_raw_matrix_data(
 					bool_t< Nct >(), c.as_dim(), static_cast< F&& >(f)
 				)
@@ -191,10 +191,10 @@ namespace mitrax{
 
 		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 		static constexpr
-		raw_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
+		raw_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
 		make_matrix_v(col_t< Cct, C > c, row_t< Rct, R > r, T const& v = T()){
 			return detail::raw_matrix_impl<
-				std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
+				std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0
 			>(
 				c, r,
 				detail::to_raw_matrix_data(bool_t< Cct && Rct >(), c, r, v)
@@ -203,10 +203,10 @@ namespace mitrax{
 
 		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 		static constexpr
-		raw_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
+		raw_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
 		make_matrix(col_t< Cct, C > c, row_t< Rct, R > r, T(&&v)[R][C]){
 			return detail::raw_matrix_impl<
-				std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
+				std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0
 			>(
 				c, r,
 				detail::to_raw_matrix_data(bool_t< Cct && Rct >(), std::move(v))
@@ -215,10 +215,10 @@ namespace mitrax{
 
 		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 		static constexpr
-		raw_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
+		raw_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
 		make_matrix(col_t< Cct, C > c, row_t< Rct, R > r, T(&v)[R][C]){
 			return detail::raw_matrix_impl<
-				std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
+				std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0
 			>(
 				c, r,
 				detail::to_raw_matrix_data(bool_t< Cct && Rct >(), v)
@@ -226,11 +226,11 @@ namespace mitrax{
 		}
 
 		template < typename T, bool Nct, size_t N >
-		static constexpr raw_col_vector< std::remove_cv_t< T >, dim(Nct, N) >
+		static constexpr raw_col_vector< std::remove_cv_t< T >, Nct ? N : 0 >
 		make_col_vector(row_t< Nct, N > r, T(&&v)[N]){
 			using namespace literals;
 			return detail::raw_matrix_impl<
-				std::remove_cv_t< T >, 1, dim(Nct, N)
+				std::remove_cv_t< T >, 1, Nct ? N : 0
 			>(
 				1_C, r,
 				detail::to_raw_matrix_data(bool_t< Nct >(), std::move(v))
@@ -238,11 +238,11 @@ namespace mitrax{
 		}
 
 		template < typename T, bool Nct, size_t N >
-		static constexpr raw_col_vector< std::remove_cv_t< T >, dim(Nct, N) >
+		static constexpr raw_col_vector< std::remove_cv_t< T >, Nct ? N : 0 >
 		make_col_vector(row_t< Nct, N > r, T(&v)[N]){
 			using namespace literals;
 			return detail::raw_matrix_impl<
-				std::remove_cv_t< T >, 1, dim(Nct, N)
+				std::remove_cv_t< T >, 1, Nct ? N : 0
 			>(
 				1_C, r,
 				detail::to_raw_matrix_data(bool_t< Nct >(), v)
@@ -250,11 +250,11 @@ namespace mitrax{
 		}
 
 		template < typename T, bool Nct, size_t N >
-		static constexpr raw_row_vector< std::remove_cv_t< T >, dim(Nct, N) >
+		static constexpr raw_row_vector< std::remove_cv_t< T >, Nct ? N : 0 >
 		make_row_vector(col_t< Nct, N > c, T(&&v)[N]){
 			using namespace literals;
 			return detail::raw_matrix_impl<
-				std::remove_cv_t< T >, dim(Nct, N), 1
+				std::remove_cv_t< T >, Nct ? N : 0, 1
 			>(
 				c, 1_R,
 				detail::to_raw_matrix_data(bool_t< Nct >(), std::move(v))
@@ -262,11 +262,11 @@ namespace mitrax{
 		}
 
 		template < typename T, bool Nct, size_t N >
-		static constexpr raw_row_vector< std::remove_cv_t< T >, dim(Nct, N) >
+		static constexpr raw_row_vector< std::remove_cv_t< T >, Nct ? N : 0 >
 		make_row_vector(col_t< Nct, N > c, T(&v)[N]){
 			using namespace literals;
 			return detail::raw_matrix_impl<
-				std::remove_cv_t< T >, dim(Nct, N), 1
+				std::remove_cv_t< T >, Nct ? N : 0, 1
 			>(
 				c, 1_R,
 				detail::to_raw_matrix_data(bool_t< Nct >(), v)
@@ -280,10 +280,10 @@ namespace mitrax{
 	struct memory_heap_t{
 		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
 		static constexpr
-		raw_heap_matrix< fn_xy< F >, dim(Cct, C), dim(Rct, R) >
+		raw_heap_matrix< fn_xy< F >, Cct ? C : 0, Rct ? R : 0 >
 		make_matrix_fn(col_t< Cct, C > c, row_t< Rct, R > r, F&& f){
 			return detail::raw_heap_matrix_impl<
-				fn_xy< F >, dim(Cct, C), dim(Rct, R)
+				fn_xy< F >, Cct ? C : 0, Rct ? R : 0
 			>(
 				c, r, detail::fn_xy_to_raw_matrix_data(
 					std::false_type(), c, r, static_cast< F&& >(f)
@@ -292,10 +292,10 @@ namespace mitrax{
 		}
 
 		template < typename F, bool Nct, size_t N >
-		static constexpr raw_heap_col_vector< fn_i< F >, dim(Nct, N) >
+		static constexpr raw_heap_col_vector< fn_i< F >, Nct ? N : 0 >
 		make_col_vector_fn(row_t< Nct, N > r, F&& f){
 			using namespace literals;
-			return detail::raw_heap_matrix_impl< fn_i< F >, 1, dim(Nct, N) >(
+			return detail::raw_heap_matrix_impl< fn_i< F >, 1, Nct ? N : 0 >(
 				1_C, r, detail::fn_i_to_raw_matrix_data(
 					std::false_type(), r.as_dim(), static_cast< F&& >(f)
 				)
@@ -303,10 +303,10 @@ namespace mitrax{
 		}
 
 		template < typename F, bool Nct, size_t N >
-		static constexpr raw_heap_row_vector< fn_i< F >, dim(Nct, N) >
+		static constexpr raw_heap_row_vector< fn_i< F >, Nct ? N : 0 >
 		make_row_vector_fn(col_t< Nct, N > c, F&& f){
 			using namespace literals;
-			return detail::raw_heap_matrix_impl< fn_i< F >, dim(Nct, N), 1 >(
+			return detail::raw_heap_matrix_impl< fn_i< F >, Nct ? N : 0, 1 >(
 				c, 1_R, detail::fn_i_to_raw_matrix_data(
 					std::false_type(), c.as_dim(), static_cast< F&& >(f)
 				)
@@ -315,10 +315,10 @@ namespace mitrax{
 
 		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 		static constexpr
-		raw_heap_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
+		raw_heap_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
 		make_matrix_v(col_t< Cct, C > c, row_t< Rct, R > r, T const& v = T()){
 			return detail::raw_heap_matrix_impl<
-				std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
+				std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0
 			>(
 				c, r,
 				detail::to_raw_matrix_data(std::false_type(), c, r, v)
@@ -327,10 +327,10 @@ namespace mitrax{
 
 		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 		static constexpr
-		raw_heap_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
+		raw_heap_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
 		make_matrix(col_t< Cct, C > c, row_t< Rct, R > r, T(&&v)[R][C]){
 			return detail::raw_heap_matrix_impl<
-				std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
+				std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0
 			>(
 				c, r,
 				detail::to_raw_matrix_data(std::false_type(), std::move(v))
@@ -339,10 +339,10 @@ namespace mitrax{
 
 		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 		static constexpr
-		raw_heap_matrix< std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R) >
+		raw_heap_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
 		make_matrix(col_t< Cct, C > c, row_t< Rct, R > r, T(&v)[R][C]){
 			return detail::raw_heap_matrix_impl<
-				std::remove_cv_t< T >, dim(Cct, C), dim(Rct, R)
+				std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0
 			>(
 				c, r,
 				detail::to_raw_matrix_data(std::false_type(), v)
@@ -351,11 +351,11 @@ namespace mitrax{
 
 		template < typename T, bool Nct, size_t N >
 		static constexpr
-		raw_heap_col_vector< std::remove_cv_t< T >, dim(Nct, N) >
+		raw_heap_col_vector< std::remove_cv_t< T >, Nct ? N : 0 >
 		make_col_vector(row_t< Nct, N > r, T(&&v)[N]){
 			using namespace literals;
 			return detail::raw_heap_matrix_impl<
-				std::remove_cv_t< T >, 1, dim(Nct, N)
+				std::remove_cv_t< T >, 1, Nct ? N : 0
 			>(
 				1_C, r,
 				detail::to_raw_matrix_data(std::false_type(), std::move(v))
@@ -364,11 +364,11 @@ namespace mitrax{
 
 		template < typename T, bool Nct, size_t N >
 		static constexpr
-		raw_heap_col_vector< std::remove_cv_t< T >, dim(Nct, N) >
+		raw_heap_col_vector< std::remove_cv_t< T >, Nct ? N : 0 >
 		make_col_vector(row_t< Nct, N > r, T(&v)[N]){
 			using namespace literals;
 			return detail::raw_heap_matrix_impl<
-				std::remove_cv_t< T >, 1, dim(Nct, N)
+				std::remove_cv_t< T >, 1, Nct ? N : 0
 			>(
 				1_C, r,
 				detail::to_raw_matrix_data(std::false_type(), v)
@@ -377,11 +377,11 @@ namespace mitrax{
 
 		template < typename T, bool Nct, size_t N >
 		static constexpr
-		raw_heap_row_vector< std::remove_cv_t< T >, dim(Nct, N) >
+		raw_heap_row_vector< std::remove_cv_t< T >, Nct ? N : 0 >
 		make_row_vector(col_t< Nct, N > c, T(&&v)[N]){
 			using namespace literals;
 			return detail::raw_heap_matrix_impl<
-				std::remove_cv_t< T >, dim(Nct, N), 1
+				std::remove_cv_t< T >, Nct ? N : 0, 1
 			>(
 				c, 1_R,
 				detail::to_raw_matrix_data(std::false_type(), std::move(v))
@@ -390,11 +390,11 @@ namespace mitrax{
 
 		template < typename T, bool Nct, size_t N >
 		static constexpr
-		raw_heap_row_vector< std::remove_cv_t< T >, dim(Nct, N) >
+		raw_heap_row_vector< std::remove_cv_t< T >, Nct ? N : 0 >
 		make_row_vector(col_t< Nct, N > c, T(&v)[N]){
 			using namespace literals;
 			return detail::raw_heap_matrix_impl<
-				std::remove_cv_t< T >, dim(Nct, N), 1
+				std::remove_cv_t< T >, Nct ? N : 0, 1
 			>(
 				c, 1_R,
 				detail::to_raw_matrix_data(std::false_type(), v)
