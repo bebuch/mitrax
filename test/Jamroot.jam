@@ -7,9 +7,9 @@ use-project /boost
 
 project mitrax_test
 	:
-	source-location test
+	source-location .
 	:
-	requirements <include>include
+	requirements <include>../include
 
 	<warnings>all
 	<c++-template-depth>1024
@@ -31,11 +31,11 @@ project mitrax_test
 
 	<include>$(boost)
 	:
-	usage-requirements <include>include
+	usage-requirements <include>../include
 	;
 
-exe mitrax_test
+exe dim
 	:
-	[ glob *.cpp ]
+	dim.cpp
 	/boost//unit_test_framework
 	;
