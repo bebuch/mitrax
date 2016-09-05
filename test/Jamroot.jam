@@ -40,9 +40,9 @@ exe dim
 	/boost//unit_test_framework
 	;
 
-exe make_raw_matrix
+exe make_matrix
 	:
-	make_raw_matrix.cpp
+	make_matrix.cpp
 	/boost//unit_test_framework
 	:
 	<dependency>dim

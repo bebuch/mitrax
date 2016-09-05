@@ -1157,7 +1157,7 @@ void get_dims(){
 
 
 int main(int argc, char** argv, char** /*envp*/){
-	auto ts = BOOST_TEST_SUITE("dim");
+	auto ts = BOOST_TEST_SUITE("suite_dim");
 
 	add_test< col_t >(ts);
 	add_test< row_t >(ts);
