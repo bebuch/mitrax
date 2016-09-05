@@ -101,7 +101,7 @@ exe operator
 	operator.cpp
 	/boost//unit_test_framework
 	:
-	<dependency>make_matrix
+	<dependency>convert
 	;
 
 exe output

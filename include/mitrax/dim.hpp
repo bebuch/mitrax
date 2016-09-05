@@ -9,102 +9,13 @@
 #ifndef _mitrax__dim__hpp_INCLUDED_
 #define _mitrax__dim__hpp_INCLUDED_
 
-#include <cstddef>
-#include <type_traits>
 #include <functional>
 #include <stdexcept>
 
+#include "utility.hpp"
+
 
 namespace mitrax{
-
-
-	using size_t = std::size_t;
-
-	using ptrdiff_t = std::ptrdiff_t;
-
-
-	template < typename F >
-	using fn_xy =
-		std::decay_t< decltype(std::declval< F >()(size_t(), size_t())) >;
-
-	template < typename F >
-	using fn_i = std::decay_t< decltype(std::declval< F >()(size_t())) >;
-
-
-	template < typename T, typename Auto >
-	using auto_t = std::conditional_t< std::is_void_v< T >, Auto, T >;
-
-	template < typename T, typename Auto >
-	constexpr auto auto_ref(Auto&& v)
-	-> auto_t< T, decltype(static_cast< Auto&& >(v)) >{
-		return static_cast< Auto&& >(v);
-	}
-
-
-	template < typename ... T >
-	constexpr bool one_of(T ... v){ return (... || v); }
-
-	template < typename ... T >
-	constexpr bool all_of(T ... v){ return (... && v); }
-
-
-	template < typename T >
-	using value_type_t = typename T::value_type;
-
-	template < bool I >
-	using bool_t = std::integral_constant< bool, I >;
-
-
-	template < typename ArrayRef >
-	struct array_1d_element{
-		using type = std::remove_extent_t<
-			std::remove_reference_t< ArrayRef > >;
-	};
-
-	template < typename ArrayRef >
-	using array_1d_element_t = typename array_1d_element< ArrayRef >::type;
-
-
-	template < typename ArrayRef >
-	struct array_2d_element{
-		using type = std::remove_extent_t< std::remove_extent_t<
-			std::remove_reference_t< ArrayRef > > >;
-	};
-
-	template < typename ArrayRef >
-	using array_2d_element_t = typename array_2d_element< ArrayRef >::type;
-
-
-	template < typename ArrayRef >
-	struct array_1d_element_ref{
-		using value_type = array_1d_element_t< ArrayRef >;
-
-		using type = std::conditional_t<
-				std::is_rvalue_reference< ArrayRef >::value,
-				std::add_rvalue_reference_t< value_type >,
-				std::add_lvalue_reference_t< value_type >
-			>;
-	};
-
-	template < typename ArrayRef >
-	using array_1d_element_ref_t =
-		typename array_1d_element_ref< ArrayRef >::type;
-
-
-	template < typename ArrayRef >
-	struct array_2d_element_ref{
-		using value_type = array_2d_element_t< ArrayRef >;
-
-		using type = std::conditional_t<
-				std::is_rvalue_reference< ArrayRef >::value,
-				std::add_rvalue_reference_t< value_type >,
-				std::add_lvalue_reference_t< value_type >
-			>;
-	};
-
-	template < typename ArrayRef >
-	using array_2d_element_ref_t =
-		typename array_2d_element_ref< ArrayRef >::type;
 
 
 	template < typename Derived >

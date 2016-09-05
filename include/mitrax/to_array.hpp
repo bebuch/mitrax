@@ -18,6 +18,14 @@
 namespace mitrax{ namespace detail{
 
 
+	template < typename F >
+	using fn_xy =
+		std::decay_t< decltype(std::declval< F >()(size_t(), size_t())) >;
+
+	template < typename F >
+	using fn_i = std::decay_t< decltype(std::declval< F >()(size_t())) >;
+
+
 	template < typename T, size_t N, size_t ... I >
 	constexpr array_s< std::remove_cv_t< T >, N >
 	to_array(T(&a)[N], std::index_sequence< I ... >){
