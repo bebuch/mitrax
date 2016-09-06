@@ -22,7 +22,7 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_square_matrix< value_type >(dims< 2 >(), {{1, 0}, {0, -1}}),
+			make_matrix< value_type >(dims< 2 >(), {{1, 0}, {0, -1}}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
@@ -32,7 +32,7 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_square_matrix< value_type >(dims< 2 >(), {{0, 1}, {-1, 0}}),
+			make_matrix< value_type >(dims< 2 >(), {{0, 1}, {-1, 0}}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}

@@ -176,8 +176,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_raw_matrix_3x3, T, types){
 	auto m06 = make_matrix_v< T >(dims(3_C_rt, 3_R));
 	auto m07 = make_matrix_v< T >(dims(3_C, 3_R_rt));
 	auto m08 = make_matrix_v< T >(dims(3_C_rt, 3_R_rt));
-	constexpr auto m09 = make_square_matrix_v< T >(3_D);
-	auto m10 = make_square_matrix_v< T >(3_D_rt);
+	constexpr auto m09 = make_matrix_v< T >(3_D);
+	auto m10 = make_matrix_v< T >(3_D_rt);
 	constexpr auto m11 = make_matrix_v< T >(dims(3_D));
 	auto m12 = make_matrix_v< T >(dims(3_D_rt));
 
@@ -189,8 +189,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_raw_matrix_3x3, T, types){
 	auto m18 = make_matrix_v(dims(3_C_rt, 3_R), T(7));
 	auto m19 = make_matrix_v(dims(3_C, 3_R_rt), T(7));
 	auto m20 = make_matrix_v(dims(3_C_rt, 3_R_rt), T(7));
-	constexpr auto m21 = make_square_matrix_v(3_D, T(7));
-	auto m22 = make_square_matrix_v(3_D_rt, T(7));
+	constexpr auto m21 = make_matrix_v(3_D, T(7));
+	auto m22 = make_matrix_v(3_D_rt, T(7));
 	constexpr auto m23 = make_matrix_v(dims(3_D), T(7));
 	auto m24 = make_matrix_v(dims(3_D_rt), T(7));
 
@@ -207,11 +207,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_raw_matrix_3x3, T, types){
 	auto m31 = make_matrix(3_C, 3_R_rt, ref_i);
 	auto m32 = make_matrix(3_C_rt, 3_R_rt, ref_i);
 	constexpr auto m33 =
-		make_square_matrix< T >(3_D, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
+		make_matrix< T >(3_D, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
 	auto m34 =
-		make_square_matrix< T >(3_D_rt, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
-	constexpr auto m35 = make_square_matrix(3_D, ref_i);
-	auto m36 = make_square_matrix(3_D_rt, ref_i);
+		make_matrix< T >(3_D_rt, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
+	constexpr auto m35 = make_matrix(3_D, ref_i);
+	auto m36 = make_matrix(3_D_rt, ref_i);
 
 	constexpr auto m37 = make_matrix_fn(3_C, 3_R, fn);
 	auto m38 = make_matrix_fn(3_C_rt, 3_R, fn);
@@ -221,8 +221,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_raw_matrix_3x3, T, types){
 	auto m42 = make_matrix_fn(dims(3_C_rt, 3_R), fn);
 	auto m43 = make_matrix_fn(dims(3_C, 3_R_rt), fn);
 	auto m44 = make_matrix_fn(dims(3_C_rt, 3_R_rt), fn);
-	constexpr auto m45 = make_square_matrix_fn(3_D, fn);
-	auto m46 = make_square_matrix_fn(3_D_rt, fn);
+	constexpr auto m45 = make_matrix_fn(3_D, fn);
+	auto m46 = make_matrix_fn(3_D_rt, fn);
 	constexpr auto m47 = make_matrix_fn(dims(3_D), fn);
 	auto m48 = make_matrix_fn(dims(3_D_rt), fn);
 
@@ -789,28 +789,28 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_raw_matrix_1x1, T, types){
 	auto m02 = make_row_vector_v< T >(1_C);
 	auto m03 = make_col_vector_v< T >(1_R);
 	constexpr auto m04 = make_matrix_v< T >(dims(1_C, 1_R));
-	constexpr auto m05 = make_square_matrix_v< T >(1_D);
+	constexpr auto m05 = make_matrix_v< T >(1_D);
 
 	constexpr auto m06 = make_matrix_v(1_C, 1_R, T(7));
 	auto m07 = make_row_vector_v(1_C, T(7));
 	auto m08 = make_col_vector_v(1_R, T(7));
 	constexpr auto m09 = make_matrix_v(dims(1_C, 1_R), T(7));
-	constexpr auto m10 = make_square_matrix_v(1_D, T(7));
+	constexpr auto m10 = make_matrix_v(1_D, T(7));
 
 	constexpr auto m11 = make_matrix< T >(1_C, 1_R, {{0}});
 	auto m12 = make_row_vector< T >(1_C, {0});
 	auto m13 = make_col_vector< T >(1_R, {0});
-	constexpr auto m14 = make_square_matrix< T >(1_D, {{0}});
+	constexpr auto m14 = make_matrix< T >(1_D, {{0}});
 	constexpr auto m15 = make_matrix(1_C, 1_R, ref_i);
 	auto m16 = make_row_vector(1_C, ref_i_vec);
 	auto m17 = make_col_vector(1_R, ref_i_vec);
-	constexpr auto m18 = make_square_matrix(1_D, ref_i);
+	constexpr auto m18 = make_matrix(1_D, ref_i);
 
 	constexpr auto m19 = make_matrix_fn(1_C, 1_R, fn_xy);
 	auto m20 = make_row_vector_fn(1_C, fn_x);
 	auto m21 = make_col_vector_fn(1_R, fn_y);
 	constexpr auto m22 = make_matrix_fn(dims(1_C, 1_R), fn_xy);
-	constexpr auto m23 = make_square_matrix_fn(1_D, fn_xy);
+	constexpr auto m23 = make_matrix_fn(1_D, fn_xy);
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< T, 1, 1 > >));

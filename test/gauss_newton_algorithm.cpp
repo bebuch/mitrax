@@ -158,7 +158,7 @@ BOOST_AUTO_TEST_SUITE(suite_gauss_newton_algorithm)
 // 			raw_col_vector< double, 3 > const& y,
 // 			raw_col_vector< double, 3 > const& v
 // 		){
-// 			auto const m = make_square_matrix< double >(3_D, {
+// 			auto const m = make_matrix< double >(3_D, {
 // 				{p[0], p[1], p[2]},
 // 				{p[3], p[4], p[5]},
 // 				{p[6], p[7], 1}

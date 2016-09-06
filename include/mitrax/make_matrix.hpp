@@ -482,7 +482,7 @@ namespace mitrax{
 	template <
 		typename F, bool Nct, size_t N,
 		typename Memory = memory_std_t
-	> constexpr auto make_square_matrix_fn(
+	> constexpr auto make_matrix_fn(
 		dim_t< Nct, N > n, F&& f, Memory mem = memory_std
 	){
 		return make_matrix_fn(
@@ -539,7 +539,7 @@ namespace mitrax{
 	> constexpr auto make_diag_matrix_fn(
 		dim_t< Nct, N > n, F&& f, Memory mem = memory_std
 	){
-		return make_square_matrix_fn(n,
+		return make_matrix_fn(n,
 			detail::make_init_diag_fn(static_cast< F&& >(f)), mem);
 	}
 
@@ -587,7 +587,7 @@ namespace mitrax{
 	template <
 		typename T, bool Nct, size_t N,
 		typename Memory = memory_std_t
-	> constexpr auto make_square_matrix_v(
+	> constexpr auto make_matrix_v(
 		dim_t< Nct, N > n, T const& v = T(), Memory mem = memory_std
 	){
 		return make_matrix_v(n.as_col(), n.as_row(), v, mem);
@@ -596,7 +596,7 @@ namespace mitrax{
 	template <
 		typename T, bool Nct, size_t N,
 		typename Memory = memory_std_t
-	> constexpr auto make_square_matrix(
+	> constexpr auto make_matrix(
 		dim_t< Nct, N > n, T(&&v)[N][N], Memory mem = memory_std
 	){
 		return make_matrix(n.as_col(), n.as_row(), std::move(v), mem);
@@ -605,7 +605,7 @@ namespace mitrax{
 	template <
 		typename T, bool Nct, size_t N,
 		typename Memory = memory_std_t
-	> constexpr auto make_square_matrix(
+	> constexpr auto make_matrix(
 		dim_t< Nct, N > n, T(&v)[N][N], Memory mem = memory_std
 	){
 		return make_matrix(n.as_col(), n.as_row(), v, mem);
@@ -698,7 +698,7 @@ namespace mitrax{
 	> constexpr auto make_diag_matrix_v(
 		dim_t< Nct, N > n, T const& v = T(), Memory mem = memory_std
 	){
-		return make_square_matrix_fn(
+		return make_matrix_fn(
 			n, detail::init_diag_by_value< T >{v}, mem
 		);
 	}
@@ -709,7 +709,7 @@ namespace mitrax{
 	> constexpr auto make_diag_matrix(
 		dim_t< Nct, N > n, T(&&v)[N], Memory mem = memory_std
 	){
-		return make_square_matrix_fn(n,
+		return make_matrix_fn(n,
 			detail::init_diag_by_array< T(&&)[N] >{std::move(v)}, mem);
 	}
 
@@ -719,7 +719,7 @@ namespace mitrax{
 	> constexpr auto make_diag_matrix(
 		dim_t< Nct, N > n, T(&v)[N], Memory mem = memory_std
 	){
-		return make_square_matrix_fn(n,
+		return make_matrix_fn(n,
 			detail::init_diag_by_array< T(&)[N] >{v}, mem);
 	}
 

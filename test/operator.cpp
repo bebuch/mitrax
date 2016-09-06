@@ -28,73 +28,73 @@ template < typename T >
 auto const id = type_id< T >();
 
 
-constexpr auto ref1 = make_square_matrix< int >(3_D, {
+constexpr auto ref1 = make_matrix< int >(3_D, {
 	{0, 1, 2},
 	{3, 4, 5},
 	{6, 7, 8}
 });
 
-constexpr auto ref2 = make_square_matrix< int >(3_D, {
+constexpr auto ref2 = make_matrix< int >(3_D, {
 	{0, 2, 4},
 	{6, 8, 10},
 	{12, 14, 16}
 });
 
-constexpr auto ref3 = make_square_matrix< int >(3_D, {
+constexpr auto ref3 = make_matrix< int >(3_D, {
 	{0, 3, 6},
 	{9, 12, 15},
 	{18, 21, 24}
 });
 
-constexpr auto ref1_mod3 = make_square_matrix< int >(3_D, {
+constexpr auto ref1_mod3 = make_matrix< int >(3_D, {
 	{0, 1, 2},
 	{0, 1, 2},
 	{0, 1, 2}
 });
 
-constexpr auto ref1_square = make_square_matrix< int >(3_D, {
+constexpr auto ref1_square = make_matrix< int >(3_D, {
 	{0, 1, 4},
 	{9, 16, 25},
 	{36, 49, 64}
 });
 
-constexpr auto ref1_element_plus1 = make_square_matrix< int >(3_D, {
+constexpr auto ref1_element_plus1 = make_matrix< int >(3_D, {
 	{1, 2, 3},
 	{4, 5, 6},
 	{7, 8, 9}
 });
 
-constexpr auto ref1_element_minus1 = make_square_matrix< int >(3_D, {
+constexpr auto ref1_element_minus1 = make_matrix< int >(3_D, {
 	{-1, 0, 1},
 	{2, 3, 4},
 	{5, 6, 7}
 });
 
-constexpr auto ref_all1 = make_square_matrix< int >(3_D, {
+constexpr auto ref_all1 = make_matrix< int >(3_D, {
 	{1, 1, 1},
 	{1, 1, 1},
 	{1, 1, 1}
 });
 
-constexpr auto ref_all3 = make_square_matrix< int >(3_D, {
+constexpr auto ref_all3 = make_matrix< int >(3_D, {
 	{3, 3, 3},
 	{3, 3, 3},
 	{3, 3, 3}
 });
 
-constexpr auto ref_all9 = make_square_matrix< int >(3_D, {
+constexpr auto ref_all9 = make_matrix< int >(3_D, {
 	{9, 9, 9},
 	{9, 9, 9},
 	{9, 9, 9}
 });
 
-constexpr auto ref_mod = make_square_matrix< int >(3_D, {
+constexpr auto ref_mod = make_matrix< int >(3_D, {
 	{2, 3, 4},
 	{5, 6, 7},
 	{8, 9, 10}
 });
 
-constexpr auto ref_all9_mod_res = make_square_matrix< int >(3_D, {
+constexpr auto ref_all9_mod_res = make_matrix< int >(3_D, {
 	{1, 0, 1},
 	{4, 3, 2},
 	{1, 0, 9}
