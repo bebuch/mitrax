@@ -63,19 +63,19 @@ namespace{
 
 	template < typename M, size_t C, size_t R, size_t RefC, size_t RefR >
 	constexpr bool check(
-		matrix< M, C, R >& m,
-		value_type_t< M > const(&ref)[RefR][RefC]
-	){
-		auto const& m_const = m;
-		return check_fn(m, ref) && check_fn(m_const, ref);
-	}
-
-	template < typename M, size_t C, size_t R, size_t RefC, size_t RefR >
-	constexpr bool check(
 		matrix< M, C, R > const& m,
 		value_type_t< M > const(&ref)[RefR][RefC]
 	){
 		return check_fn(m, ref);
+	}
+
+	template < typename M, size_t C, size_t R, size_t RefC, size_t RefR >
+	constexpr bool check(
+		matrix< M, C, R >& m,
+		value_type_t< M > const(&ref)[RefR][RefC]
+	){
+		auto const& m_const = m;
+		return check_fn(m, ref) && check(m_const, ref);
 	}
 
 
