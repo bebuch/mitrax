@@ -16,9 +16,6 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-BOOST_AUTO_TEST_SUITE(suite_make_matrix)
-
-
 namespace{
 
 
@@ -31,377 +28,94 @@ namespace{
 	auto const id = boost::typeindex::type_id< T >();
 
 
-	constexpr int ref_3x3[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
-	constexpr int ref_2x3[3][2] = {{0, 1}, {2, 3}, {4, 5}};
-	constexpr int ref_3x2[2][3] = {{0, 1, 2}, {3, 4, 5}};
-	constexpr int ref_1x3[3][1] = {{0}, {1}, {2}};
-	constexpr int ref_3x1[1][3] = {{0, 1, 2}};
-	constexpr int ref_1x1[1][1] = {{0}};
+	template < typename Matrix, size_t RefC, size_t RefR >
+	constexpr bool check_fn(
+		Matrix& m,
+		value_type_t< Matrix > const(&ref)[RefR][RefC]
+	){
+		using value_type = value_type_t< Matrix >;
 
-	constexpr int ref_3[3] = {0, 1, 2};
-	constexpr int ref_1[1] = {0};
+		bool res = true;
+		res &= m.cols() == cols< RefC >();
+		res &= m.rows() == rows< RefR >();
 
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_3x3_0(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 3 &&
-			m(0, 0) == 0 &&
-			m(1, 0) == 0 &&
-			m(2, 0) == 0 &&
-			m(0, 1) == 0 &&
-			m(1, 1) == 0 &&
-			m(2, 1) == 0 &&
-			m(0, 2) == 0 &&
-			m(1, 2) == 0 &&
-			m(2, 2) == 0;
+		for(size_t y = 0; y < RefR; ++y){
+			for(size_t x = 0; x < RefC; ++x){
+				res &= m(x, y) == ref[y][x];
+			}
+		}
+
+		if constexpr(Matrix::ct_cols == 1 || Matrix::ct_rows == 1){
+			auto vec_ref =
+				reinterpret_cast< value_type const(&)[RefC * RefR] >(ref);
+
+			for(size_t i = 0; i < RefC * RefR; ++i){
+				res &= m[i] == vec_ref[i];
+			}
+		}
+
+		if constexpr(Matrix::ct_cols == 1 && Matrix::ct_rows == 1){
+			res &= static_cast< value_type >(m) == ref[0][0];
+		}
+
+		return res;
 	}
 
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_3x3_7(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 3 &&
-			m(0, 0) == 7 &&
-			m(1, 0) == 7 &&
-			m(2, 0) == 7 &&
-			m(0, 1) == 7 &&
-			m(1, 1) == 7 &&
-			m(2, 1) == 7 &&
-			m(0, 2) == 7 &&
-			m(1, 2) == 7 &&
-			m(2, 2) == 7;
+	template < typename M, size_t C, size_t R, size_t RefC, size_t RefR >
+	constexpr bool check(
+		matrix< M, C, R >& m,
+		value_type_t< M > const(&ref)[RefR][RefC]
+	){
+		auto const& m_const = m;
+		return check_fn(m, ref) && check_fn(m_const, ref);
 	}
 
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_3x3_ref(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 3 &&
-			m(0, 0) == 0 &&
-			m(1, 0) == 1 &&
-			m(2, 0) == 2 &&
-			m(0, 1) == 3 &&
-			m(1, 1) == 4 &&
-			m(2, 1) == 5 &&
-			m(0, 2) == 6 &&
-			m(1, 2) == 7 &&
-			m(2, 2) == 8;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_3x3_func(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 3 &&
-			m(0, 0) == 0 &&
-			m(1, 0) == 1 &&
-			m(2, 0) == 2 &&
-			m(0, 1) == 10 &&
-			m(1, 1) == 11 &&
-			m(2, 1) == 12 &&
-			m(0, 2) == 20 &&
-			m(1, 2) == 21 &&
-			m(2, 2) == 22;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_diag3_7(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 3 &&
-			m(0, 0) == 7 &&
-			m(1, 0) == 0 &&
-			m(2, 0) == 0 &&
-			m(0, 1) == 0 &&
-			m(1, 1) == 7 &&
-			m(2, 1) == 0 &&
-			m(0, 2) == 0 &&
-			m(1, 2) == 0 &&
-			m(2, 2) == 7;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_identity3x3(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 3 &&
-			m(0, 0) == 1 &&
-			m(1, 0) == 0 &&
-			m(2, 0) == 0 &&
-			m(0, 1) == 0 &&
-			m(1, 1) == 1 &&
-			m(2, 1) == 0 &&
-			m(0, 2) == 0 &&
-			m(1, 2) == 0 &&
-			m(2, 2) == 1;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_diag3_ref(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 3 &&
-			m(0, 0) == 0 &&
-			m(1, 0) == 0 &&
-			m(2, 0) == 0 &&
-			m(0, 1) == 0 &&
-			m(1, 1) == 1 &&
-			m(2, 1) == 0 &&
-			m(0, 2) == 0 &&
-			m(1, 2) == 0 &&
-			m(2, 2) == 2;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_2x3_0(matrix< M, C, R > const& m){
-		return
-			m.cols() == 2 &&
-			m.rows() == 3 &&
-			m(0, 0) == 0 &&
-			m(1, 0) == 0 &&
-			m(0, 1) == 0 &&
-			m(1, 1) == 0 &&
-			m(0, 2) == 0 &&
-			m(1, 2) == 0;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_2x3_7(matrix< M, C, R > const& m){
-		return
-			m.cols() == 2 &&
-			m.rows() == 3 &&
-			m(0, 0) == 7 &&
-			m(1, 0) == 7 &&
-			m(0, 1) == 7 &&
-			m(1, 1) == 7 &&
-			m(0, 2) == 7 &&
-			m(1, 2) == 7;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_2x3_ref(matrix< M, C, R > const& m){
-		return
-			m.cols() == 2 &&
-			m.rows() == 3 &&
-			m(0, 0) == 0 &&
-			m(1, 0) == 1 &&
-			m(0, 1) == 2 &&
-			m(1, 1) == 3 &&
-			m(0, 2) == 4 &&
-			m(1, 2) == 5;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_2x3_func(matrix< M, C, R > const& m){
-		return
-			m.cols() == 2 &&
-			m.rows() == 3 &&
-			m(0, 0) == 0 &&
-			m(1, 0) == 1 &&
-			m(0, 1) == 10 &&
-			m(1, 1) == 11 &&
-			m(0, 2) == 20 &&
-			m(1, 2) == 21;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_3x2_0(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 2 &&
-			m(0, 0) == 0 &&
-			m(1, 0) == 0 &&
-			m(2, 0) == 0 &&
-			m(0, 1) == 0 &&
-			m(1, 1) == 0 &&
-			m(2, 1) == 0;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_3x2_7(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 2 &&
-			m(0, 0) == 7 &&
-			m(1, 0) == 7 &&
-			m(2, 0) == 7 &&
-			m(0, 1) == 7 &&
-			m(1, 1) == 7 &&
-			m(2, 1) == 7;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_3x2_ref(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 2 &&
-			m(0, 0) == 0 &&
-			m(1, 0) == 1 &&
-			m(2, 0) == 2 &&
-			m(0, 1) == 3 &&
-			m(1, 1) == 4 &&
-			m(2, 1) == 5;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_3x2_func(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 2 &&
-			m(0, 0) == 0 &&
-			m(1, 0) == 1 &&
-			m(2, 0) == 2 &&
-			m(0, 1) == 10 &&
-			m(1, 1) == 11 &&
-			m(2, 1) == 12;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_1x3_0(matrix< M, C, R > const& m){
-		return
-			m.cols() == 1 &&
-			m.rows() == 3 &&
-			m(0, 0) == 0 &&
-			m(0, 1) == 0 &&
-			m(0, 2) == 0 &&
-			m[0] == 0 &&
-			m[1] == 0 &&
-			m[2] == 0;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_1x3_7(matrix< M, C, R > const& m){
-		return
-			m.cols() == 1 &&
-			m.rows() == 3 &&
-			m(0, 0) == 7 &&
-			m(0, 1) == 7 &&
-			m(0, 2) == 7 &&
-			m[0] == 7 &&
-			m[1] == 7 &&
-			m[2] == 7;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_1x3_ref(matrix< M, C, R > const& m){
-		return
-			m.cols() == 1 &&
-			m.rows() == 3 &&
-			m(0, 0) == 0 &&
-			m(0, 1) == 1 &&
-			m(0, 2) == 2 &&
-			m[0] == 0 &&
-			m[1] == 1 &&
-			m[2] == 2;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_1x3_func(matrix< M, C, R > const& m){
-		return
-			m.cols() == 1 &&
-			m.rows() == 3 &&
-			m(0, 0) == 0 &&
-			m(0, 1) == 10 &&
-			m(0, 2) == 20 &&
-			m[0] == 0 &&
-			m[1] == 10 &&
-			m[2] == 20;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_3x1_0(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 1 &&
-			m(0, 0) == 0 &&
-			m(1, 0) == 0 &&
-			m(2, 0) == 0 &&
-			m[0] == 0 &&
-			m[1] == 0 &&
-			m[2] == 0;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_3x1_7(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 1 &&
-			m(0, 0) == 7 &&
-			m(1, 0) == 7 &&
-			m(2, 0) == 7 &&
-			m[0] == 7 &&
-			m[1] == 7 &&
-			m[2] == 7;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_3x1_ref(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 1 &&
-			m(0, 0) == 0 &&
-			m(1, 0) == 1 &&
-			m(2, 0) == 2 &&
-			m[0] == 0 &&
-			m[1] == 1 &&
-			m[2] == 2;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_3x1_func(matrix< M, C, R > const& m){
-		return
-			m.cols() == 3 &&
-			m.rows() == 1 &&
-			m(0, 0) == 0 &&
-			m(1, 0) == 1 &&
-			m(2, 0) == 2 &&
-			m[0] == 0 &&
-			m[1] == 1 &&
-			m[2] == 2;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_1x1_0(matrix< M, C, R > const& m){
-		return
-			m.cols() == 1 &&
-			m.rows() == 1 &&
-			m(0, 0) == 0 &&
-			m[0] == 0 &&
-			m == 0;
-	}
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool check_1x1_7(matrix< M, C, R > const& m){
-		return
-			m.cols() == 1 &&
-			m.rows() == 1 &&
-			m(0, 0) == 7 &&
-			m[0] == 7 &&
-			m == 7;
+	template < typename M, size_t C, size_t R, size_t RefC, size_t RefR >
+	constexpr bool check(
+		matrix< M, C, R > const& m,
+		value_type_t< M > const(&ref)[RefR][RefC]
+	){
+		return check_fn(m, ref);
 	}
 
 
-	struct f_cr{
-		constexpr int operator()(size_t x, size_t y)const noexcept{
+	template < typename T >
+	struct fn_xy_t{
+		template < typename T1, typename T2 >
+		constexpr T operator()(T1 x, T2 y)const noexcept{
 			return x + y * 10;
 		}
 	};
 
-	struct f_c{
-		constexpr int operator()(size_t i)const noexcept{
+	template < typename T >
+	struct fn_x_t{
+		template < typename T1 >
+		constexpr T operator()(T1 i)const noexcept{
 			return i * 10;
 		}
 	};
 
-	struct f_r{
-		constexpr int operator()(size_t i)const noexcept{
+	template < typename T >
+	struct fn_y_t{
+		template < typename T1 >
+		constexpr T operator()(T1 i)const noexcept{
 			return i;
+		}
+	};
+
+	template < typename T >
+	struct fn_i_t{
+		template < typename T1 >
+		constexpr T operator()(T1 i)const noexcept{
+			return i + i * 10;
 		}
 	};
 
 
 }
+
+
+BOOST_AUTO_TEST_SUITE(suite_make_matrix)
 
 
 BOOST_AUTO_TEST_CASE(test_raw_matrix_types){
@@ -448,6 +162,12 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_types){
 
 
 BOOST_AUTO_TEST_CASE(test_raw_matrix_3x3){
+	constexpr int ref_0[3][3] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+	constexpr int ref_v[3][3] = {{7, 7, 7}, {7, 7, 7}, {7, 7, 7}};
+	constexpr int ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
+	constexpr int ref_f[3][3] = {{0, 1, 2}, {10, 11, 12}, {20, 21, 22}};
+	constexpr auto fn = fn_xy_t< int >();
+
 	constexpr auto m01 = make_matrix_v< int >(3_C, 3_R);
 	auto m02 = make_matrix_v< int >(3_C_rt, 3_R);
 	auto m03 = make_matrix_v< int >(3_C, 3_R_rt);
@@ -482,29 +202,29 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_3x3){
 		make_matrix< int >(3_C, 3_R_rt, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
 	auto m28 =
 		make_matrix< int >(3_C_rt, 3_R_rt, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
-	constexpr auto m29 = make_matrix(3_C, 3_R, ref_3x3);
-	auto m30 = make_matrix(3_C_rt, 3_R, ref_3x3);
-	auto m31 = make_matrix(3_C, 3_R_rt, ref_3x3);
-	auto m32 = make_matrix(3_C_rt, 3_R_rt, ref_3x3);
+	constexpr auto m29 = make_matrix(3_C, 3_R, ref_i);
+	auto m30 = make_matrix(3_C_rt, 3_R, ref_i);
+	auto m31 = make_matrix(3_C, 3_R_rt, ref_i);
+	auto m32 = make_matrix(3_C_rt, 3_R_rt, ref_i);
 	constexpr auto m33 =
 		make_square_matrix< int >(3_D, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
 	auto m34 =
 		make_square_matrix< int >(3_D_rt, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
-	constexpr auto m35 = make_square_matrix(3_D, ref_3x3);
-	auto m36 = make_square_matrix(3_D_rt, ref_3x3);
+	constexpr auto m35 = make_square_matrix(3_D, ref_i);
+	auto m36 = make_square_matrix(3_D_rt, ref_i);
 
-	constexpr auto m37 = make_matrix_fn(3_C, 3_R, f_cr());
-	auto m38 = make_matrix_fn(3_C_rt, 3_R, f_cr());
-	auto m39 = make_matrix_fn(3_C, 3_R_rt, f_cr());
-	auto m40 = make_matrix_fn(3_C_rt, 3_R_rt, f_cr());
-	constexpr auto m41 = make_matrix_fn(dims(3_C, 3_R), f_cr());
-	auto m42 = make_matrix_fn(dims(3_C_rt, 3_R), f_cr());
-	auto m43 = make_matrix_fn(dims(3_C, 3_R_rt), f_cr());
-	auto m44 = make_matrix_fn(dims(3_C_rt, 3_R_rt), f_cr());
-	constexpr auto m45 = make_square_matrix_fn(3_D, f_cr());
-	auto m46 = make_square_matrix_fn(3_D_rt, f_cr());
-	constexpr auto m47 = make_matrix_fn(dims(3_D), f_cr());
-	auto m48 = make_matrix_fn(dims(3_D_rt), f_cr());
+	constexpr auto m37 = make_matrix_fn(3_C, 3_R, fn);
+	auto m38 = make_matrix_fn(3_C_rt, 3_R, fn);
+	auto m39 = make_matrix_fn(3_C, 3_R_rt, fn);
+	auto m40 = make_matrix_fn(3_C_rt, 3_R_rt, fn);
+	constexpr auto m41 = make_matrix_fn(dims(3_C, 3_R), fn);
+	auto m42 = make_matrix_fn(dims(3_C_rt, 3_R), fn);
+	auto m43 = make_matrix_fn(dims(3_C, 3_R_rt), fn);
+	auto m44 = make_matrix_fn(dims(3_C_rt, 3_R_rt), fn);
+	constexpr auto m45 = make_square_matrix_fn(3_D, fn);
+	auto m46 = make_square_matrix_fn(3_D_rt, fn);
+	constexpr auto m47 = make_matrix_fn(dims(3_D), fn);
+	auto m48 = make_matrix_fn(dims(3_D_rt), fn);
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 3, 3 > >));
@@ -560,60 +280,67 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_3x3){
 	BOOST_TEST((rt_id(m48) == id< raw_matrix< int, 0, 0 > >));
 
 
-	BOOST_TEST(check_3x3_0(m01));
-	BOOST_TEST(check_3x3_0(m02));
-	BOOST_TEST(check_3x3_0(m03));
-	BOOST_TEST(check_3x3_0(m04));
-	BOOST_TEST(check_3x3_0(m05));
-	BOOST_TEST(check_3x3_0(m06));
-	BOOST_TEST(check_3x3_0(m07));
-	BOOST_TEST(check_3x3_0(m08));
-	BOOST_TEST(check_3x3_0(m09));
-	BOOST_TEST(check_3x3_0(m10));
-	BOOST_TEST(check_3x3_0(m11));
-	BOOST_TEST(check_3x3_0(m12));
+	BOOST_TEST((check(m01, ref_0)));
+	BOOST_TEST((check(m02, ref_0)));
+	BOOST_TEST((check(m03, ref_0)));
+	BOOST_TEST((check(m04, ref_0)));
+	BOOST_TEST((check(m05, ref_0)));
+	BOOST_TEST((check(m06, ref_0)));
+	BOOST_TEST((check(m07, ref_0)));
+	BOOST_TEST((check(m08, ref_0)));
+	BOOST_TEST((check(m09, ref_0)));
+	BOOST_TEST((check(m10, ref_0)));
+	BOOST_TEST((check(m11, ref_0)));
+	BOOST_TEST((check(m12, ref_0)));
 
-	BOOST_TEST(check_3x3_7(m13));
-	BOOST_TEST(check_3x3_7(m14));
-	BOOST_TEST(check_3x3_7(m15));
-	BOOST_TEST(check_3x3_7(m16));
-	BOOST_TEST(check_3x3_7(m17));
-	BOOST_TEST(check_3x3_7(m18));
-	BOOST_TEST(check_3x3_7(m19));
-	BOOST_TEST(check_3x3_7(m20));
-	BOOST_TEST(check_3x3_7(m21));
-	BOOST_TEST(check_3x3_7(m22));
-	BOOST_TEST(check_3x3_7(m23));
-	BOOST_TEST(check_3x3_7(m24));
+	BOOST_TEST((check(m13, ref_v)));
+	BOOST_TEST((check(m14, ref_v)));
+	BOOST_TEST((check(m15, ref_v)));
+	BOOST_TEST((check(m16, ref_v)));
+	BOOST_TEST((check(m17, ref_v)));
+	BOOST_TEST((check(m18, ref_v)));
+	BOOST_TEST((check(m19, ref_v)));
+	BOOST_TEST((check(m20, ref_v)));
+	BOOST_TEST((check(m21, ref_v)));
+	BOOST_TEST((check(m22, ref_v)));
+	BOOST_TEST((check(m23, ref_v)));
+	BOOST_TEST((check(m24, ref_v)));
 
-	BOOST_TEST(check_3x3_ref(m25));
-	BOOST_TEST(check_3x3_ref(m26));
-	BOOST_TEST(check_3x3_ref(m27));
-	BOOST_TEST(check_3x3_ref(m28));
-	BOOST_TEST(check_3x3_ref(m29));
-	BOOST_TEST(check_3x3_ref(m30));
-	BOOST_TEST(check_3x3_ref(m31));
-	BOOST_TEST(check_3x3_ref(m32));
-	BOOST_TEST(check_3x3_ref(m33));
-	BOOST_TEST(check_3x3_ref(m34));
-	BOOST_TEST(check_3x3_ref(m35));
-	BOOST_TEST(check_3x3_ref(m36));
+	BOOST_TEST((check(m25, ref_i)));
+	BOOST_TEST((check(m26, ref_i)));
+	BOOST_TEST((check(m27, ref_i)));
+	BOOST_TEST((check(m28, ref_i)));
+	BOOST_TEST((check(m29, ref_i)));
+	BOOST_TEST((check(m30, ref_i)));
+	BOOST_TEST((check(m31, ref_i)));
+	BOOST_TEST((check(m32, ref_i)));
+	BOOST_TEST((check(m33, ref_i)));
+	BOOST_TEST((check(m34, ref_i)));
+	BOOST_TEST((check(m35, ref_i)));
+	BOOST_TEST((check(m36, ref_i)));
 
-	BOOST_TEST(check_3x3_func(m37));
-	BOOST_TEST(check_3x3_func(m38));
-	BOOST_TEST(check_3x3_func(m39));
-	BOOST_TEST(check_3x3_func(m40));
-	BOOST_TEST(check_3x3_func(m41));
-	BOOST_TEST(check_3x3_func(m42));
-	BOOST_TEST(check_3x3_func(m43));
-	BOOST_TEST(check_3x3_func(m44));
-	BOOST_TEST(check_3x3_func(m45));
-	BOOST_TEST(check_3x3_func(m46));
-	BOOST_TEST(check_3x3_func(m47));
-	BOOST_TEST(check_3x3_func(m48));
+	BOOST_TEST((check(m37, ref_f)));
+	BOOST_TEST((check(m38, ref_f)));
+	BOOST_TEST((check(m39, ref_f)));
+	BOOST_TEST((check(m40, ref_f)));
+	BOOST_TEST((check(m41, ref_f)));
+	BOOST_TEST((check(m42, ref_f)));
+	BOOST_TEST((check(m43, ref_f)));
+	BOOST_TEST((check(m44, ref_f)));
+	BOOST_TEST((check(m45, ref_f)));
+	BOOST_TEST((check(m46, ref_f)));
+	BOOST_TEST((check(m47, ref_f)));
+	BOOST_TEST((check(m48, ref_f)));
 }
 
+
 BOOST_AUTO_TEST_CASE(test_raw_matrix_2x3){
+	constexpr int ref_0[3][2] = {{0, 0}, {0, 0}, {0, 0}};
+	constexpr int ref_v[3][2] = {{7, 7}, {7, 7}, {7, 7}};
+	constexpr int ref_i[3][2] = {{0, 1}, {2, 3}, {4, 5}};
+	constexpr int ref_f[3][2] = {{0, 1}, {10, 11}, {20, 21}};
+	constexpr auto fn = fn_xy_t< int >();
+
 	constexpr auto m01 = make_matrix_v< int >(2_C, 3_R);
 	auto m02 = make_matrix_v< int >(2_C_rt, 3_R);
 	auto m03 = make_matrix_v< int >(2_C, 3_R_rt);
@@ -637,19 +364,19 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_2x3){
 	auto m18 = make_matrix< int >(2_C_rt, 3_R, {{0, 1}, {2, 3}, {4, 5}});
 	auto m19 = make_matrix< int >(2_C, 3_R_rt, {{0, 1}, {2, 3}, {4, 5}});
 	auto m20 = make_matrix< int >(2_C_rt, 3_R_rt, {{0, 1}, {2, 3}, {4, 5}});
-	constexpr auto m21 = make_matrix(2_C, 3_R, ref_2x3);
-	auto m22 = make_matrix(2_C_rt, 3_R, ref_2x3);
-	auto m23 = make_matrix(2_C, 3_R_rt, ref_2x3);
-	auto m24 = make_matrix(2_C_rt, 3_R_rt, ref_2x3);
+	constexpr auto m21 = make_matrix(2_C, 3_R, ref_i);
+	auto m22 = make_matrix(2_C_rt, 3_R, ref_i);
+	auto m23 = make_matrix(2_C, 3_R_rt, ref_i);
+	auto m24 = make_matrix(2_C_rt, 3_R_rt, ref_i);
 
-	constexpr auto m25 = make_matrix_fn(2_C, 3_R, f_cr());
-	auto m26 = make_matrix_fn(2_C_rt, 3_R, f_cr());
-	auto m27 = make_matrix_fn(2_C, 3_R_rt, f_cr());
-	auto m28 = make_matrix_fn(2_C_rt, 3_R_rt, f_cr());
-	constexpr auto m29 = make_matrix_fn(dims(2_C, 3_R), f_cr());
-	auto m30 = make_matrix_fn(dims(2_C_rt, 3_R), f_cr());
-	auto m31 = make_matrix_fn(dims(2_C, 3_R_rt), f_cr());
-	auto m32 = make_matrix_fn(dims(2_C_rt, 3_R_rt), f_cr());
+	constexpr auto m25 = make_matrix_fn(2_C, 3_R, fn);
+	auto m26 = make_matrix_fn(2_C_rt, 3_R, fn);
+	auto m27 = make_matrix_fn(2_C, 3_R_rt, fn);
+	auto m28 = make_matrix_fn(2_C_rt, 3_R_rt, fn);
+	constexpr auto m29 = make_matrix_fn(dims(2_C, 3_R), fn);
+	auto m30 = make_matrix_fn(dims(2_C_rt, 3_R), fn);
+	auto m31 = make_matrix_fn(dims(2_C, 3_R_rt), fn);
+	auto m32 = make_matrix_fn(dims(2_C_rt, 3_R_rt), fn);
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 2, 3 > >));
@@ -689,44 +416,50 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_2x3){
 	BOOST_TEST((rt_id(m32) == id< raw_matrix< int, 0, 0 > >));
 
 
-	BOOST_TEST(check_2x3_0(m01));
-	BOOST_TEST(check_2x3_0(m02));
-	BOOST_TEST(check_2x3_0(m03));
-	BOOST_TEST(check_2x3_0(m04));
-	BOOST_TEST(check_2x3_0(m05));
-	BOOST_TEST(check_2x3_0(m06));
-	BOOST_TEST(check_2x3_0(m07));
-	BOOST_TEST(check_2x3_0(m08));
+	BOOST_TEST(check(m01, ref_0));
+	BOOST_TEST(check(m02, ref_0));
+	BOOST_TEST(check(m03, ref_0));
+	BOOST_TEST(check(m04, ref_0));
+	BOOST_TEST(check(m05, ref_0));
+	BOOST_TEST(check(m06, ref_0));
+	BOOST_TEST(check(m07, ref_0));
+	BOOST_TEST(check(m08, ref_0));
 
-	BOOST_TEST(check_2x3_7(m09));
-	BOOST_TEST(check_2x3_7(m10));
-	BOOST_TEST(check_2x3_7(m11));
-	BOOST_TEST(check_2x3_7(m12));
-	BOOST_TEST(check_2x3_7(m13));
-	BOOST_TEST(check_2x3_7(m14));
-	BOOST_TEST(check_2x3_7(m15));
-	BOOST_TEST(check_2x3_7(m16));
+	BOOST_TEST(check(m09, ref_v));
+	BOOST_TEST(check(m10, ref_v));
+	BOOST_TEST(check(m11, ref_v));
+	BOOST_TEST(check(m12, ref_v));
+	BOOST_TEST(check(m13, ref_v));
+	BOOST_TEST(check(m14, ref_v));
+	BOOST_TEST(check(m15, ref_v));
+	BOOST_TEST(check(m16, ref_v));
 
-	BOOST_TEST(check_2x3_ref(m17));
-	BOOST_TEST(check_2x3_ref(m18));
-	BOOST_TEST(check_2x3_ref(m19));
-	BOOST_TEST(check_2x3_ref(m20));
-	BOOST_TEST(check_2x3_ref(m21));
-	BOOST_TEST(check_2x3_ref(m22));
-	BOOST_TEST(check_2x3_ref(m23));
-	BOOST_TEST(check_2x3_ref(m24));
+	BOOST_TEST(check(m17, ref_i));
+	BOOST_TEST(check(m18, ref_i));
+	BOOST_TEST(check(m19, ref_i));
+	BOOST_TEST(check(m20, ref_i));
+	BOOST_TEST(check(m21, ref_i));
+	BOOST_TEST(check(m22, ref_i));
+	BOOST_TEST(check(m23, ref_i));
+	BOOST_TEST(check(m24, ref_i));
 
-	BOOST_TEST(check_2x3_func(m25));
-	BOOST_TEST(check_2x3_func(m26));
-	BOOST_TEST(check_2x3_func(m27));
-	BOOST_TEST(check_2x3_func(m28));
-	BOOST_TEST(check_2x3_func(m29));
-	BOOST_TEST(check_2x3_func(m30));
-	BOOST_TEST(check_2x3_func(m31));
-	BOOST_TEST(check_2x3_func(m32));
+	BOOST_TEST(check(m25, ref_f));
+	BOOST_TEST(check(m26, ref_f));
+	BOOST_TEST(check(m27, ref_f));
+	BOOST_TEST(check(m28, ref_f));
+	BOOST_TEST(check(m29, ref_f));
+	BOOST_TEST(check(m30, ref_f));
+	BOOST_TEST(check(m31, ref_f));
+	BOOST_TEST(check(m32, ref_f));
 }
 
 BOOST_AUTO_TEST_CASE(test_raw_matrix_3x2){
+	constexpr int ref_0[2][3] = {{0, 0, 0}, {0, 0, 0}};
+	constexpr int ref_v[2][3] = {{7, 7, 7}, {7, 7, 7}};
+	constexpr int ref_i[2][3] = {{0, 1, 2}, {3, 4, 5}};
+	constexpr int ref_f[2][3] = {{0, 1, 2}, {10, 11, 12}};
+	constexpr auto fn = fn_xy_t< int >();
+
 	constexpr auto m01 = make_matrix_v< int >(3_C, 2_R);
 	auto m02 = make_matrix_v< int >(3_C_rt, 2_R);
 	auto m03 = make_matrix_v< int >(3_C, 2_R_rt);
@@ -749,19 +482,19 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_3x2){
 	auto m18 = make_matrix< int >(3_C_rt, 2_R, {{0, 1, 2}, {3, 4, 5}});
 	auto m19 = make_matrix< int >(3_C, 2_R_rt, {{0, 1, 2}, {3, 4, 5}});
 	auto m20 = make_matrix< int >(3_C_rt, 2_R_rt, {{0, 1, 2}, {3, 4, 5}});
-	constexpr auto m21 = make_matrix(3_C, 2_R, ref_3x2);
-	auto m22 = make_matrix(3_C_rt, 2_R, ref_3x2);
-	auto m23 = make_matrix(3_C, 2_R_rt, ref_3x2);
-	auto m24 = make_matrix(3_C_rt, 2_R_rt, ref_3x2);
+	constexpr auto m21 = make_matrix(3_C, 2_R, ref_i);
+	auto m22 = make_matrix(3_C_rt, 2_R, ref_i);
+	auto m23 = make_matrix(3_C, 2_R_rt, ref_i);
+	auto m24 = make_matrix(3_C_rt, 2_R_rt, ref_i);
 
-	constexpr auto m25 = make_matrix_fn(3_C, 2_R, f_cr());
-	auto m26 = make_matrix_fn(3_C_rt, 2_R, f_cr());
-	auto m27 = make_matrix_fn(3_C, 2_R_rt, f_cr());
-	auto m28 = make_matrix_fn(3_C_rt, 2_R_rt, f_cr());
-	constexpr auto m29 = make_matrix_fn(dims(3_C, 2_R), f_cr());
-	auto m30 = make_matrix_fn(dims(3_C_rt, 2_R), f_cr());
-	auto m31 = make_matrix_fn(dims(3_C, 2_R_rt), f_cr());
-	auto m32 = make_matrix_fn(dims(3_C_rt, 2_R_rt), f_cr());
+	constexpr auto m25 = make_matrix_fn(3_C, 2_R, fn);
+	auto m26 = make_matrix_fn(3_C_rt, 2_R, fn);
+	auto m27 = make_matrix_fn(3_C, 2_R_rt, fn);
+	auto m28 = make_matrix_fn(3_C_rt, 2_R_rt, fn);
+	constexpr auto m29 = make_matrix_fn(dims(3_C, 2_R), fn);
+	auto m30 = make_matrix_fn(dims(3_C_rt, 2_R), fn);
+	auto m31 = make_matrix_fn(dims(3_C, 2_R_rt), fn);
+	auto m32 = make_matrix_fn(dims(3_C_rt, 2_R_rt), fn);
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 3, 2 > >));
@@ -801,44 +534,52 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_3x2){
 	BOOST_TEST((rt_id(m32) == id< raw_matrix< int, 0, 0 > >));
 
 
-	BOOST_TEST(check_3x2_0(m01));
-	BOOST_TEST(check_3x2_0(m02));
-	BOOST_TEST(check_3x2_0(m03));
-	BOOST_TEST(check_3x2_0(m04));
-	BOOST_TEST(check_3x2_0(m05));
-	BOOST_TEST(check_3x2_0(m06));
-	BOOST_TEST(check_3x2_0(m07));
-	BOOST_TEST(check_3x2_0(m08));
+	BOOST_TEST(check(m01, ref_0));
+	BOOST_TEST(check(m02, ref_0));
+	BOOST_TEST(check(m03, ref_0));
+	BOOST_TEST(check(m04, ref_0));
+	BOOST_TEST(check(m05, ref_0));
+	BOOST_TEST(check(m06, ref_0));
+	BOOST_TEST(check(m07, ref_0));
+	BOOST_TEST(check(m08, ref_0));
 
-	BOOST_TEST(check_3x2_7(m09));
-	BOOST_TEST(check_3x2_7(m10));
-	BOOST_TEST(check_3x2_7(m11));
-	BOOST_TEST(check_3x2_7(m12));
-	BOOST_TEST(check_3x2_7(m13));
-	BOOST_TEST(check_3x2_7(m14));
-	BOOST_TEST(check_3x2_7(m15));
-	BOOST_TEST(check_3x2_7(m16));
+	BOOST_TEST(check(m09, ref_v));
+	BOOST_TEST(check(m10, ref_v));
+	BOOST_TEST(check(m11, ref_v));
+	BOOST_TEST(check(m12, ref_v));
+	BOOST_TEST(check(m13, ref_v));
+	BOOST_TEST(check(m14, ref_v));
+	BOOST_TEST(check(m15, ref_v));
+	BOOST_TEST(check(m16, ref_v));
 
-	BOOST_TEST(check_3x2_ref(m17));
-	BOOST_TEST(check_3x2_ref(m18));
-	BOOST_TEST(check_3x2_ref(m19));
-	BOOST_TEST(check_3x2_ref(m20));
-	BOOST_TEST(check_3x2_ref(m21));
-	BOOST_TEST(check_3x2_ref(m22));
-	BOOST_TEST(check_3x2_ref(m23));
-	BOOST_TEST(check_3x2_ref(m24));
+	BOOST_TEST(check(m17, ref_i));
+	BOOST_TEST(check(m18, ref_i));
+	BOOST_TEST(check(m19, ref_i));
+	BOOST_TEST(check(m20, ref_i));
+	BOOST_TEST(check(m21, ref_i));
+	BOOST_TEST(check(m22, ref_i));
+	BOOST_TEST(check(m23, ref_i));
+	BOOST_TEST(check(m24, ref_i));
 
-	BOOST_TEST(check_3x2_func(m25));
-	BOOST_TEST(check_3x2_func(m26));
-	BOOST_TEST(check_3x2_func(m27));
-	BOOST_TEST(check_3x2_func(m28));
-	BOOST_TEST(check_3x2_func(m29));
-	BOOST_TEST(check_3x2_func(m30));
-	BOOST_TEST(check_3x2_func(m31));
-	BOOST_TEST(check_3x2_func(m32));
+	BOOST_TEST(check(m25, ref_f));
+	BOOST_TEST(check(m26, ref_f));
+	BOOST_TEST(check(m27, ref_f));
+	BOOST_TEST(check(m28, ref_f));
+	BOOST_TEST(check(m29, ref_f));
+	BOOST_TEST(check(m30, ref_f));
+	BOOST_TEST(check(m31, ref_f));
+	BOOST_TEST(check(m32, ref_f));
 }
 
 BOOST_AUTO_TEST_CASE(test_raw_matrix_1x3){
+	constexpr int ref_0[3][1] = {{0}, {0}, {0}};
+	constexpr int ref_v[3][1] = {{7}, {7}, {7}};
+	constexpr int ref_i[3][1] = {{0}, {1}, {2}};
+	constexpr int ref_i_vec[3] = {0, 1, 2};
+	constexpr int ref_f[3][1] = {{0}, {10}, {20}};
+	constexpr auto fn_xy = fn_xy_t< int >();
+	constexpr auto fn_i = fn_x_t< int >();
+
 	constexpr auto m01 = make_matrix_v< int >(1_C, 3_R);
 	auto m02 = make_col_vector_v< int >(3_R);
 	auto m03 = make_matrix_v< int >(1_C, 3_R_rt);
@@ -857,17 +598,17 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_1x3){
 	auto m14 = make_col_vector< int >(3_R, {0, 1, 2});
 	auto m15 = make_matrix< int >(1_C, 3_R_rt, {{0}, {1}, {2}});
 	auto m16 = make_col_vector< int >(3_R_rt, {0, 1, 2});
-	constexpr auto m17 = make_matrix(1_C, 3_R, ref_1x3);
-	auto m18 = make_col_vector(3_R, ref_3);
-	auto m19 = make_matrix(1_C, 3_R_rt, ref_1x3);
-	auto m20 = make_col_vector(3_R_rt, ref_3);
+	constexpr auto m17 = make_matrix(1_C, 3_R, ref_i);
+	auto m18 = make_col_vector(3_R, ref_i_vec);
+	auto m19 = make_matrix(1_C, 3_R_rt, ref_i);
+	auto m20 = make_col_vector(3_R_rt, ref_i_vec);
 
-	constexpr auto m21 = make_matrix_fn(1_C, 3_R, f_cr());
-	auto m22 = make_col_vector_fn(3_R, f_c());
-	auto m23 = make_matrix_fn(1_C, 3_R_rt, f_cr());
-	auto m24 = make_col_vector_fn(3_R_rt, f_c());
-	constexpr auto m25 = make_matrix_fn(dims(1_C, 3_R), f_cr());
-	auto m26 = make_matrix_fn(dims(1_C, 3_R_rt), f_cr());
+	constexpr auto m21 = make_matrix_fn(1_C, 3_R, fn_xy);
+	auto m22 = make_col_vector_fn(3_R, fn_i);
+	auto m23 = make_matrix_fn(1_C, 3_R_rt, fn_xy);
+	auto m24 = make_col_vector_fn(3_R_rt, fn_i);
+	constexpr auto m25 = make_matrix_fn(dims(1_C, 3_R), fn_xy);
+	auto m26 = make_matrix_fn(dims(1_C, 3_R_rt), fn_xy);
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 1, 3 > >));
@@ -901,38 +642,46 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_1x3){
 	BOOST_TEST((rt_id(m26) == id< raw_matrix< int, 1, 0 > >));
 
 
-	BOOST_TEST(check_1x3_0(m01));
-	BOOST_TEST(check_1x3_0(m02));
-	BOOST_TEST(check_1x3_0(m03));
-	BOOST_TEST(check_1x3_0(m04));
-	BOOST_TEST(check_1x3_0(m05));
-	BOOST_TEST(check_1x3_0(m06));
+	BOOST_TEST(check(m01, ref_0));
+	BOOST_TEST(check(m02, ref_0));
+	BOOST_TEST(check(m03, ref_0));
+	BOOST_TEST(check(m04, ref_0));
+	BOOST_TEST(check(m05, ref_0));
+	BOOST_TEST(check(m06, ref_0));
 
-	BOOST_TEST(check_1x3_7(m07));
-	BOOST_TEST(check_1x3_7(m08));
-	BOOST_TEST(check_1x3_7(m09));
-	BOOST_TEST(check_1x3_7(m10));
-	BOOST_TEST(check_1x3_7(m11));
-	BOOST_TEST(check_1x3_7(m12));
+	BOOST_TEST(check(m07, ref_v));
+	BOOST_TEST(check(m08, ref_v));
+	BOOST_TEST(check(m09, ref_v));
+	BOOST_TEST(check(m10, ref_v));
+	BOOST_TEST(check(m11, ref_v));
+	BOOST_TEST(check(m12, ref_v));
 
-	BOOST_TEST(check_1x3_ref(m13));
-	BOOST_TEST(check_1x3_ref(m14));
-	BOOST_TEST(check_1x3_ref(m15));
-	BOOST_TEST(check_1x3_ref(m16));
-	BOOST_TEST(check_1x3_ref(m17));
-	BOOST_TEST(check_1x3_ref(m18));
-	BOOST_TEST(check_1x3_ref(m19));
-	BOOST_TEST(check_1x3_ref(m20));
+	BOOST_TEST(check(m13, ref_i));
+	BOOST_TEST(check(m14, ref_i));
+	BOOST_TEST(check(m15, ref_i));
+	BOOST_TEST(check(m16, ref_i));
+	BOOST_TEST(check(m17, ref_i));
+	BOOST_TEST(check(m18, ref_i));
+	BOOST_TEST(check(m19, ref_i));
+	BOOST_TEST(check(m20, ref_i));
 
-	BOOST_TEST(check_1x3_func(m21));
-	BOOST_TEST(check_1x3_func(m22));
-	BOOST_TEST(check_1x3_func(m23));
-	BOOST_TEST(check_1x3_func(m24));
-	BOOST_TEST(check_1x3_func(m25));
-	BOOST_TEST(check_1x3_func(m26));
+	BOOST_TEST(check(m21, ref_f));
+	BOOST_TEST(check(m22, ref_f));
+	BOOST_TEST(check(m23, ref_f));
+	BOOST_TEST(check(m24, ref_f));
+	BOOST_TEST(check(m25, ref_f));
+	BOOST_TEST(check(m26, ref_f));
 }
 
 BOOST_AUTO_TEST_CASE(test_raw_matrix_3x1){
+	constexpr int ref_0[1][3] = {{0, 0, 0}};
+	constexpr int ref_v[1][3] = {{7, 7, 7}};
+	constexpr int ref_i[1][3] = {{0, 1, 2}};
+	constexpr int ref_i_vec[3] = {0, 1, 2};
+	constexpr int ref_f[1][3] = {{0, 1, 2}};
+	constexpr auto fn_xy = fn_xy_t< int >();
+	constexpr auto fn_i = fn_y_t< int >();
+
 	constexpr auto m01 = make_matrix_v< int >(3_C, 1_R);
 	auto m02 = make_row_vector_v< int >(3_C);
 	auto m03 = make_matrix_v< int >(3_C_rt, 1_R);
@@ -951,17 +700,17 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_3x1){
 	auto m14 = make_row_vector< int >(3_C, {0, 1, 2});
 	auto m15 = make_matrix< int >(3_C_rt, 1_R, {{0, 1, 2}});
 	auto m16 = make_row_vector< int >(3_C_rt, {0, 1, 2});
-	constexpr auto m17 = make_matrix(3_C, 1_R, ref_3x1);
-	auto m18 = make_row_vector(3_C, ref_3);
-	auto m19 = make_matrix(3_C_rt, 1_R, ref_3x1);
-	auto m20 = make_row_vector(3_C_rt, ref_3);
+	constexpr auto m17 = make_matrix(3_C, 1_R, ref_i);
+	auto m18 = make_row_vector(3_C, ref_i_vec);
+	auto m19 = make_matrix(3_C_rt, 1_R, ref_i);
+	auto m20 = make_row_vector(3_C_rt, ref_i_vec);
 
-	constexpr auto m21 = make_matrix_fn(3_C, 1_R, f_cr());
-	auto m22 = make_row_vector_fn(3_C, f_r());
-	auto m23 = make_matrix_fn(3_C_rt, 1_R, f_cr());
-	auto m24 = make_row_vector_fn(3_C_rt, f_r());
-	constexpr auto m25 = make_matrix_fn(dims(3_C, 1_R), f_cr());
-	auto m26 = make_matrix_fn(dims(3_C_rt, 1_R), f_cr());
+	constexpr auto m21 = make_matrix_fn(3_C, 1_R, fn_xy);
+	auto m22 = make_row_vector_fn(3_C, fn_i);
+	auto m23 = make_matrix_fn(3_C_rt, 1_R, fn_xy);
+	auto m24 = make_row_vector_fn(3_C_rt, fn_i);
+	constexpr auto m25 = make_matrix_fn(dims(3_C, 1_R), fn_xy);
+	auto m26 = make_matrix_fn(dims(3_C_rt, 1_R), fn_xy);
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 3, 1 > >));
@@ -995,38 +744,47 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_3x1){
 	BOOST_TEST((rt_id(m26) == id< raw_matrix< int, 0, 1 > >));
 
 
-	BOOST_TEST(check_3x1_0(m01));
-	BOOST_TEST(check_3x1_0(m02));
-	BOOST_TEST(check_3x1_0(m03));
-	BOOST_TEST(check_3x1_0(m04));
-	BOOST_TEST(check_3x1_0(m05));
-	BOOST_TEST(check_3x1_0(m06));
+	BOOST_TEST(check(m01, ref_0));
+	BOOST_TEST(check(m02, ref_0));
+	BOOST_TEST(check(m03, ref_0));
+	BOOST_TEST(check(m04, ref_0));
+	BOOST_TEST(check(m05, ref_0));
+	BOOST_TEST(check(m06, ref_0));
 
-	BOOST_TEST(check_3x1_7(m07));
-	BOOST_TEST(check_3x1_7(m08));
-	BOOST_TEST(check_3x1_7(m09));
-	BOOST_TEST(check_3x1_7(m10));
-	BOOST_TEST(check_3x1_7(m11));
-	BOOST_TEST(check_3x1_7(m12));
+	BOOST_TEST(check(m07, ref_v));
+	BOOST_TEST(check(m08, ref_v));
+	BOOST_TEST(check(m09, ref_v));
+	BOOST_TEST(check(m10, ref_v));
+	BOOST_TEST(check(m11, ref_v));
+	BOOST_TEST(check(m12, ref_v));
 
-	BOOST_TEST(check_3x1_ref(m13));
-	BOOST_TEST(check_3x1_ref(m14));
-	BOOST_TEST(check_3x1_ref(m15));
-	BOOST_TEST(check_3x1_ref(m16));
-	BOOST_TEST(check_3x1_ref(m17));
-	BOOST_TEST(check_3x1_ref(m18));
-	BOOST_TEST(check_3x1_ref(m19));
-	BOOST_TEST(check_3x1_ref(m20));
+	BOOST_TEST(check(m13, ref_i));
+	BOOST_TEST(check(m14, ref_i));
+	BOOST_TEST(check(m15, ref_i));
+	BOOST_TEST(check(m16, ref_i));
+	BOOST_TEST(check(m17, ref_i));
+	BOOST_TEST(check(m18, ref_i));
+	BOOST_TEST(check(m19, ref_i));
+	BOOST_TEST(check(m20, ref_i));
 
-	BOOST_TEST(check_3x1_func(m21));
-	BOOST_TEST(check_3x1_func(m22));
-	BOOST_TEST(check_3x1_func(m23));
-	BOOST_TEST(check_3x1_func(m24));
-	BOOST_TEST(check_3x1_func(m25));
-	BOOST_TEST(check_3x1_func(m26));
+	BOOST_TEST(check(m21, ref_f));
+	BOOST_TEST(check(m22, ref_f));
+	BOOST_TEST(check(m23, ref_f));
+	BOOST_TEST(check(m24, ref_f));
+	BOOST_TEST(check(m25, ref_f));
+	BOOST_TEST(check(m26, ref_f));
 }
 
 BOOST_AUTO_TEST_CASE(test_raw_matrix_1x1){
+	constexpr int ref_0[1][1] = {{0}};
+	constexpr int ref_v[1][1] = {{7}};
+	constexpr int ref_i[1][1] = {{0}};
+	constexpr int ref_i_vec[1] = {0};
+	constexpr int ref_f[1][1] = {{0}};
+	constexpr auto fn_xy = fn_xy_t< int >();
+	constexpr auto fn_x = fn_x_t< int >();
+	constexpr auto fn_y = fn_y_t< int >();
+
 	constexpr auto m01 = make_matrix_v< int >(1_C, 1_R);
 	auto m02 = make_row_vector_v< int >(1_C);
 	auto m03 = make_col_vector_v< int >(1_R);
@@ -1043,16 +801,16 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_1x1){
 	auto m12 = make_row_vector< int >(1_C, {0});
 	auto m13 = make_col_vector< int >(1_R, {0});
 	constexpr auto m14 = make_square_matrix< int >(1_D, {{0}});
-	constexpr auto m15 = make_matrix(1_C, 1_R, ref_1x1);
-	auto m16 = make_row_vector(1_C, ref_1);
-	auto m17 = make_col_vector(1_R, ref_1);
-	constexpr auto m18 = make_square_matrix(1_D, ref_1x1);
+	constexpr auto m15 = make_matrix(1_C, 1_R, ref_i);
+	auto m16 = make_row_vector(1_C, ref_i_vec);
+	auto m17 = make_col_vector(1_R, ref_i_vec);
+	constexpr auto m18 = make_square_matrix(1_D, ref_i);
 
-	constexpr auto m19 = make_matrix_fn(1_C, 1_R, f_cr());
-	auto m20 = make_row_vector_fn(1_C, f_r());
-	auto m21 = make_col_vector_fn(1_R, f_c());
-	constexpr auto m22 = make_matrix_fn(dims(1_C, 1_R), f_cr());
-	constexpr auto m23 = make_square_matrix_fn(1_D, f_cr());
+	constexpr auto m19 = make_matrix_fn(1_C, 1_R, fn_xy);
+	auto m20 = make_row_vector_fn(1_C, fn_x);
+	auto m21 = make_col_vector_fn(1_R, fn_y);
+	constexpr auto m22 = make_matrix_fn(dims(1_C, 1_R), fn_xy);
+	constexpr auto m23 = make_square_matrix_fn(1_D, fn_xy);
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 1, 1 > >));
@@ -1083,35 +841,43 @@ BOOST_AUTO_TEST_CASE(test_raw_matrix_1x1){
 	BOOST_TEST((rt_id(m23) == id< raw_matrix< int, 1, 1 > >));
 
 
-	BOOST_TEST(check_1x1_0(m01));
-	BOOST_TEST(check_1x1_0(m02));
-	BOOST_TEST(check_1x1_0(m03));
-	BOOST_TEST(check_1x1_0(m04));
-	BOOST_TEST(check_1x1_0(m05));
+	BOOST_TEST(check(m01, ref_0));
+	BOOST_TEST(check(m02, ref_0));
+	BOOST_TEST(check(m03, ref_0));
+	BOOST_TEST(check(m04, ref_0));
+	BOOST_TEST(check(m05, ref_0));
 
-	BOOST_TEST(check_1x1_7(m06));
-	BOOST_TEST(check_1x1_7(m07));
-	BOOST_TEST(check_1x1_7(m08));
-	BOOST_TEST(check_1x1_7(m09));
-	BOOST_TEST(check_1x1_7(m10));
+	BOOST_TEST(check(m06, ref_v));
+	BOOST_TEST(check(m07, ref_v));
+	BOOST_TEST(check(m08, ref_v));
+	BOOST_TEST(check(m09, ref_v));
+	BOOST_TEST(check(m10, ref_v));
 
-	BOOST_TEST(check_1x1_0(m11));
-	BOOST_TEST(check_1x1_0(m12));
-	BOOST_TEST(check_1x1_0(m13));
-	BOOST_TEST(check_1x1_0(m14));
-	BOOST_TEST(check_1x1_0(m15));
-	BOOST_TEST(check_1x1_0(m16));
-	BOOST_TEST(check_1x1_0(m17));
-	BOOST_TEST(check_1x1_0(m18));
+	BOOST_TEST(check(m11, ref_i));
+	BOOST_TEST(check(m12, ref_i));
+	BOOST_TEST(check(m13, ref_i));
+	BOOST_TEST(check(m14, ref_i));
+	BOOST_TEST(check(m15, ref_i));
+	BOOST_TEST(check(m16, ref_i));
+	BOOST_TEST(check(m17, ref_i));
+	BOOST_TEST(check(m18, ref_i));
 
-	BOOST_TEST(check_1x1_0(m19));
-	BOOST_TEST(check_1x1_0(m20));
-	BOOST_TEST(check_1x1_0(m21));
-	BOOST_TEST(check_1x1_0(m22));
-	BOOST_TEST(check_1x1_0(m23));
+	BOOST_TEST(check(m19, ref_f));
+	BOOST_TEST(check(m20, ref_f));
+	BOOST_TEST(check(m21, ref_f));
+	BOOST_TEST(check(m22, ref_f));
+	BOOST_TEST(check(m23, ref_f));
 }
 
 BOOST_AUTO_TEST_CASE(test_raw_bitmap){
+	constexpr int ref_0_23[3][2] = {{0, 0}, {0, 0}, {0, 0}};
+	constexpr int ref_v_23[3][2] = {{7, 7}, {7, 7}, {7, 7}};
+	constexpr int ref_f_23[3][2] = {{0, 1}, {10, 11}, {20, 21}};
+	constexpr int ref_0_32[2][3] = {{0, 0, 0}, {0, 0, 0}};
+	constexpr int ref_v_32[2][3] = {{7, 7, 7}, {7, 7, 7}};
+	constexpr int ref_f_32[2][3] = {{0, 1, 2}, {10, 11, 12}};
+	constexpr auto fn = fn_xy_t< int >();
+
 	auto m01 = make_bitmap_v< int >(2, 3);
 	auto m02 = make_bitmap_v< int >(3, 2);
 	auto m03 = make_bitmap_v< int >(dims(2, 3));
@@ -1122,10 +888,10 @@ BOOST_AUTO_TEST_CASE(test_raw_bitmap){
 	auto m07 = make_bitmap_v(dims(2, 3), 7);
 	auto m08 = make_bitmap_v(dims(3, 2), 7);
 
-	auto m09 = make_bitmap_fn(2, 3, f_cr());
-	auto m10 = make_bitmap_fn(3, 2, f_cr());
-	auto m11 = make_bitmap_fn(dims(2, 3), f_cr());
-	auto m12 = make_bitmap_fn(dims(3, 2), f_cr());
+	auto m09 = make_bitmap_fn(2, 3, fn);
+	auto m10 = make_bitmap_fn(3, 2, fn);
+	auto m11 = make_bitmap_fn(dims(2, 3), fn);
+	auto m12 = make_bitmap_fn(dims(3, 2), fn);
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 0, 0 > >));
 	BOOST_TEST((rt_id(m02) == id< raw_matrix< int, 0, 0 > >));
@@ -1142,24 +908,31 @@ BOOST_AUTO_TEST_CASE(test_raw_bitmap){
 	BOOST_TEST((rt_id(m11) == id< raw_matrix< int, 0, 0 > >));
 	BOOST_TEST((rt_id(m12) == id< raw_matrix< int, 0, 0 > >));
 
-	BOOST_TEST(check_2x3_0(m01));
-	BOOST_TEST(check_3x2_0(m02));
-	BOOST_TEST(check_2x3_0(m03));
-	BOOST_TEST(check_3x2_0(m04));
+	BOOST_TEST(check(m01, ref_0_23));
+	BOOST_TEST(check(m02, ref_0_32));
+	BOOST_TEST(check(m03, ref_0_23));
+	BOOST_TEST(check(m04, ref_0_32));
 
-	BOOST_TEST(check_2x3_7(m05));
-	BOOST_TEST(check_3x2_7(m06));
-	BOOST_TEST(check_2x3_7(m07));
-	BOOST_TEST(check_3x2_7(m08));
+	BOOST_TEST(check(m05, ref_v_23));
+	BOOST_TEST(check(m06, ref_v_32));
+	BOOST_TEST(check(m07, ref_v_23));
+	BOOST_TEST(check(m08, ref_v_32));
 
-	BOOST_TEST(check_2x3_func(m09));
-	BOOST_TEST(check_3x2_func(m10));
-	BOOST_TEST(check_2x3_func(m11));
-	BOOST_TEST(check_3x2_func(m12));
+	BOOST_TEST(check(m09, ref_f_23));
+	BOOST_TEST(check(m10, ref_f_32));
+	BOOST_TEST(check(m11, ref_f_23));
+	BOOST_TEST(check(m12, ref_f_32));
 }
 
 
 BOOST_AUTO_TEST_CASE(test_diag_matrix){
+	constexpr int ref_0[3][3] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+	constexpr int ref_v[3][3] = {{7, 0, 0}, {0, 7, 0}, {0, 0, 7}};
+	constexpr int ref_i[3][3] = {{0, 0, 0}, {0, 1, 0}, {0, 0, 2}};
+	constexpr int ref_i_vec[3] = {0, 1, 2};
+	constexpr int ref_f[3][3] = {{0, 0, 0}, {0, 11, 0}, {0, 0, 22}};
+	constexpr auto fn = fn_i_t< int >();
+
 	constexpr auto m01 = make_diag_matrix_v< int >(3_D);
 	auto m02 = make_diag_matrix_v< int >(3_D_rt);
 
@@ -1168,11 +941,11 @@ BOOST_AUTO_TEST_CASE(test_diag_matrix){
 
 	constexpr auto m05 = make_diag_matrix< int >(3_D, {0, 1, 2});
 	auto m06 = make_diag_matrix< int >(3_D_rt, {0, 1, 2});
-	constexpr auto m07 = make_diag_matrix(3_D, ref_3);
-	auto m08 = make_diag_matrix(3_D_rt, ref_3);
+	constexpr auto m07 = make_diag_matrix(3_D, ref_i_vec);
+	auto m08 = make_diag_matrix(3_D_rt, ref_i_vec);
 
-	constexpr auto m09 = make_diag_matrix_fn(3_D, f_r());
-	auto m10 = make_diag_matrix_fn(3_D_rt, f_r());
+	constexpr auto m09 = make_diag_matrix_fn(3_D, fn);
+	auto m10 = make_diag_matrix_fn(3_D_rt, fn);
 
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< int, 3, 3 > >));
@@ -1187,20 +960,22 @@ BOOST_AUTO_TEST_CASE(test_diag_matrix){
 	BOOST_TEST((rt_id(m10) == id< raw_matrix< int, 0, 0 > >));
 
 
-	BOOST_TEST(check_3x3_0(m01));
-	BOOST_TEST(check_3x3_0(m02));
-	BOOST_TEST(check_diag3_7(m03));
-	BOOST_TEST(check_diag3_7(m04));
-	BOOST_TEST(check_diag3_ref(m05));
-	BOOST_TEST(check_diag3_ref(m06));
-	BOOST_TEST(check_diag3_ref(m07));
-	BOOST_TEST(check_diag3_ref(m08));
-	BOOST_TEST(check_diag3_ref(m09));
-	BOOST_TEST(check_diag3_ref(m10));
+	BOOST_TEST(check(m01, ref_0));
+	BOOST_TEST(check(m02, ref_0));
+	BOOST_TEST(check(m03, ref_v));
+	BOOST_TEST(check(m04, ref_v));
+	BOOST_TEST(check(m05, ref_i));
+	BOOST_TEST(check(m06, ref_i));
+	BOOST_TEST(check(m07, ref_i));
+	BOOST_TEST(check(m08, ref_i));
+	BOOST_TEST(check(m09, ref_f));
+	BOOST_TEST(check(m10, ref_f));
 }
 
 
 BOOST_AUTO_TEST_CASE(test_identity_matrix){
+	constexpr int ref_i[3][3] = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+
 	constexpr auto m01 = make_identity_matrix< int >(3_D);
 	auto m02 = make_identity_matrix< int >(3_D_rt);
 
@@ -1209,14 +984,16 @@ BOOST_AUTO_TEST_CASE(test_identity_matrix){
 	BOOST_TEST((rt_id(m02) == id< raw_matrix< int, 0, 0 > >));
 
 
-	BOOST_TEST(check_identity3x3(m01));
-	BOOST_TEST(check_identity3x3(m02));
+	BOOST_TEST(check(m01, ref_i));
+	BOOST_TEST(check(m02, ref_i));
 }
 
 
 BOOST_AUTO_TEST_CASE(test_copy_constructor){
-	constexpr auto m01 = make_matrix(3_C, 3_R, ref_3x3);
-	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_3x3);
+	constexpr int ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
+
+	constexpr auto m01 = make_matrix(3_C, 3_R, ref_i);
+	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_i);
 
 	constexpr auto m03 = m01;
 	auto m04 = m02;
@@ -1225,14 +1002,16 @@ BOOST_AUTO_TEST_CASE(test_copy_constructor){
 	BOOST_TEST((rt_id(m04) == id< raw_matrix< int, 0, 0 > >));
 
 
-	BOOST_TEST(check_3x3_ref(m03));
-	BOOST_TEST(check_3x3_ref(m04));
+	BOOST_TEST(check(m03, ref_i));
+	BOOST_TEST(check(m04, ref_i));
 }
 
 
 BOOST_AUTO_TEST_CASE(test_move_constructor){
-	constexpr auto m01 = make_matrix(3_C, 3_R, ref_3x3);
-	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_3x3);
+	constexpr int ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
+
+	constexpr auto m01 = make_matrix(3_C, 3_R, ref_i);
+	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_i);
 
 	constexpr auto m03 = std::move(m01);
 	auto m04 = std::move(m02);
@@ -1241,17 +1020,19 @@ BOOST_AUTO_TEST_CASE(test_move_constructor){
 	BOOST_TEST((rt_id(m04) == id< raw_matrix< int, 0, 0 > >));
 
 
-	BOOST_TEST(check_3x3_ref(m03));
-	BOOST_TEST(check_3x3_ref(m04));
+	BOOST_TEST(check(m03, ref_i));
+	BOOST_TEST(check(m04, ref_i));
 }
 
 
 BOOST_AUTO_TEST_CASE(test_copy_assignment){
-	constexpr auto m01 = make_matrix(3_C, 3_R, ref_3x3);
-	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_3x3);
+	constexpr int ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
+
+	constexpr auto m01 = make_matrix(3_C, 3_R, ref_i);
+	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_i);
 
 	auto m03 = make_matrix_v(3_C, 3_R, 0);
-	auto m04 = make_matrix_v(0_C_rt, 0_R_rt, 0);
+	auto m04 = make_matrix_v(3_C_rt, 3_R_rt, 0);
 
 
 	m03 = m01;
@@ -1262,14 +1043,16 @@ BOOST_AUTO_TEST_CASE(test_copy_assignment){
 	BOOST_TEST((rt_id(m04) == id< raw_matrix< int, 0, 0 > >));
 
 
-	BOOST_TEST(check_3x3_ref(m03));
-	BOOST_TEST(check_3x3_ref(m04));
+	BOOST_TEST(check(m03, ref_i));
+	BOOST_TEST(check(m04, ref_i));
 }
 
 
 BOOST_AUTO_TEST_CASE(test_move_assignment){
-	constexpr auto m01 = make_matrix(3_C, 3_R, ref_3x3);
-	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_3x3);
+	constexpr int ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
+
+	constexpr auto m01 = make_matrix(3_C, 3_R, ref_i);
+	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_i);
 
 	auto m03 = make_matrix_v(3_C, 3_R, 0);
 	auto m04 = make_matrix_v(0_C_rt, 0_R_rt, 0);
@@ -1283,8 +1066,8 @@ BOOST_AUTO_TEST_CASE(test_move_assignment){
 	BOOST_TEST((rt_id(m04) == id< raw_matrix< int, 0, 0 > >));
 
 
-	BOOST_TEST(check_3x3_ref(m03));
-	BOOST_TEST(check_3x3_ref(m04));
+	BOOST_TEST(check(m03, ref_i));
+	BOOST_TEST(check(m04, ref_i));
 }
 
 
