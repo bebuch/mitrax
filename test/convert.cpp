@@ -18,41 +18,35 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-BOOST_AUTO_TEST_SUITE(suite_convert)
+constexpr int data[2][2] = {{0, 1}, {2, 3}};
 
-
-namespace{
-
-
-	constexpr int data[2][2] = {{0, 1}, {2, 3}};
-
-	template < typename M >
-	constexpr bool check(M const& m){
-		return
-			m.cols() == 2 &&
-			m.rows() == 2 &&
-			m(0, 0) == 0 &&
-			m(1, 0) == 1 &&
-			m(0, 1) == 2 &&
-			m(1, 1) == 3;
-	}
-
-
-	using int_ref = std::reference_wrapper< int >;
-
-	using cint_ref = std::reference_wrapper< int const >;
-
-
-	template < typename T >
-	auto rt_id(T&& v){
-		return type_id_runtime(static_cast< T&& >(v));
-	}
-
-	template < typename T >
-	auto const id = type_id< T >();
-
-
+template < typename M >
+constexpr bool check(M const& m){
+	return
+		m.cols() == 2 &&
+		m.rows() == 2 &&
+		m(0, 0) == 0 &&
+		m(1, 0) == 1 &&
+		m(0, 1) == 2 &&
+		m(1, 1) == 3;
 }
+
+
+using int_ref = std::reference_wrapper< int >;
+
+using cint_ref = std::reference_wrapper< int const >;
+
+
+template < typename T >
+auto rt_id(T&& v){
+	return type_id_runtime(static_cast< T&& >(v));
+}
+
+template < typename T >
+auto const id = type_id< T >();
+
+
+BOOST_AUTO_TEST_SUITE(suite_convert)
 
 
 BOOST_AUTO_TEST_CASE(test_convert_as_raw_matrix){

@@ -24,19 +24,14 @@ using namespace mitrax;
 #define CP(expr) [&]{ constexpr auto tmp = expr; return tmp; }()
 
 
-namespace{
-
-
-	template < typename T >
-	auto rt_id(T&& v){
-		return type_id_runtime(static_cast< T&& >(v));
-	}
-
-	template < typename T >
-	auto const id = type_id< T >();
-
-
+template < typename T >
+auto rt_id(T&& v){
+	return type_id_runtime(static_cast< T&& >(v));
 }
+
+template < typename T >
+auto const id = type_id< T >();
+
 
 
 template < template < bool, size_t > typename DimT >

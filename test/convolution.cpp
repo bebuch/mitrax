@@ -20,28 +20,22 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
+constexpr auto image = make_square_matrix< int >(5_D, {
+	{1, 2, 3, 4, 5},
+	{2, 3, 4, 5, 6},
+	{3, 4, 5, 6, 7},
+	{4, 5, 6, 7, 8},
+	{5, 6, 7, 8, 9}
+});
+
+constexpr auto sobel_x = make_square_matrix< int >(3_D, {
+	{1, 0, -1},
+	{2, 0, -2},
+	{1, 0, -1}
+});
+
+
 BOOST_AUTO_TEST_SUITE(suite_convolution)
-
-
-namespace{
-
-
-	constexpr auto image = make_square_matrix< int >(5_D, {
-		{1, 2, 3, 4, 5},
-		{2, 3, 4, 5, 6},
-		{3, 4, 5, 6, 7},
-		{4, 5, 6, 7, 8},
-		{5, 6, 7, 8, 9}
-	});
-
-	constexpr auto sobel_x = make_square_matrix< int >(3_D, {
-		{1, 0, -1},
-		{2, 0, -2},
-		{1, 0, -1}
-	});
-
-
-}
 
 
 BOOST_AUTO_TEST_CASE(test_convolution){

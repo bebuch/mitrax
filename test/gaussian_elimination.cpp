@@ -21,52 +21,46 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-BOOST_AUTO_TEST_SUITE(suite_gaussian_elimination)
+constexpr auto ref1 = make_square_matrix< float >(3_D, {
+	{1, 2, 3},
+	{1, 1, 1},
+	{3, 3, 1}
+});
 
+constexpr auto ref2 = make_square_matrix< float >(3_D, {
+	{1, 2, 3},
+	{4, 5, 6},
+	{7, 8, 9}
+});
 
-namespace{
+constexpr auto ref3 = make_square_matrix< float >(3_D, {
+	{-1,  2, 0},
+	{ 1,  0, 1},
+	{ 2, -4, 0}
+});
 
+constexpr auto ref4 = make_square_matrix< float >(3_D, {
+	{1, 2, 3},
+	{4, 5, 6},
+	{0, 0, 0}
+});
 
-	constexpr auto ref1 = make_square_matrix< float >(3_D, {
-		{1, 2, 3},
-		{1, 1, 1},
-		{3, 3, 1}
-	});
-
-	constexpr auto ref2 = make_square_matrix< float >(3_D, {
-		{1, 2, 3},
-		{4, 5, 6},
-		{7, 8, 9}
-	});
-
-	constexpr auto ref3 = make_square_matrix< float >(3_D, {
-		{-1,  2, 0},
-		{ 1,  0, 1},
-		{ 2, -4, 0}
-	});
-
-	constexpr auto ref4 = make_square_matrix< float >(3_D, {
-		{1, 2, 3},
-		{4, 5, 6},
-		{0, 0, 0}
-	});
-
-	template < typename M, size_t C, size_t R >
-	constexpr bool near_null(
-		matrix< M, C, R > const& m,
-		value_type_t< M > const& threshold
-	){
-		for(auto& v: m) if(threshold < v) return false;
-		return true;
-	}
-
-	template < typename T, typename U >
-	constexpr bool equal(T const& a, U const& b){
-		return std::abs(a - b) < 0.00001;
-	}
-
-
+template < typename M, size_t C, size_t R >
+constexpr bool near_null(
+	matrix< M, C, R > const& m,
+	value_type_t< M > const& threshold
+){
+	for(auto& v: m) if(threshold < v) return false;
+	return true;
 }
+
+template < typename T, typename U >
+constexpr bool equal(T const& a, U const& b){
+	return std::abs(a - b) < 0.00001;
+}
+
+
+BOOST_AUTO_TEST_SUITE(suite_gaussian_elimination)
 
 
 BOOST_AUTO_TEST_CASE(test_upper_triangular_matrix){

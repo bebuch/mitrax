@@ -21,19 +21,13 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-namespace{
-
-
-	template < typename T >
-	auto rt_id(T&& v){
-		return type_id_runtime(static_cast< T&& >(v));
-	}
-
-	template < typename T >
-	auto const id = type_id< T >();
-
-
+template < typename T >
+auto rt_id(T&& v){
+	return type_id_runtime(static_cast< T&& >(v));
 }
+
+template < typename T >
+auto const id = type_id< T >();
 
 
 BOOST_AUTO_TEST_SUITE(suite_gauss_newton_algorithm)

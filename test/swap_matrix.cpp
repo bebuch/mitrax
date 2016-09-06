@@ -19,26 +19,20 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
+constexpr int data1[3][3] = {
+	{0, 1, 2},
+	{3, 4, 5},
+	{6, 7, 8}
+};
+
+constexpr int data2[3][3] = {
+	{10, 11, 12},
+	{13, 14, 15},
+	{16, 17, 18}
+};
+
+
 BOOST_AUTO_TEST_SUITE(suite_swap_matrix)
-
-
-namespace{
-
-
-	constexpr int data1[3][3] = {
-		{0, 1, 2},
-		{3, 4, 5},
-		{6, 7, 8}
-	};
-
-	constexpr int data2[3][3] = {
-		{10, 11, 12},
-		{13, 14, 15},
-		{16, 17, 18}
-	};
-
-
-}
 
 
 BOOST_AUTO_TEST_CASE(test_swap_rows_m_0_m_1){

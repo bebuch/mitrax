@@ -22,29 +22,23 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-BOOST_AUTO_TEST_SUITE(suite_householder_transformation)
-
-
-namespace{
-
-
-	template < typename T, typename U >
-	constexpr bool equal(T const& a, U const& b){
-		using std::abs;
-		return abs(a - b) < 0.00001;
-	}
-
-	template < typename T, typename U >
-	constexpr bool matrix_equal(T const& a, U const& b){
-		using std::abs;
-		auto m = a - b;
-		return std::any_of(m.begin(), m.end(), [](auto v){
-			return v < 0.00001;
-		});
-	}
-
-
+template < typename T, typename U >
+constexpr bool equal(T const& a, U const& b){
+	using std::abs;
+	return abs(a - b) < 0.00001;
 }
+
+template < typename T, typename U >
+constexpr bool matrix_equal(T const& a, U const& b){
+	using std::abs;
+	auto m = a - b;
+	return std::any_of(m.begin(), m.end(), [](auto v){
+		return v < 0.00001;
+	});
+}
+
+
+BOOST_AUTO_TEST_SUITE(suite_householder_transformation)
 
 
 // BOOST_AUTO_TEST_CASE(test_householder_transformation){

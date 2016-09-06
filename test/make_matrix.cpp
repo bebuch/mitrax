@@ -19,103 +19,97 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-namespace{
-
-
-	template < typename T >
-	auto rt_id(T&& v){
-		return boost::typeindex::type_id_runtime(static_cast< T&& >(v));
-	}
-
-	template < typename T >
-	auto const id = boost::typeindex::type_id< T >();
-
-
-	template < typename Matrix, size_t RefC, size_t RefR >
-	constexpr bool check_fn(
-		Matrix& m,
-		value_type_t< Matrix > const(&ref)[RefR][RefC]
-	){
-		using value_type = value_type_t< Matrix >;
-
-		bool res = true;
-		res &= m.cols() == cols< RefC >();
-		res &= m.rows() == rows< RefR >();
-
-		for(size_t y = 0; y < RefR; ++y){
-			for(size_t x = 0; x < RefC; ++x){
-				res &= m(x, y) == ref[y][x];
-			}
-		}
-
-		if constexpr(Matrix::ct_cols == 1 || Matrix::ct_rows == 1){
-			auto vec_ref =
-				reinterpret_cast< value_type const(&)[RefC * RefR] >(ref);
-
-			for(size_t i = 0; i < RefC * RefR; ++i){
-				res &= m[i] == vec_ref[i];
-			}
-		}
-
-		if constexpr(Matrix::ct_cols == 1 && Matrix::ct_rows == 1){
-			res &= static_cast< value_type >(m) == ref[0][0];
-		}
-
-		return res;
-	}
-
-	template < typename M, size_t C, size_t R, size_t RefC, size_t RefR >
-	constexpr bool check(
-		matrix< M, C, R > const& m,
-		value_type_t< M > const(&ref)[RefR][RefC]
-	){
-		return check_fn(m, ref);
-	}
-
-	template < typename M, size_t C, size_t R, size_t RefC, size_t RefR >
-	constexpr bool check(
-		matrix< M, C, R >& m,
-		value_type_t< M > const(&ref)[RefR][RefC]
-	){
-		auto const& m_const = m;
-		return check_fn(m, ref) && check(m_const, ref);
-	}
-
-
-	template < typename T >
-	struct fn_xy_t{
-		template < typename T1, typename T2 >
-		constexpr T operator()(T1 x, T2 y)const noexcept{
-			return x + y * 10;
-		}
-	};
-
-	template < typename T >
-	struct fn_x_t{
-		template < typename T1 >
-		constexpr T operator()(T1 i)const noexcept{
-			return i * 10;
-		}
-	};
-
-	template < typename T >
-	struct fn_y_t{
-		template < typename T1 >
-		constexpr T operator()(T1 i)const noexcept{
-			return i;
-		}
-	};
-
-	template < typename T >
-	struct fn_i_t{
-		template < typename T1 >
-		constexpr T operator()(T1 i)const noexcept{
-			return i + i * 10;
-		}
-	};
-
-
+template < typename T >
+auto rt_id(T&& v){
+	return boost::typeindex::type_id_runtime(static_cast< T&& >(v));
 }
+
+template < typename T >
+auto const id = boost::typeindex::type_id< T >();
+
+
+template < typename Matrix, size_t RefC, size_t RefR >
+constexpr bool check_fn(
+	Matrix& m,
+	value_type_t< Matrix > const(&ref)[RefR][RefC]
+){
+	using value_type = value_type_t< Matrix >;
+
+	bool res = true;
+	res &= m.cols() == cols< RefC >();
+	res &= m.rows() == rows< RefR >();
+
+	for(size_t y = 0; y < RefR; ++y){
+		for(size_t x = 0; x < RefC; ++x){
+			res &= m(x, y) == ref[y][x];
+		}
+	}
+
+	if constexpr(Matrix::ct_cols == 1 || Matrix::ct_rows == 1){
+		auto vec_ref =
+			reinterpret_cast< value_type const(&)[RefC * RefR] >(ref);
+
+		for(size_t i = 0; i < RefC * RefR; ++i){
+			res &= m[i] == vec_ref[i];
+		}
+	}
+
+	if constexpr(Matrix::ct_cols == 1 && Matrix::ct_rows == 1){
+		res &= static_cast< value_type >(m) == ref[0][0];
+	}
+
+	return res;
+}
+
+template < typename M, size_t C, size_t R, size_t RefC, size_t RefR >
+constexpr bool check(
+	matrix< M, C, R > const& m,
+	value_type_t< M > const(&ref)[RefR][RefC]
+){
+	return check_fn(m, ref);
+}
+
+template < typename M, size_t C, size_t R, size_t RefC, size_t RefR >
+constexpr bool check(
+	matrix< M, C, R >& m,
+	value_type_t< M > const(&ref)[RefR][RefC]
+){
+	auto const& m_const = m;
+	return check_fn(m, ref) && check(m_const, ref);
+}
+
+
+template < typename T >
+struct fn_xy_t{
+	template < typename T1, typename T2 >
+	constexpr T operator()(T1 x, T2 y)const noexcept{
+		return x + y * 10;
+	}
+};
+
+template < typename T >
+struct fn_x_t{
+	template < typename T1 >
+	constexpr T operator()(T1 i)const noexcept{
+		return i * 10;
+	}
+};
+
+template < typename T >
+struct fn_y_t{
+	template < typename T1 >
+	constexpr T operator()(T1 i)const noexcept{
+		return i;
+	}
+};
+
+template < typename T >
+struct fn_i_t{
+	template < typename T1 >
+	constexpr T operator()(T1 i)const noexcept{
+		return i + i * 10;
+	}
+};
 
 
 BOOST_AUTO_TEST_SUITE(suite_make_matrix)

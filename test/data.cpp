@@ -16,25 +16,19 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-BOOST_AUTO_TEST_SUITE(suite_data)
-
-
-namespace{
-
-
-	template < typename T >
-	auto rt_id(T&& v){
-		return boost::typeindex::type_id_runtime(static_cast< T&& >(v));
-	}
-
-	template < typename T >
-	auto const id = boost::typeindex::type_id< T >();
-
-	constexpr int data[2][2] = {{0, 1}, {2, 3}};
-	constexpr int ref[4] = {0, 1, 2, 3};
-
-
+template < typename T >
+auto rt_id(T&& v){
+	return boost::typeindex::type_id_runtime(static_cast< T&& >(v));
 }
+
+template < typename T >
+auto const id = boost::typeindex::type_id< T >();
+
+constexpr int data[2][2] = {{0, 1}, {2, 3}};
+constexpr int ref[4] = {0, 1, 2, 3};
+
+
+BOOST_AUTO_TEST_SUITE(suite_data)
 
 
 BOOST_AUTO_TEST_CASE(test_data){

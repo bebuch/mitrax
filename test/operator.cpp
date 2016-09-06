@@ -13,105 +13,99 @@
 #include <mitrax/compare.hpp>
 
 
-BOOST_AUTO_TEST_SUITE(suite_operator)
-
-
 using boost::typeindex::type_id;
 using boost::typeindex::type_id_runtime;
 using namespace mitrax;
 using namespace mitrax::literals;
 
 
-namespace{
-
-
-	template < typename T >
-	auto rt_id(T&& v){
-		return type_id_runtime(static_cast< T&& >(v));
-	}
-
-	template < typename T >
-	auto const id = type_id< T >();
-
-
-	constexpr auto ref1 = make_square_matrix< int >(3_D, {
-		{0, 1, 2},
-		{3, 4, 5},
-		{6, 7, 8}
-	});
-
-	constexpr auto ref2 = make_square_matrix< int >(3_D, {
-		{0, 2, 4},
-		{6, 8, 10},
-		{12, 14, 16}
-	});
-
-	constexpr auto ref3 = make_square_matrix< int >(3_D, {
-		{0, 3, 6},
-		{9, 12, 15},
-		{18, 21, 24}
-	});
-
-	constexpr auto ref1_mod3 = make_square_matrix< int >(3_D, {
-		{0, 1, 2},
-		{0, 1, 2},
-		{0, 1, 2}
-	});
-
-	constexpr auto ref1_square = make_square_matrix< int >(3_D, {
-		{0, 1, 4},
-		{9, 16, 25},
-		{36, 49, 64}
-	});
-
-	constexpr auto ref1_element_plus1 = make_square_matrix< int >(3_D, {
-		{1, 2, 3},
-		{4, 5, 6},
-		{7, 8, 9}
-	});
-
-	constexpr auto ref1_element_minus1 = make_square_matrix< int >(3_D, {
-		{-1, 0, 1},
-		{2, 3, 4},
-		{5, 6, 7}
-	});
-
-	constexpr auto ref_all1 = make_square_matrix< int >(3_D, {
-		{1, 1, 1},
-		{1, 1, 1},
-		{1, 1, 1}
-	});
-
-	constexpr auto ref_all3 = make_square_matrix< int >(3_D, {
-		{3, 3, 3},
-		{3, 3, 3},
-		{3, 3, 3}
-	});
-
-	constexpr auto ref_all9 = make_square_matrix< int >(3_D, {
-		{9, 9, 9},
-		{9, 9, 9},
-		{9, 9, 9}
-	});
-
-	constexpr auto ref_mod = make_square_matrix< int >(3_D, {
-		{2, 3, 4},
-		{5, 6, 7},
-		{8, 9, 10}
-	});
-
-	constexpr auto ref_all9_mod_res = make_square_matrix< int >(3_D, {
-		{1, 0, 1},
-		{4, 3, 2},
-		{1, 0, 9}
-	});
-
-
+template < typename T >
+auto rt_id(T&& v){
+	return type_id_runtime(static_cast< T&& >(v));
 }
+
+template < typename T >
+auto const id = type_id< T >();
+
+
+constexpr auto ref1 = make_square_matrix< int >(3_D, {
+	{0, 1, 2},
+	{3, 4, 5},
+	{6, 7, 8}
+});
+
+constexpr auto ref2 = make_square_matrix< int >(3_D, {
+	{0, 2, 4},
+	{6, 8, 10},
+	{12, 14, 16}
+});
+
+constexpr auto ref3 = make_square_matrix< int >(3_D, {
+	{0, 3, 6},
+	{9, 12, 15},
+	{18, 21, 24}
+});
+
+constexpr auto ref1_mod3 = make_square_matrix< int >(3_D, {
+	{0, 1, 2},
+	{0, 1, 2},
+	{0, 1, 2}
+});
+
+constexpr auto ref1_square = make_square_matrix< int >(3_D, {
+	{0, 1, 4},
+	{9, 16, 25},
+	{36, 49, 64}
+});
+
+constexpr auto ref1_element_plus1 = make_square_matrix< int >(3_D, {
+	{1, 2, 3},
+	{4, 5, 6},
+	{7, 8, 9}
+});
+
+constexpr auto ref1_element_minus1 = make_square_matrix< int >(3_D, {
+	{-1, 0, 1},
+	{2, 3, 4},
+	{5, 6, 7}
+});
+
+constexpr auto ref_all1 = make_square_matrix< int >(3_D, {
+	{1, 1, 1},
+	{1, 1, 1},
+	{1, 1, 1}
+});
+
+constexpr auto ref_all3 = make_square_matrix< int >(3_D, {
+	{3, 3, 3},
+	{3, 3, 3},
+	{3, 3, 3}
+});
+
+constexpr auto ref_all9 = make_square_matrix< int >(3_D, {
+	{9, 9, 9},
+	{9, 9, 9},
+	{9, 9, 9}
+});
+
+constexpr auto ref_mod = make_square_matrix< int >(3_D, {
+	{2, 3, 4},
+	{5, 6, 7},
+	{8, 9, 10}
+});
+
+constexpr auto ref_all9_mod_res = make_square_matrix< int >(3_D, {
+	{1, 0, 1},
+	{4, 3, 2},
+	{1, 0, 9}
+});
 
 
 // TODO: also check non compile time versions
 // TODO: also check non square versions
+
+
+BOOST_AUTO_TEST_SUITE(suite_operator)
 
 
 BOOST_AUTO_TEST_CASE(test_element_plus_assign){

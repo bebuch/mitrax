@@ -19,54 +19,49 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-BOOST_AUTO_TEST_SUITE(suite_join)
-
-
-namespace{
-
-
-	template < typename T >
-	auto rt_id(T&& v){
-		return boost::typeindex::type_id_runtime(static_cast< T&& >(v));
-	}
-
-	template < typename T >
-	auto const id = boost::typeindex::type_id< T >();
-
-
-	template < typename T, typename U >
-	constexpr bool equal(T const& a, U const& b){
-		using std::abs;
-		return abs(a - b) < 0.00001;
-	}
-
-	template < typename T, typename U >
-	constexpr bool matrix_equal(T const& a, U const& b){
-		using std::abs;
-		auto m = a - b;
-		return std::any_of(m.begin(), m.end(), [](auto v){
-			return v < 0.00001;
-		});
-	}
-
-
-	constexpr auto ref3x3 = make_matrix(3_C, 3_R, {
-		{0, 1, 2},
-		{3, 4, 5},
-		{6, 7, 8}
-	});
-
-
-	constexpr auto ref6x6 = make_matrix(6_C, 6_R, {
-		{0, 1, 2, 0, 1, 2},
-		{3, 4, 5, 3, 4, 5},
-		{6, 7, 8, 6, 7, 8},
-		{0, 1, 2, 0, 1, 2},
-		{3, 4, 5, 3, 4, 5},
-		{6, 7, 8, 6, 7, 8}
-	});
-
+template < typename T >
+auto rt_id(T&& v){
+	return boost::typeindex::type_id_runtime(static_cast< T&& >(v));
 }
+
+template < typename T >
+auto const id = boost::typeindex::type_id< T >();
+
+
+template < typename T, typename U >
+constexpr bool equal(T const& a, U const& b){
+	using std::abs;
+	return abs(a - b) < 0.00001;
+}
+
+template < typename T, typename U >
+constexpr bool matrix_equal(T const& a, U const& b){
+	using std::abs;
+	auto m = a - b;
+	return std::any_of(m.begin(), m.end(), [](auto v){
+		return v < 0.00001;
+	});
+}
+
+
+constexpr auto ref3x3 = make_matrix(3_C, 3_R, {
+	{0, 1, 2},
+	{3, 4, 5},
+	{6, 7, 8}
+});
+
+
+constexpr auto ref6x6 = make_matrix(6_C, 6_R, {
+	{0, 1, 2, 0, 1, 2},
+	{3, 4, 5, 3, 4, 5},
+	{6, 7, 8, 6, 7, 8},
+	{0, 1, 2, 0, 1, 2},
+	{3, 4, 5, 3, 4, 5},
+	{6, 7, 8, 6, 7, 8}
+});
+
+
+BOOST_AUTO_TEST_SUITE(suite_join)
 
 
 BOOST_AUTO_TEST_CASE(test_join_ct){

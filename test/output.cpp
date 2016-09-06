@@ -21,44 +21,38 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-BOOST_AUTO_TEST_SUITE(suite_output)
+constexpr int m33[3][3] = {
+	{1, 2, 3},
+	{4, 5, 6},
+	{7, 8, 9}
+};
 
+constexpr char const* m33_ref = "[3,3]((1,2,3),(4,5,6),(7,8,9))";
 
-namespace{
+constexpr int m23[3][2] = {
+	{1, 2},
+	{4, 5},
+	{7, 8}
+};
 
+constexpr char const* m23_ref = "[2,3]((1,2),(4,5),(7,8))";
 
-	constexpr int m33[3][3] = {
-		{1, 2, 3},
-		{4, 5, 6},
-		{7, 8, 9}
-	};
+constexpr int m32[2][3] = {
+	{1, 2, 3},
+	{4, 5, 6}
+};
 
-	constexpr char const* m33_ref = "[3,3]((1,2,3),(4,5,6),(7,8,9))";
+constexpr char const* m32_ref = "[3,2]((1,2,3),(4,5,6))";
 
-	constexpr int m23[3][2] = {
-		{1, 2},
-		{4, 5},
-		{7, 8}
-	};
-
-	constexpr char const* m23_ref = "[2,3]((1,2),(4,5),(7,8))";
-
-	constexpr int m32[2][3] = {
-		{1, 2, 3},
-		{4, 5, 6}
-	};
-
-	constexpr char const* m32_ref = "[3,2]((1,2,3),(4,5,6))";
-
-	template < typename T >
-	std::string out(T const& m){
-		std::ostringstream os;
-		os << m;
-		return os.str();
-	}
-
-
+template < typename T >
+std::string out(T const& m){
+	std::ostringstream os;
+	os << m;
+	return os.str();
 }
+
+
+BOOST_AUTO_TEST_SUITE(suite_output)
 
 
 BOOST_AUTO_TEST_CASE(test_output_3x3){
