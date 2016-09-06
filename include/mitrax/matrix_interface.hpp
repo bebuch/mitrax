@@ -26,6 +26,11 @@ namespace mitrax{
 	public:
 		// TODO: Check if M is a matrix_impl type!!!
 
+
+		static constexpr size_t ct_cols = Cols;
+		static constexpr size_t ct_rows = Rows;
+
+
 		/// \brief Type of the data that administrates the matrix
 		using value_type = value_type_t< M >;
 
