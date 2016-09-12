@@ -73,11 +73,13 @@ namespace mitrax{
 	using raw_heap_row_vector = raw_heap_matrix< T, Cols, 1 >;
 
 
-	using bitmap_col_t = col_t< false, 0 >;
+	using rt_col_t = col_t< false, 0 >;
 
-	using bitmap_row_t = row_t< false, 0 >;
+	using rt_row_t = row_t< false, 0 >;
 
-	using bitmap_dims_t = dims_t< 0, 0 >;
+	using rt_dim_t = dim_t< false, 0 >;
+
+	using rt_dims_t = dims_t< 0, 0 >;
 
 
 }
