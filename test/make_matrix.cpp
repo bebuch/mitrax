@@ -158,6 +158,88 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_raw_matrix_types, T, types){
 		id< raw_square_matrix< T, 4 > > ==
 		id< matrix< detail::raw_matrix_impl< T, 4, 4 >, 4, 4 > >
 	));
+
+
+	BOOST_TEST((
+		id< raw_heap_matrix< T, 3, 4 > > ==
+		id< matrix< detail::raw_heap_matrix_impl< T, 3, 4 >, 3, 4 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_matrix< T, 0, 4 > > ==
+		id< matrix< detail::raw_matrix_impl< T, 0, 4 >, 0, 4 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_matrix< T, 3, 0 > > ==
+		id< matrix< detail::raw_matrix_impl< T, 3, 0 >, 3, 0 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_matrix< T, 0, 0 > > ==
+		id< matrix< detail::raw_matrix_impl< T, 0, 0 >, 0, 0 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_col_vector< T, 4 > > ==
+		id< col_vector< detail::raw_heap_matrix_impl< T, 1, 4 >, 4 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_col_vector< T, 0 > > ==
+		id< col_vector< detail::raw_matrix_impl< T, 1, 0 >, 0 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_col_vector< T, 4 > > ==
+		id< matrix< detail::raw_heap_matrix_impl< T, 1, 4 >, 1, 4 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_col_vector< T, 0 > > ==
+		id< matrix< detail::raw_matrix_impl< T, 1, 0 >, 1, 0 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_row_vector< T, 4 > > ==
+		id< row_vector< detail::raw_heap_matrix_impl< T, 4, 1 >, 4 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_row_vector< T, 0 > > ==
+		id< row_vector< detail::raw_matrix_impl< T, 0, 1 >, 0 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_row_vector< T, 4 > > ==
+		id< matrix< detail::raw_heap_matrix_impl< T, 4, 1 >, 4, 1 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_row_vector< T, 0 > > ==
+		id< matrix< detail::raw_matrix_impl< T, 0, 1 >, 0, 1 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_square_matrix< T, 4 > > ==
+		id< square_matrix< detail::raw_heap_matrix_impl< T, 4, 4 >, 4 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_square_matrix< T, 0 > > ==
+		id< square_matrix< detail::raw_matrix_impl< T, 0, 0 >, 0 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_square_matrix< T, 4 > > ==
+		id< matrix< detail::raw_heap_matrix_impl< T, 4, 4 >, 4, 4 > >
+	));
+
+	BOOST_TEST((
+		id< raw_heap_square_matrix< T, 0 > > ==
+		id< matrix< detail::raw_matrix_impl< T, 0, 0 >, 0, 0 > >
+	));
+
 }
 
 

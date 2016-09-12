@@ -33,11 +33,29 @@ namespace mitrax{
 
 	namespace detail{
 
+
 		template < typename T, size_t Cols, size_t Rows >
 		class raw_matrix_impl;
 
 		template < typename T, size_t Cols, size_t Rows >
 		class raw_heap_matrix_impl;
+
+		template < typename T, size_t Cols, size_t Rows, typename = void >
+		struct raw_heap_matrix_picker{
+			using type = matrix< detail::raw_heap_matrix_impl< T, Cols, Rows >,
+				Cols, Rows >;
+		};
+
+		template < typename T, size_t Cols, size_t Rows >
+		struct raw_heap_matrix_picker< T, Cols, Rows,
+			std::enable_if_t< Cols == 0 || Rows == 0 > >{
+			using type = matrix< raw_matrix_impl< T, Cols, Rows >, Cols, Rows >;
+		};
+
+		template < typename T, size_t Cols, size_t Rows >
+		using raw_heap_matrix_picker_t =
+			typename raw_heap_matrix_picker< T, Cols, Rows >::type;
+
 
 	}
 
@@ -60,8 +78,7 @@ namespace mitrax{
 
 
 	template < typename T, size_t Cols, size_t Rows >
-	using raw_heap_matrix =
-		matrix< detail::raw_heap_matrix_impl< T, Cols, Rows >, Cols, Rows >;
+	using raw_heap_matrix = detail::raw_heap_matrix_picker_t< T, Cols, Rows >;
 
 	template < typename T, size_t N >
 	using raw_heap_square_matrix = raw_heap_matrix< T, N, N >;
