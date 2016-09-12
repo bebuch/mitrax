@@ -145,7 +145,7 @@ namespace mitrax{
 			static_cast< double >(regions.rows() - 1_R);
 
 
-		auto x_bounds = make_col_vector_fn(regions.cols().as_row() * 2_R,
+		auto x_bounds = make_vector_fn(regions.cols().as_row() * 2_R,
 			[x_factor, &region_dims](size_t i){
 				auto p = static_cast< size_t >((i / 2) * x_factor + 0.5);
 				bool begin = i % 2 == 0;
@@ -156,7 +156,7 @@ namespace mitrax{
 			}
 		);
 
-		auto y_bounds = make_col_vector_fn(regions.rows() * 2_R,
+		auto y_bounds = make_vector_fn(regions.rows() * 2_R,
 			[y_factor, &region_dims](size_t i){
 				auto p = static_cast< size_t >((i / 2) * y_factor + 0.5);
 				bool begin = i % 2 == 0;

@@ -225,7 +225,7 @@ namespace mitrax{
 
 			template < typename F, bool Nct, size_t N >
 			static constexpr raw_col_vector< detail::fn_i< F >, Nct ? N : 0 >
-			make_col_vector_fn(row_t< Nct, N > r, F&& f){
+			make_vector_fn(row_t< Nct, N > r, F&& f){
 				using namespace literals;
 				return detail::raw_matrix_impl
 					< detail::fn_i< F >, 1, Nct ? N : 0 >(
@@ -237,7 +237,7 @@ namespace mitrax{
 
 			template < typename F, bool Nct, size_t N >
 			static constexpr raw_row_vector< detail::fn_i< F >, Nct ? N : 0 >
-			make_row_vector_fn(col_t< Nct, N > c, F&& f){
+			make_vector_fn(col_t< Nct, N > c, F&& f){
 				using namespace literals;
 				return detail::raw_matrix_impl
 					< detail::fn_i< F >, Nct ? N : 0, 1 >(
@@ -289,7 +289,7 @@ namespace mitrax{
 			template < typename T, bool Nct, size_t N >
 			static constexpr
 			raw_col_vector< std::remove_cv_t< T >, Nct ? N : 0 >
-			make_col_vector(row_t< Nct, N > r, T(&&v)[N]){
+			make_vector(row_t< Nct, N > r, T(&&v)[N]){
 				using namespace literals;
 				return detail::raw_matrix_impl<
 					std::remove_cv_t< T >, 1, Nct ? N : 0
@@ -302,7 +302,7 @@ namespace mitrax{
 			template < typename T, bool Nct, size_t N >
 			static constexpr
 			raw_col_vector< std::remove_cv_t< T >, Nct ? N : 0 >
-			make_col_vector(row_t< Nct, N > r, T(&v)[N]){
+			make_vector(row_t< Nct, N > r, T(&v)[N]){
 				using namespace literals;
 				return detail::raw_matrix_impl<
 					std::remove_cv_t< T >, 1, Nct ? N : 0
@@ -315,7 +315,7 @@ namespace mitrax{
 			template < typename T, bool Nct, size_t N >
 			static constexpr
 			raw_row_vector< std::remove_cv_t< T >, Nct ? N : 0 >
-			make_row_vector(col_t< Nct, N > c, T(&&v)[N]){
+			make_vector(col_t< Nct, N > c, T(&&v)[N]){
 				using namespace literals;
 				return detail::raw_matrix_impl<
 					std::remove_cv_t< T >, Nct ? N : 0, 1
@@ -328,7 +328,7 @@ namespace mitrax{
 			template < typename T, bool Nct, size_t N >
 			static constexpr
 			raw_row_vector< std::remove_cv_t< T >, Nct ? N : 0 >
-			make_row_vector(col_t< Nct, N > c, T(&v)[N]){
+			make_vector(col_t< Nct, N > c, T(&v)[N]){
 				using namespace literals;
 				return detail::raw_matrix_impl<
 					std::remove_cv_t< T >, Nct ? N : 0, 1
@@ -358,7 +358,7 @@ namespace mitrax{
 
 			template < typename F, bool Nct, size_t N >
 			static raw_heap_col_vector< detail::fn_i< F >, Nct ? N : 0 >
-			make_col_vector_fn(row_t< Nct, N > r, F&& f){
+			make_vector_fn(row_t< Nct, N > r, F&& f){
 				using namespace literals;
 				return detail::raw_heap_matrix_impl<
 					detail::fn_i< F >, 1, Nct ? N : 0
@@ -371,7 +371,7 @@ namespace mitrax{
 
 			template < typename F, bool Nct, size_t N >
 			static raw_heap_row_vector< detail::fn_i< F >, Nct ? N : 0 >
-			make_row_vector_fn(col_t< Nct, N > c, F&& f){
+			make_vector_fn(col_t< Nct, N > c, F&& f){
 				using namespace literals;
 				return detail::raw_heap_matrix_impl<
 					detail::fn_i< F >, Nct ? N : 0, 1
@@ -422,7 +422,7 @@ namespace mitrax{
 
 			template < typename T, bool Nct, size_t N >
 			static raw_heap_col_vector< std::remove_cv_t< T >, Nct ? N : 0 >
-			make_col_vector(row_t< Nct, N > r, T(&&v)[N]){
+			make_vector(row_t< Nct, N > r, T(&&v)[N]){
 				using namespace literals;
 				return detail::raw_heap_matrix_impl<
 					std::remove_cv_t< T >, 1, Nct ? N : 0
@@ -434,7 +434,7 @@ namespace mitrax{
 
 			template < typename T, bool Nct, size_t N >
 			static raw_heap_col_vector< std::remove_cv_t< T >, Nct ? N : 0 >
-			make_col_vector(row_t< Nct, N > r, T(&v)[N]){
+			make_vector(row_t< Nct, N > r, T(&v)[N]){
 				using namespace literals;
 				return detail::raw_heap_matrix_impl<
 					std::remove_cv_t< T >, 1, Nct ? N : 0
@@ -446,7 +446,7 @@ namespace mitrax{
 
 			template < typename T, bool Nct, size_t N >
 			static raw_heap_row_vector< std::remove_cv_t< T >, Nct ? N : 0 >
-			make_row_vector(col_t< Nct, N > c, T(&&v)[N]){
+			make_vector(col_t< Nct, N > c, T(&&v)[N]){
 				using namespace literals;
 				return detail::raw_heap_matrix_impl<
 					std::remove_cv_t< T >, Nct ? N : 0, 1
@@ -458,7 +458,7 @@ namespace mitrax{
 
 			template < typename T, bool Nct, size_t N >
 			static raw_heap_row_vector< std::remove_cv_t< T >, Nct ? N : 0 >
-			make_row_vector(col_t< Nct, N > c, T(&v)[N]){
+			make_vector(col_t< Nct, N > c, T(&v)[N]){
 				using namespace literals;
 				return detail::raw_heap_matrix_impl<
 					std::remove_cv_t< T >, Nct ? N : 0, 1
@@ -507,19 +507,19 @@ namespace mitrax{
 	template <
 		typename F, bool Nct, size_t N,
 		typename Maker = maker::std_t
-	> constexpr auto make_col_vector_fn(
+	> constexpr auto make_vector_fn(
 		row_t< Nct, N > r, F&& f, Maker = maker::std
 	){
-		return Maker::make_col_vector_fn(r, static_cast< F&& >(f));
+		return Maker::make_vector_fn(r, static_cast< F&& >(f));
 	}
 
 	template <
 		typename F, bool Nct, size_t N,
 		typename Maker = maker::std_t
-	> constexpr auto make_row_vector_fn(
+	> constexpr auto make_vector_fn(
 		col_t< Nct, N > c, F&& f, Maker = maker::std
 	){
-		return Maker::make_row_vector_fn(c, static_cast< F&& >(f));
+		return Maker::make_vector_fn(c, static_cast< F&& >(f));
 	}
 
 	template <
@@ -629,7 +629,7 @@ namespace mitrax{
 	template <
 		typename T, bool Nct, size_t N,
 		typename Maker = maker::std_t
-	> constexpr auto make_col_vector_v(
+	> constexpr auto make_vector_v(
 		row_t< Nct, N > r, T const& v = T(), Maker maker = maker::std
 	){
 		using namespace literals;
@@ -639,26 +639,26 @@ namespace mitrax{
 	template <
 		typename T, bool Nct, size_t N,
 		typename Maker = maker::std_t
-	> constexpr auto make_col_vector(
+	> constexpr auto make_vector(
 		row_t< Nct, N > r, T(&&v)[N], Maker = maker::std
 	){
-		return Maker::make_col_vector(r, std::move(v));
+		return Maker::make_vector(r, std::move(v));
 	}
 
 	template <
 		typename T, bool Nct, size_t N,
 		typename Maker = maker::std_t
-	> constexpr auto make_col_vector(
+	> constexpr auto make_vector(
 		row_t< Nct, N > r, T(&v)[N], Maker = maker::std
 	){
-		return Maker::make_col_vector(r, v);
+		return Maker::make_vector(r, v);
 	}
 
 
 	template <
 		typename T, bool Nct, size_t N,
 		typename Maker = maker::std_t
-	> constexpr auto make_row_vector_v(
+	> constexpr auto make_vector_v(
 		col_t< Nct, N > c, T const& v = T(), Maker maker = maker::std
 	){
 		using namespace literals;
@@ -668,19 +668,19 @@ namespace mitrax{
 	template <
 		typename T, bool Nct, size_t N,
 		typename Maker = maker::std_t
-	> constexpr auto make_row_vector(
+	> constexpr auto make_vector(
 		col_t< Nct, N > c, T(&&v)[N], Maker = maker::std
 	){
-		return Maker::make_row_vector(c, std::move(v));
+		return Maker::make_vector(c, std::move(v));
 	}
 
 	template <
 		typename T, bool Nct, size_t N,
 		typename Maker = maker::std_t
-	> constexpr auto make_row_vector(
+	> constexpr auto make_vector(
 		col_t< Nct, N > c, T(&v)[N], Maker = maker::std
 	){
-		return Maker::make_row_vector(c, v);
+		return Maker::make_vector(c, v);
 	}
 
 	template <

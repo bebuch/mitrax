@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_CASE(test_gaussian_elimination){
 		{ 0  , -0.5,  0.9}
 	});
 
-	constexpr auto v = make_col_vector< float >(3_R, {7, 12.5, 16.5});
+	constexpr auto v = make_vector< float >(3_R, {7, 12.5, 16.5});
 
 	auto res = gaussian_elimination(m, v);
 

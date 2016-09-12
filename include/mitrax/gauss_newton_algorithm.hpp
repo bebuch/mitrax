@@ -37,7 +37,7 @@ namespace mitrax{
 		for(;;){
 			std::cout << arg << std::endl;
 
-			auto r = make_col_vector_fn(rows(data.size()),
+			auto r = make_vector_fn(rows(data.size()),
 				[&data, &arg, &f](size_t y){
 					return f(arg, data[y]);
 				});
@@ -85,7 +85,7 @@ namespace mitrax{
 
 		auto arg = start_value;
 
-		auto r = make_col_vector_fn(rows(data.size()),
+		auto r = make_vector_fn(rows(data.size()),
 			[&data, &arg, &f](size_t y){
 				return f(arg, data[y]);
 			});
@@ -114,7 +114,7 @@ namespace mitrax{
 					-trans_d * r
 				);
 
-				auto r_new = make_col_vector_fn(rows(data.size()),
+				auto r_new = make_vector_fn(rows(data.size()),
 					[&data, &arg, &s, &f](size_t y){
 						return f(arg + s, data[y]);
 					});

@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_SUITE(suite_gauss_newton_algorithm)
 // 		std::make_tuple(5., 5.)
 // 	};
 //
-// 	constexpr auto start = make_col_vector< double >(2_R, 1);
+// 	constexpr auto start = make_vector< double >(2_R, 1);
 //
 // 	std::cout << "gauss-newton:" << std::endl;
 // 	auto res = gauss_newton_algorithm(f, start, 1e-10, data);
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_SUITE(suite_gauss_newton_algorithm)
 // 		std::make_tuple(5., 5.)
 // 	};
 //
-// 	constexpr auto start = make_col_vector< double >(2_R, 1);
+// 	constexpr auto start = make_vector< double >(2_R, 1);
 //
 // 	std::cout << "levenberg-marquardt:" << std::endl;
 // 	auto res = levenberg_marquardt_algorithm(
@@ -98,13 +98,13 @@ BOOST_AUTO_TEST_SUITE(suite_gauss_newton_algorithm)
 // 		};
 //
 // 	boost::container::vector< std::tuple< value_type > > data{
-// 		std::make_tuple(make_col_vector< double >(2_R, {2, 2})),
-// 		std::make_tuple(make_col_vector< double >(2_R, {4, 4})),
-// 		std::make_tuple(make_col_vector< double >(2_R, {2, 4})),
-// 		std::make_tuple(make_col_vector< double >(2_R, {4, 2}))
+// 		std::make_tuple(make_vector< double >(2_R, {2, 2})),
+// 		std::make_tuple(make_vector< double >(2_R, {4, 4})),
+// 		std::make_tuple(make_vector< double >(2_R, {2, 4})),
+// 		std::make_tuple(make_vector< double >(2_R, {4, 2}))
 // 	};
 //
-// 	constexpr auto start = make_col_vector< double >(3_R, 1);
+// 	constexpr auto start = make_vector< double >(3_R, 1);
 //
 // 	std::cout << "gauss-newton:" << std::endl;
 // 	auto res = gauss_newton_algorithm(f, start, 1e-10, data);
@@ -130,13 +130,13 @@ BOOST_AUTO_TEST_SUITE(suite_gauss_newton_algorithm)
 // 		};
 //
 // 	boost::container::vector< std::tuple< value_type > > data{
-// 		std::make_tuple(make_col_vector< double >(2_R, {2, 2})),
-// 		std::make_tuple(make_col_vector< double >(2_R, {4, 4})),
-// 		std::make_tuple(make_col_vector< double >(2_R, {2, 4})),
-// 		std::make_tuple(make_col_vector< double >(2_R, {4, 2}))
+// 		std::make_tuple(make_vector< double >(2_R, {2, 2})),
+// 		std::make_tuple(make_vector< double >(2_R, {4, 4})),
+// 		std::make_tuple(make_vector< double >(2_R, {2, 4})),
+// 		std::make_tuple(make_vector< double >(2_R, {4, 2}))
 // 	};
 //
-// 	constexpr auto start = make_col_vector< double >(3_R, 1);
+// 	constexpr auto start = make_vector< double >(3_R, 1);
 //
 // 	std::cout << "levenberg-marquardt:" << std::endl;
 // 	auto res = levenberg_marquardt_algorithm(
@@ -151,7 +151,7 @@ BOOST_AUTO_TEST_SUITE(suite_gauss_newton_algorithm)
 // }
 
 // BOOST_AUTO_TEST_CASE(test_gauss_newton_algorithm){
-// 	constexpr auto start = make_col_vector< double >(8_R, 1);
+// 	constexpr auto start = make_vector< double >(8_R, 1);
 //
 // 	auto f = [](
 // 			raw_col_vector< double, 8 > const& p,
@@ -174,20 +174,20 @@ BOOST_AUTO_TEST_SUITE(suite_gauss_newton_algorithm)
 //
 // 	boost::container::vector< std::pair< value_type, value_type > > data{
 // 		std::make_tuple(
-// 			make_col_vector< double >(3_R, {5, 5, 1}),
-// 			make_col_vector< double >(3_R, {6, 6, 1})
+// 			make_vector< double >(3_R, {5, 5, 1}),
+// 			make_vector< double >(3_R, {6, 6, 1})
 // 		),
 // 		std::make_tuple(
-// 			make_col_vector< double >(3_R, {5, 3, 1}),
-// 			make_col_vector< double >(3_R, {6, 4, 1})
+// 			make_vector< double >(3_R, {5, 3, 1}),
+// 			make_vector< double >(3_R, {6, 4, 1})
 // 		),
 // 		std::make_tuple(
-// 			make_col_vector< double >(3_R, {3, 5, 1}),
-// 			make_col_vector< double >(3_R, {4, 6, 1})
+// 			make_vector< double >(3_R, {3, 5, 1}),
+// 			make_vector< double >(3_R, {4, 6, 1})
 // 		),
 // 		std::make_tuple(
-// 			make_col_vector< double >(3_R, {3, 3, 1}),
-// 			make_col_vector< double >(3_R, {4, 4, 1})
+// 			make_vector< double >(3_R, {3, 3, 1}),
+// 			make_vector< double >(3_R, {4, 4, 1})
 // 		)
 // 	};
 //
