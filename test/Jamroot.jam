@@ -40,6 +40,12 @@ exe dim
 	/boost//unit_test_framework
 	;
 
+exe concepts
+	:
+	concepts.cpp
+	/boost//unit_test_framework
+	;
+
 exe make_matrix
 	:
 	make_matrix.cpp
