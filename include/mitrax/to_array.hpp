@@ -19,76 +19,68 @@ namespace mitrax{ namespace detail{
 
 
 	template < typename F >
-	using fn_xy =
-		std::decay_t< decltype(std::declval< F >()(size_t(), size_t())) >;
+	struct fn_xy{
+		using type =
+			std::decay_t< decltype(std::declval< F >()(size_t(), size_t())) >;
+
+		F f;
+
+		constexpr decltype(auto)
+		operator()(size_t x, size_t y)const
+		noexcept(noexcept(std::declval< F >()(size_t(), size_t()))){
+			return f(x, y);
+		}
+	};
 
 	template < typename F >
-	using fn_i = std::decay_t< decltype(std::declval< F >()(size_t())) >;
+	using fn_xy_t = typename fn_xy< F >::type;
 
 
-	template < typename T, size_t N, size_t ... I >
-	constexpr array_s< std::remove_cv_t< T >, N >
-	to_array(T(&a)[N], std::index_sequence< I ... >){
-		return {{ a[I] ... }};
+	template < typename F >
+	struct fn_i{
+		using type = std::decay_t< decltype(std::declval< F >()(size_t())) >;
+
+		F f;
+
+		constexpr decltype(auto) operator()(size_t i)const
+		noexcept(noexcept(std::declval< F >()(size_t()))){
+			return f(i);
+		}
+	};
+
+	template < typename F >
+	using fn_i_t = typename fn_i< F >::type;
+
+
+	template < typename Iter, size_t ... I >
+	constexpr array_s< iter_type_t< Iter >, sizeof...(I) >
+	to_array(Iter iter, std::index_sequence< I ... >){
+		return {{ iter[I] ... }};
 	}
 
-	template < typename T, size_t N, size_t ... I >
-	constexpr array_s< std::remove_cv_t< T >, N >
-	to_array(T(&&a)[N], std::index_sequence< I ... >){
-		return {{ std::move(a[I]) ... }};
-	}
-
-	template < typename T, size_t C, size_t R, size_t ... I >
-	constexpr array_s< std::remove_cv_t< T >, C * R >
-	to_array(T(&a)[R][C], std::index_sequence< I ... >){
-		return {{ a[I / C][I % C] ... }};
-	}
-
-	template < typename T, size_t C, size_t R, size_t ... I >
-	constexpr array_s< std::remove_cv_t< T >, C * R >
-	to_array(T(&&a)[R][C], std::index_sequence< I ... >){
-		return {{ std::move(a[I / C][I % C]) ... }};
-	}
-
-	template < size_t, typename T >
-	constexpr T const& nop(T const& v){ return v; }
+	template < typename T >
+	constexpr T const& nop(T const& v, size_t)noexcept{ return v; }
 
 	template < typename T, size_t ... I >
 	constexpr array_s< std::remove_cv_t< T >, sizeof...(I) >
 	init_array(T const& v, std::index_sequence< I ... >){
-		return {{ nop< I >(v) ... }};
+		return {{ nop(v, I) ... }};
 	}
 
 	template < size_t C, size_t R, typename F, size_t ... I >
-	constexpr auto fn_xy_to_array(F&& f, std::index_sequence< I ... >){
-		return array_s< fn_xy< F >, sizeof...(I) >{{ f(I % C, I / C) ... }};
+	constexpr auto fn_to_array(fn_xy< F >&& f, std::index_sequence< I ... >){
+		return array_s< fn_xy_t< F >, sizeof...(I) >{{ f(I % C, I / C) ... }};
 	}
 
-	template < typename F, size_t ... I >
-	constexpr auto fn_i_to_array(F&& f, std::index_sequence< I ... >){
-		return array_s< fn_i< F >, sizeof...(I) >{{ f(I) ... }};
-	}
-
-
-	template < typename T, size_t N >
-	constexpr auto to_array(T(&&v)[N]){
-		return to_array(std::move(v), std::make_index_sequence< N >());
-	}
-
-	template < typename T, size_t N >
-	constexpr auto to_array(T(&v)[N]){
-		return to_array(v, std::make_index_sequence< N >());
+	template < size_t C, size_t R, typename F, size_t ... I >
+	constexpr auto fn_to_array(fn_i< F >&& f, std::index_sequence< I ... >){
+		return array_s< fn_i_t< F >, sizeof...(I) >{{ f(I) ... }};
 	}
 
 
-	template < typename T, size_t C, size_t R >
-	constexpr auto to_array(T(&&v)[R][C]){
-		return to_array(std::move(v), std::make_index_sequence< C * R >());
-	}
-
-	template < typename T, size_t C, size_t R >
-	constexpr auto to_array(T(&v)[R][C]){
-		return to_array(v, std::make_index_sequence< C * R >());
+	template < size_t N, typename Iter >
+	constexpr auto to_array(Iter iter){
+		return to_array(iter, std::make_index_sequence< N >());
 	}
 
 	template < size_t N, typename T >
@@ -97,13 +89,9 @@ namespace mitrax{ namespace detail{
 	}
 
 	template < size_t C, size_t R, typename F >
-	constexpr auto fn_xy_to_array(F&& f){
-		return fn_xy_to_array< C, R >(f, std::make_index_sequence< C * R >());
-	}
-
-	template < size_t N, typename F >
-	constexpr auto fn_i_to_array(F&& f){
-		return fn_i_to_array(f, std::make_index_sequence< N >());
+	constexpr auto fn_to_array(F&& f){
+		return fn_to_array< C, R >(
+			static_cast< F&& >(f), std::make_index_sequence< C * R >());
 	}
 
 

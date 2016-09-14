@@ -1,18 +1,20 @@
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Copyright (c) 2015-2016 Benjamin Buch
 //
 // https://github.com/bebuch/mitrax
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 #define BOOST_TEST_MODULE mitrax make_matrix
 #include <boost/test/unit_test.hpp>
 #include <boost/mpl/list.hpp>
 
 #include <mitrax/make_matrix.hpp>
+#include <mitrax/output.hpp>
 
 #include <complex>
+#include <iostream>
 
 
 using namespace mitrax;
@@ -307,7 +309,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_raw_matrix_3x3, T, types){
 	auto m46 = make_matrix_fn(3_D_rt, fn);
 	constexpr auto m47 = make_matrix_fn(dims(3_D), fn);
 	auto m48 = make_matrix_fn(dims(3_D_rt), fn);
-
 
 	BOOST_TEST((rt_id(m01) == id< raw_matrix< T, 3, 3 > >));
 	BOOST_TEST((rt_id(m02) == id< raw_matrix< T, 0, 3 > >));

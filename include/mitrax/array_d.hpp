@@ -105,53 +105,22 @@ namespace mitrax{ namespace detail{
 			size_ = N;
 		}
 
-		template < typename U, size_t N >
-		array_d(U(&&v)[N]):
-			value_(alloc_.allocate(N)),
-			size_(0)
-		{
-			std::uninitialized_copy_n(std::make_move_iterator(v), N, value_);
-			size_ = N;
-		}
-
-		template < typename U, size_t N >
-		array_d(U(&v)[N]):
-			value_(alloc_.allocate(N)),
-			size_(0)
-		{
-			std::uninitialized_copy_n(v, N, value_);
-			size_ = N;
-		}
-
-		template < typename U, size_t C, size_t R >
-		array_d(U(&&v)[R][C]):
-			value_(alloc_.allocate(C * R)),
-			size_(0)
-		{
-			for(size_t i = 0; i < R; ++i){
-				std::uninitialized_copy_n(
-					std::make_move_iterator(v[i]), C, value_ + i * C
-				);
-				size_ += C;
-			}
-		}
-
-		template < typename U, size_t C, size_t R >
-		array_d(U(&v)[R][C]):
-			value_(alloc_.allocate(C * R)),
-			size_(0)
-		{
-			for(size_t i = 0; i < R; ++i){
-				std::uninitialized_copy_n(v[i], C, value_ + i * C);
-				size_ += C;
-			}
-		}
-
-		template < typename F, bool Nct, size_t N >
-		array_d(dim_t< Nct, N > n, F&& f):
+		template < typename Iter >
+		array_d(Iter iter, size_t n):
 			value_(alloc_.allocate(n)),
 			size_(0)
 		{
+			std::uninitialized_copy_n(iter, n, value_);
+			size_ = n;
+		}
+
+
+		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
+		array_d(col_t< Cct, C > c, row_t< Rct, R > r, fn_i< F >&& f):
+			value_(alloc_.allocate(size_t(c) * size_t(r))),
+			size_(0)
+		{
+			auto n = size_t(c) * size_t(r);
 			for(size_t i = 0; i < n; ++i){
 				alloc_.construct(value_ + i, f(i));
 				++size_;
@@ -159,13 +128,13 @@ namespace mitrax{ namespace detail{
 		}
 
 		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-		array_d(col_t< Cct, C > c, row_t< Rct, R > r, F&& f):
+		array_d(col_t< Cct, C > c, row_t< Rct, R > r, fn_xy< F >&& f):
 			value_(alloc_.allocate(size_t(c) * size_t(r))),
 			size_(0)
 		{
-			for(size_t ir = 0; ir < r; ++ir){
-				for(size_t ic = 0; ic < c; ++ic){
-					alloc_.construct(value_ + ir * c + ic, f(ic, ir));
+			for(size_t y = 0; y < r; ++y){
+				for(size_t x = 0; x < c; ++x){
+					alloc_.construct(value_ + y * c + x, f(x, y));
 					++size_;
 				}
 			}

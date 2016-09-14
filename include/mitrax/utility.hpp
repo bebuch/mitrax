@@ -10,6 +10,7 @@
 #define _mitrax__utility__hpp_INCLUDED_
 
 #include <cstddef>
+#include <iterator>
 #include <type_traits>
 
 
@@ -43,6 +44,9 @@ namespace mitrax{
 
 	template < bool I >
 	using bool_t = std::integral_constant< bool, I >;
+
+	template < typename Iter >
+	using iter_type_t = typename std::iterator_traits< Iter >::value_type;
 
 
 }

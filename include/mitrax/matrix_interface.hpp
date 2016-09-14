@@ -34,6 +34,9 @@ namespace mitrax{
 		/// \brief Type of the data that administrates the matrix
 		using value_type = value_type_t< M >;
 
+		/// \brief Type of the matrix implementation
+		using impl_type = M;
+
 		/// \brief Unsigned integral type (size_t)
 		using size_type = size_t;
 

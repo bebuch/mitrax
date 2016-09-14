@@ -40,6 +40,12 @@ exe dim
 	/boost//unit_test_framework
 	;
 
+exe flat_iterator
+	:
+	flat_iterator.cpp
+	/boost//unit_test_framework
+	;
+
 exe concepts
 	:
 	concepts.cpp

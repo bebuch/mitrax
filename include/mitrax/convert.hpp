@@ -80,7 +80,7 @@ namespace mitrax{
 		row_t< Rct1, R1 > r
 	){
 		return make_matrix_fn(c, r,
-			detail::make_convert_fn< detail::fn_xy< M > >(m));
+			detail::make_convert_fn< detail::fn_xy_t< M > >(m));
 	}
 
 	template <
@@ -92,7 +92,7 @@ namespace mitrax{
 		row_t< Rct1, R1 > r
 	){
 		return make_matrix_fn(c, r,
-			detail::make_convert_fn< detail::fn_xy< M > >(m));
+			detail::make_convert_fn< detail::fn_xy_t< M > >(m));
 	}
 
 	template <
@@ -104,7 +104,7 @@ namespace mitrax{
 		row_t< Rct1, R1 > r
 	){
 		return make_matrix_fn(c, r,
-			detail::make_convert_fn< detail::fn_xy< M > >(std::move(m)));
+			detail::make_convert_fn< detail::fn_xy_t< M > >(std::move(m)));
 	}
 
 	template < typename T, typename M, size_t C, size_t R >
@@ -126,19 +126,19 @@ namespace mitrax{
 	template < typename M, size_t C, size_t R >
 	constexpr auto as_raw_matrix(matrix< M, C, R >& m){
 		return make_matrix_fn(m.dims(),
-			detail::make_convert_fn< detail::fn_xy< M > >(m));
+			detail::make_convert_fn< detail::fn_xy_t< M > >(m));
 	}
 
 	template < typename M, size_t C, size_t R >
 	constexpr auto as_raw_matrix(matrix< M, C, R > const& m){
 		return make_matrix_fn(m.dims(),
-			detail::make_convert_fn< detail::fn_xy< M > >(m));
+			detail::make_convert_fn< detail::fn_xy_t< M > >(m));
 	}
 
 	template < typename M, size_t C, size_t R >
 	constexpr auto as_raw_matrix(matrix< M, C, R >&& m){
 		return make_matrix_fn(m.dims(),
-			detail::make_convert_fn< detail::fn_xy< M > >(std::move(m)));
+			detail::make_convert_fn< detail::fn_xy_t< M > >(std::move(m)));
 	}
 
 
