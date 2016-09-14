@@ -30,12 +30,12 @@ void BM_binaryop(benchmark::State& state, Op op, D1 d1, D2 d2){
 	auto m1 = make_matrix_fn(d1,
 		[&dis, &gen](auto, auto){
 			return dis(gen);
-		}, memory_heap);
+		}, maker::heap);
 
 	auto m2 = make_matrix_fn(d2,
 		[&dis, &gen](auto, auto){
 			return dis(gen);
-		}, memory_heap);
+		}, maker::heap);
 
 	while(state.KeepRunning()){
 		auto res = op(m1, m2);

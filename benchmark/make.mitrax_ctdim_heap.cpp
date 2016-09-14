@@ -24,7 +24,7 @@ void BM_make(benchmark::State& state, D1 d1){
 		auto m = make_matrix_fn(d1,
 			[&r, d1](auto x, auto y){
 				return r[y * d1.cols() + x];
-			}, memory_heap);
+			}, maker::heap);
 
 		benchmark::DoNotOptimize(m);
 	}

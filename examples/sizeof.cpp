@@ -17,7 +17,7 @@ int main(){
 	auto mcr = make_matrix_v< std::uint8_t >(2_C, 4_R_rt);
 	auto mrr = make_matrix_v< std::uint8_t >(2_C_rt, 4_R_rt);
 
-	auto hcc = make_matrix_v(2_C, 4_R, std::uint8_t(), memory_heap);
+	auto hcc = make_matrix_v(2_C, 4_R, std::uint8_t(), maker::heap);
 
 	std::cout << "sizeof(dcc) = " << sizeof(dcc) << std::endl;
 	std::cout << "sizeof(drc) = " << sizeof(drc) << std::endl;

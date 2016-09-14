@@ -43,8 +43,8 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_col_vector< value_type >(rows< 3 >(), {1, 1, 1}),
-			make_row_vector< value_type >(cols< 3 >(), {-1, 0, 1}),
+			make_vector< value_type >(rows< 3 >(), {1, 1, 1}),
+			make_vector< value_type >(cols< 3 >(), {-1, 0, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
@@ -54,8 +54,8 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_col_vector< value_type >(rows< 3 >(), {-1, 0, 1}),
-			make_row_vector< value_type >(cols< 3 >(), {1, 1, 1}),
+			make_vector< value_type >(rows< 3 >(), {-1, 0, 1}),
+			make_vector< value_type >(cols< 3 >(), {1, 1, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
@@ -66,8 +66,8 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_col_vector< value_type >(rows< 3 >(), {1, 2, 1}),
-			make_row_vector< value_type >(cols< 3 >(), {-1, 0, 1}),
+			make_vector< value_type >(rows< 3 >(), {1, 2, 1}),
+			make_vector< value_type >(cols< 3 >(), {-1, 0, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
@@ -77,8 +77,8 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_col_vector< value_type >(rows< 3 >(), {-1, 0, 1}),
-			make_row_vector< value_type >(cols< 3 >(), {1, 2, 1}),
+			make_vector< value_type >(rows< 3 >(), {-1, 0, 1}),
+			make_vector< value_type >(cols< 3 >(), {1, 2, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
@@ -89,8 +89,8 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_col_vector< value_type >(rows< 3 >(), {3, 10, 3}),
-			make_row_vector< value_type >(cols< 3 >(), {-1, 0, 1}),
+			make_vector< value_type >(rows< 3 >(), {3, 10, 3}),
+			make_vector< value_type >(cols< 3 >(), {-1, 0, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
@@ -100,8 +100,8 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_col_vector< value_type >(rows< 3 >(), {-1, 0, 1}),
-			make_row_vector< value_type >(cols< 3 >(), {3, 10, 3}),
+			make_vector< value_type >(rows< 3 >(), {-1, 0, 1}),
+			make_vector< value_type >(cols< 3 >(), {3, 10, 3}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
