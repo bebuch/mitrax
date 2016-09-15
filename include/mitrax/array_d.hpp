@@ -33,111 +33,57 @@ namespace mitrax{ namespace detail{
 
 		array_d(array_d const& a):
 			value_(alloc_.allocate(a.size_)),
-			size_(0)
+			size_(a.size_)
 		{
-			std::uninitialized_copy_n(a.value_, a.size_, value_);
-			size_ = a.size_;
+			init_by_iter(value_, size_, a.value_);
 		}
 
 		array_d(size_t size, T const& v = T()):
 			value_(alloc_.allocate(size)),
-			size_(0)
+			size_(size)
 		{
-			std::uninitialized_fill_n(value_, size, v);
-			size_ = size;
-		}
-
-		template < typename U >
-		array_d(array_d< U >&& a):
-			value_(alloc_.allocate(a.size())),
-			size_(0)
-		{
-			std::uninitialized_copy_n(
-				std::make_move_iterator(a.data()), a.size(), value_
-			);
-			size_ = a.size();
-		}
-
-		template < typename U >
-		array_d(array_d< U >& a):
-			value_(alloc_.allocate(a.size())),
-			size_(0)
-		{
-			std::uninitialized_copy_n(a.data(), a.size(), value_);
-			size_ = a.size();
-		}
-
-		template < typename U >
-		array_d(array_d< U > const& a):
-			value_(alloc_.allocate(a.size())),
-			size_(0)
-		{
-			std::uninitialized_copy_n(a.data(), a.size(), value_);
-			size_ = a.size();
+			init_by_value(value_, size_, v);
 		}
 
 		template < typename U, size_t N >
 		array_d(array_s< U, N >&& a):
 			value_(alloc_.allocate(N)),
-			size_(0)
+			size_(N)
 		{
-			std::uninitialized_copy_n(
-				std::make_move_iterator(a.data()), N, value_
-			);
-			size_ = N;
-		}
-
-		template < typename U, size_t N >
-		array_d(array_s< U, N >& a):
-			value_(alloc_.allocate(N)),
-			size_(0)
-		{
-			std::uninitialized_copy_n(a.data(), N, value_);
-			size_ = N;
+			init_by_iter(value_, size_, std::make_move_iterator(a.data()));
 		}
 
 		template < typename U, size_t N >
 		array_d(array_s< U, N > const& a):
 			value_(alloc_.allocate(N)),
-			size_(0)
+			size_(N)
 		{
-			std::uninitialized_copy_n(a.data(), N, value_);
-			size_ = N;
+			init_by_iter(value_, size_, a.data());
 		}
 
 		template < typename Iter >
 		array_d(Iter iter, size_t n):
 			value_(alloc_.allocate(n)),
-			size_(0)
+			size_(n)
 		{
-			std::uninitialized_copy_n(iter, n, value_);
-			size_ = n;
+			init_by_iter(value_, size_, iter);
 		}
 
 
 		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
 		array_d(col_t< Cct, C > c, row_t< Rct, R > r, fn_i< F >&& f):
 			value_(alloc_.allocate(size_t(c) * size_t(r))),
-			size_(0)
+			size_(size_t(c) * size_t(r))
 		{
-			auto n = size_t(c) * size_t(r);
-			for(size_t i = 0; i < n; ++i){
-				alloc_.construct(value_ + i, f(i));
-				++size_;
-			}
+			init_by_fn(value_, size_, std::move(f));
 		}
 
 		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
 		array_d(col_t< Cct, C > c, row_t< Rct, R > r, fn_xy< F >&& f):
 			value_(alloc_.allocate(size_t(c) * size_t(r))),
-			size_(0)
+			size_(size_t(c) * size_t(r))
 		{
-			for(size_t y = 0; y < r; ++y){
-				for(size_t x = 0; x < c; ++x){
-					alloc_.construct(value_ + y * c + x, f(x, y));
-					++size_;
-				}
-			}
+			init_by_fn(value_, size_, c, std::move(f));
 		}
 
 
@@ -202,12 +148,72 @@ namespace mitrax{ namespace detail{
 		T* value_;
 		size_t size_;
 
-		void destroy()noexcept{
-			auto first = reinterpret_cast< T* >(value_);
-			auto const last = value_ + size_;
+		template < typename Iter >
+		void init_by_iter(T*& value, size_t& size, Iter iter){
+			try{
+				std::uninitialized_copy_n(iter, size, value);
+			}catch(...){
+				alloc_.deallocate(value, size);
+				value = nullptr;
+				size = 0;
+				throw;
+			}
+		}
 
-			for(; first != last; ++first){
-				alloc_.destroy(first);
+		template < typename U >
+		void init_by_value(T*& value, size_t& size, U const& v){
+			try{
+				std::uninitialized_fill_n(value, size, v);
+			}catch(...){
+				alloc_.deallocate(value, size);
+				value = nullptr;
+				size = 0;
+				throw;
+			}
+		}
+
+		template < typename F >
+		void init_by_fn(T*& value, size_t& size, fn_i< F >&& f){
+			size_t n = 0;
+			try{
+				for(; n < size; ++n){
+					alloc_.construct(value + n, f(n));
+				}
+			}catch(...){
+				for(size_t i = 0; i < n; ++i){
+					alloc_.destroy(value + i);
+				}
+
+				alloc_.deallocate(value, size);
+				value = nullptr;
+				size = 0;
+				throw;
+			}
+		}
+
+		template < typename F >
+		void init_by_fn(T*& value, size_t& size, size_t cols, fn_xy< F >&& f){
+			size_t n = 0;
+			try{
+				for(; n < size; ++n){
+					alloc_.construct(value + n, f(n % cols, n / cols));
+				}
+			}catch(...){
+				for(size_t i = 0; i < n; ++i){
+					alloc_.destroy(value + i);
+				}
+
+				alloc_.deallocate(value, size);
+				value = nullptr;
+				size = 0;
+				throw;
+			}
+		}
+
+		void destroy()noexcept{
+			auto const last = value_ + size_;
+			for(auto i = value_; i != last; ++i){
+				alloc_.destroy(i);
 			}
 
 			alloc_.deallocate(value_, size_);
