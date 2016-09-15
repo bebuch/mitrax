@@ -104,13 +104,9 @@ namespace mitrax{ namespace detail{
 
 		array_d& operator=(array_d const& a){
 			auto value = alloc_.allocate(a.size_);
+			auto size = a.size_;
 
-			try{
-				std::uninitialized_copy_n(a.value_, a.size_, value);
-			}catch(...){
-				alloc_.deallocate(value, a.size_);
-				throw;
-			}
+			init_by_iter(value, size, a.value_);
 
 			destroy();
 
