@@ -70,18 +70,18 @@ namespace mitrax{ namespace detail{
 		}
 
 
-		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-		array_d(col_t< Cct, C > c, row_t< Rct, R > r, fn_i< F >&& f):
-			value_(alloc_.allocate(size_t(c) * size_t(r))),
-			size_(size_t(c) * size_t(r))
+		template < typename F >
+		array_d(size_t c, size_t r, fn_i< F >&& f):
+			value_(alloc_.allocate(c * r)),
+			size_(c * r)
 		{
 			init_by_fn(value_, size_, std::move(f));
 		}
 
-		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-		array_d(col_t< Cct, C > c, row_t< Rct, R > r, fn_xy< F >&& f):
-			value_(alloc_.allocate(size_t(c) * size_t(r))),
-			size_(size_t(c) * size_t(r))
+		template < typename F >
+		array_d(size_t c, size_t r, fn_xy< F >&& f):
+			value_(alloc_.allocate(c * r)),
+			size_(c * r)
 		{
 			init_by_fn(value_, size_, c, std::move(f));
 		}
