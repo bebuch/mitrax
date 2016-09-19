@@ -220,7 +220,7 @@ namespace mitrax{
 
 		struct heap_t{
 			template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-			auto by_function(col_t< Cct, C > c, row_t< Rct, R > r, F&& f){
+			auto by_function(col_t< Cct, C > c, row_t< Rct, R > r, F&& f)const{
 				using type = raw_heap_matrix<
 					typename F::type, Cct ? C : 0, Rct ? R : 0 >;
 
@@ -234,7 +234,7 @@ namespace mitrax{
 			template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 			auto by_value(
 				col_t< Cct, C > c, row_t< Rct, R > r, T const& v
-			){
+			)const{
 				using type = raw_heap_matrix<
 					std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >;
 
@@ -244,7 +244,9 @@ namespace mitrax{
 			}
 
 			template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
-			auto by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter){
+			auto by_sequence(
+				col_t< Cct, C > c, row_t< Rct, R > r, Iter iter
+			)const{
 				using type = raw_heap_matrix<
 					iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >;
 

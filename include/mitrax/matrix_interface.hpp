@@ -31,11 +31,11 @@ namespace mitrax{
 		static constexpr size_t ct_rows = Rows;
 
 
-		/// \brief Type of the data that administrates the matrix
-		using value_type = value_type_t< M >;
-
 		/// \brief Type of the matrix implementation
 		using impl_type = M;
+
+		/// \brief Type of the data that administrates the matrix
+		using value_type = value_type_t< M >;
 
 		/// \brief Unsigned integral type (size_t)
 		using size_type = size_t;
@@ -239,42 +239,6 @@ namespace mitrax{
 		}
 
 
-		template < bool Cct, size_t C, bool Rct, size_t R >
-		constexpr void resize(col_t< Cct, C > c, row_t< Rct, R > r){
-			if constexpr(Cols != 0 && Rows != 0){
-				static_assert(
-					Cols == C && Rows == R,
-					"Can not change matrix compile time dimensions"
-				);
-
-				// compile time dims are equal, nothing to do
-				return;
-			}else{
-				static_assert(has_resize_v< M, Cols, Rows >,
-					"The underlaying matrix implementation doesn't support "
-					"the resize()-function"
-				);
-
-				if constexpr(Cols != 0){
-					// only Cols is a compile time dimension
-					static_assert(Cols == C,
-						"Can not change matrix compile time cols"
-					);
-					m_.resize(dims(col_t< true, C >(), size_t(r)));
-				}else if(Rows != 0 && has_resize_v< M, Cols, Rows >){
-					// only Rows is a compile time dimension
-					static_assert(Rows == R,
-						"Can not change matrix compile time rows"
-					);
-					m_.resize(dims(size_t(c), row_t< true, R >()));
-				}else{
-					// Cols and Rows are compile time dimensions
-					m_.resize(size_t(c), size_t(r));
-				}
-			}
-		}
-
-
 	private:
 		M m_;
 
@@ -294,18 +258,6 @@ namespace mitrax{
 
 		template< typename T >
 		static constexpr auto has_data_v = has_data< T >::value;
-
-
-		template< typename T, size_t C, size_t R, typename = void >
-		struct has_resize: std::false_type{};
-
-		template< typename T, size_t C, size_t R >
-		struct has_resize< T, C, R, decltype((void)
-			std::declval< T >().resize(dims_t< C, R >())
-		) >: std::true_type{};
-
-		template< typename T, size_t C, size_t R >
-		static constexpr auto has_resize_v = has_resize< T, C, R >::value;
 	};
 
 
