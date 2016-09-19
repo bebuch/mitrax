@@ -21,6 +21,9 @@
 namespace mitrax{
 
 
+	struct init_t{};
+	constexpr auto init = init_t();
+
 	template < typename M, size_t Cols, size_t Rows >
 	class matrix final{
 	public:
@@ -76,11 +79,12 @@ namespace mitrax{
 
 		constexpr matrix() = default;
 
-		constexpr matrix(M&& m): m_(std::move(m)) {}
-
 		constexpr matrix(matrix&&) = default;
 
 		constexpr matrix(matrix const&) = default;
+
+		template < typename ... T >
+		constexpr matrix(init_t, T&& ... v): m_(static_cast< T&& >(v) ...) {}
 
 
 		constexpr matrix& operator=(matrix&&) = default;

@@ -174,44 +174,29 @@ namespace mitrax{
 
 		struct std_t{
 			template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-			constexpr auto by_function(
-				col_t< Cct, C > c, row_t< Rct, R > r, F&& f
-			)const{
-				using type =
-					raw_matrix< typename F::type, Cct ? C : 0, Rct ? R : 0 >;
-
-				return type(typename type::impl_type(c, r,
-					detail::fn_to_raw_matrix_data(
-						bool_t< Cct && Rct >(), c, r, static_cast< F&& >(f)
-					)
-				));
+			constexpr raw_matrix< typename F::type, Cct ? C : 0, Rct ? R : 0 >
+			by_function(col_t< Cct, C > c, row_t< Rct, R > r, F&& f)const{
+				return {init, c, r, detail::fn_to_raw_matrix_data(
+					bool_t< Cct && Rct >(), c, r, static_cast< F&& >(f)
+				)};
 			}
 
 			template < typename T, bool Cct, size_t C, bool Rct, size_t R >
-			constexpr auto by_value(
-				col_t< Cct, C > c, row_t< Rct, R > r, T const& v
-			)const{
-				using type = raw_matrix<
-					std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >;
-
-				return type(typename type::impl_type(c, r,
-					detail::init_raw_matrix_data(
-						bool_t< Cct && Rct >(), c, r, v
-					)
-				));
+			constexpr
+			raw_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
+			by_value(col_t< Cct, C > c, row_t< Rct, R > r, T const& v)const{
+				return {init, c, r, detail::init_raw_matrix_data(
+					bool_t< Cct && Rct >(), c, r, v
+				)};
 			}
 
 			template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
-			constexpr auto by_sequence(
-				col_t< Cct, C > c, row_t< Rct, R > r, Iter iter
-			)const{
-				using type = raw_matrix<
-					iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >;
-
-				return type(typename type::impl_type(c, r,
-					detail::to_raw_matrix_data(
-						bool_t< Cct && Rct >(), c, r, iter)
-				));
+			constexpr
+			raw_matrix< iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >
+			by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter)const{
+				return {init, c, r, detail::to_raw_matrix_data(
+					bool_t< Cct && Rct >(), c, r, iter
+				)};
 			}
 		};
 
@@ -220,39 +205,27 @@ namespace mitrax{
 
 		struct heap_t{
 			template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-			auto by_function(col_t< Cct, C > c, row_t< Rct, R > r, F&& f)const{
-				using type = raw_heap_matrix<
-					typename F::type, Cct ? C : 0, Rct ? R : 0 >;
-
-				return type(typename type::impl_type(c, r,
-					detail::fn_to_raw_matrix_data(
-						std::false_type(), c, r, static_cast< F&& >(f)
-					)
-				));
+			raw_heap_matrix< typename F::type, Cct ? C : 0, Rct ? R : 0 >
+			by_function(col_t< Cct, C > c, row_t< Rct, R > r, F&& f)const{
+				return {init, c, r, detail::fn_to_raw_matrix_data(
+					std::false_type(), c, r, static_cast< F&& >(f)
+				)};
 			}
 
 			template < typename T, bool Cct, size_t C, bool Rct, size_t R >
-			auto by_value(
-				col_t< Cct, C > c, row_t< Rct, R > r, T const& v
-			)const{
-				using type = raw_heap_matrix<
-					std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >;
-
-				return type(typename type::impl_type(c, r,
-					detail::init_raw_matrix_data(std::false_type(), c, r, v)
-				));
+			raw_heap_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
+			by_value(col_t< Cct, C > c, row_t< Rct, R > r, T const& v)const{
+				return {init, c, r, detail::init_raw_matrix_data(
+					std::false_type(), c, r, v
+				)};
 			}
 
 			template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
-			auto by_sequence(
-				col_t< Cct, C > c, row_t< Rct, R > r, Iter iter
-			)const{
-				using type = raw_heap_matrix<
-					iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >;
-
-				return type(typename type::impl_type(c, r,
-					detail::to_raw_matrix_data(std::false_type(), c, r, iter)
-				));
+			raw_heap_matrix< iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >
+			by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter)const{
+				return {init, c, r, detail::to_raw_matrix_data(
+					std::false_type(), c, r, iter
+				)};
 			}
 		};
 
