@@ -16,8 +16,8 @@ namespace mitrax{
 
 
 	// TODO: Test for same value_type
-	// TODO; Allow values
-	// TODO; Add some kind of join_grid
+	// TODO: Allow values
+	// TODO: Add some kind of join_grid
 	namespace detail{
 
 
@@ -67,7 +67,7 @@ namespace mitrax{
 		struct join_v_proxy{
 			constexpr join_v_proxy(M const& m, T const& ... v):
 				m(m), d(v ...){ cols(); }
-				
+
 
 			constexpr auto operator()(size_t x, size_t y)const{
 				return y < m.rows() ? m(x, y) : d(x, y - m.rows());

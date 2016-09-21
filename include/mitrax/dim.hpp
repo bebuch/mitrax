@@ -337,7 +337,7 @@ namespace mitrax{
 		using enable_if_dim_op_t =
 			std::enable_if_t<
 				one_of(is_a_dim_v< T > ...) &&
-				all_of(is_a_dim_v< T > || std::is_integral_v< T > ...) >;
+				all_of(is_a_dim_v< T > || std::is_integral_v< T > ...), int >;
 
 
 	}
@@ -345,67 +345,67 @@ namespace mitrax{
 
 
 	template < typename L, typename R,
-		detail::enable_if_dim_op_t< L, R, int > = 0 >
+		detail::enable_if_dim_op_t< L, R > = 0 >
 	constexpr auto operator+(L l, R r)noexcept{
 		return detail::arithmetic_op< std::plus< size_t > >(l, r);
 	}
 
 	template < typename L, typename R,
-		detail::enable_if_dim_op_t< L, R, int > = 0 >
+		detail::enable_if_dim_op_t< L, R > = 0 >
 	constexpr auto operator-(L l, R r)noexcept{
 		return detail::arithmetic_op< std::minus< size_t > >(l, r);
 	}
 
 	template < typename L, typename R,
-		detail::enable_if_dim_op_t< L, R, int > = 0 >
+		detail::enable_if_dim_op_t< L, R > = 0 >
 	constexpr auto operator*(L l, R r)noexcept{
 		return detail::arithmetic_op< std::multiplies< size_t > >(l, r);
 	}
 
 	template < typename L, typename R,
-		detail::enable_if_dim_op_t< L, R, int > = 0 >
+		detail::enable_if_dim_op_t< L, R > = 0 >
 	constexpr auto operator/(L l, R r)noexcept{
 		return detail::arithmetic_op< std::divides< size_t > >(l, r);
 	}
 
 	template < typename L, typename R,
-		detail::enable_if_dim_op_t< L, R, int > = 0 >
+		detail::enable_if_dim_op_t< L, R > = 0 >
 	constexpr auto operator%(L l, R r)noexcept{
 		return detail::arithmetic_op< std::modulus< size_t > >(l, r);
 	}
 
 	template < typename L, typename R,
-		detail::enable_if_dim_op_t< L, R, int > = 0 >
+		detail::enable_if_dim_op_t< L, R > = 0 >
 	constexpr auto operator==(L l, R r)noexcept{
 		return size_t(l) == size_t(r);
 	}
 
 	template < typename L, typename R,
-		detail::enable_if_dim_op_t< L, R, int > = 0 >
+		detail::enable_if_dim_op_t< L, R > = 0 >
 	constexpr auto operator!=(L l, R r)noexcept{
 		return size_t(l) != size_t(r);
 	}
 
 	template < typename L, typename R,
-		detail::enable_if_dim_op_t< L, R, int > = 0 >
+		detail::enable_if_dim_op_t< L, R > = 0 >
 	constexpr auto operator<(L l, R r)noexcept{
 		return size_t(l) < size_t(r);
 	}
 
 	template < typename L, typename R,
-		detail::enable_if_dim_op_t< L, R, int > = 0 >
+		detail::enable_if_dim_op_t< L, R > = 0 >
 	constexpr auto operator<=(L l, R r)noexcept{
 		return size_t(l) <= size_t(r);
 	}
 
 	template < typename L, typename R,
-		detail::enable_if_dim_op_t< L, R, int > = 0 >
+		detail::enable_if_dim_op_t< L, R > = 0 >
 	constexpr auto operator>(L l, R r)noexcept{
 		return size_t(l) > size_t(r);
 	}
 
 	template < typename L, typename R,
-		detail::enable_if_dim_op_t< L, R, int > = 0 >
+		detail::enable_if_dim_op_t< L, R > = 0 >
 	constexpr auto operator>=(L l, R r)noexcept{
 		return size_t(l) >= size_t(r);
 	}
