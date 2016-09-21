@@ -11,7 +11,6 @@
 #include <boost/mpl/list.hpp>
 
 #include <mitrax/make_matrix.hpp>
-#include <mitrax/iterator.hpp>
 
 #include <complex>
 #include <iostream>

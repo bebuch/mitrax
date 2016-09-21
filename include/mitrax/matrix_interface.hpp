@@ -40,6 +40,9 @@ namespace mitrax{
 		/// \brief Type of the data that administrates the matrix
 		using value_type = value_type_t< M >;
 
+		/// \brief Type with the make functions
+		using maker_type = typename M::maker_type;
+
 		/// \brief Unsigned integral type (size_t)
 		using size_type = size_t;
 
@@ -110,14 +113,12 @@ namespace mitrax{
 
 
 		constexpr decltype(auto) operator()(size_t x, size_t y){
-			assert(x < m_.cols());
-			assert(y < m_.rows());
+			assert(x < m_.cols() && y < m_.rows());
 			return m_(x, y);
 		}
 
 		constexpr decltype(auto) operator()(size_t x, size_t y)const{
-			assert(x < m_.cols());
-			assert(y < m_.rows());
+			assert(x < m_.cols() && y < m_.rows());
 			return m_(x, y);
 		}
 

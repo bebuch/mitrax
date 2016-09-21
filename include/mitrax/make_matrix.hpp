@@ -19,65 +19,6 @@ namespace mitrax{
 	namespace detail{
 
 
-		template < size_t C, size_t R >
-		struct is_static: std::true_type{};
-
-		template < size_t R >
-		struct is_static< 0, R >: std::false_type{};
-
-		template < size_t C >
-		struct is_static< C, 0 >: std::false_type{};
-
-		template <>
-		struct is_static< 0, 0 >: std::false_type{};
-
-
-		template < typename I, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr auto to_raw_matrix_data(
-			std::true_type, col_t< Cct, C >, row_t< Rct, R >, I i
-		){
-			return to_array< C * R >(i);
-		}
-
-		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr auto init_raw_matrix_data(
-			std::true_type, col_t< Cct, C >, row_t< Rct, R >, T const& v
-		){
-			return init_array(v, std::make_index_sequence< C * R >());
-		}
-
-		template < typename I, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr auto to_raw_matrix_data(
-			std::false_type, col_t< Cct, C > c, row_t< Rct, R > r, I i
-		){
-			return array_d< iter_type_t< I > >(i, size_t(c) * size_t(r));
-		}
-
-		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr auto init_raw_matrix_data(
-			std::false_type, col_t< Cct, C > c, row_t< Rct, R > r, T const& v
-		){
-			return array_d< std::remove_cv_t< T > >(size_t(c) * size_t(r), v);
-		}
-
-
-		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr auto fn_to_raw_matrix_data(
-			std::true_type, col_t< Cct, C >, row_t< Rct, R >, F&& f
-		){
-			return fn_to_array< C, R >(static_cast< F&& >(f));
-		}
-
-		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr auto fn_to_raw_matrix_data(
-			std::false_type, col_t< Cct, C > c, row_t< Rct, R > r, F&& f
-		){
-			using type = std::remove_cv_t< typename F::type >;
-			return array_d< type >(c, r, static_cast< F&& >(f));
-		}
-
-
-
 		template < typename F >
 		struct init_diag_fn{
 			F f;
@@ -114,16 +55,6 @@ namespace mitrax{
 
 
 		template < typename ArrayRef >
-		struct array_2d_element{
-			using type = std::remove_extent_t< std::remove_extent_t<
-				std::remove_reference_t< ArrayRef > > >;
-		};
-
-		template < typename ArrayRef >
-		using array_2d_element_t = typename array_2d_element< ArrayRef >::type;
-
-
-		template < typename ArrayRef >
 		struct array_1d_element_ref{
 			using value_type = array_1d_element_t< ArrayRef >;
 
@@ -138,21 +69,6 @@ namespace mitrax{
 		using array_1d_element_ref_t =
 			typename array_1d_element_ref< ArrayRef >::type;
 
-
-		template < typename ArrayRef >
-		struct array_2d_element_ref{
-			using value_type = array_2d_element_t< ArrayRef >;
-
-			using type = std::conditional_t<
-					std::is_rvalue_reference< ArrayRef >::value,
-					std::add_rvalue_reference_t< value_type >,
-					std::add_lvalue_reference_t< value_type >
-				>;
-		};
-
-		template < typename ArrayRef >
-		using array_2d_element_ref_t =
-			typename array_2d_element_ref< ArrayRef >::type;
 
 		template < typename Array >
 		struct init_diag_by_array{
@@ -175,72 +91,6 @@ namespace mitrax{
 					iter_type_t< I >();
 			}
 		};
-
-
-	}
-
-
-	namespace maker{
-
-
-		struct std_t{
-			template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-			constexpr raw_matrix< typename F::type, Cct ? C : 0, Rct ? R : 0 >
-			by_function(col_t< Cct, C > c, row_t< Rct, R > r, F&& f)const{
-				return {init, c, r, detail::fn_to_raw_matrix_data(
-					bool_t< Cct && Rct >(), c, r, static_cast< F&& >(f)
-				)};
-			}
-
-			template < typename T, bool Cct, size_t C, bool Rct, size_t R >
-			constexpr
-			raw_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
-			by_value(col_t< Cct, C > c, row_t< Rct, R > r, T const& v)const{
-				return {init, c, r, detail::init_raw_matrix_data(
-					bool_t< Cct && Rct >(), c, r, v
-				)};
-			}
-
-			template < typename I, bool Cct, size_t C, bool Rct, size_t R >
-			constexpr
-			raw_matrix< iter_type_t< I >, Cct ? C : 0, Rct ? R : 0 >
-			by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, I i)const{
-				return {init, c, r, detail::to_raw_matrix_data(
-					bool_t< Cct && Rct >(), c, r, i
-				)};
-			}
-		};
-
-		constexpr auto std = std_t();
-
-
-		struct heap_t{
-			template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-			raw_heap_matrix< typename F::type, Cct ? C : 0, Rct ? R : 0 >
-			by_function(col_t< Cct, C > c, row_t< Rct, R > r, F&& f)const{
-				return {init, c, r, detail::fn_to_raw_matrix_data(
-					std::false_type(), c, r, static_cast< F&& >(f)
-				)};
-			}
-
-			template < typename T, bool Cct, size_t C, bool Rct, size_t R >
-			raw_heap_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
-			by_value(col_t< Cct, C > c, row_t< Rct, R > r, T const& v)const{
-				return {init, c, r, detail::init_raw_matrix_data(
-					std::false_type(), c, r, v
-				)};
-			}
-
-			template < typename I, bool Cct, size_t C, bool Rct, size_t R >
-			raw_heap_matrix< iter_type_t< I >, Cct ? C : 0, Rct ? R : 0 >
-			by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, I i)const{
-				return {init, c, r, detail::to_raw_matrix_data(
-					std::false_type(), c, r, i
-				)};
-			}
-		};
-
-		constexpr heap_t heap{};
 
 
 	}

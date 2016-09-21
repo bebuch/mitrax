@@ -49,6 +49,19 @@ namespace mitrax{
 	using iter_type_t = typename std::iterator_traits< Iter >::value_type;
 
 
+	template < size_t C, size_t R >
+	struct is_static: std::true_type{};
+
+	template < size_t R >
+	struct is_static< 0, R >: std::false_type{};
+
+	template < size_t C >
+	struct is_static< C, 0 >: std::false_type{};
+
+	template <>
+	struct is_static< 0, 0 >: std::false_type{};
+
+
 }
 
 

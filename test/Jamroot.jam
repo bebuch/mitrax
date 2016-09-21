@@ -60,6 +60,14 @@ exe make_matrix
 	<dependency>dim
 	;
 
+exe reinit
+	:
+	reinit.cpp
+	/boost//unit_test_framework
+	:
+	<dependency>make_matrix
+	;
+
 exe sub_matrix
 	:
 	sub_matrix.cpp

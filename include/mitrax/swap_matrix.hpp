@@ -26,8 +26,8 @@ namespace mitrax{
 			typename M1, size_t C1, size_t R1,
 			typename M2, size_t C2, size_t R2,
 			std::enable_if_t<
-				std::is_same< value_type_t< M1 >, value_type_t< M2 > >::value
-			>* = nullptr
+				std::is_same< value_type_t< M1 >, value_type_t< M2 > >::value,
+				int > = 0
 		> constexpr void operator()(
 			matrix< M1, C1, R1 >& m1,
 			size_t i1,
@@ -63,8 +63,8 @@ namespace mitrax{
 			typename M1, size_t C1, size_t R1,
 			typename M2, size_t C2, size_t R2,
 			std::enable_if_t<
-				std::is_same< value_type_t< M1 >, value_type_t< M2 > >::value
-			>* = nullptr
+				std::is_same< value_type_t< M1 >, value_type_t< M2 > >::value,
+				int > = 0
 		> constexpr void operator()(
 			matrix< M1, C1, R1 >& m1,
 			size_t i1,
