@@ -49,6 +49,10 @@ namespace mitrax{
 	using iter_type_t = typename std::iterator_traits< Iter >::value_type;
 
 
+	template < bool Condition >
+	using enable_if_t = std::enable_if_t< Condition, int >;
+
+
 	template < size_t C, size_t R >
 	struct is_static: std::true_type{};
 

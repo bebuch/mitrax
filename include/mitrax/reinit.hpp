@@ -82,14 +82,14 @@ namespace mitrax{
 	}
 
 	template < typename T, typename M, size_t C, size_t R,
-		std::enable_if_t< C != 0 && R != 0, int > = 0 >
+		enable_if_t< C != 0 && R != 0 > = 0 >
 	constexpr void reinit(matrix< M, C, R >& m, T(&v)[R][C]){
 		reinit_iter(m, make_convert_iterator< value_type_t< M > >(
 			flat_iterator< T, R, C >(&v)));
 	}
 
 	template < typename T, typename M, size_t C, size_t R,
-		std::enable_if_t< C != 0 && R != 0, int > = 0 >
+		enable_if_t< C != 0 && R != 0 > = 0 >
 	constexpr void reinit(matrix< M, C, R >& m, T(&&v)[R][C]){
 		reinit_iter(m, mitrax::make_move_iterator(
 			make_convert_iterator< value_type_t< M > >(
@@ -108,13 +108,13 @@ namespace mitrax{
 	}
 
 	template < typename T, typename M, size_t C, size_t R,
-		std::enable_if_t< (C == 1 && R != 0) || (C != 0 && R == 1), int > = 0 >
+		enable_if_t< (C == 1 && R != 0) || (C != 0 && R == 1) > = 0 >
 	constexpr void reinit_vector(matrix< M, C, R >& m, T(&v)[R * C]){
 		reinit_iter(m, make_convert_iterator< value_type_t< M > >(v));
 	}
 
 	template < typename T, typename M, size_t C, size_t R,
-		std::enable_if_t< (C == 1 && R != 0) || (C != 0 && R == 1), int > = 0 >
+		enable_if_t< (C == 1 && R != 0) || (C != 0 && R == 1) > = 0 >
 	constexpr void reinit_vector(matrix< M, C, R >& m, T(&&v)[R * C]){
 		reinit_iter(m,
 			mitrax::make_move_iterator(make_convert_iterator< value_type_t< M > >(
