@@ -9,6 +9,7 @@
 #ifndef _mitrax__iterator__hpp_INCLUDED_
 #define _mitrax__iterator__hpp_INCLUDED_
 
+#include "iterator/value_iterator.hpp"
 #include "iterator/move_iterator.hpp"
 #include "iterator/flat_iterator.hpp"
 #include "iterator/convert_iterator.hpp"
