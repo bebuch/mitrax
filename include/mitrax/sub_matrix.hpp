@@ -22,7 +22,7 @@ namespace mitrax{
 
 		template < typename M >
 		struct sub_matrix_t{
-			constexpr decltype(auto) operator()(size_t dx, size_t dy){
+			constexpr decltype(auto) operator()(size_t dx, size_t dy)const{
 				return m(x + dx, y + dy);
 			}
 
@@ -51,7 +51,8 @@ namespace mitrax{
 					std::to_string(size_t(r)) + ")");
 			}
 
-			return sub_matrix_t< M&& >{static_cast< M&& >(m), x, y};
+			auto ref = forward_ref(static_cast< M&& >(m));
+			return sub_matrix_t< decltype(ref) >{ref, x, y};
 		}
 
 
@@ -136,7 +137,8 @@ namespace mitrax{
 		matrix< M, C2, R2 >&& m,
 		point< size_t > xy, dims_t< C1, R1 > dims
  	){
-		return sub_matrix(std::move(m), xy.x(), xy.y(), dims.cols(), dims.rows());
+		return
+			sub_matrix(std::move(m), xy.x(), xy.y(), dims.cols(), dims.rows());
 	}
 
 

@@ -20,12 +20,12 @@ namespace mitrax{
 
 
 	template < typename C >
-	constexpr auto begin(C& c){
+	constexpr auto begin(C& c)noexcept(noexcept(c.begin())){
 		return c.begin();
 	}
 
 	template < typename C >
-	constexpr auto begin(C const& c){
+	constexpr auto begin(C const& c)noexcept(noexcept(c.begin())){
 		return c.begin();
 	}
 
@@ -41,12 +41,12 @@ namespace mitrax{
 
 
 	template < typename C >
-	constexpr auto end(C& c){
+	constexpr auto end(C& c)noexcept(noexcept(c.end())){
 		return c.end();
 	}
 
 	template < typename C >
-	constexpr auto end(C const& c){
+	constexpr auto end(C const& c)noexcept(noexcept(c.end())){
 		return c.end();
 	}
 

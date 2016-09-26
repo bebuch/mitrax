@@ -31,18 +31,6 @@ namespace mitrax{
 
 
 		template< typename M, typename T, typename = void >
-		struct has_reinit_fn: std::false_type{};
-
-		template< typename M, typename T >
-		struct has_reinit_fn< M, T, decltype((void)
-			std::declval< M >().reinit_fn(std::declval< T >())
-		) >: std::true_type{};
-
-		template< typename M, typename T >
-		constexpr auto has_reinit_fn_v = has_reinit_fn< M, T >::value;
-
-
-		template< typename M, typename T, typename = void >
 		struct has_reinit_iter: std::false_type{};
 
 		template< typename M, typename T >
@@ -67,10 +55,11 @@ namespace mitrax{
 
 	template < typename M, size_t C, size_t R, typename F >
 	constexpr void reinit_fn(matrix< M, C, R >& m, F&& f){
-		static_assert(detail::has_reinit_fn_v< M, detail::fn_xy< F&& > >,
-			"Matrix implementation M does not support reinit_fn");
+// 		static_assert(detail::has_reinit_iter_v< M, F >,
+// 			"Matrix implementation M does not support reinit_iter");
 
-		m.impl().reinit_fn(detail::fn_xy< F&& >{static_cast< F&& >(f)});
+		m.impl().reinit_iter(make_function_iterator(make_function_xy_adapter(
+				static_cast< F&& >(f), m.cols())));
 	}
 
 	template < typename M, size_t C, size_t R, typename Iter >
@@ -101,10 +90,10 @@ namespace mitrax{
 		static_assert((C == 1 && R != 0) || (C != 0 && R == 1),
 			"reinit_vector_fn is only allowed for compile time dim vectors");
 
-		static_assert(detail::has_reinit_fn_v< M, detail::fn_i< F&& > >,
-			"Matrix implementation M does not support reinit_fn");
+// 		static_assert(detail::has_reinit_fn_v< M, detail::fn_i< F&& > >,
+// 			"Matrix implementation M does not support reinit_fn");
 
-		m.impl().reinit_fn(detail::fn_i< F&& >{static_cast< F&& >(f)});
+		m.impl().reinit_iter(make_function_iterator(static_cast< F&& >(f)));
 	}
 
 	template < typename T, typename M, size_t C, size_t R,

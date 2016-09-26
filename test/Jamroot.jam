@@ -34,6 +34,12 @@ project mitrax_test
 	usage-requirements <include>../include
 	;
 
+exe invoke
+	:
+	invoke.cpp
+	/boost//unit_test_framework
+	;
+
 exe dim
 	:
 	dim.cpp

@@ -11,6 +11,7 @@
 
 #include "raw_matrix.hpp"
 #include "iterator.hpp"
+#include "reference_wrapper.hpp"
 
 
 namespace mitrax{
@@ -23,14 +24,16 @@ namespace mitrax{
 		struct init_diag_fn{
 			F f;
 
-			constexpr fn_i_t< F > operator()(size_t x, size_t y){
+			constexpr decltype(std::declval< F&& >()(size_t()))
+			operator()(size_t x, size_t y)const
+			noexcept(noexcept(std::declval< F&& >()(size_t()))){
 				return x == y ? f(x) : decltype(f(x))();
 			}
 		};
 
 		template < typename F >
 		constexpr auto make_init_diag_fn(F&& f){
-			return init_diag_fn< F&& >{static_cast< F&& >(f)};
+			return init_diag_fn< F >{static_cast< F&& >(f)};
 		}
 
 		template < typename T >
@@ -70,14 +73,13 @@ namespace mitrax{
 			typename array_1d_element_ref< ArrayRef >::type;
 
 
-		template < typename Array >
+		template < typename Array, typename T >
 		struct init_diag_by_array{
-			Array array;
+			Array array_;
+			T default_;
 
-			constexpr auto operator()(size_t x, size_t y){
-				return x == y ?
-					static_cast< array_1d_element_ref_t< Array > >(array[x]) :
-					array_1d_element_t< Array >();
+			constexpr T operator()(size_t x, size_t y){
+				return x == y ? array_[x] : default_;
 			}
 		};
 
@@ -85,7 +87,7 @@ namespace mitrax{
 		struct init_diag_by_iter{
 			I i;
 
-			constexpr auto operator()(size_t x, size_t y){
+			constexpr auto operator()(size_t x, size_t y)const{
 				return x == y ?
 					static_cast< iter_type_t< I > >(i[x]) :
 					iter_type_t< I >();
@@ -101,8 +103,9 @@ namespace mitrax{
 	constexpr auto make_matrix_fn(
 		col_t< Cct, C > c, row_t< Rct, R > r, F&& f, Maker maker = maker::std
 	){
-		return maker.by_function(c, r,
-			detail::fn_xy< F&& >{static_cast< F&& >(f)});
+		return maker.by_sequence(c, r,
+			make_function_iterator(make_function_xy_adapter(
+				static_cast< F&& >(f), c)));
 	}
 
 	template < typename F, size_t C, size_t R, typename Maker = maker::std_t >
@@ -126,8 +129,8 @@ namespace mitrax{
 		row_t< Nct, N > r, F&& f, Maker maker = maker::std
 	){
 		using namespace literals;
-		return maker.by_function(1_C, r,
-			detail::fn_i< F&& >{static_cast< F&& >(f)});
+		return maker.by_sequence(1_C, r,
+			make_function_iterator(static_cast< F&& >(f)));
 	}
 
 	template < typename F, bool Nct, size_t N, typename Maker = maker::std_t >
@@ -135,8 +138,8 @@ namespace mitrax{
 		col_t< Nct, N > c, F&& f, Maker maker = maker::std
 	){
 		using namespace literals;
-		return maker.by_function(c, 1_R,
-			detail::fn_i< F&& >{static_cast< F&& >(f)});
+		return maker.by_sequence(c, 1_R,
+			make_function_iterator(static_cast< F&& >(f)));
 	}
 
 	template < typename F, bool Nct, size_t N, typename Maker = maker::std_t >
@@ -324,16 +327,18 @@ namespace mitrax{
 	constexpr auto make_diag_matrix(
 		dim_t< Nct, N > n, T(&&v)[N], Maker maker = maker::std
 	){
-		return make_matrix_fn(n,
-			detail::init_diag_by_array< T(&&)[N] >{std::move(v)}, maker);
+		detail::init_diag_by_array< T(&&)[N], std::decay_t< T > > init
+			{std::move(v), std::decay_t< T >()};
+		return make_matrix_fn(n, mitrax::ref(init), maker);
 	}
 
 	template < typename T, bool Nct, size_t N, typename Maker = maker::std_t >
 	constexpr auto make_diag_matrix(
 		dim_t< Nct, N > n, T(&v)[N], Maker maker = maker::std
 	){
-		return make_matrix_fn(n,
-			detail::init_diag_by_array< T(&)[N] >{v}, maker);
+		detail::init_diag_by_array< T(&)[N], std::decay_t< T > > init
+			{v, std::decay_t< T >()};
+		return make_matrix_fn(n, mitrax::ref(init), maker);
 	}
 
 

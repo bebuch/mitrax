@@ -20,10 +20,6 @@ namespace mitrax{ namespace maker{
 
 
 	struct std_t{
-		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr raw_matrix< typename F::type, Cct ? C : 0, Rct ? R : 0 >
-		by_function(col_t< Cct, C > c, row_t< Rct, R > r, F&& f)const;
-
 		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 		constexpr
 		raw_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
@@ -37,10 +33,6 @@ namespace mitrax{ namespace maker{
 
 
 	struct heap_t{
-		template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-		raw_heap_matrix< typename F::type, Cct ? C : 0, Rct ? R : 0 >
-		by_function(col_t< Cct, C > c, row_t< Rct, R > r, F&& f)const;
-
 		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 		raw_heap_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
 		by_value(col_t< Cct, C > c, row_t< Rct, R > r, T const& v)const;
@@ -60,6 +52,10 @@ namespace mitrax{ namespace detail{
 	template < typename T, size_t C, size_t R >
 	class raw_matrix_impl: public dims_t< C, R >{
 	public:
+		static_assert(!std::is_const_v< T >);
+		static_assert(!std::is_reference_v< T >);
+
+
 		/// \brief Type of the data that administrates the matrix
 		using value_type = T;
 
@@ -150,11 +146,11 @@ namespace mitrax{ namespace detail{
 		}
 
 
-		template < typename F >
-		constexpr void reinit_fn(F&& f){
-			*this = maker_type().by_function
-				(this->cols(), this->rows(), static_cast< F&& >(f)).impl();
-		}
+// 		template < typename F >
+// 		constexpr void reinit_fn(F&& f){
+// 			*this = maker_type().by_function
+// 				(this->cols(), this->rows(), static_cast< F&& >(f)).impl();
+// 		}
 
 		template < typename U >
 		constexpr void reinit_v(U const& v){
@@ -177,6 +173,10 @@ namespace mitrax{ namespace detail{
 	template < typename T, size_t C, size_t R >
 	class raw_matrix_impl_base: public dims_t< C, R >{
 	public:
+		static_assert(!std::is_const_v< T >);
+		static_assert(!std::is_reference_v< T >);
+
+
 		/// \brief Type of the data that administrates the matrix
 		using value_type = T;
 
@@ -272,11 +272,11 @@ namespace mitrax{ namespace detail{
 		}
 
 
-		template < typename F >
-		void reinit_fn(F&& f){
-			*this = maker_type().by_function
-				(this->cols(), this->rows(), static_cast< F&& >(f)).impl();
-		}
+// 		template < typename F >
+// 		void reinit_fn(F&& f){
+// 			*this = maker_type().by_function
+// 				(this->cols(), this->rows(), static_cast< F&& >(f)).impl();
+// 		}
 
 		template < typename U >
 		void reinit_v(U const& v){
@@ -369,35 +369,11 @@ namespace mitrax{ namespace detail{
 	}
 
 
-	template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-	constexpr auto fn_to_raw_matrix_data(
-		std::true_type, col_t< Cct, C >, row_t< Rct, R >, F&& f
-	){
-		return fn_to_array< C, R >(static_cast< F&& >(f));
-	}
-
-	template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-	constexpr auto fn_to_raw_matrix_data(
-		std::false_type, col_t< Cct, C > c, row_t< Rct, R > r, F&& f
-	){
-		using type = std::remove_cv_t< typename F::type >;
-		return array_d< type >(c, r, static_cast< F&& >(f));
-	}
-
-
 } }
 
 
 namespace mitrax{ namespace maker{
 
-
-	template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-	constexpr raw_matrix< typename F::type, Cct ? C : 0, Rct ? R : 0 >
-	std_t::by_function(col_t< Cct, C > c, row_t< Rct, R > r, F&& f)const{
-		return {init, c, r, detail::fn_to_raw_matrix_data(
-			bool_t< Cct && Rct >(), c, r, static_cast< F&& >(f)
-		)};
-	}
 
 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 	constexpr
@@ -419,14 +395,6 @@ namespace mitrax{ namespace maker{
 
 	constexpr auto std = std_t();
 
-
-	template < typename F, bool Cct, size_t C, bool Rct, size_t R >
-	raw_heap_matrix< typename F::type, Cct ? C : 0, Rct ? R : 0 >
-	heap_t::by_function(col_t< Cct, C > c, row_t< Rct, R > r, F&& f)const{
-		return {init, c, r, detail::fn_to_raw_matrix_data(
-			std::false_type(), c, r, static_cast< F&& >(f)
-		)};
-	}
 
 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 	raw_heap_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >

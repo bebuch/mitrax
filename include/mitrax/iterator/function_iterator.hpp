@@ -26,7 +26,8 @@ namespace mitrax{
 
 		using pointer = void;
 
-		using value_type = decltype(std::declval< F >()(size_t()));
+		using value_type =
+			std::decay_t< decltype(std::declval< F >()(size_t())) >;
 
 		using iterator_category = std::random_access_iterator_tag;
 
@@ -172,25 +173,19 @@ namespace mitrax{
 
 
 	template < typename F, bool Cct, size_t C >
-	class function_xy_adapter{
-	public:
-		constexpr function_xy_adapter(F&& f, col_t< Cct, C > cols)
-			noexcept(noexcept(F(static_cast< F&& >(f)))):
-			f_(static_cast< F&& >(f)), cols_(cols) {}
-
-		constexpr decltype(auto) operator()(size_t i)
-		noexcept(noexcept(std::declval< F >()(size_t(), size_t()))){
+	struct function_xy_adapter{
+		constexpr decltype(auto) operator()(size_t i)const
+		noexcept(noexcept(std::declval< F&& >()(size_t(), size_t()))){
 			return f_(i % size_t(cols_), i / size_t(cols_));
 		}
 
-	private:
 		F f_;
 		col_t< Cct, C > cols_;
 	};
 
 	template < typename F, bool Cct, size_t C >
 	constexpr auto make_function_xy_adapter(F&& f, col_t< Cct, C > cols){
-		return function_xy_adapter< F, Cct, C >(static_cast< F&& >(f), cols);
+		return function_xy_adapter< F, Cct, C >{static_cast< F&& >(f), cols};
 	}
 
 

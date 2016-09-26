@@ -29,6 +29,9 @@ namespace mitrax{
 	public:
 		// TODO: Check if M is a matrix_impl type!!!
 
+		static_assert(!std::is_const_v< value_type_t< M > >);
+		static_assert(!std::is_reference_v< value_type_t< M > >);
+
 
 		static constexpr size_t ct_cols = Cols;
 		static constexpr size_t ct_rows = Rows;

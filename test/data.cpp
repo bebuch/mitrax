@@ -25,7 +25,7 @@ template < typename T >
 auto const id = boost::typeindex::type_id< T >();
 
 constexpr int data[2][2] = {{0, 1}, {2, 3}};
-constexpr int ref[4] = {0, 1, 2, 3};
+constexpr int ref_i[4] = {0, 1, 2, 3};
 
 
 BOOST_AUTO_TEST_SUITE(suite_data)
@@ -41,14 +41,14 @@ BOOST_AUTO_TEST_CASE(test_data){
 	auto m7 = make_matrix(2_C_rt, 2_R_rt, data);
 	auto const m8 = make_matrix(2_C_rt, 2_R_rt, data);
 
-	BOOST_TEST(std::equal(ref, ref + 4, m1.data()));
-	BOOST_TEST(std::equal(ref, ref + 4, m2.data()));
-	BOOST_TEST(std::equal(ref, ref + 4, m3.data()));
-	BOOST_TEST(std::equal(ref, ref + 4, m4.data()));
-	BOOST_TEST(std::equal(ref, ref + 4, m5.data()));
-	BOOST_TEST(std::equal(ref, ref + 4, m6.data()));
-	BOOST_TEST(std::equal(ref, ref + 4, m7.data()));
-	BOOST_TEST(std::equal(ref, ref + 4, m8.data()));
+	BOOST_TEST(std::equal(ref_i, ref_i + 4, m1.data()));
+	BOOST_TEST(std::equal(ref_i, ref_i + 4, m2.data()));
+	BOOST_TEST(std::equal(ref_i, ref_i + 4, m3.data()));
+	BOOST_TEST(std::equal(ref_i, ref_i + 4, m4.data()));
+	BOOST_TEST(std::equal(ref_i, ref_i + 4, m5.data()));
+	BOOST_TEST(std::equal(ref_i, ref_i + 4, m6.data()));
+	BOOST_TEST(std::equal(ref_i, ref_i + 4, m7.data()));
+	BOOST_TEST(std::equal(ref_i, ref_i + 4, m8.data()));
 }
 
 
