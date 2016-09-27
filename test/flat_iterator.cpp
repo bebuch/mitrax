@@ -8,7 +8,6 @@
 // -----------------------------------------------------------------------------
 #define BOOST_TEST_MODULE mitrax flat_iterator
 #include <boost/test/unit_test.hpp>
-#include <boost/mpl/list.hpp>
 
 #include <mitrax/iterator.hpp>
 

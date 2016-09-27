@@ -52,6 +52,12 @@ exe flat_iterator
 	/boost//unit_test_framework
 	;
 
+exe range
+	:
+	range.cpp
+	/boost//unit_test_framework
+	;
+
 exe concepts
 	:
 	concepts.cpp
