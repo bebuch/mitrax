@@ -20,6 +20,9 @@ namespace mitrax{
 	template < typename F >
 	class function_iterator{
 	public:
+		static_assert(!std::is_reference_v< F >);
+
+
 		using function_type = F;
 
 		using difference_type = std::ptrdiff_t;
@@ -34,8 +37,11 @@ namespace mitrax{
 		using reference = value_type;
 
 
+		constexpr explicit function_iterator(F& f, size_t i = 0):
+			f_(f), n_(i) {}
+
 		constexpr explicit function_iterator(F&& f, size_t i = 0):
-			f_(static_cast< F&& >(f)), n_(i) {}
+			f_(std::move(f)), n_(i) {}
 
 		constexpr function_iterator(function_iterator&& u) = default;
 
@@ -166,26 +172,29 @@ namespace mitrax{
 
 
 	template < typename F >
-	constexpr function_iterator< F >
-	make_function_iterator(F&& f, size_t n = 0){
-		return function_iterator< F >(static_cast< F&& >(f), n);
+	constexpr auto make_function_iterator(F&& f, size_t n = 0){
+		return function_iterator< std::remove_reference_t< F > >
+			(static_cast< F&& >(f), n);
 	}
 
 
 	template < typename F, bool Cct, size_t C >
 	struct function_xy_adapter{
+		static_assert(!std::is_reference_v< F >);
+
 		constexpr decltype(auto) operator()(size_t i)const
-		noexcept(noexcept(std::declval< F&& >()(size_t(), size_t()))){
-			return f_(i % size_t(cols_), i / size_t(cols_));
+		noexcept(noexcept(std::declval< F >()(size_t(), size_t()))){
+			return f(i % size_t(cols), i / size_t(cols));
 		}
 
-		F f_;
-		col_t< Cct, C > cols_;
+		F f;
+		col_t< Cct, C > cols;
 	};
 
 	template < typename F, bool Cct, size_t C >
 	constexpr auto make_function_xy_adapter(F&& f, col_t< Cct, C > cols){
-		return function_xy_adapter< F, Cct, C >{static_cast< F&& >(f), cols};
+		return function_xy_adapter< std::remove_reference_t< F >, Cct, C >
+			{static_cast< F&& >(f), cols};
 	}
 
 
