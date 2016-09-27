@@ -18,15 +18,19 @@ namespace mitrax{
 	template < typename T >
 	class value_iterator{
 	public:
+		static_assert(!std::is_reference_v< T >);
+		static_assert(!std::is_const_v< T >);
+
+
 		using difference_type = std::ptrdiff_t;
 
-		using pointer = T*;
+		using pointer = T const*;
 
 		using value_type = T;
 
 		using iterator_category = std::random_access_iterator_tag;
 
-		using reference = T&;
+		using reference = T const&;
 
 
 		constexpr value_iterator() = default;

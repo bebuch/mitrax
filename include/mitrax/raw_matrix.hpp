@@ -12,6 +12,7 @@
 #include "matrix_interface.hpp"
 #include "to_array.hpp"
 #include "array_d.hpp"
+#include "iterator/value_iterator.hpp"
 
 #include <iterator>
 
@@ -20,10 +21,10 @@ namespace mitrax{ namespace maker{
 
 
 	struct std_t{
-		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr
-		raw_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
-		by_value(col_t< Cct, C > c, row_t< Rct, R > r, T const& v)const;
+// 		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
+// 		constexpr
+// 		raw_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
+// 		by_value(col_t< Cct, C > c, row_t< Rct, R > r, T const& v)const;
 
 		template < typename I, bool Cct, size_t C, bool Rct, size_t R >
 		constexpr
@@ -33,9 +34,9 @@ namespace mitrax{ namespace maker{
 
 
 	struct heap_t{
-		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
-		raw_heap_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
-		by_value(col_t< Cct, C > c, row_t< Rct, R > r, T const& v)const;
+// 		template < typename T, bool Cct, size_t C, bool Rct, size_t R >
+// 		raw_heap_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
+// 		by_value(col_t< Cct, C > c, row_t< Rct, R > r, T const& v)const;
 
 		template < typename I, bool Cct, size_t C, bool Rct, size_t R >
 		raw_heap_matrix< iter_type_t< I >, Cct ? C : 0, Rct ? R : 0 >
@@ -76,7 +77,8 @@ namespace mitrax{ namespace detail{
 
 
 		constexpr raw_matrix_impl():
-			values_(init_array< C * R >(value_type())) {}
+			values_(to_array< C * R >(
+				mitrax::make_value_iterator< value_type >())) {}
 
 		constexpr raw_matrix_impl(raw_matrix_impl&&) = default;
 
@@ -152,11 +154,11 @@ namespace mitrax{ namespace detail{
 // 				(this->cols(), this->rows(), static_cast< F&& >(f)).impl();
 // 		}
 
-		template < typename U >
-		constexpr void reinit_v(U const& v){
-			*this = maker_type().by_value
-				(this->cols(), this->rows(), v).impl();
-		}
+// 		template < typename U >
+// 		constexpr void reinit_v(U const& v){
+// 			*this = maker_type().by_value
+// 				(this->cols(), this->rows(), v).impl();
+// 		}
 
 		template < typename Iter >
 		constexpr void reinit_iter(Iter iter){
@@ -278,11 +280,11 @@ namespace mitrax{ namespace detail{
 // 				(this->cols(), this->rows(), static_cast< F&& >(f)).impl();
 // 		}
 
-		template < typename U >
-		void reinit_v(U const& v){
-			*this = maker_type().by_value
-				(this->cols(), this->rows(), v).impl();
-		}
+// 		template < typename U >
+// 		void reinit_v(U const& v){
+// 			*this = maker_type().by_value
+// 				(this->cols(), this->rows(), v).impl();
+// 		}
 
 		template < typename Iter >
 		void reinit_iter(Iter iter){
@@ -375,14 +377,14 @@ namespace mitrax{ namespace detail{
 namespace mitrax{ namespace maker{
 
 
-	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
-	constexpr
-	raw_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
-	std_t::by_value(col_t< Cct, C > c, row_t< Rct, R > r, T const& v)const{
-		return {init, c, r, detail::init_raw_matrix_data(
-			bool_t< Cct && Rct >(), c, r, v
-		)};
-	}
+// 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
+// 	constexpr
+// 	raw_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
+// 	std_t::by_value(col_t< Cct, C > c, row_t< Rct, R > r, T const& v)const{
+// 		return {init, c, r, detail::init_raw_matrix_data(
+// 			bool_t< Cct && Rct >(), c, r, v
+// 		)};
+// 	}
 
 	template < typename I, bool Cct, size_t C, bool Rct, size_t R >
 	constexpr
@@ -396,13 +398,13 @@ namespace mitrax{ namespace maker{
 	constexpr auto std = std_t();
 
 
-	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
-	raw_heap_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
-	heap_t::by_value(col_t< Cct, C > c, row_t< Rct, R > r, T const& v)const{
-		return {init, c, r, detail::init_raw_matrix_data(
-			std::false_type(), c, r, v
-		)};
-	}
+// 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
+// 	raw_heap_matrix< std::remove_cv_t< T >, Cct ? C : 0, Rct ? R : 0 >
+// 	heap_t::by_value(col_t< Cct, C > c, row_t< Rct, R > r, T const& v)const{
+// 		return {init, c, r, detail::init_raw_matrix_data(
+// 			std::false_type(), c, r, v
+// 		)};
+// 	}
 
 	template < typename I, bool Cct, size_t C, bool Rct, size_t R >
 	raw_heap_matrix< iter_type_t< I >, Cct ? C : 0, Rct ? R : 0 >

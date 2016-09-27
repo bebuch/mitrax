@@ -47,10 +47,10 @@ namespace mitrax{
 
 	template < typename T, typename M, size_t C, size_t R >
 	constexpr void reinit_v(matrix< M, C, R >& m, T const& v = T()){
-		static_assert(detail::has_reinit_v_v< M, T >,
-			"Matrix implementation M does not support reinit_v");
+// 		static_assert(detail::has_reinit_v_v< M, T >,
+// 			"Matrix implementation M does not support reinit_v");
 
-		m.impl().reinit_v(v);
+		m.impl().reinit_iter(make_value_iterator(v));
 	}
 
 	template < typename M, size_t C, size_t R, typename F >

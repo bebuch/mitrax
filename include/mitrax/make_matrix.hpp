@@ -157,7 +157,7 @@ namespace mitrax{
 		col_t< Cct, C > c, row_t< Rct, R > r, T const& v = T(),
 		Maker maker = maker::std
 	){
-		return maker.by_value(c, r, v);
+		return maker.by_sequence(c, r, mitrax::make_value_iterator(v));
 	}
 
 	template < typename T, size_t C, size_t R, typename Maker = maker::std_t >
