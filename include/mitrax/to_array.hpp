@@ -24,25 +24,10 @@ namespace mitrax{ namespace detail{
 		return {{ iter[I] ... }};
 	}
 
-// 	template < typename T >
-// 	constexpr T const& nop(T const& v, size_t)noexcept{ return v; }
-//
-// 	template < typename T, size_t ... I >
-// 	constexpr array_s< std::remove_cv_t< T >, sizeof...(I) >
-// 	init_array(T const& v, std::index_sequence< I ... >){
-// 		return {{ nop(v, I) ... }};
-// 	}
-
-
 	template < size_t N, typename Iter >
 	constexpr auto to_array(Iter iter){
 		return to_array(iter, std::make_index_sequence< N >());
 	}
-
-// 	template < size_t N, typename T >
-// 	constexpr auto init_array(T const& v){
-// 		return init_array(v, std::make_index_sequence< N >());
-// 	}
 
 
 } }

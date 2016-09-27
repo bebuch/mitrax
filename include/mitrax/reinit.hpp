@@ -45,29 +45,23 @@ namespace mitrax{
 	}
 
 
-	template < typename T, typename M, size_t C, size_t R >
-	constexpr void reinit_v(matrix< M, C, R >& m, T const& v = T()){
-// 		static_assert(detail::has_reinit_v_v< M, T >,
-// 			"Matrix implementation M does not support reinit_v");
-
-		m.impl().reinit_iter(make_value_iterator(v));
-	}
-
-	template < typename M, size_t C, size_t R, typename F >
-	constexpr void reinit_fn(matrix< M, C, R >& m, F&& f){
-// 		static_assert(detail::has_reinit_iter_v< M, F >,
-// 			"Matrix implementation M does not support reinit_iter");
-
-		m.impl().reinit_iter(make_function_iterator(make_function_xy_adapter(
-				static_cast< F&& >(f), m.cols())));
-	}
-
 	template < typename M, size_t C, size_t R, typename Iter >
 	constexpr void reinit_iter(matrix< M, C, R >& m, Iter iter){
 		static_assert(detail::has_reinit_iter_v< M, Iter >,
 			"Matrix implementation M does not support reinit_iter");
 
 		m.impl().reinit_iter(iter);
+	}
+
+	template < typename T, typename M, size_t C, size_t R >
+	constexpr void reinit_v(matrix< M, C, R >& m, T const& v = T()){
+		reinit_iter(m, make_value_iterator(v));
+	}
+
+	template < typename M, size_t C, size_t R, typename F >
+	constexpr void reinit_fn(matrix< M, C, R >& m, F&& f){
+		reinit_iter(m, make_function_iterator(make_function_xy_adapter(
+				static_cast< F&& >(f), m.cols())));
 	}
 
 	template < typename T, typename M, size_t C, size_t R,
@@ -90,10 +84,7 @@ namespace mitrax{
 		static_assert((C == 1 && R != 0) || (C != 0 && R == 1),
 			"reinit_vector_fn is only allowed for compile time dim vectors");
 
-// 		static_assert(detail::has_reinit_fn_v< M, detail::fn_i< F&& > >,
-// 			"Matrix implementation M does not support reinit_fn");
-
-		m.impl().reinit_iter(make_function_iterator(static_cast< F&& >(f)));
+		reinit_iter(m, make_function_iterator(static_cast< F&& >(f)));
 	}
 
 	template < typename T, typename M, size_t C, size_t R,
@@ -105,9 +96,8 @@ namespace mitrax{
 	template < typename T, typename M, size_t C, size_t R,
 		enable_if_t< (C == 1 && R != 0) || (C != 0 && R == 1) > = 0 >
 	constexpr void reinit_vector(matrix< M, C, R >& m, T(&&v)[R * C]){
-		reinit_iter(m,
-			mitrax::make_move_iterator(make_convert_iterator< value_type_t< M > >(
-			v)));
+		reinit_iter(m, mitrax::make_move_iterator(
+			make_convert_iterator< value_type_t< M > >(v)));
 	}
 
 

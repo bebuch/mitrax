@@ -40,13 +40,6 @@ namespace mitrax{ namespace detail{
 			init_by_iter(data_, size_, a.data_);
 		}
 
-// 		array_d(size_t size, T const& v = T()):
-// 			data_(alloc_.allocate(size)),
-// 			size_(size)
-// 		{
-// 			init_by_value(data_, size_, v);
-// 		}
-
 		template < typename U, size_t N >
 		array_d(array_s< U, N >&& a):
 			data_(alloc_.allocate(N)),
@@ -140,18 +133,6 @@ namespace mitrax{ namespace detail{
 				throw;
 			}
 		}
-
-// 		template < typename U >
-// 		void init_by_value(T*& data, size_t& size, U const& v){
-// 			try{
-// 				std::uninitialized_fill_n(data, size, v);
-// 			}catch(...){
-// 				alloc_.deallocate(data, size);
-// 				data = nullptr;
-// 				size = 0;
-// 				throw;
-// 			}
-// 		}
 
 
 		void destroy()noexcept{
