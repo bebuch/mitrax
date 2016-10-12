@@ -73,6 +73,25 @@ exe sobel_uBLAS
 #	;
 
 
+exe sobel2_mitrax
+	:
+	sobel2.mitrax.cpp
+	benchmark
+	;
+
+exe sobel2_Eigen
+	:
+	sobel2.Eigen.cpp
+	benchmark
+	;
+
+exe sobel2_uBLAS
+	:
+	sobel2.uBLAS.cpp
+	benchmark
+	;
+
+
 exe make_mitrax
 	:
 	make.mitrax.cpp
