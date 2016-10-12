@@ -14,8 +14,6 @@
 #include "array_d.hpp"
 #include "iterator/value_iterator.hpp"
 
-#include <iterator>
-
 
 namespace mitrax{ namespace maker{
 
