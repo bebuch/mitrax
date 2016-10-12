@@ -1,5 +1,6 @@
 import os ;
 local boost = [ os.environ BOOST ] ;
+local Eigen = [ os.environ EIGEN ] ;
 
 use-project /boost
 	: $(boost)
@@ -69,6 +70,15 @@ exe make_matrix
 	make_matrix.cpp
 	/boost//unit_test_framework
 	:
+	<dependency>dim
+	;
+
+exe make_matrix_eigen
+	:
+	make_matrix_eigen.cpp
+	/boost//unit_test_framework
+	:
+	<include>$(Eigen)
 	<dependency>dim
 	;
 
