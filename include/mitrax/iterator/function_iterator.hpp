@@ -89,7 +89,7 @@ namespace mitrax{
 
 
 		constexpr function_iterator operator+(difference_type n)const{
-			return function_iterator(n_ + n);
+			return function_iterator(*this) += n;
 		}
 
 		constexpr function_iterator& operator+=(difference_type n){
@@ -98,7 +98,7 @@ namespace mitrax{
 		}
 
 		constexpr function_iterator operator-(difference_type n)const{
-			return function_iterator(n_ - n);
+			return function_iterator(*this) -= n;
 		}
 
 		constexpr function_iterator& operator-=(difference_type n){
