@@ -75,7 +75,7 @@ namespace mitrax{
 		}
 
 		constexpr function_iterator operator++(int){
-			return function_iterator(n_++);
+			return ++function_iterator(*this);
 		}
 
 		constexpr function_iterator& operator--(){
@@ -84,7 +84,7 @@ namespace mitrax{
 		}
 
 		constexpr function_iterator operator--(int){
-			return function_iterator(n_--);
+			return --function_iterator(*this);
 		}
 
 
