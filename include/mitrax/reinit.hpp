@@ -11,6 +11,8 @@
 
 #include "matrix_interface.hpp"
 
+#include "iterator/convert.hpp"
+
 
 namespace mitrax{
 

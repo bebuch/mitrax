@@ -11,7 +11,7 @@
 #include <boost/mpl/list.hpp>
 
 #include <mitrax/make_matrix.hpp>
-#include <mitrax/eigen_matrix.hpp>
+#include <mitrax/matrix/eigen.hpp>
 
 #include <complex>
 #include <iostream>

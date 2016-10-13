@@ -651,6 +651,15 @@ namespace mitrax{
 	}
 
 
+	using rt_col_t = col_t< false, 0 >;
+
+	using rt_row_t = row_t< false, 0 >;
+
+	using rt_dim_t = dim_t< false, 0 >;
+
+	using rt_dims_t = dims_t< 0, 0 >;
+
+
 }
 
 

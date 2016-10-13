@@ -17,7 +17,7 @@ namespace mitrax{
 
 
 	template < typename M, size_t C, size_t R >
-	constexpr raw_matrix< value_type_t< M >, C, R >
+	constexpr std_matrix< value_type_t< M >, C, R >
 	upper_triangular_matrix(matrix< M, C, R > const& in){
 		if(size_t(in.rows()) != size_t(in.cols())){
 			throw std::logic_error(
@@ -229,7 +229,7 @@ namespace mitrax{
 
 
 	template < typename M, size_t C, size_t R >
-	constexpr raw_matrix< value_type_t< M >, C, R >
+	constexpr std_matrix< value_type_t< M >, C, R >
 	inverse(matrix< M, C, R > m){
 		using value_type = value_type_t< M >;
 

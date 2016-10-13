@@ -83,9 +83,9 @@ BOOST_AUTO_TEST_CASE(test_join_ct){
 	constexpr auto m7 = join(
 		join_v(join_h(join_v(m1, m3), join_v(m2, m4), m5), join_h(m5, m6)));
 
-	BOOST_TEST((rt_id(m5) == id< raw_matrix< int, 3, 3 > >));
-	BOOST_TEST((rt_id(m6) == id< raw_matrix< int, 3, 3 > >));
-	BOOST_TEST((rt_id(m7) == id< raw_matrix< int, 6, 6 > >));
+	BOOST_TEST((rt_id(m5) == id< std_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m6) == id< std_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m7) == id< std_matrix< int, 6, 6 > >));
 
 	BOOST_TEST((m5 == ref3x3));
 	BOOST_TEST((m6 == ref3x3));
@@ -111,9 +111,9 @@ BOOST_AUTO_TEST_CASE(test_join_rt){
 	auto m7 = join(
 		join_v(join_h(join_v(m1, m3), join_v(m2, m4), m5), join_h(m5, m6)));
 
-	BOOST_TEST((rt_id(m5) == id< raw_matrix< int, 0, 0 > >));
-	BOOST_TEST((rt_id(m6) == id< raw_matrix< int, 0, 0 > >));
-	BOOST_TEST((rt_id(m7) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m5) == id< std_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m6) == id< std_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(m7) == id< std_matrix< int, 0, 0 > >));
 
 	BOOST_TEST((m5 == ref3x3));
 	BOOST_TEST((m6 == ref3x3));
@@ -139,9 +139,9 @@ BOOST_AUTO_TEST_CASE(test_join_ct_and_rt_1){
 	auto m7 = join(
 		join_v(join_h(join_v(m1, m3), join_v(m2, m4), m5), join_h(m5, m6)));
 
-	BOOST_TEST((rt_id(m5) == id< raw_matrix< int, 3, 3 > >));
-	BOOST_TEST((rt_id(m6) == id< raw_matrix< int, 3, 3 > >));
-	BOOST_TEST((rt_id(m7) == id< raw_matrix< int, 6, 6 > >));
+	BOOST_TEST((rt_id(m5) == id< std_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m6) == id< std_matrix< int, 3, 3 > >));
+	BOOST_TEST((rt_id(m7) == id< std_matrix< int, 6, 6 > >));
 
 	BOOST_TEST((m5 == ref3x3));
 	BOOST_TEST((m6 == ref3x3));
@@ -167,9 +167,9 @@ BOOST_AUTO_TEST_CASE(test_join_ct_and_rt_2){
 	auto m7 = join(
 		join_v(join_h(join_v(m1, m3), join_v(m2, m4), m5), join_h(m5, m6)));
 
-	BOOST_TEST((rt_id(m5) == id< raw_matrix< int, 0, 3 > >));
-	BOOST_TEST((rt_id(m6) == id< raw_matrix< int, 3, 0 > >));
-	BOOST_TEST((rt_id(m7) == id< raw_matrix< int, 0, 6 > >));
+	BOOST_TEST((rt_id(m5) == id< std_matrix< int, 0, 3 > >));
+	BOOST_TEST((rt_id(m6) == id< std_matrix< int, 3, 0 > >));
+	BOOST_TEST((rt_id(m7) == id< std_matrix< int, 0, 6 > >));
 
 	BOOST_TEST((m5 == ref3x3));
 	BOOST_TEST((m6 == ref3x3));

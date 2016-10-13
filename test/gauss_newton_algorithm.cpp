@@ -10,7 +10,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <mitrax/gauss_newton_algorithm.hpp>
-#include <mitrax/output.hpp>
+#include <mitrax/io/matrix.hpp>
 
 #include <iostream>
 

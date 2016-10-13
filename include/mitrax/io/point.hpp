@@ -6,13 +6,12 @@
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 //-----------------------------------------------------------------------------
-#ifndef _mitrax__point_io__hpp_INCLUDED_
-#define _mitrax__point_io__hpp_INCLUDED_
+#ifndef _mitrax__io__point__hpp_INCLUDED_
+#define _mitrax__io__point__hpp_INCLUDED_
 
-#include "io.hpp"
-#include "point.hpp"
+#include "../point.hpp"
 
-#include <iostream>
+#include "utility.hpp"
 
 
 namespace mitrax{

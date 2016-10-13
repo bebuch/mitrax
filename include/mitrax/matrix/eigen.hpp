@@ -1,60 +1,20 @@
 //-----------------------------------------------------------------------------
-// Copyright (c) 2015-2016 Benjamin Buch
+// Copyright (c) 2016 Benjamin Buch
 //
 // https://github.com/bebuch/mitrax
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 //-----------------------------------------------------------------------------
-#ifndef _mitrax__eigen_matrix__hpp_INCLUDED_
-#define _mitrax__eigen_matrix__hpp_INCLUDED_
+#ifndef _mitrax__matrix__eigen__hpp_INCLUDED_
+#define _mitrax__matrix__eigen__hpp_INCLUDED_
 
-#include "matrix_interface.hpp"
+#include "eigen_fwd.hpp"
 
 #include <Eigen/Core>
 
 
-
-namespace mitrax{
-
-	namespace detail{
-
-		template < typename T, size_t C, size_t R >
-		class eigen_matrix_impl;
-
-	}
-
-	template < typename T, size_t Cols, size_t Rows >
-	using eigen_matrix =
-		matrix< detail::eigen_matrix_impl< T, Cols, Rows >, Cols, Rows >;
-
-	template < typename T, size_t N >
-	using eigen_square_matrix = eigen_matrix< T, N, N >;
-
-	template < typename T, size_t Rows >
-	using eigen_col_vector = eigen_matrix< T, 1, Rows >;
-
-	template < typename T, size_t Cols >
-	using eigen_row_vector = eigen_matrix< T, Cols, 1 >;
-
-
-}
-
-
-namespace mitrax{ namespace maker{
-
-
-	struct eigen_t{
-		template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
-		eigen_matrix< iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >
-		by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter)const;
-	};
-
-
-} }
-
-
-namespace mitrax{ namespace detail{
+namespace mitrax::detail{
 
 
 	template < typename T, size_t C, size_t R >
@@ -68,7 +28,7 @@ namespace mitrax{ namespace detail{
 		using value_type = T;
 
 		/// \brief Type with the make functions
-		using maker_type = maker::heap_t;
+		using maker_type = maker::eigen_t;
 
 		/// \brief Type of the underlaying Eigen matrix
 		using eigen_type = ::Eigen::Matrix< value_type,
@@ -159,11 +119,6 @@ namespace mitrax{ namespace detail{
 		}
 
 
-		void resize(dims_t< C, R > const& /*d*/){
-			// TODO: do the resize
-		}
-
-
 		template < typename Iter >
 		void reinit_iter(Iter iter){
 			*this = maker_type().by_sequence
@@ -174,12 +129,6 @@ namespace mitrax{ namespace detail{
 	protected:
 		eigen_type values_;
 	};
-
-
-} }
-
-
-namespace mitrax{ namespace detail{
 
 
 	template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
@@ -199,10 +148,10 @@ namespace mitrax{ namespace detail{
 	}
 
 
-} }
+}
 
 
-namespace mitrax{ namespace maker{
+namespace mitrax::maker{
 
 
 	template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
@@ -211,10 +160,10 @@ namespace mitrax{ namespace maker{
 		return {init, c, r, detail::to_eigen_matrix_data(c, r, iter)};
 	}
 
-	constexpr eigen_t eigen{};
+	constexpr auto eigen = eigen_t();
 
 
-} }
+}
 
 
 #endif

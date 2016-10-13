@@ -9,8 +9,6 @@
 #ifndef _mitrax__matrix_fwd__hpp_INCLUDED_
 #define _mitrax__matrix_fwd__hpp_INCLUDED_
 
-#include "dim.hpp"
-
 
 namespace mitrax{
 
@@ -29,74 +27,6 @@ namespace mitrax{
 
 	template < typename M >
 	using bitmap = matrix< M, 0, 0 >;
-
-
-	namespace detail{
-
-
-		template < typename T, size_t Cols, size_t Rows >
-		class raw_matrix_impl;
-
-		template < typename T, size_t Cols, size_t Rows >
-		class raw_heap_matrix_impl;
-
-		template < typename T, size_t Cols, size_t Rows, typename = void >
-		struct raw_heap_matrix_picker{
-			using type = matrix< detail::raw_heap_matrix_impl< T, Cols, Rows >,
-				Cols, Rows >;
-		};
-
-		template < typename T, size_t Cols, size_t Rows >
-		struct raw_heap_matrix_picker< T, Cols, Rows,
-			std::enable_if_t< Cols == 0 || Rows == 0 > >{
-			using type = matrix< raw_matrix_impl< T, Cols, Rows >, Cols, Rows >;
-		};
-
-		template < typename T, size_t Cols, size_t Rows >
-		using raw_heap_matrix_picker_t =
-			typename raw_heap_matrix_picker< T, Cols, Rows >::type;
-
-
-	}
-
-
-	template < typename T, size_t Cols, size_t Rows >
-	using raw_matrix =
-		matrix< detail::raw_matrix_impl< T, Cols, Rows >, Cols, Rows >;
-
-	template < typename T, size_t N >
-	using raw_square_matrix = raw_matrix< T, N, N >;
-
-	template < typename T, size_t Rows >
-	using raw_col_vector = raw_matrix< T, 1, Rows >;
-
-	template < typename T, size_t Cols >
-	using raw_row_vector = raw_matrix< T, Cols, 1 >;
-
-	template < typename T >
-	using raw_bitmap = raw_matrix< T, 0, 0 >;
-
-
-	template < typename T, size_t Cols, size_t Rows >
-	using raw_heap_matrix = detail::raw_heap_matrix_picker_t< T, Cols, Rows >;
-
-	template < typename T, size_t N >
-	using raw_heap_square_matrix = raw_heap_matrix< T, N, N >;
-
-	template < typename T, size_t Rows >
-	using raw_heap_col_vector = raw_heap_matrix< T, 1, Rows >;
-
-	template < typename T, size_t Cols >
-	using raw_heap_row_vector = raw_heap_matrix< T, Cols, 1 >;
-
-
-	using rt_col_t = col_t< false, 0 >;
-
-	using rt_row_t = row_t< false, 0 >;
-
-	using rt_dim_t = dim_t< false, 0 >;
-
-	using rt_dims_t = dims_t< 0, 0 >;
 
 
 }

@@ -6,8 +6,8 @@
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 //-----------------------------------------------------------------------------
-#ifndef _mitrax__io_debug__hpp_INCLUDED_
-#define _mitrax__io_debug__hpp_INCLUDED_
+#ifndef _mitrax__io__debug__hpp_INCLUDED_
+#define _mitrax__io__debug__hpp_INCLUDED_
 
 #include <ostream>
 #include <utility>
@@ -17,7 +17,7 @@
 #include <boost/container/vector.hpp>
 
 
-namespace mitrax{
+namespace mitrax{ namespace io{ namespace debug{
 
 
 	template < typename X, typename Y >
@@ -80,6 +80,6 @@ namespace mitrax{
 
 
 
-}
+} } }
 
 #endif

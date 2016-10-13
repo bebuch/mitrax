@@ -382,7 +382,7 @@ namespace mitrax{
 
 	template < typename M, size_t C, size_t R >
 	constexpr auto operator+(matrix< M, C, R > const& m){
-		return as_raw_matrix(m);
+		return as_std_matrix(m);
 	}
 
 	template < typename M, size_t C, size_t R >

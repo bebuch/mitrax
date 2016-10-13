@@ -125,19 +125,19 @@ namespace mitrax{
 	}
 
 	template < typename M, size_t C, size_t R >
-	constexpr auto as_raw_matrix(matrix< M, C, R >& m){
+	constexpr auto as_std_matrix(matrix< M, C, R >& m){
 		return make_matrix_fn(m.dims(),
 			detail::make_convert_fn< value_type_t< M > >(m));
 	}
 
 	template < typename M, size_t C, size_t R >
-	constexpr auto as_raw_matrix(matrix< M, C, R > const& m){
+	constexpr auto as_std_matrix(matrix< M, C, R > const& m){
 		return make_matrix_fn(m.dims(),
 			detail::make_convert_fn< value_type_t< M > >(m));
 	}
 
 	template < typename M, size_t C, size_t R >
-	constexpr auto as_raw_matrix(matrix< M, C, R >&& m){
+	constexpr auto as_std_matrix(matrix< M, C, R >&& m){
 		return make_matrix_fn(m.dims(),
 			detail::make_convert_fn< value_type_t< M > >(std::move(m)));
 	}

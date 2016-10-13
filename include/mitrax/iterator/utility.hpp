@@ -6,14 +6,8 @@
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 //-----------------------------------------------------------------------------
-#ifndef _mitrax__iterator__hpp_INCLUDED_
-#define _mitrax__iterator__hpp_INCLUDED_
-
-#include "iterator/value_iterator.hpp"
-#include "iterator/function_iterator.hpp"
-#include "iterator/move_iterator.hpp"
-#include "iterator/flat_iterator.hpp"
-#include "iterator/convert_iterator.hpp"
+#ifndef _mitrax__iterator__utility__hpp_INCLUDED_
+#define _mitrax__iterator__utility__hpp_INCLUDED_
 
 
 namespace mitrax{

@@ -9,14 +9,15 @@
 #ifndef _mitrax__gauss_newton_algorithm__hpp_INCLUDED_
 #define _mitrax__gauss_newton_algorithm__hpp_INCLUDED_
 
-#include <mitrax/make_matrix.hpp>
-#include <mitrax/gaussian_elimination.hpp>
-#include <mitrax/operator.hpp>
-#include <mitrax/norm.hpp>
+#include "make_matrix.hpp"
+#include "gaussian_elimination.hpp"
+#include "operator.hpp"
+#include "norm.hpp"
+
+#include "io/matrix.hpp"
 
 #include <boost/container/vector.hpp>
 
-#include <mitrax/output.hpp>
 #include <iostream>
 
 

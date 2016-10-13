@@ -9,7 +9,7 @@
 #define BOOST_TEST_MODULE mitrax concepts
 #include <boost/test/unit_test.hpp>
 
-#include <mitrax/concepts.hpp>
+#include <mitrax/detail/concepts.hpp>
 
 
 using namespace mitrax;

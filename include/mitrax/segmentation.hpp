@@ -72,13 +72,13 @@ namespace mitrax{
 		}
 
 
-		constexpr raw_matrix< bool, C, R >& used()noexcept{
+		constexpr std_matrix< bool, C, R >& used()noexcept{
 			return used_;
 		}
 
 
 	private:
-		raw_matrix< bool, C, R > used_;
+		std_matrix< bool, C, R > used_;
 	};
 
 

@@ -9,9 +9,15 @@
 #ifndef _mitrax__make_matrix__hpp_INCLUDED_
 #define _mitrax__make_matrix__hpp_INCLUDED_
 
-#include "raw_matrix.hpp"
-#include "iterator.hpp"
+#include "iterator/function.hpp"
+#include "iterator/value.hpp"
+#include "iterator/flat.hpp"
+#include "iterator/move.hpp"
+#include "iterator/utility.hpp"
+
 #include "reference_wrapper.hpp"
+
+#include "matrix/std.hpp"
 
 
 namespace mitrax{

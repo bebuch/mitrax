@@ -10,7 +10,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <mitrax/matrix.hpp>
-#include <mitrax/output.hpp>
+#include <mitrax/io.hpp>
 
 #include <sstream>
 

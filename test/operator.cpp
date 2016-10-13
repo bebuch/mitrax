@@ -342,10 +342,10 @@ BOOST_AUTO_TEST_CASE(test_transpose){
 	BOOST_TEST(check1(trans_dc));
 	BOOST_TEST(check1(trans_dd));
 
-	BOOST_TEST((rt_id(trans_cc) == id< raw_matrix< int, 3, 2 > >));
-	BOOST_TEST((rt_id(trans_cd) == id< raw_matrix< int, 0, 2 > >));
-	BOOST_TEST((rt_id(trans_dc) == id< raw_matrix< int, 3, 0 > >));
-	BOOST_TEST((rt_id(trans_dd) == id< raw_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(trans_cc) == id< std_matrix< int, 3, 2 > >));
+	BOOST_TEST((rt_id(trans_cd) == id< std_matrix< int, 0, 2 > >));
+	BOOST_TEST((rt_id(trans_dc) == id< std_matrix< int, 3, 0 > >));
+	BOOST_TEST((rt_id(trans_dd) == id< std_matrix< int, 0, 0 > >));
 
 	BOOST_TEST(check2(transpose(trans_cc)));
 	BOOST_TEST(check2(transpose(trans_cd)));

@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(test_convolution){
 
 	BOOST_TEST(eq);
 
-	BOOST_TEST(type_id_runtime(m) == (type_id< raw_matrix< int, 3, 3 > >()));
+	BOOST_TEST(type_id_runtime(m) == (type_id< std_matrix< int, 3, 3 > >()));
 }
 
 

@@ -9,7 +9,7 @@
 #ifndef _mitrax__range__hpp_INCLUDED_
 #define _mitrax__range__hpp_INCLUDED_
 
-#include "concepts.hpp"
+#include "detail/concepts.hpp"
 
 
 namespace mitrax{
