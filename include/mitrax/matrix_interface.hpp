@@ -77,10 +77,10 @@ namespace mitrax{
 		using const_iterator = typename M::const_iterator;
 
 		/// \brief Type of a reverse iterator for data
-		using reverse_iterator = typename M::reverse_iterator;
+		using reverse_iterator = std::reverse_iterator< iterator >;
 
 		/// \brief Type of a reverse iterator for const data
-		using const_reverse_iterator = typename M::const_reverse_iterator;
+		using const_reverse_iterator = std::reverse_iterator< const_iterator >;
 
 
 		constexpr matrix() = default;
@@ -187,19 +187,19 @@ namespace mitrax{
 		}
 
 		constexpr reverse_iterator rbegin(){
-			return m_.rbegin();
+			return std::make_reverse_iterator(end());
 		}
 
 		constexpr const_reverse_iterator rbegin()const{
-			return m_.rbegin();
+			return std::make_reverse_iterator(end());
 		}
 
 		constexpr reverse_iterator rend(){
-			return m_.rend();
+			return std::make_reverse_iterator(begin());
 		}
 
 		constexpr const_reverse_iterator rend()const{
-			return m_.rend();
+			return std::make_reverse_iterator(begin());
 		}
 
 		constexpr const_iterator cbegin()const{

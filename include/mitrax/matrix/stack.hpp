@@ -88,12 +88,6 @@ namespace mitrax::detail{
 		/// \brief Type of a iterator for const data
 		using const_iterator = value_type const*;
 
-		/// \brief Type of a reverse iterator for data
-		using reverse_iterator = std::reverse_iterator< iterator >;
-
-		/// \brief Type of a reverse iterator for const data
-		using const_reverse_iterator = std::reverse_iterator< const_iterator >;
-
 
 		constexpr stack_matrix_impl():
 			values_(to_array< C * R >(
@@ -139,22 +133,6 @@ namespace mitrax::detail{
 
 		constexpr const_iterator end()const{
 			return values_.data() + C * R;
-		}
-
-		constexpr reverse_iterator rbegin(){
-			return std::make_reverse_iterator(end());
-		}
-
-		constexpr const_reverse_iterator rbegin()const{
-			return std::make_reverse_iterator(end());
-		}
-
-		constexpr reverse_iterator rend(){
-			return std::make_reverse_iterator(begin());
-		}
-
-		constexpr const_reverse_iterator rend()const{
-			return std::make_reverse_iterator(begin());
 		}
 
 
