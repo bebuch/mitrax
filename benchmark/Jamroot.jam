@@ -79,6 +79,12 @@ exe sobel2_mitrax
 	benchmark
 	;
 
+exe sobel2_mitrax_eigen_adapter
+	:
+	sobel2.mitrax_eigen_adapter.cpp
+	benchmark
+	;
+
 exe sobel2_Eigen
 	:
 	sobel2.Eigen.cpp

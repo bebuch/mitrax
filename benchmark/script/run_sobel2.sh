@@ -17,3 +17,5 @@ echo "run sobel2.uBLAS benchmark"
 bin/clang-*/release/sobel2_uBLAS --benchmark_repetitions=$repetitions --benchmark_format=json > sobel2_uBLAS.json
 echo "run sobel2.mitrax benchmark"
 bin/clang-*/release/sobel2_mitrax --benchmark_repetitions=$repetitions --benchmark_format=json > sobel2_mitrax.json
+echo "run sobel2.mitrax benchmark"
+bin/clang-*/release/sobel2_mitrax_eigen_adapter --benchmark_repetitions=$repetitions --benchmark_format=json > sobel2_mitrax_eigen_adapter.json
