@@ -240,7 +240,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_types, T, types){
 		id< heap_square_matrix< T, 0 > > ==
 		id< matrix< detail::heap_matrix_impl< T, 0, 0 >, 0, 0 > >
 	));
-
 }
 
 

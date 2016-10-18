@@ -660,6 +660,15 @@ namespace mitrax{
 	using rt_dims_t = dims_t< 0, 0 >;
 
 
+	struct memory_order{
+		struct col_t: std::false_type{};
+		struct row_t: std::true_type{};
+
+		static constexpr auto col = col_t();
+		static constexpr auto row = row_t();
+	};
+
+
 }
 
 
