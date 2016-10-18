@@ -9,6 +9,8 @@
 #ifndef _mitrax__iterator__utility__hpp_INCLUDED_
 #define _mitrax__iterator__utility__hpp_INCLUDED_
 
+#include "move.hpp"
+
 
 namespace mitrax{
 
@@ -24,8 +26,13 @@ namespace mitrax{
 	}
 
 	template < typename T, size_t N >
-	constexpr T* begin(T(&array)[N])noexcept{
-		return array;
+	constexpr auto begin(T(&array)[N])noexcept{
+		return static_cast< T* >(array);
+	}
+
+	template < typename T, size_t N >
+	constexpr auto begin(T(&&array)[N])noexcept{
+		return make_move_iterator(array);
 	}
 
 	template < typename C >
@@ -45,8 +52,13 @@ namespace mitrax{
 	}
 
 	template < typename T, size_t N >
-	constexpr T* end(T(&array)[N])noexcept{
-		return array + N;
+	constexpr auto end(T(&array)[N])noexcept{
+		return static_cast< T* >(array + N);
+	}
+
+	template < typename T, size_t N >
+	constexpr auto end(T(&&array)[N])noexcept{
+		return make_move_iterator(array + N);
 	}
 
 	template < typename C >
