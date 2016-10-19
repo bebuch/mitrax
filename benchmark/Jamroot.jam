@@ -65,13 +65,6 @@ exe sobel_uBLAS
 	benchmark
 	;
 
-# doesn't work yet
-#exe sobel_GIL
-#	:
-#	sobel.GIL.cpp
-#	benchmark
-#	;
-
 
 exe sobel2_mitrax
 	:
