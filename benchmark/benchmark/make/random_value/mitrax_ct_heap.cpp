@@ -7,7 +7,7 @@
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/for_each.hpp>
 
-#include "include/random_vector.hpp"
+#include "../../../include/random_vector.hpp"
 
 
 using namespace mitrax;
@@ -24,7 +24,7 @@ void BM_make(benchmark::State& state, D1 d1){
 		auto m = make_matrix_fn(d1,
 			[&r, d1](auto x, auto y){
 				return r[y * d1.cols() + x];
-			});
+			}, maker::heap);
 
 		benchmark::DoNotOptimize(m);
 	}
@@ -44,11 +44,11 @@ int main(int argc, char** argv){
 			dims< 8, 64 >(),
 			dims< 16, 64 >(),
 			dims< 32, 64 >(),
-			dims< 64, 64 >()
-// 			dims< 128, 64 >(),
-// 			dims< 256, 64 >(),
-// 			dims< 256, 128 >(),
-// 			dims< 256, 256 >()
+			dims< 64, 64 >(),
+			dims< 128, 64 >(),
+			dims< 256, 64 >(),
+			dims< 256, 128 >(),
+			dims< 256, 256 >()
 		), [](auto d1){
 			using dim1_t = decltype(d1);
 			benchmark::RegisterBenchmark(

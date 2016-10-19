@@ -1,6 +1,6 @@
 #include <benchmark/benchmark.h>
 
-#include "Eigen/include/sobel.hpp"
+#include "../../../../include/Eigen/sobel.hpp"
 
 
 using namespace Eigen;

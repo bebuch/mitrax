@@ -7,12 +7,10 @@
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/for_each.hpp>
 
-#include <Eigen/Core>
-
 #include <random>
 #include <string>
 
-#include "include/get_binaryop.hpp"
+#include "../../../include/get_binaryop.hpp"
 
 
 using namespace mitrax;
@@ -22,16 +20,22 @@ namespace hana = boost::hana;
 
 
 template < typename Op, typename T, typename D1, typename D2 >
-void BM_binaryop(benchmark::State& state, Op op, D1, D2){
+void BM_binaryop(benchmark::State& state, Op op, D1 d1, D2 d2){
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution< T > dis(
 		std::numeric_limits< T >::min(),
 		std::numeric_limits< T >::max()
 	);
+	auto m1 = make_matrix_fn(d1,
+		[&dis, &gen](auto, auto){
+			return dis(gen);
+		}, maker::heap);
 
-	auto m1 = Eigen::Matrix< T, D1::ct_cols, D1::ct_rows >::Random();
-	auto m2 = Eigen::Matrix< T, D2::ct_cols, D2::ct_rows >::Random();
+	auto m2 = make_matrix_fn(d2,
+		[&dis, &gen](auto, auto){
+			return dis(gen);
+		}, maker::heap);
 
 	while(state.KeepRunning()){
 		auto res = op(m1, m2);
@@ -54,8 +58,8 @@ int main(int argc, char** argv){
 				dims< 8, 64 >(),
 				dims< 16, 64 >(),
 				dims< 32, 64 >(),
-				dims< 64, 64 >(),
-				dims< 128, 64 >()
+				dims< 64, 64 >()
+// 				dims< 128, 64 >(),
 // 				dims< 256, 64 >(),
 // 				dims< 256, 128 >(),
 // 				dims< 256, 256 >()

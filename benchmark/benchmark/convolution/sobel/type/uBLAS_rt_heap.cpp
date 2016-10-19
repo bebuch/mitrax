@@ -1,6 +1,6 @@
 #include <benchmark/benchmark.h>
 
-#include "uBLAS/include/sobel.hpp"
+#include "../../../../include/uBLAS/sobel.hpp"
 
 #include <random>
 

@@ -2,7 +2,7 @@
 
 #include <mitrax/operator.hpp>
 
-#include "include/random_vector.hpp"
+#include "../../../include/random_vector.hpp"
 
 
 using namespace mitrax;

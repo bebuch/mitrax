@@ -47,156 +47,156 @@ project mitrax
 	usage-requirements <include>../include
 	;
 
-exe sobel_mitrax
+exe benchmark/convolution/sobel/type/mitrax_constexpr
 	:
-	sobel.mitrax.cpp
+	benchmark/convolution/sobel/type/mitrax_constexpr.cpp
 	benchmark
 	;
 
-exe sobel_Eigen
+exe benchmark/convolution/sobel/type/Eigen_ct_stack
 	:
-	sobel.Eigen.cpp
+	benchmark/convolution/sobel/type/Eigen_ct_stack.cpp
 	benchmark
 	;
 
-exe sobel_uBLAS
+exe benchmark/convolution/sobel/type/uBLAS_rt_heap
 	:
-	sobel.uBLAS.cpp
-	benchmark
-	;
-
-
-exe sobel2_mitrax
-	:
-	sobel2.mitrax.cpp
-	benchmark
-	;
-
-exe sobel2_mitrax_eigen_adapter
-	:
-	sobel2.mitrax_eigen_adapter.cpp
-	benchmark
-	;
-
-exe sobel2_Eigen
-	:
-	sobel2.Eigen.cpp
-	benchmark
-	;
-
-exe sobel2_uBLAS
-	:
-	sobel2.uBLAS.cpp
+	benchmark/convolution/sobel/type/uBLAS_rt_heap.cpp
 	benchmark
 	;
 
 
-exe make_mitrax
+exe benchmark/convolution/sobel/size/mitrax_constexpr
 	:
-	make.mitrax.cpp
+	benchmark/convolution/sobel/size/mitrax_constexpr.cpp
 	benchmark
 	;
 
-exe make_mitrax_ctdim
+exe benchmark/convolution/sobel/size/mitrax_constexpr_Eigen
 	:
-	make.mitrax_ctdim.cpp
+	benchmark/convolution/sobel/size/mitrax_constexpr_Eigen.cpp
 	benchmark
 	;
 
-exe make_mitrax_ctdim_heap
+exe benchmark/convolution/sobel/size/Eigen_ct_stack
 	:
-	make.mitrax_ctdim_heap.cpp
+	benchmark/convolution/sobel/size/Eigen_ct_stack.cpp
 	benchmark
 	;
 
-exe make_Eigen
+exe benchmark/convolution/sobel/size/uBLAS_rt_heap
 	:
-	make.Eigen.cpp
-	benchmark
-	;
-
-exe make_Eigen_ctdim
-	:
-	make.Eigen_ctdim.cpp
-	benchmark
-	;
-
-exe make_uBLAS
-	:
-	make.uBLAS.cpp
+	benchmark/convolution/sobel/size/uBLAS_rt_heap.cpp
 	benchmark
 	;
 
 
-exe make_v_mitrax
+exe benchmark/make/random_value/mitrax_rt_heap
 	:
-	make_v.mitrax.cpp
+	benchmark/make/random_value/mitrax_rt_heap.cpp
 	benchmark
 	;
 
-exe make_v_mitrax_ctdim
+exe benchmark/make/random_value/mitrax_ct_stack
 	:
-	make_v.mitrax_ctdim.cpp
+	benchmark/make/random_value/mitrax_ct_stack.cpp
 	benchmark
 	;
 
-exe make_v_mitrax_ctdim_heap
+exe benchmark/make/random_value/mitrax_ct_heap
 	:
-	make_v.mitrax_ctdim_heap.cpp
+	benchmark/make/random_value/mitrax_ct_heap.cpp
 	benchmark
 	;
 
-exe make_v_Eigen
+exe benchmark/make/random_value/Eigen_rt_heap
 	:
-	make_v.Eigen.cpp
+	benchmark/make/random_value/Eigen_rt_heap.cpp
 	benchmark
 	;
 
-exe make_v_Eigen_ctdim
+exe benchmark/make/random_value/Eigen_ct_stack
 	:
-	make_v.Eigen_ctdim.cpp
+	benchmark/make/random_value/Eigen_ct_stack.cpp
 	benchmark
 	;
 
-exe make_v_uBLAS
+exe benchmark/make/random_value/uBLAS_rt_heap
 	:
-	make_v.uBLAS.cpp
+	benchmark/make/random_value/uBLAS_rt_heap.cpp
 	benchmark
 	;
 
 
-exe binaryop_mitrax
+exe benchmark/make/constant_value/mitrax_rt_heap
 	:
-	binaryop.mitrax.cpp
+	benchmark/make/constant_value/mitrax_rt_heap.cpp
 	benchmark
 	;
 
-exe binaryop_mitrax_ctdim
+exe benchmark/make/constant_value/mitrax_ct_stack
 	:
-	binaryop.mitrax_ctdim.cpp
+	benchmark/make/constant_value/mitrax_ct_stack.cpp
 	benchmark
 	;
 
-exe binaryop_mitrax_ctdim_heap
+exe benchmark/make/constant_value/mitrax_ct_heap
 	:
-	binaryop.mitrax_ctdim_heap.cpp
+	benchmark/make/constant_value/mitrax_ct_heap.cpp
 	benchmark
 	;
 
-exe binaryop_Eigen
+exe benchmark/make/constant_value/Eigen_rt_heap
 	:
-	binaryop.Eigen.cpp
+	benchmark/make/constant_value/Eigen_rt_heap.cpp
 	benchmark
 	;
 
-exe binaryop_Eigen_ctdim
+exe benchmark/make/constant_value/Eigen_ct_stack
 	:
-	binaryop.Eigen_ctdim.cpp
+	benchmark/make/constant_value/Eigen_ct_stack.cpp
 	benchmark
 	;
 
-exe binaryop_uBLAS
+exe benchmark/make/constant_value/uBLAS_rt_heap
 	:
-	binaryop.uBLAS.cpp
+	benchmark/make/constant_value/uBLAS_rt_heap.cpp
+	benchmark
+	;
+
+
+exe benchmark/binary_op/size/mitrax_rt_heap
+	:
+	benchmark/binary_op/size/mitrax_rt_heap.cpp
+	benchmark
+	;
+
+exe benchmark/binary_op/size/mitrax_ct_stack
+	:
+	benchmark/binary_op/size/mitrax_ct_stack.cpp
+	benchmark
+	;
+
+exe benchmark/binary_op/size/mitrax_ct_heap
+	:
+	benchmark/binary_op/size/mitrax_ct_heap.cpp
+	benchmark
+	;
+
+exe benchmark/binary_op/size/Eigen_rt_heap
+	:
+	benchmark/binary_op/size/Eigen_rt_heap.cpp
+	benchmark
+	;
+
+exe benchmark/binary_op/size/Eigen_ct_stack
+	:
+	benchmark/binary_op/size/Eigen_ct_stack.cpp
+	benchmark
+	;
+
+exe benchmark/binary_op/size/uBLAS_rt_heap
+	:
+	benchmark/binary_op/size/uBLAS_rt_heap.cpp
 	benchmark
 	;

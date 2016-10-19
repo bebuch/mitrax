@@ -2,7 +2,7 @@
 
 #include <boost/numeric/ublas/matrix.hpp>
 
-#include "include/random_vector.hpp"
+#include "../../../include/random_vector.hpp"
 
 
 template < typename T >

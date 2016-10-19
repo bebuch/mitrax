@@ -2,7 +2,7 @@
 
 #include <Eigen/Core>
 
-#include "include/random_vector.hpp"
+#include "../../../include/random_vector.hpp"
 
 
 using namespace Eigen;
