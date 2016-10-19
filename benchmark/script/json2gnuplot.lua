@@ -1,4 +1,5 @@
-JSON = (loadfile "script/JSON.lua")() -- one-time load of the routines
+DIR = debug.getinfo(1).source:match("@(.*)json2gnuplot.lua$")
+JSON = (loadfile (DIR .. "JSON.lua"))() -- one-time load of the routines
 
 local filename = arg[1]
 
