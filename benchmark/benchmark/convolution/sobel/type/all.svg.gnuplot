@@ -1,5 +1,5 @@
 set terminal svg size 1000,500 fname 'Verdana' fsize 10
-set output 'plot.svg'
+set output 'all-plot.svg'
 
 set title "Sobel-Operator Benchmark"
 set xlabel "Benchmark"

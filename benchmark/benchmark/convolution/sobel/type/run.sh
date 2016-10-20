@@ -28,7 +28,8 @@ do
 done
 
 echo "plot $name"
-gnuplot $dir/benchmark/$location/svg.gnuplot
+gnuplot $dir/benchmark/$location/all-svg.gnuplot
+gnuplot $dir/benchmark/$location/best-svg.gnuplot
 for f in *.svg
 do
     mv -f "$f" "$dir/${name//\//-}-$f"
