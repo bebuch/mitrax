@@ -211,6 +211,134 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_view_matrix_types, Object, objects){
 
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_view_matrix_3x3, T, types){
+	T ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
+	T init_ca[9] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
+	std::array< T, 9 > init_a{{0, 1, 2, 3, 4, 5, 6, 7, 8}};
+	std::vector< T > init_v{0, 1, 2, 3, 4, 5, 6, 7, 8};
+
+	auto m01 = make_view_matrix(3_C, 3_R, init_ca);
+	auto m02 = make_view_matrix(3_C_rt, 3_R, init_ca);
+	auto m03 = make_view_matrix(3_C, 3_R_rt, init_ca);
+	auto m04 = make_view_matrix(3_C_rt, 3_R_rt, init_ca);
+	auto m05 = make_view_matrix(dims(3_C, 3_R), init_ca);
+	auto m06 = make_view_matrix(dims(3_C_rt, 3_R), init_ca);
+	auto m07 = make_view_matrix(dims(3_C, 3_R_rt), init_ca);
+	auto m08 = make_view_matrix(dims(3_C_rt, 3_R_rt), init_ca);
+	auto m09 = make_view_matrix(3_D, init_ca);
+	auto m10 = make_view_matrix(3_D_rt, init_ca);
+	auto m11 = make_view_matrix(dims(3_D), init_ca);
+	auto m12 = make_view_matrix(dims(3_D_rt), init_ca);
+
+	auto m13 = make_view_matrix(3_C, 3_R, init_a);
+	auto m14 = make_view_matrix(3_C_rt, 3_R, init_a);
+	auto m15 = make_view_matrix(3_C, 3_R_rt, init_a);
+	auto m16 = make_view_matrix(3_C_rt, 3_R_rt, init_a);
+	auto m17 = make_view_matrix(dims(3_C, 3_R), init_a);
+	auto m18 = make_view_matrix(dims(3_C_rt, 3_R), init_a);
+	auto m19 = make_view_matrix(dims(3_C, 3_R_rt), init_a);
+	auto m20 = make_view_matrix(dims(3_C_rt, 3_R_rt), init_a);
+	auto m21 = make_view_matrix(3_D, init_a);
+	auto m22 = make_view_matrix(3_D_rt, init_a);
+	auto m23 = make_view_matrix(dims(3_D), init_a);
+	auto m24 = make_view_matrix(dims(3_D_rt), init_a);
+
+	auto m25 = make_view_matrix(3_C, 3_R, init_v);
+	auto m26 = make_view_matrix(3_C_rt, 3_R, init_v);
+	auto m27 = make_view_matrix(3_C, 3_R_rt, init_v);
+	auto m28 = make_view_matrix(3_C_rt, 3_R_rt, init_v);
+	auto m29 = make_view_matrix(dims(3_C, 3_R), init_v);
+	auto m30 = make_view_matrix(dims(3_C_rt, 3_R), init_v);
+	auto m31 = make_view_matrix(dims(3_C, 3_R_rt), init_v);
+	auto m32 = make_view_matrix(dims(3_C_rt, 3_R_rt), init_v);
+	auto m33 = make_view_matrix(3_D, init_v);
+	auto m34 = make_view_matrix(3_D_rt, init_v);
+	auto m35 = make_view_matrix(dims(3_D), init_v);
+	auto m36 = make_view_matrix(dims(3_D_rt), init_v);
+
+	BOOST_TEST((rt_id(m01) == id< view_matrix< T[9], true, 3, 3 > >));
+	BOOST_TEST((rt_id(m02) == id< view_matrix< T[9], true, 0, 3 > >));
+	BOOST_TEST((rt_id(m03) == id< view_matrix< T[9], true, 3, 0 > >));
+	BOOST_TEST((rt_id(m04) == id< view_matrix< T[9], true, 0, 0 > >));
+	BOOST_TEST((rt_id(m05) == id< view_matrix< T[9], true, 3, 3 > >));
+	BOOST_TEST((rt_id(m06) == id< view_matrix< T[9], true, 0, 3 > >));
+	BOOST_TEST((rt_id(m07) == id< view_matrix< T[9], true, 3, 0 > >));
+	BOOST_TEST((rt_id(m08) == id< view_matrix< T[9], true, 0, 0 > >));
+	BOOST_TEST((rt_id(m09) == id< view_matrix< T[9], true, 3, 3 > >));
+	BOOST_TEST((rt_id(m10) == id< view_matrix< T[9], true, 0, 0 > >));
+	BOOST_TEST((rt_id(m11) == id< view_matrix< T[9], true, 3, 3 > >));
+	BOOST_TEST((rt_id(m12) == id< view_matrix< T[9], true, 0, 0 > >));
+
+	using array = std::array< T, 9 >;
+	BOOST_TEST((rt_id(m13) == id< view_matrix< array, true, 3, 3 > >));
+	BOOST_TEST((rt_id(m14) == id< view_matrix< array, true, 0, 3 > >));
+	BOOST_TEST((rt_id(m15) == id< view_matrix< array, true, 3, 0 > >));
+	BOOST_TEST((rt_id(m16) == id< view_matrix< array, true, 0, 0 > >));
+	BOOST_TEST((rt_id(m17) == id< view_matrix< array, true, 3, 3 > >));
+	BOOST_TEST((rt_id(m18) == id< view_matrix< array, true, 0, 3 > >));
+	BOOST_TEST((rt_id(m19) == id< view_matrix< array, true, 3, 0 > >));
+	BOOST_TEST((rt_id(m20) == id< view_matrix< array, true, 0, 0 > >));
+	BOOST_TEST((rt_id(m21) == id< view_matrix< array, true, 3, 3 > >));
+	BOOST_TEST((rt_id(m22) == id< view_matrix< array, true, 0, 0 > >));
+	BOOST_TEST((rt_id(m23) == id< view_matrix< array, true, 3, 3 > >));
+	BOOST_TEST((rt_id(m24) == id< view_matrix< array, true, 0, 0 > >));
+
+	using vector = std::vector< T >;
+	BOOST_TEST((rt_id(m25) == id< view_matrix< vector, true, 3, 3 > >));
+	BOOST_TEST((rt_id(m26) == id< view_matrix< vector, true, 0, 3 > >));
+	BOOST_TEST((rt_id(m27) == id< view_matrix< vector, true, 3, 0 > >));
+	BOOST_TEST((rt_id(m28) == id< view_matrix< vector, true, 0, 0 > >));
+	BOOST_TEST((rt_id(m29) == id< view_matrix< vector, true, 3, 3 > >));
+	BOOST_TEST((rt_id(m30) == id< view_matrix< vector, true, 0, 3 > >));
+	BOOST_TEST((rt_id(m31) == id< view_matrix< vector, true, 3, 0 > >));
+	BOOST_TEST((rt_id(m32) == id< view_matrix< vector, true, 0, 0 > >));
+	BOOST_TEST((rt_id(m33) == id< view_matrix< vector, true, 3, 3 > >));
+	BOOST_TEST((rt_id(m34) == id< view_matrix< vector, true, 0, 0 > >));
+	BOOST_TEST((rt_id(m35) == id< view_matrix< vector, true, 3, 3 > >));
+	BOOST_TEST((rt_id(m36) == id< view_matrix< vector, true, 0, 0 > >));
+
+
+	BOOST_TEST((check(m01, ref_i)));
+	BOOST_TEST((check(m02, ref_i)));
+	BOOST_TEST((check(m03, ref_i)));
+	BOOST_TEST((check(m04, ref_i)));
+	BOOST_TEST((check(m05, ref_i)));
+	BOOST_TEST((check(m06, ref_i)));
+	BOOST_TEST((check(m07, ref_i)));
+	BOOST_TEST((check(m08, ref_i)));
+	BOOST_TEST((check(m09, ref_i)));
+	BOOST_TEST((check(m10, ref_i)));
+	BOOST_TEST((check(m11, ref_i)));
+	BOOST_TEST((check(m12, ref_i)));
+
+	BOOST_TEST((check(m13, ref_i)));
+	BOOST_TEST((check(m14, ref_i)));
+	BOOST_TEST((check(m15, ref_i)));
+	BOOST_TEST((check(m16, ref_i)));
+	BOOST_TEST((check(m17, ref_i)));
+	BOOST_TEST((check(m18, ref_i)));
+	BOOST_TEST((check(m19, ref_i)));
+	BOOST_TEST((check(m20, ref_i)));
+	BOOST_TEST((check(m21, ref_i)));
+	BOOST_TEST((check(m22, ref_i)));
+	BOOST_TEST((check(m23, ref_i)));
+	BOOST_TEST((check(m24, ref_i)));
+
+	BOOST_TEST((check(m25, ref_i)));
+	BOOST_TEST((check(m26, ref_i)));
+	BOOST_TEST((check(m27, ref_i)));
+	BOOST_TEST((check(m28, ref_i)));
+	BOOST_TEST((check(m29, ref_i)));
+	BOOST_TEST((check(m30, ref_i)));
+	BOOST_TEST((check(m31, ref_i)));
+	BOOST_TEST((check(m32, ref_i)));
+	BOOST_TEST((check(m33, ref_i)));
+	BOOST_TEST((check(m34, ref_i)));
+	BOOST_TEST((check(m35, ref_i)));
+	BOOST_TEST((check(m36, ref_i)));
+}
+
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_view_matrix_3x3_const, T, types){
 	static constexpr T ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
 	static T init_ca[9] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
 	static std::array< T, 9 > init_a{{0, 1, 2, 3, 4, 5, 6, 7, 8}};
