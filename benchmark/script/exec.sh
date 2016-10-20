@@ -10,6 +10,7 @@ do
 	cd "$dir/$f"
 	for r in $(find ./ -maxdepth 1 -name '*run.sh')
 	do
+		echo "exec $r"
 		$r
 	done
 done

@@ -1,5 +1,5 @@
 set terminal svg size 1000,500 fname 'Verdana' fsize 10
-set output 'sobel.svg'
+set output 'plot.svg'
 
 set title "Sobel-Operator Benchmark"
 set xlabel "Benchmark"
@@ -15,9 +15,8 @@ set log y
 
 set key left
 
-## Last datafile plotted: "sobel.dat"
 plot \
-	'sobel_uBLAS.dat' using 1:5:xticlabels(2) linetype -3 notitle, \
-	'sobel_mitrax.dat' using ($1 - 0.15):3:4:5:6 with candlesticks title "mitrax", \
-	'sobel_Eigen.dat' using ($1 + 0.00):3:4:5:6 with candlesticks title "Eigen", \
-	'sobel_uBLAS.dat' using ($1 + 0.15):3:4:5:6 with candlesticks title "uBLAS", \
+	'uBLAS_rt_heap.dat' using 1:6:xticlabels(2) linetype -3 notitle, \
+	'uBLAS_rt_heap.dat' using ($1 + 0.15):4:5:6:7 with candlesticks title "uBLAS rtdim heap + uBLAS rtdim heap", \
+	'Eigen_ct_stack.dat' using ($1 + 0.00):4:5:6:7 with candlesticks title "Eigen rtdim heap + Eigen ctdim stack", \
+	'mitrax_constexpr.dat' using ($1 - 0.15):4:5:6:7 with candlesticks title "mitrax rtdim heap + mitrax constexpr", \

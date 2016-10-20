@@ -1,21 +1,35 @@
 #!/bin/bash
 
-cd ..
+location="convolution/sobel/size"
+
+cd ../../../../
+
+dir=$PWD
+
+cd bin/clang-*/release/benchmark/$location
+name="$location"
 
 
-# Sobel benchmarks
 if [ -z ${repetitions+x} ]
 then
 	repetitions=2
 fi
 
 echo "repetitons: $repetitions (set it with 'export repetitions=N')"
+param="--benchmark_repetitions=$repetitions --benchmark_format=json"
 
-echo "run sobel2.Eigen benchmark"
-bin/clang-*/release/sobel2_Eigen --benchmark_repetitions=$repetitions --benchmark_format=json > sobel2_Eigen.json
-echo "run sobel2.uBLAS benchmark"
-bin/clang-*/release/sobel2_uBLAS --benchmark_repetitions=$repetitions --benchmark_format=json > sobel2_uBLAS.json
-echo "run sobel2.mitrax benchmark"
-bin/clang-*/release/sobel2_mitrax --benchmark_repetitions=$repetitions --benchmark_format=json > sobel2_mitrax.json
-echo "run sobel2.mitrax_eigen_adapter benchmark"
-bin/clang-*/release/sobel2_mitrax_eigen_adapter --benchmark_repetitions=$repetitions --benchmark_format=json > sobel2_mitrax_eigen_adapter.json
+
+for benchmark in $(find ./ -maxdepth 1 -executable -type f)
+do
+	echo "run  $name:${benchmark#./*}"
+	$benchmark $param > ${benchmark#./*}.json
+	echo "eval $name:${benchmark#./*}"
+	lua $dir/script/json2gnuplot.lua ${benchmark#./*}.json > ${benchmark#./*}.dat
+done
+
+echo "plot $name"
+gnuplot $dir/benchmark/$location/svg.gnuplot
+for f in *.svg
+do
+    mv -f "$f" "$dir/${name//\//-}-$f"
+done

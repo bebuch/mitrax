@@ -1,25 +1,35 @@
 #!/bin/bash
 
-cd ..
+location="make/constant_value"
+
+cd ../../../
+
+dir=$PWD
+
+cd bin/clang-*/release/benchmark/$location
+name="$location"
 
 
-# Matrix make_v
 if [ -z ${repetitions+x} ]
 then
 	repetitions=2
 fi
 
 echo "repetitons: $repetitions (set it with 'export repetitions=N')"
+param="--benchmark_repetitions=$repetitions --benchmark_format=json"
 
-echo "run benchmark make constant matrix make_v.Eigen"
-bin/clang-*/release/make_v_Eigen --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_make_v_Eigen.json
-echo "run benchmark make constant matrix make_v.Eigen_ctdim"
-bin/clang-*/release/make_v_Eigen_ctdim --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_make_v_Eigen_ctdim.json
-echo "run benchmark make constant matrix make_v.mitrax"
-bin/clang-*/release/make_v_mitrax --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_make_v_mitrax.json
-echo "run benchmark make constant matrix make_v.mitrax_ctdim"
-bin/clang-*/release/make_v_mitrax_ctdim --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_make_v_mitrax_ctdim.json
-echo "run benchmark make constant matrix make_v.mitrax_ctdim_heap"
-bin/clang-*/release/make_v_mitrax_ctdim_heap --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_make_v_mitrax_ctdim_heap.json
-echo "run benchmark make constant matrix make_v.uBLAS"
-bin/clang-*/release/make_v_uBLAS --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_make_v_uBLAS.json
+
+for benchmark in $(find ./ -maxdepth 1 -executable -type f)
+do
+	echo "run  $name:${benchmark#./*}"
+	$benchmark $param > ${benchmark#./*}.json
+	echo "eval $name:${benchmark#./*}"
+	lua $dir/script/json2gnuplot.lua ${benchmark#./*}.json > ${benchmark#./*}.dat
+done
+
+echo "plot $name"
+gnuplot $dir/benchmark/$location/svg.gnuplot
+for f in *.svg
+do
+    mv -f "$f" "$dir/${name//\//-}-$f"
+done

@@ -1,5 +1,5 @@
 set terminal svg size 1000,500 fname 'Verdana' fsize 16
-set output 'sobel2.svg'
+set output 'plot.svg'
 
 set title "Sobel Benchmark"
 set xlabel "Number of elements"
@@ -20,10 +20,9 @@ set style line 3 lc rgb '#0000ff' lt 1 lw 1 pt 6 pi 1 ps 1
 set style line 4 lc rgb '#D040D0' lt 1 lw 1 pt 1 pi 1 ps 1
 set pointintervalbox 2
 
-## Last datafile plotted: "sobel2.dat"
 plot \
-	'sobel2_uBLAS.dat' using 0:2:xticlabels(1) linetype -3 notitle, \
-	'sobel2_uBLAS.dat' using 0:2 with linespoints ls 4 title "uBLAS", \
-	'sobel2_Eigen.dat' using 0:2 with linespoints ls 3 title "Eigen", \
-	'sobel2_mitrax.dat' using 0:2 with linespoints ls 1 title "mitrax", \
-	'sobel2_mitrax_eigen_adapter.dat' using 0:2 with linespoints ls 2 title "mitrax Eigen adapter", \
+	'uBLAS_rt_heap.dat' using 1:3:xticlabels(2) linetype -3 notitle, \
+	'uBLAS_rt_heap.dat' using 1:3 with linespoints ls 4 title "uBLAS rtdim heap + uBLAS rtdim heap", \
+	'Eigen_ct_stack.dat' using 1:3 with linespoints ls 3 title "Eigen rtdim heap + Eigen ctdim stack", \
+	'mitrax_constexpr.dat' using 1:3 with linespoints ls 1 title "mitrax rtdim heap + mitrax constexpr", \
+	'mitrax_constexpr_Eigen.dat' using 1:3 with linespoints ls 2 title "mitrax(Eigen) rtdim heap + mitrax constexpr", \

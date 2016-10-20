@@ -1,5 +1,5 @@
 set terminal svg size 1000,500 fname 'Verdana' fsize 10
-set output 'matrix_mul.svg'
+set output 'mul-plot.svg'
 
 set title "Matrix multiplication Benchmark"
 set xlabel "Number of elements"
@@ -17,10 +17,10 @@ set key left
 
 ## Last datafile plotted: "sobel.dat"
 plot \
-	'matrix_mul_uBLAS.dat' using 0:2:xticlabels(1) linetype -3 notitle, \
-	'matrix_mul_mitrax.dat' using 0:2 with linespoints title "mitrax", \
-	'matrix_mul_mitrax_ctdim.dat' using 0:2 with linespoints title "mitrax ctdim", \
-	'matrix_mul_mitrax_ctdim_heap.dat' using 0:2 with linespoints title "mitrax ctdim heap", \
-	'matrix_mul_Eigen.dat' using 0:2 with linespoints title "Eigen", \
-	'matrix_mul_Eigen_ctdim.dat' using 0:2 with linespoints title "Eigen ctdim", \
-	'matrix_mul_uBLAS.dat' using 0:2 with linespoints title "uBLAS", \
+	'uBLAS_rt_heap.dat' using 1:3:xticlabels(2) linetype -3 notitle, \
+	'mitrax_rt_heap.dat' using 1:3 with linespoints title "mitrax rtdim heap", \
+	'mitrax_ct_stack.dat' using 1:3 with linespoints title "mitrax ctdim stack", \
+	'mitrax_ct_heap.dat' using 1:3 with linespoints title "mitrax ctdim heap", \
+	'Eigen_rt_heap.dat' using 1:3 with linespoints title "Eigen rtdim heap", \
+	'Eigen_ct_stack.dat' using 1:3 with linespoints title "Eigen ctdim stack", \
+	'uBLAS_rt_heap.dat' using 1:3 with linespoints title "uBLAS rtdim heap", \

@@ -1,25 +1,35 @@
 #!/bin/bash
 
-cd ..
+location="binary_op/size"
+
+cd ../../../
+
+dir=$PWD
+
+cd bin/clang-*/release/benchmark/$location
+name="$location/matrix-multiplication"
 
 
-# Matrix plus
 if [ -z ${repetitions+x} ]
 then
 	repetitions=2
 fi
 
 echo "repetitons: $repetitions (set it with 'export repetitions=N')"
+param="--benchmark_repetitions=$repetitions --benchmark_format=json"
 
-echo "run benchmark matrix plus binaryop.Eigen"
-bin/clang-*/release/binaryop_Eigen --op=+ --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_plus_Eigen.json
-echo "run benchmark matrix plus binaryop.Eigen_ctdim"
-bin/clang-*/release/binaryop_Eigen_ctdim --op=+ --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_plus_Eigen_ctdim.json
-echo "run benchmark matrix plus binaryop.mitrax"
-bin/clang-*/release/binaryop_mitrax --op=+ --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_plus_mitrax.json
-echo "run benchmark matrix plus binaryop.mitrax_ctdim"
-bin/clang-*/release/binaryop_mitrax_ctdim --op=+ --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_plus_mitrax_ctdim.json
-echo "run benchmark matrix plus binaryop.mitrax_ctdim_heap"
-bin/clang-*/release/binaryop_mitrax_ctdim_heap --op=+ --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_plus_mitrax_ctdim_heap.json
-echo "run benchmark matrix plus binaryop.uBLAS"
-bin/clang-*/release/binaryop_uBLAS --op=+ --benchmark_repetitions=$repetitions --benchmark_format=json > matrix_plus_uBLAS.json
+
+for benchmark in $(find ./ -maxdepth 1 -executable -type f)
+do
+	echo "run  $name:${benchmark#./*}"
+	$benchmark --op=+ $param > ${benchmark#./*}.json
+	echo "eval $name:${benchmark#./*}"
+	lua $dir/script/json2gnuplot.lua ${benchmark#./*}.json > ${benchmark#./*}.dat
+done
+
+echo "plot $name"
+gnuplot $dir/benchmark/$location/plus.svg.gnuplot
+for f in *.svg
+do
+    mv -f "$f" "$dir/${name//\//-}-$f"
+done

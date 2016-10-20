@@ -24,6 +24,7 @@ local mean = 0
 local stddev = 0
 local last_name = ""
 local line = 0
+print("#line", "name", "mean", "stddev-min", "min", "max", "stddev-max")
 for i, v in ipairs(data.benchmarks) do
 	if v.name == last_name then
 		min = math.min(min, v.real_time)
