@@ -1,4 +1,4 @@
-set terminal svg size 1000,500 fname 'Verdana' fsize 10
+set terminal svg size 1000,500 fname 'Verdana' fsize 13
 set output 'plus-plot.svg'
 
 set title "Matrix plus Benchmark"
@@ -12,15 +12,16 @@ set xtics rotate
 set datafile separator '\t'
 
 set log y
+set format y "1e%+T"
 
 set key left
 
 ## Last datafile plotted: "sobel.dat"
 plot \
-	'uBLAS_rt_heap.dat' using 0:2:xticlabels(1) linetype -3 notitle, \
-	'mitrax_rt_heap.dat' using 0:2 with linespoints title "mitrax rtdim heap", \
-	'mitrax_ct_stack.dat' using 0:2 with linespoints title "mitrax ctdim stack", \
-	'mitrax_ct_heap.dat' using 0:2 with linespoints title "mitrax ctdim heap", \
-	'Eigen_rt_heap.dat' using 0:2 with linespoints title "Eigen rtdim heap", \
-	'Eigen_ct_stack.dat' using 0:2 with linespoints title "Eigen ctdim stack", \
-	'uBLAS_rt_heap.dat' using 0:2 with linespoints title "uBLAS rtdim heap", \
+	'plus-uBLAS_rt_heap.dat' using 1:3:xticlabels(2) linetype -3 notitle, \
+	'plus-mitrax_rt_heap.dat' using 1:3 with linespoints title "mitrax rt heap", \
+	'plus-mitrax_ct_stack.dat' using 1:3 with linespoints title "mitrax ct stack", \
+	'plus-mitrax_ct_heap.dat' using 1:3 with linespoints title "mitrax ct heap", \
+	'plus-Eigen_rt_heap.dat' using 1:3 with linespoints title "Eigen rt heap", \
+	'plus-Eigen_ct_stack.dat' using 1:3 with linespoints title "Eigen ct stack", \
+	'plus-uBLAS_rt_heap.dat' using 1:3 with linespoints title "uBLAS rt heap", \

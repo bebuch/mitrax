@@ -19,6 +19,6 @@ set pointintervalbox 2
 
 plot \
 	'Eigen_ct_stack.dat' using 1:3:xticlabels(2) linetype -3 notitle, \
-	'Eigen_ct_stack.dat' using 1:3 with linespoints ls 3 title "Eigen rtdim heap + Eigen ctdim stack", \
-	'mitrax_constexpr.dat' using 1:3 with linespoints ls 1 title "mitrax rtdim heap + mitrax constexpr", \
-	'mitrax_constexpr_Eigen.dat' using 1:3 with linespoints ls 2 title "mitrax(Eigen) rtdim heap + mitrax constexpr", \
+	'Eigen_ct_stack.dat' using 1:3 with linespoints ls 3 title "Eigen rt heap + Eigen ct stack", \
+	'mitrax_constexpr.dat' using 1:3 with linespoints ls 1 title "mitrax rt heap + mitrax constexpr", \
+	'mitrax_constexpr_Eigen.dat' using 1:3 with linespoints ls 2 title "mitrax(Eigen) rt heap + mitrax constexpr", \

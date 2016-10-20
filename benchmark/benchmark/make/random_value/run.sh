@@ -12,7 +12,7 @@ name="$location"
 
 if [ -z ${repetitions+x} ]
 then
-	repetitions=2
+	repetitions=1
 fi
 
 echo "repetitons: $repetitions (set it with 'export repetitions=N')"
@@ -31,5 +31,5 @@ echo "plot $name"
 gnuplot $dir/benchmark/$location/svg.gnuplot
 for f in *.svg
 do
-    mv -f "$f" "$dir/${name//\//-}-$f"
+    mv -f "$f" "$dir/${location//\//-}-$f"
 done

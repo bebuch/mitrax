@@ -24,6 +24,7 @@ local mean = 0
 local stddev = 0
 local last_name = ""
 local line = 0
+local more_than_one = false
 print("#line", "name", "mean", "stddev-min", "min", "max", "stddev-max")
 for i, v in ipairs(data.benchmarks) do
 	if v.name == last_name then
@@ -35,9 +36,14 @@ for i, v in ipairs(data.benchmarks) do
 		stddev = v.real_time
 		line = line + 1
 		print(line, last_name, mean / div, (mean - stddev) / div, min / div, max / div, (mean + stddev) / div)
+		more_than_one = true
 	else
 		min = v.real_time
 		max = v.real_time
 		last_name = v.name
+		if not more_than_one then
+			line = line + 1
+			print(line, last_name, v.real_time / div, v.real_time / div, min / div, max / div, v.real_time / div)
+		end
 	end
 end

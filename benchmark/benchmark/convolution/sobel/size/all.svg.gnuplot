@@ -11,6 +11,7 @@ set offset 0.2, 0.2, 0, 0
 set datafile separator '\t'
 
 set log y
+set format y "1e%+T"
 
 set key left
 
@@ -22,7 +23,7 @@ set pointintervalbox 2
 
 plot \
 	'uBLAS_rt_heap.dat' using 1:3:xticlabels(2) linetype -3 notitle, \
-	'uBLAS_rt_heap.dat' using 1:3 with linespoints ls 4 title "uBLAS rtdim heap + uBLAS rtdim heap", \
-	'Eigen_ct_stack.dat' using 1:3 with linespoints ls 3 title "Eigen rtdim heap + Eigen ctdim stack", \
-	'mitrax_constexpr.dat' using 1:3 with linespoints ls 1 title "mitrax rtdim heap + mitrax constexpr", \
-	'mitrax_constexpr_Eigen.dat' using 1:3 with linespoints ls 2 title "mitrax(Eigen) rtdim heap + mitrax constexpr", \
+	'uBLAS_rt_heap.dat' using 1:3 with linespoints ls 4 title "uBLAS rt heap + uBLAS rt heap", \
+	'Eigen_ct_stack.dat' using 1:3 with linespoints ls 3 title "Eigen rt heap + Eigen ct stack", \
+	'mitrax_constexpr.dat' using 1:3 with linespoints ls 1 title "mitrax rt heap + mitrax constexpr", \
+	'mitrax_constexpr_Eigen.dat' using 1:3 with linespoints ls 2 title "mitrax(Eigen) rt heap + mitrax constexpr", \
