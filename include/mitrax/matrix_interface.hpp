@@ -18,11 +18,26 @@
 #include <algorithm>
 
 
+namespace mitrax::maker{
+
+
+	struct key;
+
+	class init_t final{
+		friend struct key;
+		constexpr init_t()noexcept = default;
+	};
+
+	struct key{
+		static constexpr auto init = init_t();
+	};
+
+
+}
+
+
 namespace mitrax{
 
-
-	struct init_t{};
-	constexpr auto init = init_t();
 
 	template < typename M, size_t Cols, size_t Rows >
 	class matrix final{
@@ -90,7 +105,8 @@ namespace mitrax{
 		constexpr matrix(matrix const&) = default;
 
 		template < typename ... T >
-		constexpr matrix(init_t, T&& ... v): m_(static_cast< T&& >(v) ...) {}
+		constexpr matrix(maker::init_t, T&& ... v):
+			m_(static_cast< T&& >(v) ...) {}
 
 
 		constexpr matrix& operator=(matrix&&) = default;

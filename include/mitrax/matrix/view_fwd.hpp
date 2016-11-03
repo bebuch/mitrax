@@ -74,7 +74,7 @@ namespace mitrax{
 namespace mitrax::maker{
 
 
-	struct view_t{
+	struct view_t: key{
 		template < typename Object, typename MemoryOrder = memory_order::row_t,
 		bool Cct, size_t C, bool Rct, size_t R >
 		constexpr auto by_object(
@@ -83,7 +83,7 @@ namespace mitrax::maker{
 		)const;
 	};
 
-	struct const_view_t{
+	struct const_view_t: key{
 		template < typename Object, typename MemoryOrder = memory_order::row_t,
 		bool Cct, size_t C, bool Rct, size_t R >
 		constexpr auto by_object(

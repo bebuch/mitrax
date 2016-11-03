@@ -45,7 +45,7 @@ namespace mitrax{
 namespace mitrax::maker{
 
 
-	struct heap_t{
+	struct heap_t: key{
 		template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
 		heap_matrix< iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >
 		by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter)const;
