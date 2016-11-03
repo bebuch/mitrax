@@ -21,14 +21,15 @@
 namespace mitrax::maker{
 
 
-	struct key;
+	class key;
 
 	class init_t final{
-		friend struct key;
+		friend class key;
 		constexpr init_t()noexcept = default;
 	};
 
-	struct key{
+	class key{
+	protected:
 		static constexpr auto init = init_t();
 	};
 
