@@ -130,9 +130,9 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std, T, types){
 	constexpr auto fn = fn_xy_t< T >();
 
 	auto m1 = make_matrix_v< T >(3_C, 3_R);
-	auto m2 = make_matrix_v< T >(3_C_rt, 3_R);
-	auto m3 = make_matrix_v< T >(3_C, 3_R_rt);
-	auto m4 = make_matrix_v< T >(3_C_rt, 3_R_rt);
+	auto m2 = make_matrix_v< T >(3_Cd, 3_R);
+	auto m3 = make_matrix_v< T >(3_C, 3_Rd);
+	auto m4 = make_matrix_v< T >(3_Cd, 3_Rd);
 	auto m5 = make_matrix_v(3_C, 3_R, T(), maker::heap);
 
 	BOOST_TEST((check(m1, ref_0)));

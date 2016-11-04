@@ -17,7 +17,7 @@ int main(){
 	using namespace mitrax;
 	using namespace mitrax::literals;
 
-	auto m = make_matrix_v< mitrax::pixel::rgb8u >(3264_C_rt, 2448_R_rt);
+	auto m = make_matrix_v< mitrax::pixel::rgb8u >(3264_Cd, 2448_Rd);
 	mitrax::png::load(m, "image_00.png");
 
 	auto g = make_matrix_fn(m.dims(), [&m](auto x, auto y){

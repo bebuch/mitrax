@@ -34,12 +34,12 @@ BOOST_AUTO_TEST_SUITE(suite_data)
 BOOST_AUTO_TEST_CASE(test_data){
 	auto m1 = make_matrix(2_C, 2_R, data);
 	constexpr auto m2 = make_matrix(2_C, 2_R, data);
-	auto m3 = make_matrix(2_C_rt, 2_R, data);
-	auto const m4 = make_matrix(2_C_rt, 2_R, data);
-	auto m5 = make_matrix(2_C, 2_R_rt, data);
-	auto const m6 = make_matrix(2_C, 2_R_rt, data);
-	auto m7 = make_matrix(2_C_rt, 2_R_rt, data);
-	auto const m8 = make_matrix(2_C_rt, 2_R_rt, data);
+	auto m3 = make_matrix(2_Cd, 2_R, data);
+	auto const m4 = make_matrix(2_Cd, 2_R, data);
+	auto m5 = make_matrix(2_C, 2_Rd, data);
+	auto const m6 = make_matrix(2_C, 2_Rd, data);
+	auto m7 = make_matrix(2_Cd, 2_Rd, data);
+	auto const m8 = make_matrix(2_Cd, 2_Rd, data);
 
 	BOOST_TEST(std::equal(ref_i, ref_i + 4, m1.data()));
 	BOOST_TEST(std::equal(ref_i, ref_i + 4, m2.data()));

@@ -290,19 +290,19 @@ BOOST_AUTO_TEST_CASE(test_transpose){
 		{5, 6}
 	});
 
-	auto m_cd = make_matrix< int >(2_C, 3_R_rt, {
+	auto m_cd = make_matrix< int >(2_C, 3_Rd, {
 		{1, 2},
 		{3, 4},
 		{5, 6}
 	});
 
-	auto m_dc = make_matrix< int >(2_C_rt, 3_R, {
+	auto m_dc = make_matrix< int >(2_Cd, 3_R, {
 		{1, 2},
 		{3, 4},
 		{5, 6}
 	});
 
-	auto m_dd = make_matrix< int >(2_C_rt, 3_R_rt, {
+	auto m_dd = make_matrix< int >(2_Cd, 3_Rd, {
 		{1, 2},
 		{3, 4},
 		{5, 6}

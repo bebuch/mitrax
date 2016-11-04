@@ -93,10 +93,10 @@ BOOST_AUTO_TEST_CASE(test_join_ct){
 }
 
 BOOST_AUTO_TEST_CASE(test_join_rt){
-	auto m1 = make_matrix(2_C_rt, 2_R_rt, {{0, 1}, {3, 4}});
-	auto m2 = make_matrix(1_C_rt, 2_R_rt, {{2}, {5}});
-	auto m3 = make_matrix(2_C_rt, 1_R_rt, {{6, 7}});
-	auto m4 = make_matrix(1_C_rt, 1_R_rt, {{8}});
+	auto m1 = make_matrix(2_Cd, 2_Rd, {{0, 1}, {3, 4}});
+	auto m2 = make_matrix(1_Cd, 2_Rd, {{2}, {5}});
+	auto m3 = make_matrix(2_Cd, 1_Rd, {{6, 7}});
+	auto m4 = make_matrix(1_Cd, 1_Rd, {{8}});
 
 	auto m5 = join(join_v(
 		join_h(m1, m2),
@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_CASE(test_join_rt){
 }
 
 BOOST_AUTO_TEST_CASE(test_join_ct_and_rt_1){
-	auto m1 = make_matrix(2_C_rt, 2_R_rt, {{0, 1}, {3, 4}});
+	auto m1 = make_matrix(2_Cd, 2_Rd, {{0, 1}, {3, 4}});
 	constexpr auto m2 = make_matrix(1_C, 2_R, {{2}, {5}});
 	constexpr auto m3 = make_matrix(2_C, 1_R, {{6, 7}});
 	constexpr auto m4 = make_matrix(1_C, 1_R, {{8}});
@@ -149,10 +149,10 @@ BOOST_AUTO_TEST_CASE(test_join_ct_and_rt_1){
 }
 
 BOOST_AUTO_TEST_CASE(test_join_ct_and_rt_2){
-	auto m1 = make_matrix(2_C_rt, 2_R_rt, {{0, 1}, {3, 4}});
+	auto m1 = make_matrix(2_Cd, 2_Rd, {{0, 1}, {3, 4}});
 	constexpr auto m2 = make_matrix(1_C, 2_R, {{2}, {5}});
 	constexpr auto m3 = make_matrix(2_C, 1_R, {{6, 7}});
-	auto m4 = make_matrix(1_C_rt, 1_R_rt, {{8}});
+	auto m4 = make_matrix(1_Cd, 1_Rd, {{8}});
 
 	auto m5 = join(join_v(
 		join_h(m1, m2),

@@ -253,75 +253,75 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_3x3, T, types){
 	constexpr auto fn = fn_xy_t< T >();
 
 	constexpr auto m01 = make_matrix_v< T >(3_C, 3_R);
-	auto m02 = make_matrix_v< T >(3_C_rt, 3_R);
-	auto m03 = make_matrix_v< T >(3_C, 3_R_rt);
-	auto m04 = make_matrix_v< T >(3_C_rt, 3_R_rt);
+	auto m02 = make_matrix_v< T >(3_Cd, 3_R);
+	auto m03 = make_matrix_v< T >(3_C, 3_Rd);
+	auto m04 = make_matrix_v< T >(3_Cd, 3_Rd);
 	constexpr auto m05 = make_matrix_v< T >(dims(3_C, 3_R));
-	auto m06 = make_matrix_v< T >(dims(3_C_rt, 3_R));
-	auto m07 = make_matrix_v< T >(dims(3_C, 3_R_rt));
-	auto m08 = make_matrix_v< T >(dims(3_C_rt, 3_R_rt));
+	auto m06 = make_matrix_v< T >(dims(3_Cd, 3_R));
+	auto m07 = make_matrix_v< T >(dims(3_C, 3_Rd));
+	auto m08 = make_matrix_v< T >(dims(3_Cd, 3_Rd));
 	constexpr auto m09 = make_matrix_v< T >(3_D);
-	auto m10 = make_matrix_v< T >(3_D_rt);
+	auto m10 = make_matrix_v< T >(3_Dd);
 	constexpr auto m11 = make_matrix_v< T >(dims(3_D));
-	auto m12 = make_matrix_v< T >(dims(3_D_rt));
+	auto m12 = make_matrix_v< T >(dims(3_Dd));
 
 	constexpr auto m13 = make_matrix_v(3_C, 3_R, T(7));
-	auto m14 = make_matrix_v(3_C_rt, 3_R, T(7));
-	auto m15 = make_matrix_v(3_C, 3_R_rt, T(7));
-	auto m16 = make_matrix_v(3_C_rt, 3_R_rt, T(7));
+	auto m14 = make_matrix_v(3_Cd, 3_R, T(7));
+	auto m15 = make_matrix_v(3_C, 3_Rd, T(7));
+	auto m16 = make_matrix_v(3_Cd, 3_Rd, T(7));
 	constexpr auto m17 = make_matrix_v(dims(3_C, 3_R), T(7));
-	auto m18 = make_matrix_v(dims(3_C_rt, 3_R), T(7));
-	auto m19 = make_matrix_v(dims(3_C, 3_R_rt), T(7));
-	auto m20 = make_matrix_v(dims(3_C_rt, 3_R_rt), T(7));
+	auto m18 = make_matrix_v(dims(3_Cd, 3_R), T(7));
+	auto m19 = make_matrix_v(dims(3_C, 3_Rd), T(7));
+	auto m20 = make_matrix_v(dims(3_Cd, 3_Rd), T(7));
 	constexpr auto m21 = make_matrix_v(3_D, T(7));
-	auto m22 = make_matrix_v(3_D_rt, T(7));
+	auto m22 = make_matrix_v(3_Dd, T(7));
 	constexpr auto m23 = make_matrix_v(dims(3_D), T(7));
-	auto m24 = make_matrix_v(dims(3_D_rt), T(7));
+	auto m24 = make_matrix_v(dims(3_Dd), T(7));
 
 	constexpr auto m25 =
 		make_matrix< T >(3_C, 3_R, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
 	auto m26 =
-		make_matrix< T >(3_C_rt, 3_R, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
+		make_matrix< T >(3_Cd, 3_R, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
 	auto m27 =
-		make_matrix< T >(3_C, 3_R_rt, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
+		make_matrix< T >(3_C, 3_Rd, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
 	auto m28 =
-		make_matrix< T >(3_C_rt, 3_R_rt, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
+		make_matrix< T >(3_Cd, 3_Rd, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
 	constexpr auto m29 = make_matrix(3_C, 3_R, ref_i);
-	auto m30 = make_matrix(3_C_rt, 3_R, ref_i);
-	auto m31 = make_matrix(3_C, 3_R_rt, ref_i);
-	auto m32 = make_matrix(3_C_rt, 3_R_rt, ref_i);
+	auto m30 = make_matrix(3_Cd, 3_R, ref_i);
+	auto m31 = make_matrix(3_C, 3_Rd, ref_i);
+	auto m32 = make_matrix(3_Cd, 3_Rd, ref_i);
 	constexpr auto m33 =
 		make_matrix< T >(3_D, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
 	auto m34 =
-		make_matrix< T >(3_D_rt, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
+		make_matrix< T >(3_Dd, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
 	constexpr auto m35 = make_matrix(3_D, ref_i);
-	auto m36 = make_matrix(3_D_rt, ref_i);
+	auto m36 = make_matrix(3_Dd, ref_i);
 
 	constexpr auto m37 = make_matrix_fn(3_C, 3_R, fn);
-	auto m38 = make_matrix_fn(3_C_rt, 3_R, fn);
-	auto m39 = make_matrix_fn(3_C, 3_R_rt, fn);
-	auto m40 = make_matrix_fn(3_C_rt, 3_R_rt, fn);
+	auto m38 = make_matrix_fn(3_Cd, 3_R, fn);
+	auto m39 = make_matrix_fn(3_C, 3_Rd, fn);
+	auto m40 = make_matrix_fn(3_Cd, 3_Rd, fn);
 	constexpr auto m41 = make_matrix_fn(dims(3_C, 3_R), fn);
-	auto m42 = make_matrix_fn(dims(3_C_rt, 3_R), fn);
-	auto m43 = make_matrix_fn(dims(3_C, 3_R_rt), fn);
-	auto m44 = make_matrix_fn(dims(3_C_rt, 3_R_rt), fn);
+	auto m42 = make_matrix_fn(dims(3_Cd, 3_R), fn);
+	auto m43 = make_matrix_fn(dims(3_C, 3_Rd), fn);
+	auto m44 = make_matrix_fn(dims(3_Cd, 3_Rd), fn);
 	constexpr auto m45 = make_matrix_fn(3_D, fn);
-	auto m46 = make_matrix_fn(3_D_rt, fn);
+	auto m46 = make_matrix_fn(3_Dd, fn);
 	constexpr auto m47 = make_matrix_fn(dims(3_D), fn);
-	auto m48 = make_matrix_fn(dims(3_D_rt), fn);
+	auto m48 = make_matrix_fn(dims(3_Dd), fn);
 
 	constexpr auto m49 = make_matrix_i(3_C, 3_R, init_p);
-	auto m50 = make_matrix_i(3_C_rt, 3_R, init_p);
-	auto m51 = make_matrix_i(3_C, 3_R_rt, init_p);
-	auto m52 = make_matrix_i(3_C_rt, 3_R_rt, init_p);
+	auto m50 = make_matrix_i(3_Cd, 3_R, init_p);
+	auto m51 = make_matrix_i(3_C, 3_Rd, init_p);
+	auto m52 = make_matrix_i(3_Cd, 3_Rd, init_p);
 	constexpr auto m53 = make_matrix_i(dims(3_C, 3_R), init_p);
-	auto m54 = make_matrix_i(dims(3_C_rt, 3_R), init_p);
-	auto m55 = make_matrix_i(dims(3_C, 3_R_rt), init_p);
-	auto m56 = make_matrix_i(dims(3_C_rt, 3_R_rt), init_p);
+	auto m54 = make_matrix_i(dims(3_Cd, 3_R), init_p);
+	auto m55 = make_matrix_i(dims(3_C, 3_Rd), init_p);
+	auto m56 = make_matrix_i(dims(3_Cd, 3_Rd), init_p);
 	constexpr auto m57 = make_matrix_i(3_D, init_p);
-	auto m58 = make_matrix_i(3_D_rt, init_p);
+	auto m58 = make_matrix_i(3_Dd, init_p);
 	constexpr auto m59 = make_matrix_i(dims(3_D), init_p);
-	auto m60 = make_matrix_i(dims(3_D_rt), init_p);
+	auto m60 = make_matrix_i(dims(3_Dd), init_p);
 
 	BOOST_TEST((rt_id(m01) == id< std_matrix< T, 3, 3 > >));
 	BOOST_TEST((rt_id(m02) == id< std_matrix< T, 0, 3 > >));
@@ -466,50 +466,50 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_2x3, T, types){
 	constexpr auto fn = fn_xy_t< T >();
 
 	constexpr auto m01 = make_matrix_v< T >(2_C, 3_R);
-	auto m02 = make_matrix_v< T >(2_C_rt, 3_R);
-	auto m03 = make_matrix_v< T >(2_C, 3_R_rt);
-	auto m04 = make_matrix_v< T >(2_C_rt, 3_R_rt);
+	auto m02 = make_matrix_v< T >(2_Cd, 3_R);
+	auto m03 = make_matrix_v< T >(2_C, 3_Rd);
+	auto m04 = make_matrix_v< T >(2_Cd, 3_Rd);
 	constexpr auto m05 = make_matrix_v< T >(dims(2_C, 3_R));
-	auto m06 = make_matrix_v< T >(dims(2_C_rt, 3_R));
-	auto m07 = make_matrix_v< T >(dims(2_C, 3_R_rt));
-	auto m08 = make_matrix_v< T >(dims(2_C_rt, 3_R_rt));
+	auto m06 = make_matrix_v< T >(dims(2_Cd, 3_R));
+	auto m07 = make_matrix_v< T >(dims(2_C, 3_Rd));
+	auto m08 = make_matrix_v< T >(dims(2_Cd, 3_Rd));
 
 	constexpr auto m09 = make_matrix_v(2_C, 3_R, T(7));
-	auto m10 = make_matrix_v(2_C_rt, 3_R, T(7));
-	auto m11 = make_matrix_v(2_C, 3_R_rt, T(7));
-	auto m12 = make_matrix_v(2_C_rt, 3_R_rt, T(7));
+	auto m10 = make_matrix_v(2_Cd, 3_R, T(7));
+	auto m11 = make_matrix_v(2_C, 3_Rd, T(7));
+	auto m12 = make_matrix_v(2_Cd, 3_Rd, T(7));
 	constexpr auto m13 = make_matrix_v(dims(2_C, 3_R), T(7));
-	auto m14 = make_matrix_v(dims(2_C_rt, 3_R), T(7));
-	auto m15 = make_matrix_v(dims(2_C, 3_R_rt), T(7));
-	auto m16 = make_matrix_v(dims(2_C_rt, 3_R_rt), T(7));
+	auto m14 = make_matrix_v(dims(2_Cd, 3_R), T(7));
+	auto m15 = make_matrix_v(dims(2_C, 3_Rd), T(7));
+	auto m16 = make_matrix_v(dims(2_Cd, 3_Rd), T(7));
 
 	constexpr auto m17 =
 		make_matrix< T >(2_C, 3_R, {{0, 1}, {2, 3}, {4, 5}});
-	auto m18 = make_matrix< T >(2_C_rt, 3_R, {{0, 1}, {2, 3}, {4, 5}});
-	auto m19 = make_matrix< T >(2_C, 3_R_rt, {{0, 1}, {2, 3}, {4, 5}});
-	auto m20 = make_matrix< T >(2_C_rt, 3_R_rt, {{0, 1}, {2, 3}, {4, 5}});
+	auto m18 = make_matrix< T >(2_Cd, 3_R, {{0, 1}, {2, 3}, {4, 5}});
+	auto m19 = make_matrix< T >(2_C, 3_Rd, {{0, 1}, {2, 3}, {4, 5}});
+	auto m20 = make_matrix< T >(2_Cd, 3_Rd, {{0, 1}, {2, 3}, {4, 5}});
 	constexpr auto m21 = make_matrix(2_C, 3_R, ref_i);
-	auto m22 = make_matrix(2_C_rt, 3_R, ref_i);
-	auto m23 = make_matrix(2_C, 3_R_rt, ref_i);
-	auto m24 = make_matrix(2_C_rt, 3_R_rt, ref_i);
+	auto m22 = make_matrix(2_Cd, 3_R, ref_i);
+	auto m23 = make_matrix(2_C, 3_Rd, ref_i);
+	auto m24 = make_matrix(2_Cd, 3_Rd, ref_i);
 
 	constexpr auto m25 = make_matrix_fn(2_C, 3_R, fn);
-	auto m26 = make_matrix_fn(2_C_rt, 3_R, fn);
-	auto m27 = make_matrix_fn(2_C, 3_R_rt, fn);
-	auto m28 = make_matrix_fn(2_C_rt, 3_R_rt, fn);
+	auto m26 = make_matrix_fn(2_Cd, 3_R, fn);
+	auto m27 = make_matrix_fn(2_C, 3_Rd, fn);
+	auto m28 = make_matrix_fn(2_Cd, 3_Rd, fn);
 	constexpr auto m29 = make_matrix_fn(dims(2_C, 3_R), fn);
-	auto m30 = make_matrix_fn(dims(2_C_rt, 3_R), fn);
-	auto m31 = make_matrix_fn(dims(2_C, 3_R_rt), fn);
-	auto m32 = make_matrix_fn(dims(2_C_rt, 3_R_rt), fn);
+	auto m30 = make_matrix_fn(dims(2_Cd, 3_R), fn);
+	auto m31 = make_matrix_fn(dims(2_C, 3_Rd), fn);
+	auto m32 = make_matrix_fn(dims(2_Cd, 3_Rd), fn);
 
 	constexpr auto m33 = make_matrix_i(2_C, 3_R, init_p);
-	auto m34 = make_matrix_i(2_C_rt, 3_R, init_p);
-	auto m35 = make_matrix_i(2_C, 3_R_rt, init_p);
-	auto m36 = make_matrix_i(2_C_rt, 3_R_rt, init_p);
+	auto m34 = make_matrix_i(2_Cd, 3_R, init_p);
+	auto m35 = make_matrix_i(2_C, 3_Rd, init_p);
+	auto m36 = make_matrix_i(2_Cd, 3_Rd, init_p);
 	constexpr auto m37 = make_matrix_i(dims(2_C, 3_R), init_p);
-	auto m38 = make_matrix_i(dims(2_C_rt, 3_R), init_p);
-	auto m39 = make_matrix_i(dims(2_C, 3_R_rt), init_p);
-	auto m40 = make_matrix_i(dims(2_C_rt, 3_R_rt), init_p);
+	auto m38 = make_matrix_i(dims(2_Cd, 3_R), init_p);
+	auto m39 = make_matrix_i(dims(2_C, 3_Rd), init_p);
+	auto m40 = make_matrix_i(dims(2_Cd, 3_Rd), init_p);
 
 
 	BOOST_TEST((rt_id(m01) == id< std_matrix< T, 2, 3 > >));
@@ -614,49 +614,49 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_3x2, T, types){
 	constexpr auto fn = fn_xy_t< T >();
 
 	constexpr auto m01 = make_matrix_v< T >(3_C, 2_R);
-	auto m02 = make_matrix_v< T >(3_C_rt, 2_R);
-	auto m03 = make_matrix_v< T >(3_C, 2_R_rt);
-	auto m04 = make_matrix_v< T >(3_C_rt, 2_R_rt);
+	auto m02 = make_matrix_v< T >(3_Cd, 2_R);
+	auto m03 = make_matrix_v< T >(3_C, 2_Rd);
+	auto m04 = make_matrix_v< T >(3_Cd, 2_Rd);
 	constexpr auto m05 = make_matrix_v< T >(dims(3_C, 2_R));
-	auto m06 = make_matrix_v< T >(dims(3_C_rt, 2_R));
-	auto m07 = make_matrix_v< T >(dims(3_C, 2_R_rt));
-	auto m08 = make_matrix_v< T >(dims(3_C_rt, 2_R_rt));
+	auto m06 = make_matrix_v< T >(dims(3_Cd, 2_R));
+	auto m07 = make_matrix_v< T >(dims(3_C, 2_Rd));
+	auto m08 = make_matrix_v< T >(dims(3_Cd, 2_Rd));
 
 	constexpr auto m09 = make_matrix_v(3_C, 2_R, T(7));
-	auto m10 = make_matrix_v(3_C_rt, 2_R, T(7));
-	auto m11 = make_matrix_v(3_C, 2_R_rt, T(7));
-	auto m12 = make_matrix_v(3_C_rt, 2_R_rt, T(7));
+	auto m10 = make_matrix_v(3_Cd, 2_R, T(7));
+	auto m11 = make_matrix_v(3_C, 2_Rd, T(7));
+	auto m12 = make_matrix_v(3_Cd, 2_Rd, T(7));
 	constexpr auto m13 = make_matrix_v(dims(3_C, 2_R), T(7));
-	auto m14 = make_matrix_v(dims(3_C_rt, 2_R), T(7));
-	auto m15 = make_matrix_v(dims(3_C, 2_R_rt), T(7));
-	auto m16 = make_matrix_v(dims(3_C_rt, 2_R_rt), T(7));
+	auto m14 = make_matrix_v(dims(3_Cd, 2_R), T(7));
+	auto m15 = make_matrix_v(dims(3_C, 2_Rd), T(7));
+	auto m16 = make_matrix_v(dims(3_Cd, 2_Rd), T(7));
 
 	constexpr auto m17 = make_matrix< T >(3_C, 2_R, {{0, 1, 2}, {3, 4, 5}});
-	auto m18 = make_matrix< T >(3_C_rt, 2_R, {{0, 1, 2}, {3, 4, 5}});
-	auto m19 = make_matrix< T >(3_C, 2_R_rt, {{0, 1, 2}, {3, 4, 5}});
-	auto m20 = make_matrix< T >(3_C_rt, 2_R_rt, {{0, 1, 2}, {3, 4, 5}});
+	auto m18 = make_matrix< T >(3_Cd, 2_R, {{0, 1, 2}, {3, 4, 5}});
+	auto m19 = make_matrix< T >(3_C, 2_Rd, {{0, 1, 2}, {3, 4, 5}});
+	auto m20 = make_matrix< T >(3_Cd, 2_Rd, {{0, 1, 2}, {3, 4, 5}});
 	constexpr auto m21 = make_matrix(3_C, 2_R, ref_i);
-	auto m22 = make_matrix(3_C_rt, 2_R, ref_i);
-	auto m23 = make_matrix(3_C, 2_R_rt, ref_i);
-	auto m24 = make_matrix(3_C_rt, 2_R_rt, ref_i);
+	auto m22 = make_matrix(3_Cd, 2_R, ref_i);
+	auto m23 = make_matrix(3_C, 2_Rd, ref_i);
+	auto m24 = make_matrix(3_Cd, 2_Rd, ref_i);
 
 	constexpr auto m25 = make_matrix_fn(3_C, 2_R, fn);
-	auto m26 = make_matrix_fn(3_C_rt, 2_R, fn);
-	auto m27 = make_matrix_fn(3_C, 2_R_rt, fn);
-	auto m28 = make_matrix_fn(3_C_rt, 2_R_rt, fn);
+	auto m26 = make_matrix_fn(3_Cd, 2_R, fn);
+	auto m27 = make_matrix_fn(3_C, 2_Rd, fn);
+	auto m28 = make_matrix_fn(3_Cd, 2_Rd, fn);
 	constexpr auto m29 = make_matrix_fn(dims(3_C, 2_R), fn);
-	auto m30 = make_matrix_fn(dims(3_C_rt, 2_R), fn);
-	auto m31 = make_matrix_fn(dims(3_C, 2_R_rt), fn);
-	auto m32 = make_matrix_fn(dims(3_C_rt, 2_R_rt), fn);
+	auto m30 = make_matrix_fn(dims(3_Cd, 2_R), fn);
+	auto m31 = make_matrix_fn(dims(3_C, 2_Rd), fn);
+	auto m32 = make_matrix_fn(dims(3_Cd, 2_Rd), fn);
 
 	constexpr auto m33 = make_matrix_i(3_C, 2_R, init_p);
-	auto m34 = make_matrix_i(3_C_rt, 2_R, init_p);
-	auto m35 = make_matrix_i(3_C, 2_R_rt, init_p);
-	auto m36 = make_matrix_i(3_C_rt, 2_R_rt, init_p);
+	auto m34 = make_matrix_i(3_Cd, 2_R, init_p);
+	auto m35 = make_matrix_i(3_C, 2_Rd, init_p);
+	auto m36 = make_matrix_i(3_Cd, 2_Rd, init_p);
 	constexpr auto m37 = make_matrix_i(dims(3_C, 2_R), init_p);
-	auto m38 = make_matrix_i(dims(3_C_rt, 2_R), init_p);
-	auto m39 = make_matrix_i(dims(3_C, 2_R_rt), init_p);
-	auto m40 = make_matrix_i(dims(3_C_rt, 2_R_rt), init_p);
+	auto m38 = make_matrix_i(dims(3_Cd, 2_R), init_p);
+	auto m39 = make_matrix_i(dims(3_C, 2_Rd), init_p);
+	auto m40 = make_matrix_i(dims(3_Cd, 2_Rd), init_p);
 
 
 	BOOST_TEST((rt_id(m01) == id< std_matrix< T, 3, 2 > >));
@@ -764,40 +764,40 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_1x3, T, types){
 
 	constexpr auto m01 = make_matrix_v< T >(1_C, 3_R);
 	auto m02 = make_vector_v< T >(3_R);
-	auto m03 = make_matrix_v< T >(1_C, 3_R_rt);
-	auto m04 = make_vector_v< T >(3_R_rt);
+	auto m03 = make_matrix_v< T >(1_C, 3_Rd);
+	auto m04 = make_vector_v< T >(3_Rd);
 	constexpr auto m05 = make_matrix_v< T >(dims(1_C, 3_R));
-	auto m06 = make_matrix_v< T >(dims(1_C, 3_R_rt));
+	auto m06 = make_matrix_v< T >(dims(1_C, 3_Rd));
 
 	constexpr auto m07 = make_matrix_v(1_C, 3_R, T(7));
 	auto m08 = make_vector_v(3_R, T(7));
-	auto m09 = make_matrix_v(1_C, 3_R_rt, T(7));
-	auto m10 = make_vector_v(3_R_rt, T(7));
+	auto m09 = make_matrix_v(1_C, 3_Rd, T(7));
+	auto m10 = make_vector_v(3_Rd, T(7));
 	constexpr auto m11 = make_matrix_v(dims(1_C, 3_R), T(7));
-	auto m12 = make_matrix_v(dims(1_C, 3_R_rt), T(7));
+	auto m12 = make_matrix_v(dims(1_C, 3_Rd), T(7));
 
 	constexpr auto m13 = make_matrix< T >(1_C, 3_R, {{0}, {1}, {2}});
 	auto m14 = make_vector< T >(3_R, {0, 1, 2});
-	auto m15 = make_matrix< T >(1_C, 3_R_rt, {{0}, {1}, {2}});
-	auto m16 = make_vector< T >(3_R_rt, {0, 1, 2});
+	auto m15 = make_matrix< T >(1_C, 3_Rd, {{0}, {1}, {2}});
+	auto m16 = make_vector< T >(3_Rd, {0, 1, 2});
 	constexpr auto m17 = make_matrix(1_C, 3_R, ref_i);
 	auto m18 = make_vector(3_R, ref_i_vec);
-	auto m19 = make_matrix(1_C, 3_R_rt, ref_i);
-	auto m20 = make_vector(3_R_rt, ref_i_vec);
+	auto m19 = make_matrix(1_C, 3_Rd, ref_i);
+	auto m20 = make_vector(3_Rd, ref_i_vec);
 
 	constexpr auto m21 = make_matrix_fn(1_C, 3_R, fn_xy);
 	auto m22 = make_vector_fn(3_R, fn_i);
-	auto m23 = make_matrix_fn(1_C, 3_R_rt, fn_xy);
-	auto m24 = make_vector_fn(3_R_rt, fn_i);
+	auto m23 = make_matrix_fn(1_C, 3_Rd, fn_xy);
+	auto m24 = make_vector_fn(3_Rd, fn_i);
 	constexpr auto m25 = make_matrix_fn(dims(1_C, 3_R), fn_xy);
-	auto m26 = make_matrix_fn(dims(1_C, 3_R_rt), fn_xy);
+	auto m26 = make_matrix_fn(dims(1_C, 3_Rd), fn_xy);
 
 	constexpr auto m27 = make_matrix_i(1_C, 3_R, init_p);
 	auto m28 = make_vector_i(3_R, init_p);
-	auto m29 = make_matrix_i(1_C, 3_R_rt, init_p);
-	auto m30 = make_vector_i(3_R_rt, init_p);
+	auto m29 = make_matrix_i(1_C, 3_Rd, init_p);
+	auto m30 = make_vector_i(3_Rd, init_p);
 	constexpr auto m31 = make_matrix_i(dims(1_C, 3_R), init_p);
-	auto m32 = make_matrix_i(dims(1_C, 3_R_rt), init_p);
+	auto m32 = make_matrix_i(dims(1_C, 3_Rd), init_p);
 
 
 	BOOST_TEST((rt_id(m01) == id< std_matrix< T, 1, 3 > >));
@@ -889,40 +889,40 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_3x1, T, types){
 
 	constexpr auto m01 = make_matrix_v< T >(3_C, 1_R);
 	auto m02 = make_vector_v< T >(3_C);
-	auto m03 = make_matrix_v< T >(3_C_rt, 1_R);
-	auto m04 = make_vector_v< T >(3_C_rt);
+	auto m03 = make_matrix_v< T >(3_Cd, 1_R);
+	auto m04 = make_vector_v< T >(3_Cd);
 	constexpr auto m05 = make_matrix_v< T >(dims(3_C, 1_R));
-	auto m06 = make_matrix_v< T >(dims(3_C_rt, 1_R));
+	auto m06 = make_matrix_v< T >(dims(3_Cd, 1_R));
 
 	constexpr auto m07 = make_matrix_v(3_C, 1_R, T(7));
 	auto m08 = make_vector_v(3_C, T(7));
-	auto m09 = make_matrix_v(3_C_rt, 1_R, T(7));
-	auto m10 = make_vector_v(3_C_rt, T(7));
+	auto m09 = make_matrix_v(3_Cd, 1_R, T(7));
+	auto m10 = make_vector_v(3_Cd, T(7));
 	constexpr auto m11 = make_matrix_v(dims(3_C, 1_R), T(7));
-	auto m12 = make_matrix_v(dims(3_C_rt, 1_R), T(7));
+	auto m12 = make_matrix_v(dims(3_Cd, 1_R), T(7));
 
 	constexpr auto m13 = make_matrix< T >(3_C, 1_R, {{0, 1, 2}});
 	auto m14 = make_vector< T >(3_C, {0, 1, 2});
-	auto m15 = make_matrix< T >(3_C_rt, 1_R, {{0, 1, 2}});
-	auto m16 = make_vector< T >(3_C_rt, {0, 1, 2});
+	auto m15 = make_matrix< T >(3_Cd, 1_R, {{0, 1, 2}});
+	auto m16 = make_vector< T >(3_Cd, {0, 1, 2});
 	constexpr auto m17 = make_matrix(3_C, 1_R, ref_i);
 	auto m18 = make_vector(3_C, ref_i_vec);
-	auto m19 = make_matrix(3_C_rt, 1_R, ref_i);
-	auto m20 = make_vector(3_C_rt, ref_i_vec);
+	auto m19 = make_matrix(3_Cd, 1_R, ref_i);
+	auto m20 = make_vector(3_Cd, ref_i_vec);
 
 	constexpr auto m21 = make_matrix_fn(3_C, 1_R, fn_xy);
 	auto m22 = make_vector_fn(3_C, fn_i);
-	auto m23 = make_matrix_fn(3_C_rt, 1_R, fn_xy);
-	auto m24 = make_vector_fn(3_C_rt, fn_i);
+	auto m23 = make_matrix_fn(3_Cd, 1_R, fn_xy);
+	auto m24 = make_vector_fn(3_Cd, fn_i);
 	constexpr auto m25 = make_matrix_fn(dims(3_C, 1_R), fn_xy);
-	auto m26 = make_matrix_fn(dims(3_C_rt, 1_R), fn_xy);
+	auto m26 = make_matrix_fn(dims(3_Cd, 1_R), fn_xy);
 
 	constexpr auto m27 = make_matrix_i(3_C, 1_R, init_p);
 	auto m28 = make_vector_i(3_C, init_p);
-	auto m29 = make_matrix_i(3_C_rt, 1_R, init_p);
-	auto m30 = make_vector_i(3_C_rt, init_p);
+	auto m29 = make_matrix_i(3_Cd, 1_R, init_p);
+	auto m30 = make_vector_i(3_Cd, init_p);
 	constexpr auto m31 = make_matrix_i(dims(3_C, 1_R), init_p);
-	auto m32 = make_matrix_i(dims(3_C_rt, 1_R), init_p);
+	auto m32 = make_matrix_i(dims(3_Cd, 1_R), init_p);
 
 
 	BOOST_TEST((rt_id(m01) == id< std_matrix< T, 3, 1 > >));
@@ -1127,21 +1127,21 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_diag_matrix, T, types){
 	constexpr auto fn = fn_i_t< T >();
 
 	constexpr auto m01 = make_diag_matrix_v< T >(3_D);
-	auto m02 = make_diag_matrix_v< T >(3_D_rt);
+	auto m02 = make_diag_matrix_v< T >(3_Dd);
 
 	constexpr auto m03 = make_diag_matrix_v(3_D, T(7));
-	auto m04 = make_diag_matrix_v(3_D_rt, T(7));
+	auto m04 = make_diag_matrix_v(3_Dd, T(7));
 
 	constexpr auto m05 = make_diag_matrix< T >(3_D, {0, 1, 2});
-	auto m06 = make_diag_matrix< T >(3_D_rt, {0, 1, 2});
+	auto m06 = make_diag_matrix< T >(3_Dd, {0, 1, 2});
 	constexpr auto m07 = make_diag_matrix(3_D, ref_i_vec);
-	auto m08 = make_diag_matrix(3_D_rt, ref_i_vec);
+	auto m08 = make_diag_matrix(3_Dd, ref_i_vec);
 
 	constexpr auto m09 = make_diag_matrix_fn(3_D, fn);
-	auto m10 = make_diag_matrix_fn(3_D_rt, fn);
+	auto m10 = make_diag_matrix_fn(3_Dd, fn);
 
 	constexpr auto m11 = make_diag_matrix_i(3_D, init_p);
-	auto m12 = make_diag_matrix_i(3_D_rt, init_p);
+	auto m12 = make_diag_matrix_i(3_Dd, init_p);
 
 
 	BOOST_TEST((rt_id(m01) == id< std_matrix< T, 3, 3 > >));
@@ -1177,7 +1177,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_identity_matrix, T, types){
 	constexpr T ref_i[3][3] = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
 
 	constexpr auto m01 = make_identity_matrix< T >(3_D);
-	auto m02 = make_identity_matrix< T >(3_D_rt);
+	auto m02 = make_identity_matrix< T >(3_Dd);
 
 
 	BOOST_TEST((rt_id(m01) == id< std_matrix< T, 3, 3 > >));
@@ -1193,7 +1193,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_copy_constructor, T, types){
 	constexpr T ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
 
 	constexpr auto m01 = make_matrix(3_C, 3_R, ref_i);
-	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_i);
+	auto m02 = make_matrix(3_Cd, 3_Rd, ref_i);
 
 	constexpr auto m03 = m01;
 	auto m04 = m02;
@@ -1211,7 +1211,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_move_constructor, T, types){
 	constexpr T ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
 
 	constexpr auto m01 = make_matrix(3_C, 3_R, ref_i);
-	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_i);
+	auto m02 = make_matrix(3_Cd, 3_Rd, ref_i);
 
 	constexpr auto m03 = std::move(m01);
 	auto m04 = std::move(m02);
@@ -1229,10 +1229,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_copy_assignment, T, types){
 	constexpr T ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
 
 	constexpr auto m01 = make_matrix(3_C, 3_R, ref_i);
-	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_i);
+	auto m02 = make_matrix(3_Cd, 3_Rd, ref_i);
 
 	auto m03 = make_matrix_v< T >(3_C, 3_R);
-	auto m04 = make_matrix_v< T >(0_C_rt, 0_R_rt); // also assign dimensions
+	auto m04 = make_matrix_v< T >(0_Cd, 0_Rd); // also assign dimensions
 
 
 	m03 = m01;
@@ -1252,10 +1252,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_move_assignment, T, types){
 	constexpr T ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
 
 	constexpr auto m01 = make_matrix(3_C, 3_R, ref_i);
-	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_i);
+	auto m02 = make_matrix(3_Cd, 3_Rd, ref_i);
 
 	auto m03 = make_matrix_v< T >(3_C, 3_R);
-	auto m04 = make_matrix_v< T >(0_C_rt, 0_R_rt); // also move dimensions
+	auto m04 = make_matrix_v< T >(0_Cd, 0_Rd); // also move dimensions
 
 
 	m03 = std::move(m01);
@@ -1281,75 +1281,75 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_heap_matrix_3x3, T, types){
 	constexpr auto fn = fn_xy_t< T >();
 
 	auto m01 = make_matrix_v< T >(3_C, 3_R, T(), maker::heap);
-	auto m02 = make_matrix_v< T >(3_C_rt, 3_R, T(), maker::heap);
-	auto m03 = make_matrix_v< T >(3_C, 3_R_rt, T(), maker::heap);
-	auto m04 = make_matrix_v< T >(3_C_rt, 3_R_rt, T(), maker::heap);
+	auto m02 = make_matrix_v< T >(3_Cd, 3_R, T(), maker::heap);
+	auto m03 = make_matrix_v< T >(3_C, 3_Rd, T(), maker::heap);
+	auto m04 = make_matrix_v< T >(3_Cd, 3_Rd, T(), maker::heap);
 	auto m05 = make_matrix_v< T >(dims(3_C, 3_R), T(), maker::heap);
-	auto m06 = make_matrix_v< T >(dims(3_C_rt, 3_R), T(), maker::heap);
-	auto m07 = make_matrix_v< T >(dims(3_C, 3_R_rt), T(), maker::heap);
-	auto m08 = make_matrix_v< T >(dims(3_C_rt, 3_R_rt), T(), maker::heap);
+	auto m06 = make_matrix_v< T >(dims(3_Cd, 3_R), T(), maker::heap);
+	auto m07 = make_matrix_v< T >(dims(3_C, 3_Rd), T(), maker::heap);
+	auto m08 = make_matrix_v< T >(dims(3_Cd, 3_Rd), T(), maker::heap);
 	auto m09 = make_matrix_v< T >(3_D, T(), maker::heap);
-	auto m10 = make_matrix_v< T >(3_D_rt, T(), maker::heap);
+	auto m10 = make_matrix_v< T >(3_Dd, T(), maker::heap);
 	auto m11 = make_matrix_v< T >(dims(3_D), T(), maker::heap);
-	auto m12 = make_matrix_v< T >(dims(3_D_rt), T(), maker::heap);
+	auto m12 = make_matrix_v< T >(dims(3_Dd), T(), maker::heap);
 
 	auto m13 = make_matrix_v(3_C, 3_R, T(7), maker::heap);
-	auto m14 = make_matrix_v(3_C_rt, 3_R, T(7), maker::heap);
-	auto m15 = make_matrix_v(3_C, 3_R_rt, T(7), maker::heap);
-	auto m16 = make_matrix_v(3_C_rt, 3_R_rt, T(7), maker::heap);
+	auto m14 = make_matrix_v(3_Cd, 3_R, T(7), maker::heap);
+	auto m15 = make_matrix_v(3_C, 3_Rd, T(7), maker::heap);
+	auto m16 = make_matrix_v(3_Cd, 3_Rd, T(7), maker::heap);
 	auto m17 = make_matrix_v(dims(3_C, 3_R), T(7), maker::heap);
-	auto m18 = make_matrix_v(dims(3_C_rt, 3_R), T(7), maker::heap);
-	auto m19 = make_matrix_v(dims(3_C, 3_R_rt), T(7), maker::heap);
-	auto m20 = make_matrix_v(dims(3_C_rt, 3_R_rt), T(7), maker::heap);
+	auto m18 = make_matrix_v(dims(3_Cd, 3_R), T(7), maker::heap);
+	auto m19 = make_matrix_v(dims(3_C, 3_Rd), T(7), maker::heap);
+	auto m20 = make_matrix_v(dims(3_Cd, 3_Rd), T(7), maker::heap);
 	auto m21 = make_matrix_v(3_D, T(7), maker::heap);
-	auto m22 = make_matrix_v(3_D_rt, T(7), maker::heap);
+	auto m22 = make_matrix_v(3_Dd, T(7), maker::heap);
 	auto m23 = make_matrix_v(dims(3_D), T(7), maker::heap);
-	auto m24 = make_matrix_v(dims(3_D_rt), T(7), maker::heap);
+	auto m24 = make_matrix_v(dims(3_Dd), T(7), maker::heap);
 
 	auto m25 = make_matrix< T >
 		(3_C, 3_R, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}}, maker::heap);
 	auto m26 = make_matrix< T >
-		(3_C_rt, 3_R, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}}, maker::heap);
+		(3_Cd, 3_R, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}}, maker::heap);
 	auto m27 = make_matrix< T >
-		(3_C, 3_R_rt, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}}, maker::heap);
+		(3_C, 3_Rd, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}}, maker::heap);
 	auto m28 = make_matrix< T >
-		(3_C_rt, 3_R_rt, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}}, maker::heap);
+		(3_Cd, 3_Rd, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}}, maker::heap);
 	auto m29 = make_matrix(3_C, 3_R, ref_i, maker::heap);
-	auto m30 = make_matrix(3_C_rt, 3_R, ref_i, maker::heap);
-	auto m31 = make_matrix(3_C, 3_R_rt, ref_i, maker::heap);
-	auto m32 = make_matrix(3_C_rt, 3_R_rt, ref_i, maker::heap);
+	auto m30 = make_matrix(3_Cd, 3_R, ref_i, maker::heap);
+	auto m31 = make_matrix(3_C, 3_Rd, ref_i, maker::heap);
+	auto m32 = make_matrix(3_Cd, 3_Rd, ref_i, maker::heap);
 	auto m33 = make_matrix< T >
 		(3_D, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}}, maker::heap);
 	auto m34 = make_matrix< T >
-		(3_D_rt, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}}, maker::heap);
+		(3_Dd, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}}, maker::heap);
 	auto m35 = make_matrix(3_D, ref_i, maker::heap);
-	auto m36 = make_matrix(3_D_rt, ref_i, maker::heap);
+	auto m36 = make_matrix(3_Dd, ref_i, maker::heap);
 
 	auto m37 = make_matrix_fn(3_C, 3_R, fn, maker::heap);
-	auto m38 = make_matrix_fn(3_C_rt, 3_R, fn, maker::heap);
-	auto m39 = make_matrix_fn(3_C, 3_R_rt, fn, maker::heap);
-	auto m40 = make_matrix_fn(3_C_rt, 3_R_rt, fn, maker::heap);
+	auto m38 = make_matrix_fn(3_Cd, 3_R, fn, maker::heap);
+	auto m39 = make_matrix_fn(3_C, 3_Rd, fn, maker::heap);
+	auto m40 = make_matrix_fn(3_Cd, 3_Rd, fn, maker::heap);
 	auto m41 = make_matrix_fn(dims(3_C, 3_R), fn, maker::heap);
-	auto m42 = make_matrix_fn(dims(3_C_rt, 3_R), fn, maker::heap);
-	auto m43 = make_matrix_fn(dims(3_C, 3_R_rt), fn, maker::heap);
-	auto m44 = make_matrix_fn(dims(3_C_rt, 3_R_rt), fn, maker::heap);
+	auto m42 = make_matrix_fn(dims(3_Cd, 3_R), fn, maker::heap);
+	auto m43 = make_matrix_fn(dims(3_C, 3_Rd), fn, maker::heap);
+	auto m44 = make_matrix_fn(dims(3_Cd, 3_Rd), fn, maker::heap);
 	auto m45 = make_matrix_fn(3_D, fn, maker::heap);
-	auto m46 = make_matrix_fn(3_D_rt, fn, maker::heap);
+	auto m46 = make_matrix_fn(3_Dd, fn, maker::heap);
 	auto m47 = make_matrix_fn(dims(3_D), fn, maker::heap);
-	auto m48 = make_matrix_fn(dims(3_D_rt), fn, maker::heap);
+	auto m48 = make_matrix_fn(dims(3_Dd), fn, maker::heap);
 
 	auto m49 = make_matrix_i(3_C, 3_R, init_p, maker::heap);
-	auto m50 = make_matrix_i(3_C_rt, 3_R, init_p, maker::heap);
-	auto m51 = make_matrix_i(3_C, 3_R_rt, init_p, maker::heap);
-	auto m52 = make_matrix_i(3_C_rt, 3_R_rt, init_p, maker::heap);
+	auto m50 = make_matrix_i(3_Cd, 3_R, init_p, maker::heap);
+	auto m51 = make_matrix_i(3_C, 3_Rd, init_p, maker::heap);
+	auto m52 = make_matrix_i(3_Cd, 3_Rd, init_p, maker::heap);
 	auto m53 = make_matrix_i(dims(3_C, 3_R), init_p, maker::heap);
-	auto m54 = make_matrix_i(dims(3_C_rt, 3_R), init_p, maker::heap);
-	auto m55 = make_matrix_i(dims(3_C, 3_R_rt), init_p, maker::heap);
-	auto m56 = make_matrix_i(dims(3_C_rt, 3_R_rt), init_p, maker::heap);
+	auto m54 = make_matrix_i(dims(3_Cd, 3_R), init_p, maker::heap);
+	auto m55 = make_matrix_i(dims(3_C, 3_Rd), init_p, maker::heap);
+	auto m56 = make_matrix_i(dims(3_Cd, 3_Rd), init_p, maker::heap);
 	auto m57 = make_matrix_i(3_D, init_p, maker::heap);
-	auto m58 = make_matrix_i(3_D_rt, init_p, maker::heap);
+	auto m58 = make_matrix_i(3_Dd, init_p, maker::heap);
 	auto m59 = make_matrix_i(dims(3_D), init_p, maker::heap);
-	auto m60 = make_matrix_i(dims(3_D_rt), init_p, maker::heap);
+	auto m60 = make_matrix_i(dims(3_Dd), init_p, maker::heap);
 
 
 	BOOST_TEST((rt_id(m01) == id< heap_matrix< T, 3, 3 > >));
@@ -1495,53 +1495,53 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_heap_matrix_2x3, T, types){
 	constexpr auto fn = fn_xy_t< T >();
 
 	auto m01 = make_matrix_v< T >(2_C, 3_R, T(), maker::heap);
-	auto m02 = make_matrix_v< T >(2_C_rt, 3_R, T(), maker::heap);
-	auto m03 = make_matrix_v< T >(2_C, 3_R_rt, T(), maker::heap);
-	auto m04 = make_matrix_v< T >(2_C_rt, 3_R_rt, T(), maker::heap);
+	auto m02 = make_matrix_v< T >(2_Cd, 3_R, T(), maker::heap);
+	auto m03 = make_matrix_v< T >(2_C, 3_Rd, T(), maker::heap);
+	auto m04 = make_matrix_v< T >(2_Cd, 3_Rd, T(), maker::heap);
 	auto m05 = make_matrix_v< T >(dims(2_C, 3_R), T(), maker::heap);
-	auto m06 = make_matrix_v< T >(dims(2_C_rt, 3_R), T(), maker::heap);
-	auto m07 = make_matrix_v< T >(dims(2_C, 3_R_rt), T(), maker::heap);
-	auto m08 = make_matrix_v< T >(dims(2_C_rt, 3_R_rt), T(), maker::heap);
+	auto m06 = make_matrix_v< T >(dims(2_Cd, 3_R), T(), maker::heap);
+	auto m07 = make_matrix_v< T >(dims(2_C, 3_Rd), T(), maker::heap);
+	auto m08 = make_matrix_v< T >(dims(2_Cd, 3_Rd), T(), maker::heap);
 
 	auto m09 = make_matrix_v(2_C, 3_R, T(7), maker::heap);
-	auto m10 = make_matrix_v(2_C_rt, 3_R, T(7), maker::heap);
-	auto m11 = make_matrix_v(2_C, 3_R_rt, T(7), maker::heap);
-	auto m12 = make_matrix_v(2_C_rt, 3_R_rt, T(7), maker::heap);
+	auto m10 = make_matrix_v(2_Cd, 3_R, T(7), maker::heap);
+	auto m11 = make_matrix_v(2_C, 3_Rd, T(7), maker::heap);
+	auto m12 = make_matrix_v(2_Cd, 3_Rd, T(7), maker::heap);
 	auto m13 = make_matrix_v(dims(2_C, 3_R), T(7), maker::heap);
-	auto m14 = make_matrix_v(dims(2_C_rt, 3_R), T(7), maker::heap);
-	auto m15 = make_matrix_v(dims(2_C, 3_R_rt), T(7), maker::heap);
-	auto m16 = make_matrix_v(dims(2_C_rt, 3_R_rt), T(7), maker::heap);
+	auto m14 = make_matrix_v(dims(2_Cd, 3_R), T(7), maker::heap);
+	auto m15 = make_matrix_v(dims(2_C, 3_Rd), T(7), maker::heap);
+	auto m16 = make_matrix_v(dims(2_Cd, 3_Rd), T(7), maker::heap);
 
 	auto m17 = make_matrix< T >(2_C, 3_R, {{0, 1}, {2, 3}, {4, 5}},
 		maker::heap);
-	auto m18 = make_matrix< T >(2_C_rt, 3_R, {{0, 1}, {2, 3}, {4, 5}},
+	auto m18 = make_matrix< T >(2_Cd, 3_R, {{0, 1}, {2, 3}, {4, 5}},
 		maker::heap);
-	auto m19 = make_matrix< T >(2_C, 3_R_rt, {{0, 1}, {2, 3}, {4, 5}},
+	auto m19 = make_matrix< T >(2_C, 3_Rd, {{0, 1}, {2, 3}, {4, 5}},
 		maker::heap);
-	auto m20 = make_matrix< T >(2_C_rt, 3_R_rt, {{0, 1}, {2, 3}, {4, 5}},
+	auto m20 = make_matrix< T >(2_Cd, 3_Rd, {{0, 1}, {2, 3}, {4, 5}},
 		maker::heap);
 	auto m21 = make_matrix(2_C, 3_R, ref_i, maker::heap);
-	auto m22 = make_matrix(2_C_rt, 3_R, ref_i, maker::heap);
-	auto m23 = make_matrix(2_C, 3_R_rt, ref_i, maker::heap);
-	auto m24 = make_matrix(2_C_rt, 3_R_rt, ref_i, maker::heap);
+	auto m22 = make_matrix(2_Cd, 3_R, ref_i, maker::heap);
+	auto m23 = make_matrix(2_C, 3_Rd, ref_i, maker::heap);
+	auto m24 = make_matrix(2_Cd, 3_Rd, ref_i, maker::heap);
 
 	auto m25 = make_matrix_fn(2_C, 3_R, fn, maker::heap);
-	auto m26 = make_matrix_fn(2_C_rt, 3_R, fn, maker::heap);
-	auto m27 = make_matrix_fn(2_C, 3_R_rt, fn, maker::heap);
-	auto m28 = make_matrix_fn(2_C_rt, 3_R_rt, fn, maker::heap);
+	auto m26 = make_matrix_fn(2_Cd, 3_R, fn, maker::heap);
+	auto m27 = make_matrix_fn(2_C, 3_Rd, fn, maker::heap);
+	auto m28 = make_matrix_fn(2_Cd, 3_Rd, fn, maker::heap);
 	auto m29 = make_matrix_fn(dims(2_C, 3_R), fn, maker::heap);
-	auto m30 = make_matrix_fn(dims(2_C_rt, 3_R), fn, maker::heap);
-	auto m31 = make_matrix_fn(dims(2_C, 3_R_rt), fn, maker::heap);
-	auto m32 = make_matrix_fn(dims(2_C_rt, 3_R_rt), fn, maker::heap);
+	auto m30 = make_matrix_fn(dims(2_Cd, 3_R), fn, maker::heap);
+	auto m31 = make_matrix_fn(dims(2_C, 3_Rd), fn, maker::heap);
+	auto m32 = make_matrix_fn(dims(2_Cd, 3_Rd), fn, maker::heap);
 
 	auto m33 = make_matrix_i(2_C, 3_R, init_p, maker::heap);
-	auto m34 = make_matrix_i(2_C_rt, 3_R, init_p, maker::heap);
-	auto m35 = make_matrix_i(2_C, 3_R_rt, init_p, maker::heap);
-	auto m36 = make_matrix_i(2_C_rt, 3_R_rt, init_p, maker::heap);
+	auto m34 = make_matrix_i(2_Cd, 3_R, init_p, maker::heap);
+	auto m35 = make_matrix_i(2_C, 3_Rd, init_p, maker::heap);
+	auto m36 = make_matrix_i(2_Cd, 3_Rd, init_p, maker::heap);
 	auto m37 = make_matrix_i(dims(2_C, 3_R), init_p, maker::heap);
-	auto m38 = make_matrix_i(dims(2_C_rt, 3_R), init_p, maker::heap);
-	auto m39 = make_matrix_i(dims(2_C, 3_R_rt), init_p, maker::heap);
-	auto m40 = make_matrix_i(dims(2_C_rt, 3_R_rt), init_p, maker::heap);
+	auto m38 = make_matrix_i(dims(2_Cd, 3_R), init_p, maker::heap);
+	auto m39 = make_matrix_i(dims(2_C, 3_Rd), init_p, maker::heap);
+	auto m40 = make_matrix_i(dims(2_Cd, 3_Rd), init_p, maker::heap);
 
 
 	BOOST_TEST((rt_id(m01) == id< heap_matrix< T, 2, 3 > >));
@@ -1646,53 +1646,53 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_heap_matrix_3x2, T, types){
 	constexpr auto fn = fn_xy_t< T >();
 
 	auto m01 = make_matrix_v< T >(3_C, 2_R, T(), maker::heap);
-	auto m02 = make_matrix_v< T >(3_C_rt, 2_R, T(), maker::heap);
-	auto m03 = make_matrix_v< T >(3_C, 2_R_rt, T(), maker::heap);
-	auto m04 = make_matrix_v< T >(3_C_rt, 2_R_rt, T(), maker::heap);
+	auto m02 = make_matrix_v< T >(3_Cd, 2_R, T(), maker::heap);
+	auto m03 = make_matrix_v< T >(3_C, 2_Rd, T(), maker::heap);
+	auto m04 = make_matrix_v< T >(3_Cd, 2_Rd, T(), maker::heap);
 	auto m05 = make_matrix_v< T >(dims(3_C, 2_R), T(), maker::heap);
-	auto m06 = make_matrix_v< T >(dims(3_C_rt, 2_R), T(), maker::heap);
-	auto m07 = make_matrix_v< T >(dims(3_C, 2_R_rt), T(), maker::heap);
-	auto m08 = make_matrix_v< T >(dims(3_C_rt, 2_R_rt), T(), maker::heap);
+	auto m06 = make_matrix_v< T >(dims(3_Cd, 2_R), T(), maker::heap);
+	auto m07 = make_matrix_v< T >(dims(3_C, 2_Rd), T(), maker::heap);
+	auto m08 = make_matrix_v< T >(dims(3_Cd, 2_Rd), T(), maker::heap);
 
 	auto m09 = make_matrix_v(3_C, 2_R, T(7), maker::heap);
-	auto m10 = make_matrix_v(3_C_rt, 2_R, T(7), maker::heap);
-	auto m11 = make_matrix_v(3_C, 2_R_rt, T(7), maker::heap);
-	auto m12 = make_matrix_v(3_C_rt, 2_R_rt, T(7), maker::heap);
+	auto m10 = make_matrix_v(3_Cd, 2_R, T(7), maker::heap);
+	auto m11 = make_matrix_v(3_C, 2_Rd, T(7), maker::heap);
+	auto m12 = make_matrix_v(3_Cd, 2_Rd, T(7), maker::heap);
 	auto m13 = make_matrix_v(dims(3_C, 2_R), T(7), maker::heap);
-	auto m14 = make_matrix_v(dims(3_C_rt, 2_R), T(7), maker::heap);
-	auto m15 = make_matrix_v(dims(3_C, 2_R_rt), T(7), maker::heap);
-	auto m16 = make_matrix_v(dims(3_C_rt, 2_R_rt), T(7), maker::heap);
+	auto m14 = make_matrix_v(dims(3_Cd, 2_R), T(7), maker::heap);
+	auto m15 = make_matrix_v(dims(3_C, 2_Rd), T(7), maker::heap);
+	auto m16 = make_matrix_v(dims(3_Cd, 2_Rd), T(7), maker::heap);
 
 	auto m17 = make_matrix< T >
 		(3_C, 2_R, {{0, 1, 2}, {3, 4, 5}}, maker::heap);
 	auto m18 = make_matrix< T >
-		(3_C_rt, 2_R, {{0, 1, 2}, {3, 4, 5}}, maker::heap);
+		(3_Cd, 2_R, {{0, 1, 2}, {3, 4, 5}}, maker::heap);
 	auto m19 = make_matrix< T >
-		(3_C, 2_R_rt, {{0, 1, 2}, {3, 4, 5}}, maker::heap);
+		(3_C, 2_Rd, {{0, 1, 2}, {3, 4, 5}}, maker::heap);
 	auto m20 = make_matrix< T >
-		(3_C_rt, 2_R_rt, {{0, 1, 2}, {3, 4, 5}}, maker::heap);
+		(3_Cd, 2_Rd, {{0, 1, 2}, {3, 4, 5}}, maker::heap);
 	auto m21 = make_matrix(3_C, 2_R, ref_i, maker::heap);
-	auto m22 = make_matrix(3_C_rt, 2_R, ref_i, maker::heap);
-	auto m23 = make_matrix(3_C, 2_R_rt, ref_i, maker::heap);
-	auto m24 = make_matrix(3_C_rt, 2_R_rt, ref_i, maker::heap);
+	auto m22 = make_matrix(3_Cd, 2_R, ref_i, maker::heap);
+	auto m23 = make_matrix(3_C, 2_Rd, ref_i, maker::heap);
+	auto m24 = make_matrix(3_Cd, 2_Rd, ref_i, maker::heap);
 
 	auto m25 = make_matrix_fn(3_C, 2_R, fn, maker::heap);
-	auto m26 = make_matrix_fn(3_C_rt, 2_R, fn, maker::heap);
-	auto m27 = make_matrix_fn(3_C, 2_R_rt, fn, maker::heap);
-	auto m28 = make_matrix_fn(3_C_rt, 2_R_rt, fn, maker::heap);
+	auto m26 = make_matrix_fn(3_Cd, 2_R, fn, maker::heap);
+	auto m27 = make_matrix_fn(3_C, 2_Rd, fn, maker::heap);
+	auto m28 = make_matrix_fn(3_Cd, 2_Rd, fn, maker::heap);
 	auto m29 = make_matrix_fn(dims(3_C, 2_R), fn, maker::heap);
-	auto m30 = make_matrix_fn(dims(3_C_rt, 2_R), fn, maker::heap);
-	auto m31 = make_matrix_fn(dims(3_C, 2_R_rt), fn, maker::heap);
-	auto m32 = make_matrix_fn(dims(3_C_rt, 2_R_rt), fn, maker::heap);
+	auto m30 = make_matrix_fn(dims(3_Cd, 2_R), fn, maker::heap);
+	auto m31 = make_matrix_fn(dims(3_C, 2_Rd), fn, maker::heap);
+	auto m32 = make_matrix_fn(dims(3_Cd, 2_Rd), fn, maker::heap);
 
 	auto m33 = make_matrix_i(3_C, 2_R, init_p, maker::heap);
-	auto m34 = make_matrix_i(3_C_rt, 2_R, init_p, maker::heap);
-	auto m35 = make_matrix_i(3_C, 2_R_rt, init_p, maker::heap);
-	auto m36 = make_matrix_i(3_C_rt, 2_R_rt, init_p, maker::heap);
+	auto m34 = make_matrix_i(3_Cd, 2_R, init_p, maker::heap);
+	auto m35 = make_matrix_i(3_C, 2_Rd, init_p, maker::heap);
+	auto m36 = make_matrix_i(3_Cd, 2_Rd, init_p, maker::heap);
 	auto m37 = make_matrix_i(dims(3_C, 2_R), init_p, maker::heap);
-	auto m38 = make_matrix_i(dims(3_C_rt, 2_R), init_p, maker::heap);
-	auto m39 = make_matrix_i(dims(3_C, 2_R_rt), init_p, maker::heap);
-	auto m40 = make_matrix_i(dims(3_C_rt, 2_R_rt), init_p, maker::heap);
+	auto m38 = make_matrix_i(dims(3_Cd, 2_R), init_p, maker::heap);
+	auto m39 = make_matrix_i(dims(3_C, 2_Rd), init_p, maker::heap);
+	auto m40 = make_matrix_i(dims(3_Cd, 2_Rd), init_p, maker::heap);
 
 
 	BOOST_TEST((rt_id(m01) == id< heap_matrix< T, 3, 2 > >));
@@ -1800,40 +1800,40 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_heap_matrix_1x3, T, types){
 
 	auto m01 = make_matrix_v< T >(1_C, 3_R, T(), maker::heap);
 	auto m02 = make_vector_v< T >(3_R, T(), maker::heap);
-	auto m03 = make_matrix_v< T >(1_C, 3_R_rt, T(), maker::heap);
-	auto m04 = make_vector_v< T >(3_R_rt, T(), maker::heap);
+	auto m03 = make_matrix_v< T >(1_C, 3_Rd, T(), maker::heap);
+	auto m04 = make_vector_v< T >(3_Rd, T(), maker::heap);
 	auto m05 = make_matrix_v< T >(dims(1_C, 3_R), T(), maker::heap);
-	auto m06 = make_matrix_v< T >(dims(1_C, 3_R_rt), T(), maker::heap);
+	auto m06 = make_matrix_v< T >(dims(1_C, 3_Rd), T(), maker::heap);
 
 	auto m07 = make_matrix_v(1_C, 3_R, T(7), maker::heap);
 	auto m08 = make_vector_v(3_R, T(7), maker::heap);
-	auto m09 = make_matrix_v(1_C, 3_R_rt, T(7), maker::heap);
-	auto m10 = make_vector_v(3_R_rt, T(7), maker::heap);
+	auto m09 = make_matrix_v(1_C, 3_Rd, T(7), maker::heap);
+	auto m10 = make_vector_v(3_Rd, T(7), maker::heap);
 	auto m11 = make_matrix_v(dims(1_C, 3_R), T(7), maker::heap);
-	auto m12 = make_matrix_v(dims(1_C, 3_R_rt), T(7), maker::heap);
+	auto m12 = make_matrix_v(dims(1_C, 3_Rd), T(7), maker::heap);
 
 	auto m13 = make_matrix< T >(1_C, 3_R, {{0}, {1}, {2}}, maker::heap);
 	auto m14 = make_vector< T >(3_R, {0, 1, 2}, maker::heap);
-	auto m15 = make_matrix< T >(1_C, 3_R_rt, {{0}, {1}, {2}}, maker::heap);
-	auto m16 = make_vector< T >(3_R_rt, {0, 1, 2}, maker::heap);
+	auto m15 = make_matrix< T >(1_C, 3_Rd, {{0}, {1}, {2}}, maker::heap);
+	auto m16 = make_vector< T >(3_Rd, {0, 1, 2}, maker::heap);
 	auto m17 = make_matrix(1_C, 3_R, ref_i, maker::heap);
 	auto m18 = make_vector(3_R, ref_i_vec, maker::heap);
-	auto m19 = make_matrix(1_C, 3_R_rt, ref_i, maker::heap);
-	auto m20 = make_vector(3_R_rt, ref_i_vec, maker::heap);
+	auto m19 = make_matrix(1_C, 3_Rd, ref_i, maker::heap);
+	auto m20 = make_vector(3_Rd, ref_i_vec, maker::heap);
 
 	auto m21 = make_matrix_fn(1_C, 3_R, fn_xy, maker::heap);
 	auto m22 = make_vector_fn(3_R, fn_i, maker::heap);
-	auto m23 = make_matrix_fn(1_C, 3_R_rt, fn_xy, maker::heap);
-	auto m24 = make_vector_fn(3_R_rt, fn_i, maker::heap);
+	auto m23 = make_matrix_fn(1_C, 3_Rd, fn_xy, maker::heap);
+	auto m24 = make_vector_fn(3_Rd, fn_i, maker::heap);
 	auto m25 = make_matrix_fn(dims(1_C, 3_R), fn_xy, maker::heap);
-	auto m26 = make_matrix_fn(dims(1_C, 3_R_rt), fn_xy, maker::heap);
+	auto m26 = make_matrix_fn(dims(1_C, 3_Rd), fn_xy, maker::heap);
 
 	auto m27 = make_matrix_i(1_C, 3_R, init_p, maker::heap);
 	auto m28 = make_vector_i(3_R, init_p, maker::heap);
-	auto m29 = make_matrix_i(1_C, 3_R_rt, init_p, maker::heap);
-	auto m30 = make_vector_i(3_R_rt, init_p, maker::heap);
+	auto m29 = make_matrix_i(1_C, 3_Rd, init_p, maker::heap);
+	auto m30 = make_vector_i(3_Rd, init_p, maker::heap);
 	auto m31 = make_matrix_i(dims(1_C, 3_R), init_p, maker::heap);
-	auto m32 = make_matrix_i(dims(1_C, 3_R_rt), init_p, maker::heap);
+	auto m32 = make_matrix_i(dims(1_C, 3_Rd), init_p, maker::heap);
 
 
 	BOOST_TEST((rt_id(m01) == id< heap_matrix< T, 1, 3 > >));
@@ -1925,40 +1925,40 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_heap_matrix_3x1, T, types){
 
 	auto m01 = make_matrix_v< T >(3_C, 1_R, T(), maker::heap);
 	auto m02 = make_vector_v< T >(3_C, T(), maker::heap);
-	auto m03 = make_matrix_v< T >(3_C_rt, 1_R, T(), maker::heap);
-	auto m04 = make_vector_v< T >(3_C_rt, T(), maker::heap);
+	auto m03 = make_matrix_v< T >(3_Cd, 1_R, T(), maker::heap);
+	auto m04 = make_vector_v< T >(3_Cd, T(), maker::heap);
 	auto m05 = make_matrix_v< T >(dims(3_C, 1_R), T(), maker::heap);
-	auto m06 = make_matrix_v< T >(dims(3_C_rt, 1_R), T(), maker::heap);
+	auto m06 = make_matrix_v< T >(dims(3_Cd, 1_R), T(), maker::heap);
 
 	auto m07 = make_matrix_v(3_C, 1_R, T(7), maker::heap);
 	auto m08 = make_vector_v(3_C, T(7), maker::heap);
-	auto m09 = make_matrix_v(3_C_rt, 1_R, T(7), maker::heap);
-	auto m10 = make_vector_v(3_C_rt, T(7), maker::heap);
+	auto m09 = make_matrix_v(3_Cd, 1_R, T(7), maker::heap);
+	auto m10 = make_vector_v(3_Cd, T(7), maker::heap);
 	auto m11 = make_matrix_v(dims(3_C, 1_R), T(7), maker::heap);
-	auto m12 = make_matrix_v(dims(3_C_rt, 1_R), T(7), maker::heap);
+	auto m12 = make_matrix_v(dims(3_Cd, 1_R), T(7), maker::heap);
 
 	auto m13 = make_matrix< T >(3_C, 1_R, {{0, 1, 2}}, maker::heap);
 	auto m14 = make_vector< T >(3_C, {0, 1, 2}, maker::heap);
-	auto m15 = make_matrix< T >(3_C_rt, 1_R, {{0, 1, 2}}, maker::heap);
-	auto m16 = make_vector< T >(3_C_rt, {0, 1, 2}, maker::heap);
+	auto m15 = make_matrix< T >(3_Cd, 1_R, {{0, 1, 2}}, maker::heap);
+	auto m16 = make_vector< T >(3_Cd, {0, 1, 2}, maker::heap);
 	auto m17 = make_matrix(3_C, 1_R, ref_i, maker::heap);
 	auto m18 = make_vector(3_C, ref_i_vec, maker::heap);
-	auto m19 = make_matrix(3_C_rt, 1_R, ref_i, maker::heap);
-	auto m20 = make_vector(3_C_rt, ref_i_vec, maker::heap);
+	auto m19 = make_matrix(3_Cd, 1_R, ref_i, maker::heap);
+	auto m20 = make_vector(3_Cd, ref_i_vec, maker::heap);
 
 	auto m21 = make_matrix_fn(3_C, 1_R, fn_xy, maker::heap);
 	auto m22 = make_vector_fn(3_C, fn_i, maker::heap);
-	auto m23 = make_matrix_fn(3_C_rt, 1_R, fn_xy, maker::heap);
-	auto m24 = make_vector_fn(3_C_rt, fn_i, maker::heap);
+	auto m23 = make_matrix_fn(3_Cd, 1_R, fn_xy, maker::heap);
+	auto m24 = make_vector_fn(3_Cd, fn_i, maker::heap);
 	auto m25 = make_matrix_fn(dims(3_C, 1_R), fn_xy, maker::heap);
-	auto m26 = make_matrix_fn(dims(3_C_rt, 1_R), fn_xy, maker::heap);
+	auto m26 = make_matrix_fn(dims(3_Cd, 1_R), fn_xy, maker::heap);
 
 	auto m27 = make_matrix_i(3_C, 1_R, init_p, maker::heap);
 	auto m28 = make_vector_i(3_C, init_p, maker::heap);
-	auto m29 = make_matrix_i(3_C_rt, 1_R, init_p, maker::heap);
-	auto m30 = make_vector_i(3_C_rt, init_p, maker::heap);
+	auto m29 = make_matrix_i(3_Cd, 1_R, init_p, maker::heap);
+	auto m30 = make_vector_i(3_Cd, init_p, maker::heap);
 	auto m31 = make_matrix_i(dims(3_C, 1_R), init_p, maker::heap);
-	auto m32 = make_matrix_i(dims(3_C_rt, 1_R), init_p, maker::heap);
+	auto m32 = make_matrix_i(dims(3_Cd, 1_R), init_p, maker::heap);
 
 
 	BOOST_TEST((rt_id(m01) == id< heap_matrix< T, 3, 1 > >));
@@ -2163,21 +2163,21 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_diag_heap_matrix, T, types){
 	constexpr auto fn = fn_i_t< T >();
 
 	auto m01 = make_diag_matrix_v< T >(3_D, T(), maker::heap);
-	auto m02 = make_diag_matrix_v< T >(3_D_rt, T(), maker::heap);
+	auto m02 = make_diag_matrix_v< T >(3_Dd, T(), maker::heap);
 
 	auto m03 = make_diag_matrix_v(3_D, T(7), maker::heap);
-	auto m04 = make_diag_matrix_v(3_D_rt, T(7), maker::heap);
+	auto m04 = make_diag_matrix_v(3_Dd, T(7), maker::heap);
 
 	auto m05 = make_diag_matrix< T >(3_D, {0, 1, 2}, maker::heap);
-	auto m06 = make_diag_matrix< T >(3_D_rt, {0, 1, 2}, maker::heap);
+	auto m06 = make_diag_matrix< T >(3_Dd, {0, 1, 2}, maker::heap);
 	auto m07 = make_diag_matrix(3_D, ref_i_vec, maker::heap);
-	auto m08 = make_diag_matrix(3_D_rt, ref_i_vec, maker::heap);
+	auto m08 = make_diag_matrix(3_Dd, ref_i_vec, maker::heap);
 
 	auto m09 = make_diag_matrix_fn(3_D, fn, maker::heap);
-	auto m10 = make_diag_matrix_fn(3_D_rt, fn, maker::heap);
+	auto m10 = make_diag_matrix_fn(3_Dd, fn, maker::heap);
 
 	auto m11 = make_diag_matrix_i(3_D, init_p, maker::heap);
-	auto m12 = make_diag_matrix_i(3_D_rt, init_p, maker::heap);
+	auto m12 = make_diag_matrix_i(3_Dd, init_p, maker::heap);
 
 
 	BOOST_TEST((rt_id(m01) == id< heap_matrix< T, 3, 3 > >));
@@ -2213,7 +2213,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_identity_heap_matrix, T, types){
 	constexpr T ref_i[3][3] = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
 
 	auto m01 = make_identity_matrix< T >(3_D, maker::heap);
-	auto m02 = make_identity_matrix< T >(3_D_rt, maker::heap);
+	auto m02 = make_identity_matrix< T >(3_Dd, maker::heap);
 
 
 	BOOST_TEST((rt_id(m01) == id< heap_matrix< T, 3, 3 > >));
@@ -2229,7 +2229,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_copy_constructor_heap, T, types){
 	constexpr T ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
 
 	auto m01 = make_matrix(3_C, 3_R, ref_i, maker::heap);
-	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_i, maker::heap);
+	auto m02 = make_matrix(3_Cd, 3_Rd, ref_i, maker::heap);
 
 	auto m03 = m01;
 	auto m04 = m02;
@@ -2247,7 +2247,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_move_constructor_heap, T, types){
 	constexpr T ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
 
 	auto m01 = make_matrix(3_C, 3_R, ref_i, maker::heap);
-	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_i, maker::heap);
+	auto m02 = make_matrix(3_Cd, 3_Rd, ref_i, maker::heap);
 
 	auto m03 = std::move(m01);
 	auto m04 = std::move(m02);
@@ -2265,12 +2265,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_copy_assignment_heap, T, types){
 	constexpr T ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
 
 	auto m01 = make_matrix(3_C, 3_R, ref_i, maker::heap);
-	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_i, maker::heap);
+	auto m02 = make_matrix(3_Cd, 3_Rd, ref_i, maker::heap);
 
 	auto m03 = make_matrix_v(3_C, 3_R, T(), maker::heap);
 
 	// also assign dimensions
-	auto m04 = make_matrix_v(0_C_rt, 0_R_rt, T(), maker::heap);
+	auto m04 = make_matrix_v(0_Cd, 0_Rd, T(), maker::heap);
 
 
 	m03 = m01;
@@ -2290,12 +2290,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_move_assignment_heap, T, types){
 	constexpr T ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
 
 	auto m01 = make_matrix(3_C, 3_R, ref_i, maker::heap);
-	auto m02 = make_matrix(3_C_rt, 3_R_rt, ref_i, maker::heap);
+	auto m02 = make_matrix(3_Cd, 3_Rd, ref_i, maker::heap);
 
 	auto m03 = make_matrix_v(3_C, 3_R, T(), maker::heap);
 
 	// also move dimensions
-	auto m04 = make_matrix_v(0_C_rt, 0_R_rt, T(), maker::heap);
+	auto m04 = make_matrix_v(0_Cd, 0_Rd, T(), maker::heap);
 
 
 	m03 = std::move(m01);

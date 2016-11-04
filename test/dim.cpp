@@ -69,13 +69,13 @@ void dim_literal(){
 	using namespace mitrax::literals;
 
 	BOOST_TEST((rt_id(3_C) == id< col_t< true, 3 > >));
-	BOOST_TEST((rt_id(3_C_rt) == id< col_t< false, 3 > >));
+	BOOST_TEST((rt_id(3_Cd) == id< col_t< false, 3 > >));
 
 	BOOST_TEST((rt_id(3_R) == id< row_t< true, 3 > >));
-	BOOST_TEST((rt_id(3_R_rt) == id< row_t< false, 3 > >));
+	BOOST_TEST((rt_id(3_Rd) == id< row_t< false, 3 > >));
 
 	BOOST_TEST((rt_id(3_D) == id< dim_t< true, 3 > >));
-	BOOST_TEST((rt_id(3_D_rt) == id< dim_t< false, 3 > >));
+	BOOST_TEST((rt_id(3_Dd) == id< dim_t< false, 3 > >));
 }
 
 template < template < bool, size_t > typename DimT >

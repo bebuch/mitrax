@@ -37,9 +37,9 @@ BOOST_AUTO_TEST_SUITE(suite_swap_matrix)
 
 BOOST_AUTO_TEST_CASE(test_swap_rows_m_0_m_1){
 	auto m1 = make_matrix(3_C, 3_R, data1);
-	auto m2 = make_matrix(3_C_rt, 3_R, data1);
-	auto m3 = make_matrix(3_C, 3_R_rt, data1);
-	auto m4 = make_matrix(3_C_rt, 3_R_rt, data1);
+	auto m2 = make_matrix(3_Cd, 3_R, data1);
+	auto m3 = make_matrix(3_C, 3_Rd, data1);
+	auto m4 = make_matrix(3_Cd, 3_Rd, data1);
 
 	swap_rows(m1, 0, 1);
 	swap_rows(m2, 0, 1);
@@ -67,9 +67,9 @@ BOOST_AUTO_TEST_CASE(test_swap_rows_m_0_m_1){
 
 BOOST_AUTO_TEST_CASE(test_swap_rows_m_0_m_2){
 	auto m1 = make_matrix(3_C, 3_R, data1);
-	auto m2 = make_matrix(3_C_rt, 3_R, data1);
-	auto m3 = make_matrix(3_C, 3_R_rt, data1);
-	auto m4 = make_matrix(3_C_rt, 3_R_rt, data1);
+	auto m2 = make_matrix(3_Cd, 3_R, data1);
+	auto m3 = make_matrix(3_C, 3_Rd, data1);
+	auto m4 = make_matrix(3_Cd, 3_Rd, data1);
 
 	swap_rows(m1, 0, 2);
 	swap_rows(m2, 0, 2);
@@ -101,34 +101,34 @@ BOOST_AUTO_TEST_CASE(test_swap_rows_m1_1_m2_2){
 	auto m112 = make_matrix(3_C, 3_R, data1);
 	auto m113 = make_matrix(3_C, 3_R, data1);
 	auto m114 = make_matrix(3_C, 3_R, data1);
-	auto m121 = make_matrix(3_C_rt, 3_R, data1);
-	auto m122 = make_matrix(3_C_rt, 3_R, data1);
-	auto m123 = make_matrix(3_C_rt, 3_R, data1);
-	auto m124 = make_matrix(3_C_rt, 3_R, data1);
-	auto m131 = make_matrix(3_C, 3_R_rt, data1);
-	auto m132 = make_matrix(3_C, 3_R_rt, data1);
-	auto m133 = make_matrix(3_C, 3_R_rt, data1);
-	auto m134 = make_matrix(3_C, 3_R_rt, data1);
-	auto m141 = make_matrix(3_C_rt, 3_R_rt, data1);
-	auto m142 = make_matrix(3_C_rt, 3_R_rt, data1);
-	auto m143 = make_matrix(3_C_rt, 3_R_rt, data1);
-	auto m144 = make_matrix(3_C_rt, 3_R_rt, data1);
+	auto m121 = make_matrix(3_Cd, 3_R, data1);
+	auto m122 = make_matrix(3_Cd, 3_R, data1);
+	auto m123 = make_matrix(3_Cd, 3_R, data1);
+	auto m124 = make_matrix(3_Cd, 3_R, data1);
+	auto m131 = make_matrix(3_C, 3_Rd, data1);
+	auto m132 = make_matrix(3_C, 3_Rd, data1);
+	auto m133 = make_matrix(3_C, 3_Rd, data1);
+	auto m134 = make_matrix(3_C, 3_Rd, data1);
+	auto m141 = make_matrix(3_Cd, 3_Rd, data1);
+	auto m142 = make_matrix(3_Cd, 3_Rd, data1);
+	auto m143 = make_matrix(3_Cd, 3_Rd, data1);
+	auto m144 = make_matrix(3_Cd, 3_Rd, data1);
 	auto m211 = make_matrix(3_C, 3_R, data2);
 	auto m212 = make_matrix(3_C, 3_R, data2);
 	auto m213 = make_matrix(3_C, 3_R, data2);
 	auto m214 = make_matrix(3_C, 3_R, data2);
-	auto m221 = make_matrix(3_C_rt, 3_R, data2);
-	auto m222 = make_matrix(3_C_rt, 3_R, data2);
-	auto m223 = make_matrix(3_C_rt, 3_R, data2);
-	auto m224 = make_matrix(3_C_rt, 3_R, data2);
-	auto m231 = make_matrix(3_C, 3_R_rt, data2);
-	auto m232 = make_matrix(3_C, 3_R_rt, data2);
-	auto m233 = make_matrix(3_C, 3_R_rt, data2);
-	auto m234 = make_matrix(3_C, 3_R_rt, data2);
-	auto m241 = make_matrix(3_C_rt, 3_R_rt, data2);
-	auto m242 = make_matrix(3_C_rt, 3_R_rt, data2);
-	auto m243 = make_matrix(3_C_rt, 3_R_rt, data2);
-	auto m244 = make_matrix(3_C_rt, 3_R_rt, data2);
+	auto m221 = make_matrix(3_Cd, 3_R, data2);
+	auto m222 = make_matrix(3_Cd, 3_R, data2);
+	auto m223 = make_matrix(3_Cd, 3_R, data2);
+	auto m224 = make_matrix(3_Cd, 3_R, data2);
+	auto m231 = make_matrix(3_C, 3_Rd, data2);
+	auto m232 = make_matrix(3_C, 3_Rd, data2);
+	auto m233 = make_matrix(3_C, 3_Rd, data2);
+	auto m234 = make_matrix(3_C, 3_Rd, data2);
+	auto m241 = make_matrix(3_Cd, 3_Rd, data2);
+	auto m242 = make_matrix(3_Cd, 3_Rd, data2);
+	auto m243 = make_matrix(3_Cd, 3_Rd, data2);
+	auto m244 = make_matrix(3_Cd, 3_Rd, data2);
 
 	swap_rows(m111, 1, m211, 2);
 	swap_rows(m112, 1, m221, 2);
@@ -189,9 +189,9 @@ BOOST_AUTO_TEST_CASE(test_swap_rows_m1_1_m2_2){
 
 BOOST_AUTO_TEST_CASE(test_swap_cols_m_0_m_1){
 	auto m1 = make_matrix(3_C, 3_R, data1);
-	auto m2 = make_matrix(3_C_rt, 3_R, data1);
-	auto m3 = make_matrix(3_C, 3_R_rt, data1);
-	auto m4 = make_matrix(3_C_rt, 3_R_rt, data1);
+	auto m2 = make_matrix(3_Cd, 3_R, data1);
+	auto m3 = make_matrix(3_C, 3_Rd, data1);
+	auto m4 = make_matrix(3_Cd, 3_Rd, data1);
 
 	swap_cols(m1, 0, 1);
 	swap_cols(m2, 0, 1);
@@ -219,9 +219,9 @@ BOOST_AUTO_TEST_CASE(test_swap_cols_m_0_m_1){
 
 BOOST_AUTO_TEST_CASE(test_swap_cols_m_0_m_2){
 	auto m1 = make_matrix(3_C, 3_R, data1);
-	auto m2 = make_matrix(3_C_rt, 3_R, data1);
-	auto m3 = make_matrix(3_C, 3_R_rt, data1);
-	auto m4 = make_matrix(3_C_rt, 3_R_rt, data1);
+	auto m2 = make_matrix(3_Cd, 3_R, data1);
+	auto m3 = make_matrix(3_C, 3_Rd, data1);
+	auto m4 = make_matrix(3_Cd, 3_Rd, data1);
 
 	swap_cols(m1, 0, 2);
 	swap_cols(m2, 0, 2);
@@ -253,34 +253,34 @@ BOOST_AUTO_TEST_CASE(test_swap_cols_m1_1_m2_2){
 	auto m112 = make_matrix(3_C, 3_R, data1);
 	auto m113 = make_matrix(3_C, 3_R, data1);
 	auto m114 = make_matrix(3_C, 3_R, data1);
-	auto m121 = make_matrix(3_C_rt, 3_R, data1);
-	auto m122 = make_matrix(3_C_rt, 3_R, data1);
-	auto m123 = make_matrix(3_C_rt, 3_R, data1);
-	auto m124 = make_matrix(3_C_rt, 3_R, data1);
-	auto m131 = make_matrix(3_C, 3_R_rt, data1);
-	auto m132 = make_matrix(3_C, 3_R_rt, data1);
-	auto m133 = make_matrix(3_C, 3_R_rt, data1);
-	auto m134 = make_matrix(3_C, 3_R_rt, data1);
-	auto m141 = make_matrix(3_C_rt, 3_R_rt, data1);
-	auto m142 = make_matrix(3_C_rt, 3_R_rt, data1);
-	auto m143 = make_matrix(3_C_rt, 3_R_rt, data1);
-	auto m144 = make_matrix(3_C_rt, 3_R_rt, data1);
+	auto m121 = make_matrix(3_Cd, 3_R, data1);
+	auto m122 = make_matrix(3_Cd, 3_R, data1);
+	auto m123 = make_matrix(3_Cd, 3_R, data1);
+	auto m124 = make_matrix(3_Cd, 3_R, data1);
+	auto m131 = make_matrix(3_C, 3_Rd, data1);
+	auto m132 = make_matrix(3_C, 3_Rd, data1);
+	auto m133 = make_matrix(3_C, 3_Rd, data1);
+	auto m134 = make_matrix(3_C, 3_Rd, data1);
+	auto m141 = make_matrix(3_Cd, 3_Rd, data1);
+	auto m142 = make_matrix(3_Cd, 3_Rd, data1);
+	auto m143 = make_matrix(3_Cd, 3_Rd, data1);
+	auto m144 = make_matrix(3_Cd, 3_Rd, data1);
 	auto m211 = make_matrix(3_C, 3_R, data2);
 	auto m212 = make_matrix(3_C, 3_R, data2);
 	auto m213 = make_matrix(3_C, 3_R, data2);
 	auto m214 = make_matrix(3_C, 3_R, data2);
-	auto m221 = make_matrix(3_C_rt, 3_R, data2);
-	auto m222 = make_matrix(3_C_rt, 3_R, data2);
-	auto m223 = make_matrix(3_C_rt, 3_R, data2);
-	auto m224 = make_matrix(3_C_rt, 3_R, data2);
-	auto m231 = make_matrix(3_C, 3_R_rt, data2);
-	auto m232 = make_matrix(3_C, 3_R_rt, data2);
-	auto m233 = make_matrix(3_C, 3_R_rt, data2);
-	auto m234 = make_matrix(3_C, 3_R_rt, data2);
-	auto m241 = make_matrix(3_C_rt, 3_R_rt, data2);
-	auto m242 = make_matrix(3_C_rt, 3_R_rt, data2);
-	auto m243 = make_matrix(3_C_rt, 3_R_rt, data2);
-	auto m244 = make_matrix(3_C_rt, 3_R_rt, data2);
+	auto m221 = make_matrix(3_Cd, 3_R, data2);
+	auto m222 = make_matrix(3_Cd, 3_R, data2);
+	auto m223 = make_matrix(3_Cd, 3_R, data2);
+	auto m224 = make_matrix(3_Cd, 3_R, data2);
+	auto m231 = make_matrix(3_C, 3_Rd, data2);
+	auto m232 = make_matrix(3_C, 3_Rd, data2);
+	auto m233 = make_matrix(3_C, 3_Rd, data2);
+	auto m234 = make_matrix(3_C, 3_Rd, data2);
+	auto m241 = make_matrix(3_Cd, 3_Rd, data2);
+	auto m242 = make_matrix(3_Cd, 3_Rd, data2);
+	auto m243 = make_matrix(3_Cd, 3_Rd, data2);
+	auto m244 = make_matrix(3_Cd, 3_Rd, data2);
 
 	swap_cols(m111, 1, m211, 2);
 	swap_cols(m112, 1, m221, 2);

@@ -8,14 +8,14 @@ int main(){
 	using namespace mitrax::literals;
 
 	auto dcc = dims(2_C, 4_R);
-	auto drc = dims(2_C_rt, 4_R);
-	auto dcr = dims(2_C, 4_R_rt);
-	auto drr = dims(2_C_rt, 4_R_rt);
+	auto drc = dims(2_Cd, 4_R);
+	auto dcr = dims(2_C, 4_Rd);
+	auto drr = dims(2_Cd, 4_Rd);
 
 	auto mcc = make_matrix_v< std::uint8_t >(2_C, 4_R);
-	auto mrc = make_matrix_v< std::uint8_t >(2_C_rt, 4_R);
-	auto mcr = make_matrix_v< std::uint8_t >(2_C, 4_R_rt);
-	auto mrr = make_matrix_v< std::uint8_t >(2_C_rt, 4_R_rt);
+	auto mrc = make_matrix_v< std::uint8_t >(2_Cd, 4_R);
+	auto mcr = make_matrix_v< std::uint8_t >(2_C, 4_Rd);
+	auto mrr = make_matrix_v< std::uint8_t >(2_Cd, 4_Rd);
 
 	auto hcc = make_matrix_v(2_C, 4_R, std::uint8_t(), maker::heap);
 
