@@ -27,6 +27,13 @@ local line = 0
 local more_than_one = false
 print("#line", "name", "mean", "stddev-min", "min", "max", "stddev-max")
 for i, v in ipairs(data.benchmarks) do
+	if string.ends(v.name, "_stddev") then
+		more_than_one = true
+		break;
+	end
+end
+
+for i, v in ipairs(data.benchmarks) do
 	if v.name == last_name then
 		min = math.min(min, v.real_time)
 		max = math.max(max, v.real_time)
@@ -36,7 +43,6 @@ for i, v in ipairs(data.benchmarks) do
 		stddev = v.real_time
 		line = line + 1
 		print(line, last_name, mean / div, (mean - stddev) / div, min / div, max / div, (mean + stddev) / div)
-		more_than_one = true
 	else
 		min = v.real_time
 		max = v.real_time
