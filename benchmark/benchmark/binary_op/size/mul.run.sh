@@ -22,7 +22,7 @@ param="--benchmark_repetitions=$repetitions --benchmark_format=json"
 for benchmark in $(find ./ -maxdepth 1 -executable -type f)
 do
 	echo "run  $name:${benchmark#./*}"
-	$benchmark --op=* $param > mul-${benchmark#./*}.json
+# 	cset shield --exec $benchmark -- --op=* $param --benchmark_out=mul-${benchmark#./*}.json
 	echo "eval $name:${benchmark#./*}"
 	lua $dir/script/json2gnuplot.lua mul-${benchmark#./*}.json > mul-${benchmark#./*}.dat
 done
