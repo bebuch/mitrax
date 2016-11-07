@@ -60,6 +60,14 @@ namespace mitrax{
 		/// \brief Type of the data that administrates the matrix
 		using value_type = value_type_t< M >;
 
+
+		static_assert(
+			has_iterator_fn_v< M const > ||
+			has_data_v< value_type const*, M const >,
+			"Matrix impl must provide at least begin() and end() or data()"
+		);
+
+
 		/// \brief Type with the make functions
 		using maker_type = typename M::maker_type;
 
@@ -88,10 +96,10 @@ namespace mitrax{
 		using const_pointer = value_type const*;
 
 		/// \brief Type of a iterator for data
-		using iterator = typename M::iterator;
+		using iterator = iterator_fn_t< M >;
 
 		/// \brief Type of a iterator for const data
-		using const_iterator = typename M::const_iterator;
+		using const_iterator = iterator_fn_t< M const >;
 
 		/// \brief Type of a reverse iterator for data
 		using reverse_iterator = std::reverse_iterator< iterator >;
@@ -199,7 +207,9 @@ namespace mitrax{
 
 
 		constexpr iterator begin(){
-			if constexpr(has_iterator_fn_v< M >){
+			if constexpr(
+				has_iterator_fn_v< M > || has_iterator_fn_v< M const >
+			){
 				return m_.begin();
 			}else{
 				return data();
@@ -215,7 +225,9 @@ namespace mitrax{
 		}
 
 		constexpr iterator end(){
-			if constexpr(has_iterator_fn_v< M >){
+			if constexpr(
+				has_iterator_fn_v< M > || has_iterator_fn_v< M const >
+			){
 				return m_.end();
 			}else{
 				return data() + point_count();
@@ -272,12 +284,10 @@ namespace mitrax{
 		}
 
 
+		template <
+			typename dummy = int,
+			std::enable_if_t< has_data_v< value_type*, M >, dummy > = 0 >
 		constexpr value_type* data(){
-			static_assert(
-				has_data_v< value_type*, M >,
-				"The underlaying matrix implementation doesn't support "
-				"'value_type* m.data()'"
-			);
 			return m_.data();
 		}
 

@@ -120,7 +120,35 @@ BOOST_AUTO_TEST_SUITE(suite_make_matrix)
 
 using types = boost::mpl::list< int, double, std::complex< float > >;
 
-using objects = boost::mpl::list< int[4], std::array< int, 4 >, std::vector< float > >;
+using objects = boost::mpl::list< int[4], std::array< int, 4 >, std::vector< int > >;
+
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_view_matrix_iter, Object, objects){
+	using type = detail::view_matrix_impl< Object, true, 3, 3 >;
+	static_assert(has_iterator_fn_v< type >);
+	static_assert(has_data_v< int*, type >);
+	static_assert(has_iterator_fn_v< type const >);
+	static_assert(has_data_v< int const*, type const >);
+
+
+	using const_type = detail::const_view_matrix_impl< Object, true, 3, 3 >;
+	static_assert(has_iterator_fn_v< const_type >);
+	static_assert(has_data_v< int const*, const_type >);
+	static_assert(has_iterator_fn_v< const_type const >);
+	static_assert(has_data_v< int const*, const_type const >);
+
+
+	using non_const_t_only_const_data = detail::view_matrix_impl<
+		detail::const_view_matrix_impl< Object, true, 3, 3 >,
+		true, 3, 3 >;
+	static_assert(has_iterator_fn_v< non_const_t_only_const_data >);
+	static_assert(has_data_v< int const*, non_const_t_only_const_data >);
+	static_assert(has_iterator_fn_v< non_const_t_only_const_data const >);
+	static_assert(has_data_v< int const*, non_const_t_only_const_data const >);
+}
+
+BOOST_AUTO_TEST_CASE(test_view_matrix_iter2){
+}
 
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_view_matrix_types, Object, objects){

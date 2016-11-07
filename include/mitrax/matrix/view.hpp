@@ -37,18 +37,11 @@ namespace mitrax::detail{
 		using maker_type = maker::view_t;
 
 		/// \brief Type of the underlaying object type
-		using object_type = Object&;
+		using object_type = Object;
 
 		/// \brief Type of the data that administrates the matrix
 		using value_type = iter_type_t<
-			decltype(mitrax::begin(std::declval< object_type >())) >;
-
-		/// \brief Type of a iterator for data
-		using iterator = decltype(mitrax::begin(std::declval< object_type >()));
-
-		/// \brief Type of a iterator for const data
-		using const_iterator =
-			decltype(mitrax::begin(std::declval< Object const& >()));
+			decltype(mitrax::begin(std::declval< Object& >())) >;
 
 
 		static constexpr bool row_memory_order = RowOrder;
@@ -56,21 +49,18 @@ namespace mitrax::detail{
 
 		constexpr view_matrix_impl() = delete;
 
-		constexpr view_matrix_impl(view_matrix_impl&&) = delete;
+		constexpr view_matrix_impl(view_matrix_impl&&) noexcept
+			= default;
 
-		constexpr view_matrix_impl(
-			view_matrix_impl const& other
-		)noexcept:
-			dims_t< C, R >(other),
-			object_(other.object_)
-			{}
+		constexpr view_matrix_impl(view_matrix_impl const& other) noexcept
+			= default;
 
 		constexpr view_matrix_impl(
 			col_t< C != 0, C > c, row_t< R != 0, R > r,
-			object_type object
+			Object& object
 		)noexcept:
 			dims_t< C, R >(c, r),
-			object_(object)
+			object_(&object)
 			{}
 
 
@@ -98,52 +88,63 @@ namespace mitrax::detail{
 		}
 
 
-		constexpr iterator begin(){
-			return mitrax::begin(object_);
+		constexpr decltype(auto) begin()
+		noexcept(noexcept(mitrax::begin(std::declval< Object& >()))){
+			return mitrax::begin(*object_);
 		}
 
-		constexpr const_iterator begin()const{
-			return mitrax::begin(object_);
+		constexpr decltype(auto) begin()const
+		noexcept(noexcept(mitrax::begin(std::declval< Object const& >()))){
+			return mitrax::begin(*object_);
 		}
 
-		constexpr iterator end(){
-			return mitrax::end(object_);
+		constexpr decltype(auto) end()
+		noexcept(noexcept(mitrax::end(std::declval< Object& >()))){
+			return mitrax::end(*object_);
 		}
 
-		constexpr const_iterator end()const{
-			return mitrax::end(object_);
+		constexpr decltype(auto) end()const
+		noexcept(noexcept(mitrax::end(std::declval< Object const& >()))){
+			return mitrax::end(*object_);
 		}
 
 
-		constexpr value_type* data(){
-			static_assert(
-				has_data_v< value_type*, Object >,
-				"The underlaying object type doesn't support "
-				"'value_type const* m.data()const'"
-			);
-
-			return object_.data();
+		template < typename dummy = int, std::enable_if_t<
+				std::is_array_v< Object > || has_data_v< value_type*, Object >,
+				dummy > = 0 >
+		constexpr value_type* data()noexcept{
+			if constexpr(std::is_array_v< Object >){
+				return *object_;
+			}else{
+				return object_->data();
+			}
 		}
 
-		constexpr value_type const* data()const{
-			static_assert(
-				has_data_v< value_type const*, Object const >,
-				"The underlaying object type doesn't support "
-				"'value_type const* m.data()const'"
-			);
+		constexpr value_type const* data()const noexcept{
+			if constexpr(std::is_array_v< Object >){
+				return *object_;
+			}else{
+				static_assert(
+					has_data_v< value_type const*, Object const >,
+					"The underlaying object type doesn't support "
+					"'value_type const* m.data()const'"
+				);
 
-			return object_.data();
+				return object_->data();
+			}
 		}
 
 
 	protected:
-		object_type object_;
+		Object* object_;
 	};
 
 
 	template < typename Object, bool RowOrder, size_t C, size_t R >
 	class const_view_matrix_impl: public dims_t< C, R >{
 	public:
+		static_assert(!std::is_const_v< Object >,
+			"Use Object without const qualifier");
 		static_assert(!std::is_reference_v< Object >);
 		static_assert(compiles< Object const&, viewable >(),
 			"Object must support std::begin(object) and std::end(object)");
@@ -152,18 +153,11 @@ namespace mitrax::detail{
 		using maker_type = maker::const_view_t;
 
 		/// \brief Type of the underlaying object type
-		using object_type = Object const&;
+		using object_type = Object;
 
 		/// \brief Type of the data that administrates the matrix
 		using value_type = iter_type_t<
-			decltype(mitrax::begin(std::declval< object_type >())) >;
-
-		/// \brief Type of a iterator for data
-		using iterator =
-			decltype(mitrax::begin(std::declval< object_type >()));
-
-		/// \brief Type of a iterator for const data
-		using const_iterator = iterator;
+			decltype(mitrax::begin(std::declval< Object const& >())) >;
 
 
 		static constexpr bool row_memory_order = RowOrder;
@@ -172,21 +166,17 @@ namespace mitrax::detail{
 		constexpr const_view_matrix_impl() = delete;
 
 		constexpr const_view_matrix_impl(const_view_matrix_impl&&)
-			= delete;
+			noexcept = default;
 
-		constexpr const_view_matrix_impl(
-			const_view_matrix_impl const& other
-		)noexcept:
-			dims_t< C, R >(other),
-			object_(other.object_)
-			{}
+		constexpr const_view_matrix_impl(const_view_matrix_impl const& other)
+			noexcept = default;
 
 		constexpr const_view_matrix_impl(
 			col_t< C != 0, C > c, row_t< R != 0, R > r,
-			object_type object
+			Object const& object
 		)noexcept:
 			dims_t< C, R >(c, r),
-			object_(object)
+			object_(&object)
 			{}
 
 
@@ -206,17 +196,34 @@ namespace mitrax::detail{
 		}
 
 
-		constexpr const_iterator begin()const{
-			return mitrax::begin(object_);
+		constexpr decltype(auto) begin()const
+		noexcept(noexcept(mitrax::begin(std::declval< Object const& >()))){
+			return mitrax::begin(*object_);
 		}
 
-		constexpr const_iterator end()const{
-			return mitrax::end(object_);
+		constexpr decltype(auto) end()const
+		noexcept(noexcept(mitrax::end(std::declval< Object const& >()))){
+			return mitrax::end(*object_);
+		}
+
+
+		constexpr value_type const* data()const noexcept{
+			if constexpr(std::is_array_v< Object >){
+				return *object_;
+			}else{
+				static_assert(
+					has_data_v< value_type const*, Object const >,
+					"The underlaying object type doesn't support "
+					"'value_type const* m.data()const'"
+				);
+
+				return object_->data();
+			}
 		}
 
 
 	protected:
-		object_type object_;
+		Object const* object_;
 	};
 
 

@@ -82,12 +82,27 @@ namespace mitrax{
 	struct has_iterator_fn: std::false_type{};
 
 	template< typename T >
-	struct has_iterator_fn< T, decltype((void)
-		std::declval< T >().begin(), std::declval< T >().end()
-	) >: std::true_type{};
+	struct has_iterator_fn< T, decltype((void)(
+		std::declval< T >().begin(),
+		std::declval< T >().end()
+	)) >: std::true_type{};
 
 	template< typename T >
 	constexpr auto has_iterator_fn_v = has_iterator_fn< T >::value;
+
+
+	template< typename T, typename = void >
+	struct iterator_fn{
+		using type = decltype(std::declval< T >().data());
+	};
+
+	template< typename T >
+	struct iterator_fn< T, std::enable_if_t< has_iterator_fn_v< T > > >{
+		using type = decltype(std::declval< T >().begin());
+	};
+
+	template< typename T >
+	using iterator_fn_t = typename iterator_fn< T >::type;
 
 
 }
