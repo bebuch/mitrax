@@ -66,6 +66,30 @@ namespace mitrax{
 	struct is_static< 0, 0 >: std::false_type{};
 
 
+	template< typename Result, typename T, typename = void >
+	struct has_data: std::false_type{};
+
+	template< typename Result, typename T >
+	struct has_data< Result, T, decltype((void)
+		static_cast< Result >(std::declval< T >().data())
+	) >: std::true_type{};
+
+	template< typename Result, typename T >
+	constexpr auto has_data_v = has_data< Result, T >::value;
+
+
+	template< typename T, typename = void >
+	struct has_iterator_fn: std::false_type{};
+
+	template< typename T >
+	struct has_iterator_fn< T, decltype((void)
+		std::declval< T >().begin(), std::declval< T >().end()
+	) >: std::true_type{};
+
+	template< typename T >
+	constexpr auto has_iterator_fn_v = has_iterator_fn< T >::value;
+
+
 }
 
 

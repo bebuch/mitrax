@@ -119,23 +119,6 @@ namespace mitrax::detail{
 		}
 
 
-		constexpr iterator begin(){
-			return values_.data();
-		}
-
-		constexpr const_iterator begin()const{
-			return values_.data();
-		}
-
-		constexpr iterator end(){
-			return values_.data() + C * R;
-		}
-
-		constexpr const_iterator end()const{
-			return values_.data() + C * R;
-		}
-
-
 		constexpr value_type* data(){
 			return values_.data();
 		}

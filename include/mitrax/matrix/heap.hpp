@@ -194,23 +194,6 @@ namespace mitrax::detail{
 		}
 
 
-		iterator begin(){
-			return values_.data();
-		}
-
-		const_iterator begin()const{
-			return values_.data();
-		}
-
-		iterator end(){
-			return values_.data() + values_.size();
-		}
-
-		const_iterator end()const{
-			return values_.data() + values_.size();
-		}
-
-
 		value_type* data(){
 			return values_.data();
 		}

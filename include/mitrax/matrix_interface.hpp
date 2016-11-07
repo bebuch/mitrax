@@ -45,6 +45,7 @@ namespace mitrax{
 	public:
 		// TODO: Check if M is a matrix_impl type!!!
 
+		static_assert(std::is_class_v< M > && !std::is_const_v< M >);
 		static_assert(!std::is_const_v< value_type_t< M > >);
 		static_assert(!std::is_reference_v< value_type_t< M > >);
 
@@ -198,19 +199,35 @@ namespace mitrax{
 
 
 		constexpr iterator begin(){
-			return m_.begin();
+			if constexpr(has_iterator_fn_v< M >){
+				return m_.begin();
+			}else{
+				return data();
+			}
 		}
 
 		constexpr const_iterator begin()const{
-			return m_.begin();
+			if constexpr(has_iterator_fn_v< M const >){
+				return m_.begin();
+			}else{
+				return data();
+			}
 		}
 
 		constexpr iterator end(){
-			return m_.end();
+			if constexpr(has_iterator_fn_v< M >){
+				return m_.end();
+			}else{
+				return data() + point_count();
+			}
 		}
 
 		constexpr const_iterator end()const{
-			return m_.end();
+			if constexpr(has_iterator_fn_v< M const >){
+				return m_.end();
+			}else{
+				return data() + point_count();
+			}
 		}
 
 		constexpr reverse_iterator rbegin(){
@@ -257,7 +274,7 @@ namespace mitrax{
 
 		constexpr value_type* data(){
 			static_assert(
-				has_data_v< decltype(m_) >,
+				has_data_v< value_type*, M >,
 				"The underlaying matrix implementation doesn't support "
 				"'value_type* m.data()'"
 			);
@@ -266,7 +283,7 @@ namespace mitrax{
 
 		constexpr value_type const* data()const{
 			static_assert(
-				has_data_v< decltype(m_) >,
+				has_data_v< value_type const*, M const >,
 				"The underlaying matrix implementation doesn't support "
 				"'value_type const* m.data()const'"
 			);
@@ -276,23 +293,6 @@ namespace mitrax{
 
 	private:
 		M m_;
-
-
-		template< typename T, typename = void >
-		struct has_data: std::false_type{};
-
-		template< typename T >
-		struct has_data< T, decltype((void)
-			static_cast< value_type* >(std::declval< T >().data())
-		) >: std::true_type{};
-
-		template< typename T >
-		struct has_data< T const, decltype((void)
-			static_cast< value_type const* >(std::declval< T >().data())
-		) >: std::true_type{};
-
-		template< typename T >
-		static constexpr auto has_data_v = has_data< T >::value;
 	};
 
 

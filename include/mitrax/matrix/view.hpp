@@ -115,6 +115,27 @@ namespace mitrax::detail{
 		}
 
 
+		constexpr value_type* data(){
+			static_assert(
+				has_data_v< value_type*, Object >,
+				"The underlaying object type doesn't support "
+				"'value_type const* m.data()const'"
+			);
+
+			return object_.data();
+		}
+
+		constexpr value_type const* data()const{
+			static_assert(
+				has_data_v< value_type const*, Object const >,
+				"The underlaying object type doesn't support "
+				"'value_type const* m.data()const'"
+			);
+
+			return object_.data();
+		}
+
+
 	protected:
 		object_type object_;
 	};
