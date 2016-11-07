@@ -123,8 +123,8 @@ namespace mitrax{
 			return m_.rows();
 		}
 
-		constexpr dims_t< Cols, Rows > dims()const noexcept{
-			return m_; // m_ is required to be public derived from dims_t
+		constexpr auto dims()const noexcept{
+			return dims_t< Cols, Rows >(m_.cols(), m_.rows());
 		}
 
 		constexpr size_t point_count()const noexcept{
@@ -176,7 +176,17 @@ namespace mitrax{
 		}
 
 
-		constexpr operator value_type()const{
+		constexpr operator value_type const&()const{
+			static_assert(
+				Cols == 1 && Rows == 1,
+				"value conversion is only allowed for compile time dim "
+				"matrices with one element"
+			);
+
+			return m_(0, 0);
+		}
+
+		constexpr operator value_type&(){
 			static_assert(
 				Cols == 1 && Rows == 1,
 				"value conversion is only allowed for compile time dim "

@@ -75,6 +75,14 @@ exe make_matrix
 	<dependency>dim
 	;
 
+exe matrix_access
+	:
+	matrix_access.cpp
+	/boost//unit_test_framework
+	:
+	<dependency>make_matrix
+	;
+
 exe make_matrix_eigen
 	:
 	make_matrix_eigen.cpp
