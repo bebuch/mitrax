@@ -149,14 +149,14 @@ namespace mitrax{
 				"access operator only allowed for compile time dim vectors"
 			);
 
-			if(Cols == 1){
-				if(Rows == 1){
-					assert(i == 0);
-					return m_(0, 0);
-				}
+			if constexpr(Cols == 1 && Rows == 1){
+				assert(i == 0);
+				return m_(0, 0);
+			}else if(Cols == 1){
 				return m_(0, i);
+			}else{
+				return m_(i, 0);
 			}
-			return m_(i, 0);
 		}
 
 		constexpr decltype(auto) operator[](size_t i)const{
@@ -165,14 +165,14 @@ namespace mitrax{
 				"access operator only allowed for compile time dim vectors"
 			);
 
-			if(Cols == 1){
-				if(Rows == 1){
-					assert(i == 0);
-					return m_(0, 0);
-				}
+			if constexpr(Cols == 1 && Rows == 1){
+				assert(i == 0);
+				return m_(0, 0);
+			}else if(Cols == 1){
 				return m_(0, i);
+			}else{
+				return m_(i, 0);
 			}
-			return m_(i, 0);
 		}
 
 
