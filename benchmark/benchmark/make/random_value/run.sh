@@ -22,7 +22,9 @@ param="--benchmark_repetitions=$repetitions --benchmark_format=json"
 for benchmark in $(find ./ -maxdepth 1 -executable -type f)
 do
 	echo "run  $name:${benchmark#./*}"
-# 	cset shield --exec $benchmark -- $param --benchmark_out=${benchmark#./*}.json
+	if [ -z ${dontexec+x} ]; then
+		cset shield --exec $benchmark -- $param --benchmark_out=${benchmark#./*}.json
+	fi
 	echo "eval $name:${benchmark#./*}"
 	lua $dir/script/json2gnuplot.lua ${benchmark#./*}.json > ${benchmark#./*}.dat
 done
