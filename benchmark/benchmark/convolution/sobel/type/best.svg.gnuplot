@@ -3,7 +3,7 @@ set output 'best-plot.svg'
 
 set title "Sobel-Operator Benchmark"
 set xlabel "Benchmark"
-set ylabel "Runtime in µs"
+set ylabel "Runtime in ms"
 
 set grid y
 set boxwidth 0.1 absolute

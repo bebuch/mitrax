@@ -17,7 +17,7 @@ end
 local json_data = readAll(filename)
 local data = JSON:decode(json_data) -- decode example
 
-local div = 1000
+local div = 1000000
 local min = 0
 local max = 0
 local mean = 0

@@ -3,7 +3,7 @@ set output 'plot.svg'
 
 set title "Make random matrix Benchmark"
 set xlabel "Number of elements"
-set ylabel "Runtime in µs"
+set ylabel "Runtime in ms"
 
 set grid y
 set boxwidth 0.1 absolute
