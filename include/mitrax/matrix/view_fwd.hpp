@@ -33,16 +33,13 @@ namespace mitrax{
 		< T, RowOrder, Cols, Rows >, Cols, Rows >;
 
 	template < typename T, bool RowOrder, size_t N >
-	using view_square_matrix =
-		view_matrix< T, RowOrder, N, N >;
+	using view_square_matrix = view_matrix< T, RowOrder, N, N >;
 
 	template < typename T, bool RowOrder, size_t Rows >
-	using view_col_vector =
-		view_matrix< T, RowOrder, 1, Rows >;
+	using view_col_vector = view_matrix< T, RowOrder, 1, Rows >;
 
 	template < typename T, bool RowOrder, size_t Cols >
-	using view_row_vector =
-		view_matrix< T, RowOrder, Cols, 1 >;
+	using view_row_vector = view_matrix< T, RowOrder, Cols, 1 >;
 
 	template < typename T, bool RowOrder >
 	using view_bitmap = view_matrix< T, RowOrder, 0, 0 >;
@@ -53,16 +50,13 @@ namespace mitrax{
 		< T, RowOrder, Cols, Rows >, Cols, Rows >;
 
 	template < typename T, bool RowOrder, size_t N >
-	using const_view_square_matrix =
-		const_view_matrix< T, RowOrder, N, N >;
+	using const_view_square_matrix = const_view_matrix< T, RowOrder, N, N >;
 
 	template < typename T, bool RowOrder, size_t Rows >
-	using const_view_col_vector =
-		const_view_matrix< T, RowOrder, 1, Rows >;
+	using const_view_col_vector = const_view_matrix< T, RowOrder, 1, Rows >;
 
 	template < typename T, bool RowOrder, size_t Cols >
-	using const_view_row_vector =
-		const_view_matrix< T, RowOrder, Cols, 1 >;
+	using const_view_row_vector = const_view_matrix< T, RowOrder, Cols, 1 >;
 
 	template < typename T, bool RowOrder >
 	using const_view_bitmap = const_view_matrix< T, RowOrder, 0, 0 >;
@@ -76,7 +70,7 @@ namespace mitrax::maker{
 
 	struct view_t: key{
 		template < typename T, typename MemoryOrder = memory_order::row_t,
-		bool Cct, size_t C, bool Rct, size_t R >
+			bool Cct, size_t C, bool Rct, size_t R >
 		constexpr auto by_object(
 			col_t< Cct, C > c, row_t< Rct, R > r,
 			T& object, MemoryOrder = memory_order::row
@@ -85,7 +79,7 @@ namespace mitrax::maker{
 
 	struct const_view_t: key{
 		template < typename T, typename MemoryOrder = memory_order::row_t,
-		bool Cct, size_t C, bool Rct, size_t R >
+			bool Cct, size_t C, bool Rct, size_t R >
 		constexpr auto by_object(
 			col_t< Cct, C > c, row_t< Rct, R > r,
 			T const& object, MemoryOrder = memory_order::row
