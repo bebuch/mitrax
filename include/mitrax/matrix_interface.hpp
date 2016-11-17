@@ -142,12 +142,12 @@ namespace mitrax{
 
 
 		constexpr decltype(auto) operator()(size_t x, size_t y){
-			assert(x < m_.cols() && y < m_.rows());
+			assert(x < cols() && y < rows());
 			return m_(x, y);
 		}
 
 		constexpr decltype(auto) operator()(size_t x, size_t y)const{
-			assert(x < m_.cols() && y < m_.rows());
+			assert(x < cols() && y < rows());
 			return m_(x, y);
 		}
 
@@ -162,8 +162,10 @@ namespace mitrax{
 				assert(i == 0);
 				return m_(0, 0);
 			}else if(Cols == 1){
+				assert(i < rows());
 				return m_(0, i);
 			}else{
+				assert(i < cols());
 				return m_(i, 0);
 			}
 		}
@@ -178,8 +180,10 @@ namespace mitrax{
 				assert(i == 0);
 				return m_(0, 0);
 			}else if(Cols == 1){
+				assert(i < rows());
 				return m_(0, i);
 			}else{
+				assert(i < cols());
 				return m_(i, 0);
 			}
 		}
