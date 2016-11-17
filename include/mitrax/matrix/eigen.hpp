@@ -35,12 +35,6 @@ namespace mitrax::detail{
 			R == 0 ? ::Eigen::Dynamic : static_cast< int >(R),
 			C == 0 ? ::Eigen::Dynamic : static_cast< int >(C) >;
 
-		/// \brief Type of a iterator for data
-		using iterator = value_type*;
-
-		/// \brief Type of a iterator for const data
-		using const_iterator = value_type const*;
-
 
 		eigen_matrix_impl() = default;
 

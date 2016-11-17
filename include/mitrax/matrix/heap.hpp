@@ -158,12 +158,6 @@ namespace mitrax::detail{
 		/// \brief Type with the make functions
 		using maker_type = maker::heap_t;
 
-		/// \brief Type of a iterator for data
-		using iterator = value_type*;
-
-		/// \brief Type of a iterator for const data
-		using const_iterator = value_type const*;
-
 
 		heap_matrix_impl() = default;
 
