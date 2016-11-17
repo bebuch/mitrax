@@ -17,31 +17,31 @@
 namespace mitrax::detail{
 
 
-	template < typename Object >
+	template < typename T >
 	using viewable = decltype(
-		mitrax::begin(std::declval< Object >()),
-		mitrax::end(std::declval< Object >())
+		mitrax::begin(std::declval< T >()),
+		mitrax::end(std::declval< T >())
 	);
 
 
-	template < typename Object, bool RowOrder, size_t C, size_t R >
+	template < typename T, bool RowOrder, size_t C, size_t R >
 	class view_matrix_impl: public dims_t< C, R >{
 	public:
-		static_assert(!std::is_const_v< Object >, "use const_view_matrix");
-		static_assert(!std::is_reference_v< Object >);
-		static_assert(compiles< Object&, viewable >(),
-			"Object must support std::begin(object) and std::end(object)");
+		static_assert(!std::is_const_v< T >, "use const_view_matrix");
+		static_assert(!std::is_reference_v< T >);
+		static_assert(compiles< T&, viewable >(),
+			"T must support std::begin(object) and std::end(object)");
 
 
 		/// \brief Type with the make functions
 		using maker_type = maker::view_t;
 
 		/// \brief Type of the underlaying object type
-		using object_type = Object;
+		using object_type = T;
 
 		/// \brief Type of the data that administrates the matrix
 		using value_type = iter_type_t<
-			decltype(mitrax::begin(std::declval< Object& >())) >;
+			decltype(mitrax::begin(std::declval< T& >())) >;
 
 
 		static constexpr bool row_memory_order = RowOrder;
@@ -57,7 +57,7 @@ namespace mitrax::detail{
 
 		constexpr view_matrix_impl(
 			col_t< C != 0, C > c, row_t< R != 0, R > r,
-			Object& object
+			T& object
 		)noexcept:
 			dims_t< C, R >(c, r),
 			object_(&object)
@@ -89,31 +89,31 @@ namespace mitrax::detail{
 
 
 		constexpr decltype(auto) begin()
-		noexcept(noexcept(mitrax::begin(std::declval< Object& >()))){
+		noexcept(noexcept(mitrax::begin(std::declval< T& >()))){
 			return mitrax::begin(*object_);
 		}
 
 		constexpr decltype(auto) begin()const
-		noexcept(noexcept(mitrax::begin(std::declval< Object const& >()))){
+		noexcept(noexcept(mitrax::begin(std::declval< T const& >()))){
 			return mitrax::begin(*object_);
 		}
 
 		constexpr decltype(auto) end()
-		noexcept(noexcept(mitrax::end(std::declval< Object& >()))){
+		noexcept(noexcept(mitrax::end(std::declval< T& >()))){
 			return mitrax::end(*object_);
 		}
 
 		constexpr decltype(auto) end()const
-		noexcept(noexcept(mitrax::end(std::declval< Object const& >()))){
+		noexcept(noexcept(mitrax::end(std::declval< T const& >()))){
 			return mitrax::end(*object_);
 		}
 
 
 		template < typename dummy = int, std::enable_if_t<
-				std::is_array_v< Object > || has_data_v< value_type*, Object >,
+				std::is_array_v< T > || has_data_v< value_type*, T >,
 				dummy > = 0 >
 		constexpr value_type* data()noexcept{
-			if constexpr(std::is_array_v< Object >){
+			if constexpr(std::is_array_v< T >){
 				return *object_;
 			}else{
 				return object_->data();
@@ -121,11 +121,11 @@ namespace mitrax::detail{
 		}
 
 		constexpr value_type const* data()const noexcept{
-			if constexpr(std::is_array_v< Object >){
+			if constexpr(std::is_array_v< T >){
 				return *object_;
 			}else{
 				static_assert(
-					has_data_v< value_type const*, Object const >,
+					has_data_v< value_type const*, T const >,
 					"The underlaying object type doesn't support "
 					"'value_type const* m.data()const'"
 				);
@@ -136,28 +136,28 @@ namespace mitrax::detail{
 
 
 	protected:
-		Object* object_;
+		T* object_;
 	};
 
 
-	template < typename Object, bool RowOrder, size_t C, size_t R >
+	template < typename T, bool RowOrder, size_t C, size_t R >
 	class const_view_matrix_impl: public dims_t< C, R >{
 	public:
-		static_assert(!std::is_const_v< Object >,
-			"Use Object without const qualifier");
-		static_assert(!std::is_reference_v< Object >);
-		static_assert(compiles< Object const&, viewable >(),
-			"Object must support std::begin(object) and std::end(object)");
+		static_assert(!std::is_const_v< T >,
+			"Use T without const qualifier");
+		static_assert(!std::is_reference_v< T >);
+		static_assert(compiles< T const&, viewable >(),
+			"T must support std::begin(object) and std::end(object)");
 
 		/// \brief Type with the make functions
 		using maker_type = maker::const_view_t;
 
 		/// \brief Type of the underlaying object type
-		using object_type = Object;
+		using object_type = T;
 
 		/// \brief Type of the data that administrates the matrix
 		using value_type = iter_type_t<
-			decltype(mitrax::begin(std::declval< Object const& >())) >;
+			decltype(mitrax::begin(std::declval< T const& >())) >;
 
 
 		static constexpr bool row_memory_order = RowOrder;
@@ -173,7 +173,7 @@ namespace mitrax::detail{
 
 		constexpr const_view_matrix_impl(
 			col_t< C != 0, C > c, row_t< R != 0, R > r,
-			Object const& object
+			T const& object
 		)noexcept:
 			dims_t< C, R >(c, r),
 			object_(&object)
@@ -197,22 +197,22 @@ namespace mitrax::detail{
 
 
 		constexpr decltype(auto) begin()const
-		noexcept(noexcept(mitrax::begin(std::declval< Object const& >()))){
+		noexcept(noexcept(mitrax::begin(std::declval< T const& >()))){
 			return mitrax::begin(*object_);
 		}
 
 		constexpr decltype(auto) end()const
-		noexcept(noexcept(mitrax::end(std::declval< Object const& >()))){
+		noexcept(noexcept(mitrax::end(std::declval< T const& >()))){
 			return mitrax::end(*object_);
 		}
 
 
 		constexpr value_type const* data()const noexcept{
-			if constexpr(std::is_array_v< Object >){
+			if constexpr(std::is_array_v< T >){
 				return *object_;
 			}else{
 				static_assert(
-					has_data_v< value_type const*, Object const >,
+					has_data_v< value_type const*, T const >,
 					"The underlaying object type doesn't support "
 					"'value_type const* m.data()const'"
 				);
@@ -223,7 +223,7 @@ namespace mitrax::detail{
 
 
 	protected:
-		Object const* object_;
+		T const* object_;
 	};
 
 
@@ -233,26 +233,26 @@ namespace mitrax::detail{
 namespace mitrax::maker{
 
 
-	template < typename Object, typename MemoryOrder,
+	template < typename T, typename MemoryOrder,
 		bool Cct, size_t C, bool Rct, size_t R >
 	constexpr auto view_t::by_object(
-		col_t< Cct, C > c, row_t< Rct, R > r, Object& object, MemoryOrder
+		col_t< Cct, C > c, row_t< Rct, R > r, T& object, MemoryOrder
 	)const{
 		return view_matrix<
-			Object, static_cast< bool >(MemoryOrder()), Cct ? C : 0, Rct ? R : 0
+			T, static_cast< bool >(MemoryOrder()), Cct ? C : 0, Rct ? R : 0
 		>{init, c, r, object};
 	}
 
 	constexpr auto view = view_t();
 
 
-	template < typename Object, typename MemoryOrder,
+	template < typename T, typename MemoryOrder,
 		bool Cct, size_t C, bool Rct, size_t R >
 	constexpr auto const_view_t::by_object(
-		col_t< Cct, C > c, row_t< Rct, R > r, Object const& object, MemoryOrder
+		col_t< Cct, C > c, row_t< Rct, R > r, T const& object, MemoryOrder
 	)const{
 		return const_view_matrix<
-			Object, static_cast< bool >(MemoryOrder()), Cct ? C : 0, Rct ? R : 0
+			T, static_cast< bool >(MemoryOrder()), Cct ? C : 0, Rct ? R : 0
 		>{init, c, r, object};
 	}
 
@@ -265,41 +265,41 @@ namespace mitrax::maker{
 namespace mitrax{
 
 
-	template < typename Object, bool Cct, size_t C, bool Rct, size_t R >
+	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 	constexpr auto make_view_matrix(
-		col_t< Cct, C > c, row_t< Rct, R > r, Object& object
+		col_t< Cct, C > c, row_t< Rct, R > r, T& object
 	){
 		return maker::view.by_object(c, r, object);
 	}
 
-	template < typename Object, bool Nct, size_t N >
-	constexpr auto make_view_matrix(dim_t< Nct, N > n, Object& object){
+	template < typename T, bool Nct, size_t N >
+	constexpr auto make_view_matrix(dim_t< Nct, N > n, T& object){
 		return make_view_matrix(n.as_col(), n.as_row(), object);
 	}
 
-	template < typename Object, size_t C, size_t R >
-	constexpr auto make_view_matrix(dims_t< C, R > const& d, Object& object){
+	template < typename T, size_t C, size_t R >
+	constexpr auto make_view_matrix(dims_t< C, R > const& d, T& object){
 		return make_view_matrix(d.cols(), d.rows(), object);
 	}
 
 
-	template < typename Object, bool Cct, size_t C, bool Rct, size_t R >
+	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
 	constexpr auto make_const_view_matrix(
-		col_t< Cct, C > c, row_t< Rct, R > r, Object const& object
+		col_t< Cct, C > c, row_t< Rct, R > r, T const& object
 	){
 		return maker::const_view.by_object(c, r, object);
 	}
 
-	template < typename Object, bool Nct, size_t N >
+	template < typename T, bool Nct, size_t N >
 	constexpr auto make_const_view_matrix(
-		dim_t< Nct, N > n, Object const& object
+		dim_t< Nct, N > n, T const& object
 	){
 		return make_const_view_matrix(n.as_col(), n.as_row(), object);
 	}
 
-	template < typename Object, size_t C, size_t R >
+	template < typename T, size_t C, size_t R >
 	constexpr auto make_const_view_matrix(
-		dims_t< C, R > const& d, Object const& object
+		dims_t< C, R > const& d, T const& object
 	){
 		return make_const_view_matrix(d.cols(), d.rows(), object);
 	}
