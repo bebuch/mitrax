@@ -91,11 +91,12 @@ namespace mitrax::detail{
 
 		constexpr stack_matrix_impl(stack_matrix_impl const&) = default;
 
+		template < typename Function >
 		constexpr stack_matrix_impl(
 			col_t< true, C >, row_t< true, R >,
-			array_s< value_type, C * R >&& values
+			Function&& function
 		):
-			values_(std::move(values))
+			values_(function())
 			{}
 
 
@@ -143,7 +144,15 @@ namespace mitrax::maker{
 	template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
 	constexpr stack_matrix< iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >
 	stack_t::by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter)const{
-		return {init, c, r, detail::to_array< C * R >(iter)};
+		//TODO simply use:
+		// return {init, c, r, [Iter]{ return detail::to_array< C * R >(iter); }};
+		struct to_array_function{
+			Iter iter;
+			constexpr auto operator()()const{
+				return detail::to_array< C * R >(iter);
+			};
+		};
+		return {init, c, r, to_array_function{iter}};
 	}
 
 	constexpr auto stack = stack_t();
