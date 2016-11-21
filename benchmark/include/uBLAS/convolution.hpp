@@ -18,7 +18,7 @@ namespace uBLAS{
 	namespace ublas = boost::numeric::ublas;
 
 	template < typename T1, typename T2 >
-	auto convolution(ublas::matrix< T1 > const& m, ublas::matrix< T2 > const& k){
+	inline auto convolution(ublas::matrix< T1 > const& m, ublas::matrix< T2 > const& k){
 		int kc = k.size1();
 		int kr = k.size2();
 
@@ -45,7 +45,7 @@ namespace uBLAS{
 	}
 
 	template < typename TM, typename TR1, typename TR2 >
-	auto convolution(
+	inline auto convolution(
 		ublas::matrix< TM > const& m,
 		ublas::matrix< TR1 > const& vc,
 		ublas::matrix< TR2 > const& vr
