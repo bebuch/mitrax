@@ -16,7 +16,7 @@ namespace Eigen{
 
 
 	template < typename DerivedM, typename DerivedK >
-	auto convolution(MatrixBase< DerivedM > const& m, MatrixBase< DerivedK > const& k){
+	inline auto convolution(MatrixBase< DerivedM > const& m, MatrixBase< DerivedK > const& k){
 		using ScalarK = typename DerivedK::Scalar;
 
 		using ResultType = Matrix< ScalarK, Eigen::Dynamic, Eigen::Dynamic >;
@@ -47,7 +47,7 @@ namespace Eigen{
 	}
 
 	template < typename DerivedM, typename DerivedKC, typename DerivedKR >
-	auto convolution(
+	inline auto convolution(
 		MatrixBase< DerivedM > const& m,
 		MatrixBase< DerivedKC > const& vc,
 		MatrixBase< DerivedKR > const& vr
