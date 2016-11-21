@@ -23,17 +23,11 @@ namespace mitrax{
 			typename M2, size_t C2, size_t R2,
 			typename SumOp, typename MulOp
 		> struct convolution_worker{
-			using value_type = std::decay_t< decltype(
-					std::declval< MulOp >()(
-						std::declval< value_type_t< M1 > >(),
-						std::declval< value_type_t< M2 > >()
-					)
-				) >;
-
-			constexpr value_type operator()(size_t x, size_t y)const{
-				auto v = value_type();
-				for(std::size_t b = 0; b < m.rows(); ++b){
-					for(std::size_t a = 0; a < m.cols(); ++a){
+			constexpr auto operator()(size_t x, size_t y)const{
+				auto v = std::decay_t< decltype(
+					sum(mul(i(0, 0), m(0, 0)), mul(i(0, 0), m(0, 0)))) >();
+				for(size_t b = 0; b < m.rows(); ++b){
+					for(size_t a = 0; a < m.cols(); ++a){
 						v = sum(v, mul(i(x + a, y + b), m(a, b)));
 					}
 				}
@@ -48,15 +42,6 @@ namespace mitrax{
 
 
 	}
-
-
-	struct convolution_types{
-		template < typename T >
-		constexpr auto value(T const& v){ return v; }
-
-		template < typename T >
-		constexpr auto sum(T const& v){ return v; }
-	};
 
 
 	template <
