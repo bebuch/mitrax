@@ -115,7 +115,7 @@ namespace mitrax{
 		constexpr matrix(matrix const&) = default;
 
 		template < typename ... T >
-		constexpr matrix(maker::init_t, T&& ... v):
+		constexpr matrix(maker::init_t, T&& ... v): // Use []{ return M{}; } instead
 			m_(static_cast< T&& >(v) ...) {}
 
 
