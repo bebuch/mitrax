@@ -25,7 +25,7 @@ namespace mitrax::detail{
 
 
 	template < typename T, bool RowOrder, size_t C, size_t R >
-	class view_matrix_impl: public dims_t< C, R >{
+	class view_matrix_impl: dims_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >, "use const_view_matrix");
 		static_assert(!std::is_reference_v< T >);
@@ -69,6 +69,10 @@ namespace mitrax::detail{
 
 		constexpr view_matrix_impl&
 		operator=(view_matrix_impl const& other) = delete;
+
+
+		using dims_t< C, R >::cols;
+		using dims_t< C, R >::rows;
 
 
 		constexpr decltype(auto) operator()(size_t x, size_t y){
@@ -141,7 +145,7 @@ namespace mitrax::detail{
 
 
 	template < typename T, bool RowOrder, size_t C, size_t R >
-	class const_view_matrix_impl: public dims_t< C, R >{
+	class const_view_matrix_impl: dims_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >,
 			"Use T without const qualifier");
@@ -185,6 +189,10 @@ namespace mitrax::detail{
 
 		constexpr const_view_matrix_impl&
 		operator=(const_view_matrix_impl const& other) = delete;
+
+
+		using dims_t< C, R >::cols;
+		using dims_t< C, R >::rows;
 
 
 		constexpr decltype(auto) operator()(size_t x, size_t y)const{
