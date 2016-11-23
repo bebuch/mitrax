@@ -7,10 +7,10 @@ int main(){
 	using namespace mitrax;
 	using namespace mitrax::literals;
 
-	auto dcc = dims(2_C, 4_R);
-	auto drc = dims(2_Cd, 4_R);
-	auto dcr = dims(2_C, 4_Rd);
-	auto drr = dims(2_Cd, 4_Rd);
+	auto dcc = dim_pair(2_C, 4_R);
+	auto drc = dim_pair(2_Cd, 4_R);
+	auto dcr = dim_pair(2_C, 4_Rd);
+	auto drr = dim_pair(2_Cd, 4_Rd);
 
 	auto mcc = make_matrix_v< std::uint8_t >(2_C, 4_R);
 	auto mrc = make_matrix_v< std::uint8_t >(2_Cd, 4_R);
