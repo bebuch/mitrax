@@ -18,7 +18,7 @@ namespace mitrax::detail{
 
 
 	template < typename T, size_t N >
-	struct array_s{
+	struct array_s final{
 		T elems[N]; // exposition only
 
 		// element access:
@@ -65,7 +65,7 @@ namespace mitrax::detail{
 
 
 	template < typename T, size_t C, size_t R >
-	class stack_matrix_impl: auto_dim_pair_t< C, R >{
+	class stack_matrix_impl final: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >);
 		static_assert(!std::is_reference_v< T >);

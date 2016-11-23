@@ -18,7 +18,7 @@ namespace mitrax::detail{
 
 
 	template < typename T, size_t C, size_t R >
-	class eigen_matrix_impl: auto_dim_pair_t< C, R >{
+	class eigen_matrix_impl final: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >);
 		static_assert(!std::is_reference_v< T >);
@@ -85,7 +85,7 @@ namespace mitrax::detail{
 		}
 
 
-	protected:
+	private:
 		eigen_type values_;
 	};
 

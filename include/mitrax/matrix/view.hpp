@@ -25,7 +25,7 @@ namespace mitrax::detail{
 
 
 	template < typename T, bool RowOrder, size_t C, size_t R >
-	class view_matrix_impl: auto_dim_pair_t< C, R >{
+	class view_matrix_impl final: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >, "use const_view_matrix");
 		static_assert(!std::is_reference_v< T >);
@@ -145,7 +145,7 @@ namespace mitrax::detail{
 
 
 	template < typename T, bool RowOrder, size_t C, size_t R >
-	class const_view_matrix_impl: auto_dim_pair_t< C, R >{
+	class const_view_matrix_impl final: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >,
 			"Use T without const qualifier");
@@ -230,7 +230,7 @@ namespace mitrax::detail{
 		}
 
 
-	protected:
+	private:
 		T const* object_;
 	};
 

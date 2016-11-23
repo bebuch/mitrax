@@ -18,7 +18,7 @@ namespace mitrax::detail{
 
 
 	template < typename T >
-	class array_d{
+	class array_d final{
 	public:
 		static_assert(!std::is_const_v< T >);
 
@@ -146,7 +146,7 @@ namespace mitrax::detail{
 
 
 	template < typename T, size_t C, size_t R >
-	class heap_matrix_impl: auto_dim_pair_t< C, R >{
+	class heap_matrix_impl final: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >);
 		static_assert(!std::is_reference_v< T >);
@@ -208,7 +208,7 @@ namespace mitrax::detail{
 		}
 
 
-	protected:
+	private:
 		array_d< value_type > values_;
 	};
 
