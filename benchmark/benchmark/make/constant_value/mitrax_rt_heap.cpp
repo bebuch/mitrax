@@ -19,7 +19,7 @@ void BM_make(benchmark::State& state, T v, D d1){
 int main(int argc, char** argv){
 	using f4 = float;
 
-	for(auto& d1: std::vector< dims_t< 0, 0 > >{
+	for(auto& d1: std::vector< auto_dim_pair_t< 0, 0 > >{
 		{2, 2},
 		{4, 2},
 		{8, 2},
@@ -38,7 +38,7 @@ int main(int argc, char** argv){
 	}){
 		benchmark::RegisterBenchmark(
 			std::to_string(d1.point_count()).c_str(),
-			BM_make< f4, dims_t< 0, 0 > >, 5, d1
+			BM_make< f4, auto_dim_pair_t< 0, 0 > >, 5, d1
 		);
 	}
 

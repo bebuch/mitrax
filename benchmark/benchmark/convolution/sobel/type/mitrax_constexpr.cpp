@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 	using f4 = float;
 	using f8 = double;
 
-	using dt = dims_t< 0, 0 >;
+	using dt = auto_dim_pair_t< 0, 0 >;
 
 	for(auto& d1: std::vector< dt >{
 		{1024, 1024}

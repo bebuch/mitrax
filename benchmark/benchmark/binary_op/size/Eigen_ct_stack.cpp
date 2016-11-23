@@ -44,21 +44,21 @@ int main(int argc, char** argv){
 
 	auto register_fn = [](auto op, auto transfrom_dim){
 		hana::for_each(hana::make_tuple(
-				dims< 2, 2 >(),
-				dims< 4, 2 >(),
-				dims< 8, 2 >(),
-				dims< 8, 4 >(),
-				dims< 8, 8 >(),
-				dims< 8, 16 >(),
-				dims< 8, 32 >(),
-				dims< 8, 64 >(),
-				dims< 16, 64 >(),
-				dims< 32, 64 >(),
-				dims< 64, 64 >(),
-				dims< 128, 64 >()
-// 				dims< 256, 64 >(),
-// 				dims< 256, 128 >(),
-// 				dims< 256, 256 >()
+				dim_pair(2_C, 2_R),
+				dim_pair(4_C, 2_R),
+				dim_pair(8_C, 2_R),
+				dim_pair(8_C, 4_R),
+				dim_pair(8_C, 8_R),
+				dim_pair(8_C, 16_R),
+				dim_pair(8_C, 32_R),
+				dim_pair(8_C, 64_R),
+				dim_pair(16_C, 64_R),
+				dim_pair(32_C, 64_R),
+				dim_pair(64_C, 64_R),
+				dim_pair(128_C, 64_R)
+// 				dim_pair(256_C, 64_R),
+// 				dim_pair(256_C, 128_R),
+// 				dim_pair(256_C, 256_R)
 			), [op, transfrom_dim](auto d1){
 				auto d2 = transfrom_dim(d1);
 				using dim1_t = decltype(d1);
@@ -79,7 +79,7 @@ int main(int argc, char** argv){
 		}break;
 		case mitrax::op::mul:{
 			register_fn(std::multiplies<>(), [](auto d){
-				return dims(d.rows().as_col(), d.cols().as_row());
+				return dim_pair(d.rows().as_col(), d.cols().as_row());
 			});
 		}break;
 	}

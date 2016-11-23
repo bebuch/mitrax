@@ -41,7 +41,7 @@ int main(int argc, char** argv){
 	using f4 = float;
 
 	auto register_fn = [](auto op, auto transfrom_dim){
-		for(auto& d1: std::vector< dims_t< 0, 0 > >{
+		for(auto& d1: std::vector< auto_dim_pair_t< 0, 0 > >{
 			{2, 2},
 			{4, 2},
 			{8, 2},
@@ -61,7 +61,7 @@ int main(int argc, char** argv){
 			auto d2 = transfrom_dim(d1);
 			benchmark::RegisterBenchmark(
 				std::to_string(d1.point_count()).c_str(),
-				BM_binaryop< decltype(op), f4, dims_t< 0, 0 > >,
+				BM_binaryop< decltype(op), f4, auto_dim_pair_t< 0, 0 > >,
 				op, d1, d2
 			);
 		}
@@ -74,7 +74,7 @@ int main(int argc, char** argv){
 		}break;
 		case mitrax::op::mul:{
 			register_fn(std::multiplies<>(), [](auto d){
-				return dims(d.rows().as_col(), d.cols().as_row());
+				return dim_pair(d.rows().as_col(), d.cols().as_row());
 			});
 		}break;
 	}

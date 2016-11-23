@@ -19,7 +19,7 @@ namespace mitrax{
 
 	template < typename Derived >
 	constexpr auto convert(Eigen::MatrixBase< Derived > const& m){
-		return make_matrix_fn(dims(m.cols(), m.rows()), [&m](auto x, auto y){
+		return make_matrix_fn(dim_pair(m.cols(), m.rows()), [&m](auto x, auto y){
 			return m(y, x);
 		});
 	}

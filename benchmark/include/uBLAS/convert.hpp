@@ -21,7 +21,7 @@ namespace mitrax{
 
 	template < typename T >
 	constexpr auto convert(ublas::matrix< T > const& m){
-		return make_matrix_fn(dims(m.size1(), m.size2()), [&m](auto x, auto y){
+		return make_matrix_fn(dim_pair(m.size1(), m.size2()), [&m](auto x, auto y){
 			return m(x, y);
 		});
 	}
