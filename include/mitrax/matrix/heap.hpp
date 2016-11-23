@@ -146,7 +146,7 @@ namespace mitrax::detail{
 
 
 	template < typename T, size_t C, size_t R >
-	class heap_matrix_impl: dims_t< C, R >{
+	class heap_matrix_impl: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >);
 		static_assert(!std::is_reference_v< T >);
@@ -169,7 +169,7 @@ namespace mitrax::detail{
 			col_t< C != 0, C > c, row_t< R != 0, R > r,
 			detail::array_d< value_type >&& values
 		):
-			dims_t< C, R >(c, r),
+			auto_dim_pair_t< C, R >(c, r),
 			values_(std::move(values))
 			{}
 
@@ -179,8 +179,8 @@ namespace mitrax::detail{
 		heap_matrix_impl& operator=(heap_matrix_impl const&) = default;
 
 
-		using dims_t< C, R >::cols;
-		using dims_t< C, R >::rows;
+		using auto_dim_pair_t< C, R >::cols;
+		using auto_dim_pair_t< C, R >::rows;
 
 
 		value_type& operator()(size_t x, size_t y){

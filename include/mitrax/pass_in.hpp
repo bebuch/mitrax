@@ -65,9 +65,10 @@ namespace mitrax{
 		});
 	}
 
-	template < size_t Co, size_t Ro, typename M, size_t C, size_t R >
+	template < bool Ccto, size_t Co, bool Rcto, size_t Ro,
+		typename M, size_t C, size_t R >
 	constexpr auto pass_in(
-		dims_t< Co, Ro > const& dims,
+		dim_pair_t< Ccto, Co, Rcto, Ro > const& dims,
 		matrix< M, C, R > const& m,
 		value_type_t< M > const& default_value
 	){

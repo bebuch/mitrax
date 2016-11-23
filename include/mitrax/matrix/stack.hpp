@@ -65,7 +65,7 @@ namespace mitrax::detail{
 
 
 	template < typename T, size_t C, size_t R >
-	class stack_matrix_impl: dims_t< C, R >{
+	class stack_matrix_impl: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >);
 		static_assert(!std::is_reference_v< T >);
@@ -102,8 +102,8 @@ namespace mitrax::detail{
 			= default;
 
 
-		using dims_t< C, R >::cols;
-		using dims_t< C, R >::rows;
+		using auto_dim_pair_t< C, R >::cols;
+		using auto_dim_pair_t< C, R >::rows;
 
 
 		constexpr value_type& operator()(size_t x, size_t y){

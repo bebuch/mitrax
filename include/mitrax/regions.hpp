@@ -23,7 +23,7 @@ namespace mitrax{
 
 		template < size_t Cr, size_t Rr >
 		struct region_sub_matrix{
-			dims_t< Cr, Rr > region_dims;
+			auto_dim_pair_t< Cr, Rr > region_dims;
 			double x_factor;
 			double y_factor;
 
@@ -35,13 +35,13 @@ namespace mitrax{
 			}
 		};
 
-		template < size_t Cr, size_t Rr >
+		template < bool Cctr, size_t Cr, bool Rctr, size_t Rr >
 		constexpr auto make_region_sub_matrix(
-			dims_t< Cr, Rr > const& region_dims,
+			dim_pair_t< Cctr, Cr, Rctr, Rr > const& region_dims,
 			double x_factor,
 			double y_factor
 		){
-			return region_sub_matrix< Cr, Rr >{
+			return region_sub_matrix< Cctr ? Cr : 0, Rctr ? Rr : 0 >{
 				region_dims, x_factor, y_factor
 			};
 		}
@@ -52,13 +52,13 @@ namespace mitrax{
 
 	template <
 		typename F,
-		size_t Cr, size_t Rr,
-		size_t Co, size_t Ro,
+		bool Cctr, size_t Cr, bool Rctr, size_t Rr,
+		bool Ccto, size_t Co, bool Rcto, size_t Ro,
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto calc_regions(
 		F&& f,
-		dims_t< Cr, Rr > const& region_dims,
-		dims_t< Co, Ro > const& overlapp_dims,
+		dim_pair_t< Cctr, Cr, Rctr, Rr > const& region_dims,
+		dim_pair_t< Ccto, Co, Rcto, Ro > const& overlapp_dims,
 		matrix< M, C, R > const& ... images
 	){
 		using namespace literals;
@@ -78,8 +78,8 @@ namespace mitrax{
 		);
 
 		auto result_dims =
-			(size - dims(1_C, 1_R) - (region_dims - overlapp_dims)) /
-			(region_dims - overlapp_dims) + dims(1_C, 1_R);
+			(size - dim_pair(1_C, 1_R) - (region_dims - overlapp_dims)) /
+			(region_dims - overlapp_dims) + dim_pair(1_C, 1_R);
 
 		double x_factor =
 			static_cast< double >(size.cols() - region_dims.cols()) /
@@ -112,8 +112,8 @@ namespace mitrax{
 	){
 		return calc_regions(
 			static_cast< F&& >(f),
-			dims(region_cols, region_rows),
-			dims(overlapp_cols, overlapp_rows),
+			dim_pair(region_cols, region_rows),
+			dim_pair(overlapp_cols, overlapp_rows),
 			images ...
 		);
 	}
@@ -121,12 +121,12 @@ namespace mitrax{
 
 	template <
 		typename F,
-		size_t Cr, size_t Rr,
+		bool Cctr, size_t Cr, bool Rctr, size_t Rr,
 		typename M, size_t C, size_t R,
 		typename ... Mi, size_t ... Ci, size_t ... Ri
 	> auto apply_regions(
 		F&& f,
-		dims_t< Cr, Rr > const& region_dims,
+		dim_pair_t< Cctr, Cr, Rctr, Rr > const& region_dims,
 		matrix< M, C, R > const& regions,
 		matrix< Mi, Ci, Ri > const& ... images
 	){
@@ -241,7 +241,7 @@ namespace mitrax{
 	){
 		return apply_regions(
 			static_cast< F&& >(f),
-			dims(region_cols, region_rows),
+			dim_pair(region_cols, region_rows),
 			regions, images ...
 		);
 	}

@@ -81,7 +81,7 @@ namespace mitrax{
 		using point_type = point< size_t >;
 
 		/// \brief Type of matrix dimensions (cols and rows)
-		using dimension_type = dims_t< Cols, Rows >;
+		using dimension_type = auto_dim_pair_t< Cols, Rows >;
 
 		/// \brief Type of a reference to data
 		using reference = value_type&;
@@ -133,7 +133,7 @@ namespace mitrax{
 		}
 
 		constexpr auto dims()const noexcept{
-			return dims_t< Cols, Rows >(m_.cols(), m_.rows());
+			return auto_dim_pair_t< Cols, Rows >(m_.cols(), m_.rows());
 		}
 
 		constexpr size_t point_count()const noexcept{

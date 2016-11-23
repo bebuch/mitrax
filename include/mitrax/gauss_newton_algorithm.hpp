@@ -43,7 +43,7 @@ namespace mitrax{
 					return f(arg, data[y]);
 				});
 
-			auto d = make_matrix_fn(dims(arg.rows().as_col(), data.size()),
+			auto d = make_matrix_fn(dim_pair(arg.rows().as_col(), data.size()),
 				[&data, &arg, &f, &threshold](size_t x, size_t y){
 					auto arg1 = arg;
 					arg1[x] += threshold / 128;
@@ -94,7 +94,7 @@ namespace mitrax{
 		for(;;){
 // 			std::cout << arg << std::endl;
 
-			auto d = make_matrix_fn(dims(arg.rows().as_col(), data.size()),
+			auto d = make_matrix_fn(dim_pair(arg.rows().as_col(), data.size()),
 				[&data, &arg, &f, &threshold](size_t x, size_t y){
 					auto arg1 = arg;
 					arg1[x] += threshold / 128;
@@ -105,8 +105,8 @@ namespace mitrax{
 			);
 
 			auto s = [&data, &arg, &r, &d, &f, &mu, beta0, beta1]{ for(;;){
-				auto const mu2_matrix = make_diag_matrix< T >(
-					dims(arg.rows().as_col()), mu * mu
+				auto const mu2_matrix = make_diag_matrix_v< T >(
+					arg.rows().as_dim(), mu * mu
 				);
 
 				auto trans_d = transpose(d);

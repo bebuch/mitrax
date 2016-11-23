@@ -171,27 +171,27 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_3x3, T, types){
 	auto m02 = make_matrix_v< T >(3_Cd, 3_R, T(), maker::eigen);
 	auto m03 = make_matrix_v< T >(3_C, 3_Rd, T(), maker::eigen);
 	auto m04 = make_matrix_v< T >(3_Cd, 3_Rd, T(), maker::eigen);
-	auto m05 = make_matrix_v< T >(dims(3_C, 3_R), T(), maker::eigen);
-	auto m06 = make_matrix_v< T >(dims(3_Cd, 3_R), T(), maker::eigen);
-	auto m07 = make_matrix_v< T >(dims(3_C, 3_Rd), T(), maker::eigen);
-	auto m08 = make_matrix_v< T >(dims(3_Cd, 3_Rd), T(), maker::eigen);
+	auto m05 = make_matrix_v< T >(dim_pair(3_C, 3_R), T(), maker::eigen);
+	auto m06 = make_matrix_v< T >(dim_pair(3_Cd, 3_R), T(), maker::eigen);
+	auto m07 = make_matrix_v< T >(dim_pair(3_C, 3_Rd), T(), maker::eigen);
+	auto m08 = make_matrix_v< T >(dim_pair(3_Cd, 3_Rd), T(), maker::eigen);
 	auto m09 = make_matrix_v< T >(3_D, T(), maker::eigen);
 	auto m10 = make_matrix_v< T >(3_Dd, T(), maker::eigen);
-	auto m11 = make_matrix_v< T >(dims(3_D), T(), maker::eigen);
-	auto m12 = make_matrix_v< T >(dims(3_Dd), T(), maker::eigen);
+	auto m11 = make_matrix_v< T >(dim_pair(3_D), T(), maker::eigen);
+	auto m12 = make_matrix_v< T >(dim_pair(3_Dd), T(), maker::eigen);
 
 	auto m13 = make_matrix_v(3_C, 3_R, T(7), maker::eigen);
 	auto m14 = make_matrix_v(3_Cd, 3_R, T(7), maker::eigen);
 	auto m15 = make_matrix_v(3_C, 3_Rd, T(7), maker::eigen);
 	auto m16 = make_matrix_v(3_Cd, 3_Rd, T(7), maker::eigen);
-	auto m17 = make_matrix_v(dims(3_C, 3_R), T(7), maker::eigen);
-	auto m18 = make_matrix_v(dims(3_Cd, 3_R), T(7), maker::eigen);
-	auto m19 = make_matrix_v(dims(3_C, 3_Rd), T(7), maker::eigen);
-	auto m20 = make_matrix_v(dims(3_Cd, 3_Rd), T(7), maker::eigen);
+	auto m17 = make_matrix_v(dim_pair(3_C, 3_R), T(7), maker::eigen);
+	auto m18 = make_matrix_v(dim_pair(3_Cd, 3_R), T(7), maker::eigen);
+	auto m19 = make_matrix_v(dim_pair(3_C, 3_Rd), T(7), maker::eigen);
+	auto m20 = make_matrix_v(dim_pair(3_Cd, 3_Rd), T(7), maker::eigen);
 	auto m21 = make_matrix_v(3_D, T(7), maker::eigen);
 	auto m22 = make_matrix_v(3_Dd, T(7), maker::eigen);
-	auto m23 = make_matrix_v(dims(3_D), T(7), maker::eigen);
-	auto m24 = make_matrix_v(dims(3_Dd), T(7), maker::eigen);
+	auto m23 = make_matrix_v(dim_pair(3_D), T(7), maker::eigen);
+	auto m24 = make_matrix_v(dim_pair(3_Dd), T(7), maker::eigen);
 
 	auto m25 = make_matrix< T >
 		(3_C, 3_R, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}}, maker::eigen);
@@ -216,27 +216,27 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_3x3, T, types){
 	auto m38 = make_matrix_fn(3_Cd, 3_R, fn, maker::eigen);
 	auto m39 = make_matrix_fn(3_C, 3_Rd, fn, maker::eigen);
 	auto m40 = make_matrix_fn(3_Cd, 3_Rd, fn, maker::eigen);
-	auto m41 = make_matrix_fn(dims(3_C, 3_R), fn, maker::eigen);
-	auto m42 = make_matrix_fn(dims(3_Cd, 3_R), fn, maker::eigen);
-	auto m43 = make_matrix_fn(dims(3_C, 3_Rd), fn, maker::eigen);
-	auto m44 = make_matrix_fn(dims(3_Cd, 3_Rd), fn, maker::eigen);
+	auto m41 = make_matrix_fn(dim_pair(3_C, 3_R), fn, maker::eigen);
+	auto m42 = make_matrix_fn(dim_pair(3_Cd, 3_R), fn, maker::eigen);
+	auto m43 = make_matrix_fn(dim_pair(3_C, 3_Rd), fn, maker::eigen);
+	auto m44 = make_matrix_fn(dim_pair(3_Cd, 3_Rd), fn, maker::eigen);
 	auto m45 = make_matrix_fn(3_D, fn, maker::eigen);
 	auto m46 = make_matrix_fn(3_Dd, fn, maker::eigen);
-	auto m47 = make_matrix_fn(dims(3_D), fn, maker::eigen);
-	auto m48 = make_matrix_fn(dims(3_Dd), fn, maker::eigen);
+	auto m47 = make_matrix_fn(dim_pair(3_D), fn, maker::eigen);
+	auto m48 = make_matrix_fn(dim_pair(3_Dd), fn, maker::eigen);
 
 	auto m49 = make_matrix_i(3_C, 3_R, init_p, maker::eigen);
 	auto m50 = make_matrix_i(3_Cd, 3_R, init_p, maker::eigen);
 	auto m51 = make_matrix_i(3_C, 3_Rd, init_p, maker::eigen);
 	auto m52 = make_matrix_i(3_Cd, 3_Rd, init_p, maker::eigen);
-	auto m53 = make_matrix_i(dims(3_C, 3_R), init_p, maker::eigen);
-	auto m54 = make_matrix_i(dims(3_Cd, 3_R), init_p, maker::eigen);
-	auto m55 = make_matrix_i(dims(3_C, 3_Rd), init_p, maker::eigen);
-	auto m56 = make_matrix_i(dims(3_Cd, 3_Rd), init_p, maker::eigen);
+	auto m53 = make_matrix_i(dim_pair(3_C, 3_R), init_p, maker::eigen);
+	auto m54 = make_matrix_i(dim_pair(3_Cd, 3_R), init_p, maker::eigen);
+	auto m55 = make_matrix_i(dim_pair(3_C, 3_Rd), init_p, maker::eigen);
+	auto m56 = make_matrix_i(dim_pair(3_Cd, 3_Rd), init_p, maker::eigen);
 	auto m57 = make_matrix_i(3_D, init_p, maker::eigen);
 	auto m58 = make_matrix_i(3_Dd, init_p, maker::eigen);
-	auto m59 = make_matrix_i(dims(3_D), init_p, maker::eigen);
-	auto m60 = make_matrix_i(dims(3_Dd), init_p, maker::eigen);
+	auto m59 = make_matrix_i(dim_pair(3_D), init_p, maker::eigen);
+	auto m60 = make_matrix_i(dim_pair(3_Dd), init_p, maker::eigen);
 
 
 	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 3, 3 > >));
@@ -385,19 +385,19 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_2x3, T, types){
 	auto m02 = make_matrix_v< T >(2_Cd, 3_R, T(), maker::eigen);
 	auto m03 = make_matrix_v< T >(2_C, 3_Rd, T(), maker::eigen);
 	auto m04 = make_matrix_v< T >(2_Cd, 3_Rd, T(), maker::eigen);
-	auto m05 = make_matrix_v< T >(dims(2_C, 3_R), T(), maker::eigen);
-	auto m06 = make_matrix_v< T >(dims(2_Cd, 3_R), T(), maker::eigen);
-	auto m07 = make_matrix_v< T >(dims(2_C, 3_Rd), T(), maker::eigen);
-	auto m08 = make_matrix_v< T >(dims(2_Cd, 3_Rd), T(), maker::eigen);
+	auto m05 = make_matrix_v< T >(dim_pair(2_C, 3_R), T(), maker::eigen);
+	auto m06 = make_matrix_v< T >(dim_pair(2_Cd, 3_R), T(), maker::eigen);
+	auto m07 = make_matrix_v< T >(dim_pair(2_C, 3_Rd), T(), maker::eigen);
+	auto m08 = make_matrix_v< T >(dim_pair(2_Cd, 3_Rd), T(), maker::eigen);
 
 	auto m09 = make_matrix_v(2_C, 3_R, T(7), maker::eigen);
 	auto m10 = make_matrix_v(2_Cd, 3_R, T(7), maker::eigen);
 	auto m11 = make_matrix_v(2_C, 3_Rd, T(7), maker::eigen);
 	auto m12 = make_matrix_v(2_Cd, 3_Rd, T(7), maker::eigen);
-	auto m13 = make_matrix_v(dims(2_C, 3_R), T(7), maker::eigen);
-	auto m14 = make_matrix_v(dims(2_Cd, 3_R), T(7), maker::eigen);
-	auto m15 = make_matrix_v(dims(2_C, 3_Rd), T(7), maker::eigen);
-	auto m16 = make_matrix_v(dims(2_Cd, 3_Rd), T(7), maker::eigen);
+	auto m13 = make_matrix_v(dim_pair(2_C, 3_R), T(7), maker::eigen);
+	auto m14 = make_matrix_v(dim_pair(2_Cd, 3_R), T(7), maker::eigen);
+	auto m15 = make_matrix_v(dim_pair(2_C, 3_Rd), T(7), maker::eigen);
+	auto m16 = make_matrix_v(dim_pair(2_Cd, 3_Rd), T(7), maker::eigen);
 
 	auto m17 = make_matrix< T >(2_C, 3_R, {{0, 1}, {2, 3}, {4, 5}},
 		maker::eigen);
@@ -416,19 +416,19 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_2x3, T, types){
 	auto m26 = make_matrix_fn(2_Cd, 3_R, fn, maker::eigen);
 	auto m27 = make_matrix_fn(2_C, 3_Rd, fn, maker::eigen);
 	auto m28 = make_matrix_fn(2_Cd, 3_Rd, fn, maker::eigen);
-	auto m29 = make_matrix_fn(dims(2_C, 3_R), fn, maker::eigen);
-	auto m30 = make_matrix_fn(dims(2_Cd, 3_R), fn, maker::eigen);
-	auto m31 = make_matrix_fn(dims(2_C, 3_Rd), fn, maker::eigen);
-	auto m32 = make_matrix_fn(dims(2_Cd, 3_Rd), fn, maker::eigen);
+	auto m29 = make_matrix_fn(dim_pair(2_C, 3_R), fn, maker::eigen);
+	auto m30 = make_matrix_fn(dim_pair(2_Cd, 3_R), fn, maker::eigen);
+	auto m31 = make_matrix_fn(dim_pair(2_C, 3_Rd), fn, maker::eigen);
+	auto m32 = make_matrix_fn(dim_pair(2_Cd, 3_Rd), fn, maker::eigen);
 
 	auto m33 = make_matrix_i(2_C, 3_R, init_p, maker::eigen);
 	auto m34 = make_matrix_i(2_Cd, 3_R, init_p, maker::eigen);
 	auto m35 = make_matrix_i(2_C, 3_Rd, init_p, maker::eigen);
 	auto m36 = make_matrix_i(2_Cd, 3_Rd, init_p, maker::eigen);
-	auto m37 = make_matrix_i(dims(2_C, 3_R), init_p, maker::eigen);
-	auto m38 = make_matrix_i(dims(2_Cd, 3_R), init_p, maker::eigen);
-	auto m39 = make_matrix_i(dims(2_C, 3_Rd), init_p, maker::eigen);
-	auto m40 = make_matrix_i(dims(2_Cd, 3_Rd), init_p, maker::eigen);
+	auto m37 = make_matrix_i(dim_pair(2_C, 3_R), init_p, maker::eigen);
+	auto m38 = make_matrix_i(dim_pair(2_Cd, 3_R), init_p, maker::eigen);
+	auto m39 = make_matrix_i(dim_pair(2_C, 3_Rd), init_p, maker::eigen);
+	auto m40 = make_matrix_i(dim_pair(2_Cd, 3_Rd), init_p, maker::eigen);
 
 
 	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 2, 3 > >));
@@ -536,19 +536,19 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_3x2, T, types){
 	auto m02 = make_matrix_v< T >(3_Cd, 2_R, T(), maker::eigen);
 	auto m03 = make_matrix_v< T >(3_C, 2_Rd, T(), maker::eigen);
 	auto m04 = make_matrix_v< T >(3_Cd, 2_Rd, T(), maker::eigen);
-	auto m05 = make_matrix_v< T >(dims(3_C, 2_R), T(), maker::eigen);
-	auto m06 = make_matrix_v< T >(dims(3_Cd, 2_R), T(), maker::eigen);
-	auto m07 = make_matrix_v< T >(dims(3_C, 2_Rd), T(), maker::eigen);
-	auto m08 = make_matrix_v< T >(dims(3_Cd, 2_Rd), T(), maker::eigen);
+	auto m05 = make_matrix_v< T >(dim_pair(3_C, 2_R), T(), maker::eigen);
+	auto m06 = make_matrix_v< T >(dim_pair(3_Cd, 2_R), T(), maker::eigen);
+	auto m07 = make_matrix_v< T >(dim_pair(3_C, 2_Rd), T(), maker::eigen);
+	auto m08 = make_matrix_v< T >(dim_pair(3_Cd, 2_Rd), T(), maker::eigen);
 
 	auto m09 = make_matrix_v(3_C, 2_R, T(7), maker::eigen);
 	auto m10 = make_matrix_v(3_Cd, 2_R, T(7), maker::eigen);
 	auto m11 = make_matrix_v(3_C, 2_Rd, T(7), maker::eigen);
 	auto m12 = make_matrix_v(3_Cd, 2_Rd, T(7), maker::eigen);
-	auto m13 = make_matrix_v(dims(3_C, 2_R), T(7), maker::eigen);
-	auto m14 = make_matrix_v(dims(3_Cd, 2_R), T(7), maker::eigen);
-	auto m15 = make_matrix_v(dims(3_C, 2_Rd), T(7), maker::eigen);
-	auto m16 = make_matrix_v(dims(3_Cd, 2_Rd), T(7), maker::eigen);
+	auto m13 = make_matrix_v(dim_pair(3_C, 2_R), T(7), maker::eigen);
+	auto m14 = make_matrix_v(dim_pair(3_Cd, 2_R), T(7), maker::eigen);
+	auto m15 = make_matrix_v(dim_pair(3_C, 2_Rd), T(7), maker::eigen);
+	auto m16 = make_matrix_v(dim_pair(3_Cd, 2_Rd), T(7), maker::eigen);
 
 	auto m17 = make_matrix< T >
 		(3_C, 2_R, {{0, 1, 2}, {3, 4, 5}}, maker::eigen);
@@ -567,19 +567,19 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_3x2, T, types){
 	auto m26 = make_matrix_fn(3_Cd, 2_R, fn, maker::eigen);
 	auto m27 = make_matrix_fn(3_C, 2_Rd, fn, maker::eigen);
 	auto m28 = make_matrix_fn(3_Cd, 2_Rd, fn, maker::eigen);
-	auto m29 = make_matrix_fn(dims(3_C, 2_R), fn, maker::eigen);
-	auto m30 = make_matrix_fn(dims(3_Cd, 2_R), fn, maker::eigen);
-	auto m31 = make_matrix_fn(dims(3_C, 2_Rd), fn, maker::eigen);
-	auto m32 = make_matrix_fn(dims(3_Cd, 2_Rd), fn, maker::eigen);
+	auto m29 = make_matrix_fn(dim_pair(3_C, 2_R), fn, maker::eigen);
+	auto m30 = make_matrix_fn(dim_pair(3_Cd, 2_R), fn, maker::eigen);
+	auto m31 = make_matrix_fn(dim_pair(3_C, 2_Rd), fn, maker::eigen);
+	auto m32 = make_matrix_fn(dim_pair(3_Cd, 2_Rd), fn, maker::eigen);
 
 	auto m33 = make_matrix_i(3_C, 2_R, init_p, maker::eigen);
 	auto m34 = make_matrix_i(3_Cd, 2_R, init_p, maker::eigen);
 	auto m35 = make_matrix_i(3_C, 2_Rd, init_p, maker::eigen);
 	auto m36 = make_matrix_i(3_Cd, 2_Rd, init_p, maker::eigen);
-	auto m37 = make_matrix_i(dims(3_C, 2_R), init_p, maker::eigen);
-	auto m38 = make_matrix_i(dims(3_Cd, 2_R), init_p, maker::eigen);
-	auto m39 = make_matrix_i(dims(3_C, 2_Rd), init_p, maker::eigen);
-	auto m40 = make_matrix_i(dims(3_Cd, 2_Rd), init_p, maker::eigen);
+	auto m37 = make_matrix_i(dim_pair(3_C, 2_R), init_p, maker::eigen);
+	auto m38 = make_matrix_i(dim_pair(3_Cd, 2_R), init_p, maker::eigen);
+	auto m39 = make_matrix_i(dim_pair(3_C, 2_Rd), init_p, maker::eigen);
+	auto m40 = make_matrix_i(dim_pair(3_Cd, 2_Rd), init_p, maker::eigen);
 
 
 	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 3, 2 > >));
@@ -689,15 +689,15 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_1x3, T, types){
 	auto m02 = make_vector_v< T >(3_R, T(), maker::eigen);
 	auto m03 = make_matrix_v< T >(1_C, 3_Rd, T(), maker::eigen);
 	auto m04 = make_vector_v< T >(3_Rd, T(), maker::eigen);
-	auto m05 = make_matrix_v< T >(dims(1_C, 3_R), T(), maker::eigen);
-	auto m06 = make_matrix_v< T >(dims(1_C, 3_Rd), T(), maker::eigen);
+	auto m05 = make_matrix_v< T >(dim_pair(1_C, 3_R), T(), maker::eigen);
+	auto m06 = make_matrix_v< T >(dim_pair(1_C, 3_Rd), T(), maker::eigen);
 
 	auto m07 = make_matrix_v(1_C, 3_R, T(7), maker::eigen);
 	auto m08 = make_vector_v(3_R, T(7), maker::eigen);
 	auto m09 = make_matrix_v(1_C, 3_Rd, T(7), maker::eigen);
 	auto m10 = make_vector_v(3_Rd, T(7), maker::eigen);
-	auto m11 = make_matrix_v(dims(1_C, 3_R), T(7), maker::eigen);
-	auto m12 = make_matrix_v(dims(1_C, 3_Rd), T(7), maker::eigen);
+	auto m11 = make_matrix_v(dim_pair(1_C, 3_R), T(7), maker::eigen);
+	auto m12 = make_matrix_v(dim_pair(1_C, 3_Rd), T(7), maker::eigen);
 
 	auto m13 = make_matrix< T >(1_C, 3_R, {{0}, {1}, {2}}, maker::eigen);
 	auto m14 = make_vector< T >(3_R, {0, 1, 2}, maker::eigen);
@@ -712,15 +712,15 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_1x3, T, types){
 	auto m22 = make_vector_fn(3_R, fn_i, maker::eigen);
 	auto m23 = make_matrix_fn(1_C, 3_Rd, fn_xy, maker::eigen);
 	auto m24 = make_vector_fn(3_Rd, fn_i, maker::eigen);
-	auto m25 = make_matrix_fn(dims(1_C, 3_R), fn_xy, maker::eigen);
-	auto m26 = make_matrix_fn(dims(1_C, 3_Rd), fn_xy, maker::eigen);
+	auto m25 = make_matrix_fn(dim_pair(1_C, 3_R), fn_xy, maker::eigen);
+	auto m26 = make_matrix_fn(dim_pair(1_C, 3_Rd), fn_xy, maker::eigen);
 
 	auto m27 = make_matrix_i(1_C, 3_R, init_p, maker::eigen);
 	auto m28 = make_vector_i(3_R, init_p, maker::eigen);
 	auto m29 = make_matrix_i(1_C, 3_Rd, init_p, maker::eigen);
 	auto m30 = make_vector_i(3_Rd, init_p, maker::eigen);
-	auto m31 = make_matrix_i(dims(1_C, 3_R), init_p, maker::eigen);
-	auto m32 = make_matrix_i(dims(1_C, 3_Rd), init_p, maker::eigen);
+	auto m31 = make_matrix_i(dim_pair(1_C, 3_R), init_p, maker::eigen);
+	auto m32 = make_matrix_i(dim_pair(1_C, 3_Rd), init_p, maker::eigen);
 
 
 	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 1, 3 > >));
@@ -814,15 +814,15 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_3x1, T, types){
 	auto m02 = make_vector_v< T >(3_C, T(), maker::eigen);
 	auto m03 = make_matrix_v< T >(3_Cd, 1_R, T(), maker::eigen);
 	auto m04 = make_vector_v< T >(3_Cd, T(), maker::eigen);
-	auto m05 = make_matrix_v< T >(dims(3_C, 1_R), T(), maker::eigen);
-	auto m06 = make_matrix_v< T >(dims(3_Cd, 1_R), T(), maker::eigen);
+	auto m05 = make_matrix_v< T >(dim_pair(3_C, 1_R), T(), maker::eigen);
+	auto m06 = make_matrix_v< T >(dim_pair(3_Cd, 1_R), T(), maker::eigen);
 
 	auto m07 = make_matrix_v(3_C, 1_R, T(7), maker::eigen);
 	auto m08 = make_vector_v(3_C, T(7), maker::eigen);
 	auto m09 = make_matrix_v(3_Cd, 1_R, T(7), maker::eigen);
 	auto m10 = make_vector_v(3_Cd, T(7), maker::eigen);
-	auto m11 = make_matrix_v(dims(3_C, 1_R), T(7), maker::eigen);
-	auto m12 = make_matrix_v(dims(3_Cd, 1_R), T(7), maker::eigen);
+	auto m11 = make_matrix_v(dim_pair(3_C, 1_R), T(7), maker::eigen);
+	auto m12 = make_matrix_v(dim_pair(3_Cd, 1_R), T(7), maker::eigen);
 
 	auto m13 = make_matrix< T >(3_C, 1_R, {{0, 1, 2}}, maker::eigen);
 	auto m14 = make_vector< T >(3_C, {0, 1, 2}, maker::eigen);
@@ -837,15 +837,15 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_3x1, T, types){
 	auto m22 = make_vector_fn(3_C, fn_i, maker::eigen);
 	auto m23 = make_matrix_fn(3_Cd, 1_R, fn_xy, maker::eigen);
 	auto m24 = make_vector_fn(3_Cd, fn_i, maker::eigen);
-	auto m25 = make_matrix_fn(dims(3_C, 1_R), fn_xy, maker::eigen);
-	auto m26 = make_matrix_fn(dims(3_Cd, 1_R), fn_xy, maker::eigen);
+	auto m25 = make_matrix_fn(dim_pair(3_C, 1_R), fn_xy, maker::eigen);
+	auto m26 = make_matrix_fn(dim_pair(3_Cd, 1_R), fn_xy, maker::eigen);
 
 	auto m27 = make_matrix_i(3_C, 1_R, init_p, maker::eigen);
 	auto m28 = make_vector_i(3_C, init_p, maker::eigen);
 	auto m29 = make_matrix_i(3_Cd, 1_R, init_p, maker::eigen);
 	auto m30 = make_vector_i(3_Cd, init_p, maker::eigen);
-	auto m31 = make_matrix_i(dims(3_C, 1_R), init_p, maker::eigen);
-	auto m32 = make_matrix_i(dims(3_Cd, 1_R), init_p, maker::eigen);
+	auto m31 = make_matrix_i(dim_pair(3_C, 1_R), init_p, maker::eigen);
+	auto m32 = make_matrix_i(dim_pair(3_Cd, 1_R), init_p, maker::eigen);
 
 
 	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 3, 1 > >));
@@ -939,13 +939,13 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_1x1, T, types){
 	auto m01 = make_matrix_v< T >(1_C, 1_R, T(), maker::eigen);
 	auto m02 = make_vector_v< T >(1_C, T(), maker::eigen);
 	auto m03 = make_vector_v< T >(1_R, T(), maker::eigen);
-	auto m04 = make_matrix_v< T >(dims(1_C, 1_R), T(), maker::eigen);
+	auto m04 = make_matrix_v< T >(dim_pair(1_C, 1_R), T(), maker::eigen);
 	auto m05 = make_matrix_v< T >(1_D, T(), maker::eigen);
 
 	auto m06 = make_matrix_v(1_C, 1_R, T(7), maker::eigen);
 	auto m07 = make_vector_v(1_C, T(7), maker::eigen);
 	auto m08 = make_vector_v(1_R, T(7), maker::eigen);
-	auto m09 = make_matrix_v(dims(1_C, 1_R), T(7), maker::eigen);
+	auto m09 = make_matrix_v(dim_pair(1_C, 1_R), T(7), maker::eigen);
 	auto m10 = make_matrix_v(1_D, T(7), maker::eigen);
 
 	auto m11 = make_matrix< T >(1_C, 1_R, {{0}}, maker::eigen);
@@ -960,13 +960,13 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_1x1, T, types){
 	auto m19 = make_matrix_fn(1_C, 1_R, fn_xy, maker::eigen);
 	auto m20 = make_vector_fn(1_C, fn_x, maker::eigen);
 	auto m21 = make_vector_fn(1_R, fn_y, maker::eigen);
-	auto m22 = make_matrix_fn(dims(1_C, 1_R), fn_xy, maker::eigen);
+	auto m22 = make_matrix_fn(dim_pair(1_C, 1_R), fn_xy, maker::eigen);
 	auto m23 = make_matrix_fn(1_D, fn_xy, maker::eigen);
 
 	auto m24 = make_matrix_i(1_C, 1_R, init_p, maker::eigen);
 	auto m25 = make_vector_i(1_C, init_p, maker::eigen);
 	auto m26 = make_vector_i(1_R, init_p, maker::eigen);
-	auto m27 = make_matrix_i(dims(1_C, 1_R), init_p, maker::eigen);
+	auto m27 = make_matrix_i(dim_pair(1_C, 1_R), init_p, maker::eigen);
 	auto m28 = make_matrix_i(1_D, init_p, maker::eigen);
 
 

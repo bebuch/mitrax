@@ -13,36 +13,38 @@
 #include "sub_matrix.hpp"
 
 
-namespace mitrax{
+namespace mitrax::detail{
 
 
-	namespace detail{
-
-
-		struct call_func_operator{
-			template < typename M >
-			constexpr auto operator()(M const& m, size_t x, size_t y)const{
-				return m(x, y);
-			}
-		};
-
-		template < size_t Co, size_t Ro >
-		struct call_sub_matrix{
-			dims_t< Co, Ro > dims;
-
-			template < typename M >
-			constexpr auto operator()(M const& m, size_t x, size_t y)const{
-				return sub_matrix(m, x, y, dims);
-			}
-		};
-
-		template < size_t Co, size_t Ro >
-		constexpr auto make_call_sub_matrix(dims_t< Co, Ro > const& dims){
-			return call_sub_matrix< Co, Ro >{dims};
+	struct call_func_operator{
+		template < typename M >
+		constexpr auto operator()(M const& m, size_t x, size_t y)const{
+			return m(x, y);
 		}
+	};
 
+	template < bool Ccto, size_t Co, bool Rcto, size_t Ro >
+	struct call_sub_matrix{
+		dim_pair_t< Ccto, Co, Rcto, Ro > dims;
 
+		template < typename M >
+		constexpr auto operator()(M const& m, size_t x, size_t y)const{
+			return sub_matrix(m, x, y, dims);
+		}
+	};
+
+	template < bool Ccto, size_t Co, bool Rcto, size_t Ro >
+	constexpr auto make_call_sub_matrix(
+		dim_pair_t< Ccto, Co, Rcto, Ro > const& dims
+	){
+		return call_sub_matrix< Ccto, Co, Rcto, Ro >{dims};
 	}
+
+
+}
+
+
+namespace mitrax{
 
 
 	template < typename F, typename ... M, size_t ... C, size_t ... R >
@@ -54,16 +56,16 @@ namespace mitrax{
 
 
 	template <
-		typename F, size_t Co, size_t Ro, 
+		typename F, bool Ccto, size_t Co, bool Rcto, size_t Ro,
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto transform_per_view(
 		F&& f,
-		dims_t< Co, Ro > const& view_dims,
+		dim_pair_t< Ccto, Co, Rcto, Ro > const& view_dims,
 		matrix< M, C, R > const& ... images
 	){
 		using namespace literals;
 		return make_matrix_fn(
-			get_dims(images ...) + dims(1_C, 1_R) - view_dims,
+			get_dims(images ...) + dim_pair(1_C, 1_R) - view_dims,
 			make_multi_invoke_adapter(
 				static_cast< F&& >(f),
 				detail::make_call_sub_matrix(view_dims),
@@ -74,7 +76,7 @@ namespace mitrax{
 
 
 	template <
-		typename F, bool Ccto, size_t Co, bool Rcto, size_t Ro, 
+		typename F, bool Ccto, size_t Co, bool Rcto, size_t Ro,
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto transform_per_view(
 		F&& f,
@@ -84,7 +86,7 @@ namespace mitrax{
 	){
 		return transform_per_view(
 			static_cast< F&& >(f),
-			dims(view_cols, view_rows),
+			dim_pair(view_cols, view_rows),
 			images ...
 		);
 	}

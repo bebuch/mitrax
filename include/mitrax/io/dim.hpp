@@ -38,9 +38,11 @@ namespace mitrax{
 		return os << size_t(dim);
 	}
 
-	template < typename charT, typename traits, size_t C, size_t R >
+	template < typename charT, typename traits,
+		bool Cct, size_t C, bool Rct, size_t R >
 	std::basic_ostream< charT, traits >& operator<<(
-		std::basic_ostream< charT, traits >& os, dims_t< C, R > const& dim
+		std::basic_ostream< charT, traits >& os,
+		dim_pair_t< Cct, C, Rct, R > const& dim
 	){
 		return os << dim.cols() << "x" << dim.rows();
 	}

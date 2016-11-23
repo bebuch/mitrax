@@ -63,9 +63,9 @@ namespace mitrax{
 		return false;
 	}
 
-	template < size_t C, size_t R, typename F >
+	template < bool Cct, size_t C, bool Rct, size_t R, typename F >
 	constexpr bool square_area_search(
-		dims_t< C, R > const& dims,
+		dim_pair_t< Cct, C, Rct, R > const& dims,
 		size_t x, size_t y,
 		size_t max_distance,
 		F&& f
