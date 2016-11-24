@@ -1111,6 +1111,19 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_identity_heap_matrix, T, types){
 	BOOST_TEST(check(m02, ref_i));
 }
 
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_default_constructor, T, types){
+	eigen_matrix< T, 3, 3 > m01;
+	eigen_matrix< T, 3, 0 > m02;
+	eigen_matrix< T, 0, 3 > m03;
+	eigen_matrix< T, 0, 0 > m04;
+
+	BOOST_TEST((m01.dims() == dim_pair(3_C, 3_R)));
+	BOOST_TEST((m02.dims() == dim_pair(3_C, 0_Rd)));
+	BOOST_TEST((m03.dims() == dim_pair(0_Cd, 3_R)));
+	BOOST_TEST((m04.dims() == dim_pair(0_Cd, 0_Rd)));
+}
+
+
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_copy_constructor_heap, T, types){
 	constexpr T ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};

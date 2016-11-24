@@ -159,7 +159,9 @@ namespace mitrax::detail{
 		using maker_type = maker::heap_t;
 
 
-		heap_matrix_impl() = default;
+		heap_matrix_impl(default_constructor_key):
+			values_(mitrax::make_value_iterator(value_type()), C * R)
+			{}
 
 		heap_matrix_impl(heap_matrix_impl&&) = default;
 

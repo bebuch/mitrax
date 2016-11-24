@@ -47,7 +47,7 @@ namespace mitrax::detail{
 		static constexpr bool row_memory_order = RowOrder;
 
 
-		constexpr view_matrix_impl() = delete;
+		view_matrix_impl() = delete;
 
 		constexpr view_matrix_impl(view_matrix_impl&&) noexcept
 			= default;
@@ -167,7 +167,7 @@ namespace mitrax::detail{
 		static constexpr bool row_memory_order = RowOrder;
 
 
-		constexpr const_view_matrix_impl() = delete;
+		const_view_matrix_impl() = delete;
 
 		constexpr const_view_matrix_impl(const_view_matrix_impl&&)
 			noexcept = default;

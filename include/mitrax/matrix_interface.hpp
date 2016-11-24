@@ -40,6 +40,9 @@ namespace mitrax::maker{
 namespace mitrax{
 
 
+	struct default_constructor_key{};
+
+
 	template < typename M, size_t Cols, size_t Rows >
 	class matrix final{
 	public:
@@ -48,6 +51,10 @@ namespace mitrax{
 		static_assert(std::is_class_v< M > && !std::is_const_v< M >);
 		static_assert(!std::is_const_v< value_type_t< M > >);
 		static_assert(!std::is_reference_v< value_type_t< M > >);
+		static_assert(!std::is_default_constructible_v< M >,
+			"Matrix implementation must not be default constructible, "
+			"the 'default constructor' must have "
+			"::mitrax::default_constructor_key as first parameter");
 
 
 		static constexpr size_t ct_cols = Cols;
@@ -108,7 +115,8 @@ namespace mitrax{
 		using const_reverse_iterator = std::reverse_iterator< const_iterator >;
 
 
-		constexpr matrix() = default;
+		constexpr matrix():
+			m_(default_constructor_key()) {}
 
 		constexpr matrix(matrix&&) = default;
 
@@ -309,6 +317,20 @@ namespace mitrax{
 		M m_;
 	};
 
+// 	TODO: The implementation shall only be constructible by matrix
+// 		–– (or only by implementation maker type???) –– <- no, copy and move is by matrix …
+// 	Priority: Default-Constructor! It can by protected by keypass :-D
+// 	class matrix_impl_base{
+// 		template < typename M, size_t C, size_t R > friend class matrix;
+// 	protected:
+// 		constexpr matrix_impl_base()noexcept = default;
+// 		constexpr matrix_impl_base(matrix_impl_base const&)noexcept = default;
+// 		constexpr matrix_impl_base(matrix_impl_base&&)noexcept = default;
+//
+// 		constexpr matrix_impl_base& operator=(matrix_impl_base const&)noexcept = default;
+// 		constexpr matrix_impl_base& operator=(matrix_impl_base&&)noexcept = default;
+// 	};
+
 
 	template < typename ... M, size_t ... C, size_t ... R >
 	constexpr auto get_cols(matrix< M, C, R > const& ... m){
@@ -328,5 +350,6 @@ namespace mitrax{
 
 
 }
+
 
 #endif

@@ -36,7 +36,9 @@ namespace mitrax::detail{
 			C == 0 ? ::Eigen::Dynamic : static_cast< int >(C) >;
 
 
-		eigen_matrix_impl() = default;
+		eigen_matrix_impl(default_constructor_key)
+			// TODO: Initialize Elements???
+			{}
 
 		eigen_matrix_impl(eigen_matrix_impl&&) = default;
 

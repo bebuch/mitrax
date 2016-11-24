@@ -83,7 +83,7 @@ namespace mitrax::detail{
 		using maker_type = maker::stack_t;
 
 
-		constexpr stack_matrix_impl():
+		constexpr stack_matrix_impl(default_constructor_key):
 			values_(to_array< C * R >(
 				mitrax::make_value_iterator(value_type()))) {}
 
