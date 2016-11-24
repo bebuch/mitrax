@@ -48,7 +48,7 @@ namespace mitrax{
 
 		constexpr dim_base()noexcept = default;
 
-		constexpr operator size_t()const noexcept{ return value; }
+		explicit constexpr operator size_t()const noexcept{ return value; }
 
 		constexpr auto as_col()const noexcept{ return col_t< true, N >(); }
 		constexpr auto as_row()const noexcept{ return row_t< true, N >(); }
