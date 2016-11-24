@@ -476,7 +476,7 @@ namespace mitrax{
 		dim_pair_t< Cct1, C1, Rct1, R1 > const& d1,
 		dim_pair_t< Cct2, C2, Rct2, R2 > const& d2
 	)noexcept{
-		return d1.cols() == d2.cols() || d1.rows() == d2.rows();
+		return d1.cols() == d2.cols() && d1.rows() == d2.rows();
 	}
 
 	template <
