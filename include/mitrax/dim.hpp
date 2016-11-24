@@ -79,7 +79,7 @@ namespace mitrax{
 
 		using value_type = size_t;
 
-		constexpr dim_base(size_t n = 0)noexcept: v_(n) {}
+		explicit constexpr dim_base(size_t n = 0)noexcept: v_(n) {}
 
 		template < bool Nct, size_t N >
 		constexpr dim_base(DimT< Nct, N >&&)noexcept: v_(N) {}
