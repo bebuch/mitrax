@@ -635,105 +635,126 @@ void dim_pair_t_make(){
 }
 
 
+template <
+	bool Cct1, size_t C1, bool Rct1, size_t R1,
+	bool Cct2, size_t C2, bool Rct2, size_t R2 >
+constexpr void dim_compare_test(
+	dim_pair_t< Cct1, C1, Rct1, R1 > const& d1,
+	dim_pair_t< Cct2, C2, Rct2, R2 > const& d2,
+	bool equal_expection
+)noexcept{
+	BOOST_TEST((rt_id(d1 == d2) == id< bool >));
+	BOOST_TEST((d1 == d2) == equal_expection);
+	BOOST_TEST(!(d1 == d2) != equal_expection);
+}
+
+
 void dim_pair_t_compare(){
-	constexpr auto c1 = 3;
-	constexpr auto r1 = 4;
-	constexpr auto c2 = 6;
-	constexpr auto r2 = 5;
+	using namespace ::mitrax::literals;
 
-	constexpr auto cc1 = auto_dim_pair_t< c1, r1 >(cols< c1 >(), rows< r1 >());
-	constexpr auto cr1 = auto_dim_pair_t< c1, 0 >(cols< c1 >(), rows(r1));
-	constexpr auto rc1 = auto_dim_pair_t< 0, r1 >(cols(c1), rows< r1 >());
-	constexpr auto rr1 = auto_dim_pair_t< 0, 0 >(cols(c1), rows(r1));
+	constexpr auto cc1 = dim_pair(3_C, 4_R);
+	constexpr auto cr1 = dim_pair(3_C, 4_Rd);
+	constexpr auto rc1 = dim_pair(3_Cd, 4_R);
+	constexpr auto rr1 = dim_pair(3_Cd, 4_Rd);
 
-	constexpr auto cc2 = auto_dim_pair_t< c2, r2 >(cols< c2 >(), rows< r2 >());
-	constexpr auto cr2 = auto_dim_pair_t< c2, 0 >(cols< c2 >(), rows(r2));
-	constexpr auto rc2 = auto_dim_pair_t< 0, r2 >(cols(c2), rows< r2 >());
-	constexpr auto rr2 = auto_dim_pair_t< 0, 0 >(cols(c2), rows(r2));
+	constexpr auto cc2 = dim_pair(6_C, 5_R);
+	constexpr auto cr2 = dim_pair(6_C, 5_Rd);
+	constexpr auto rc2 = dim_pair(6_Cd, 5_R);
+	constexpr auto rr2 = dim_pair(6_Cd, 5_Rd);
 
+	constexpr auto cc3 = dim_pair(3_C, 5_R);
+	constexpr auto cr3 = dim_pair(3_C, 5_Rd);
+	constexpr auto rc3 = dim_pair(3_Cd, 5_R);
+	constexpr auto rr3 = dim_pair(3_Cd, 5_Rd);
 
-	BOOST_TEST((rt_id(cc1 == cc2) == id< bool >));
-	BOOST_TEST((rt_id(cc1 == cr2) == id< bool >));
-	BOOST_TEST((rt_id(cc1 == rc2) == id< bool >));
-	BOOST_TEST((rt_id(cc1 == rr2) == id< bool >));
-
-	BOOST_TEST((rt_id(cr1 == cc2) == id< bool >));
-	BOOST_TEST((rt_id(cr1 == cr2) == id< bool >));
-	BOOST_TEST((rt_id(cr1 == rc2) == id< bool >));
-	BOOST_TEST((rt_id(cr1 == rr2) == id< bool >));
-
-	BOOST_TEST((rt_id(rc1 == cc2) == id< bool >));
-	BOOST_TEST((rt_id(rc1 == cr2) == id< bool >));
-	BOOST_TEST((rt_id(rc1 == rc2) == id< bool >));
-	BOOST_TEST((rt_id(rc1 == rr2) == id< bool >));
-
-	BOOST_TEST((rt_id(rr1 == cc2) == id< bool >));
-	BOOST_TEST((rt_id(rr1 == cr2) == id< bool >));
-	BOOST_TEST((rt_id(rr1 == rc2) == id< bool >));
-	BOOST_TEST((rt_id(rr1 == rr2) == id< bool >));
+	constexpr auto cc4 = dim_pair(6_C, 4_R);
+	constexpr auto cr4 = dim_pair(6_C, 4_Rd);
+	constexpr auto rc4 = dim_pair(6_Cd, 4_R);
+	constexpr auto rr4 = dim_pair(6_Cd, 4_Rd);
 
 
-	BOOST_TEST((rt_id(cc1 != cc2) == id< bool >));
-	BOOST_TEST((rt_id(cc1 != cr2) == id< bool >));
-	BOOST_TEST((rt_id(cc1 != rc2) == id< bool >));
-	BOOST_TEST((rt_id(cc1 != rr2) == id< bool >));
+	dim_compare_test(cc1, cc1, true);
+	dim_compare_test(cr1, cc1, true);
+	dim_compare_test(rc1, cc1, true);
+	dim_compare_test(rr1, cc1, true);
 
-	BOOST_TEST((rt_id(cr1 != cc2) == id< bool >));
-	BOOST_TEST((rt_id(cr1 != cr2) == id< bool >));
-	BOOST_TEST((rt_id(cr1 != rc2) == id< bool >));
-	BOOST_TEST((rt_id(cr1 != rr2) == id< bool >));
+	dim_compare_test(cc1, cr1, true);
+	dim_compare_test(cr1, cr1, true);
+	dim_compare_test(rc1, cr1, true);
+	dim_compare_test(rr1, cr1, true);
 
-	BOOST_TEST((rt_id(rc1 != cc2) == id< bool >));
-	BOOST_TEST((rt_id(rc1 != cr2) == id< bool >));
-	BOOST_TEST((rt_id(rc1 != rc2) == id< bool >));
-	BOOST_TEST((rt_id(rc1 != rr2) == id< bool >));
+	dim_compare_test(cc1, rc1, true);
+	dim_compare_test(cr1, rc1, true);
+	dim_compare_test(rc1, rc1, true);
+	dim_compare_test(rr1, rc1, true);
 
-	BOOST_TEST((rt_id(rr1 != cc2) == id< bool >));
-	BOOST_TEST((rt_id(rr1 != cr2) == id< bool >));
-	BOOST_TEST((rt_id(rr1 != rc2) == id< bool >));
-	BOOST_TEST((rt_id(rr1 != rr2) == id< bool >));
-
-
-	BOOST_TEST((!(cc1 == cc2)));
-	BOOST_TEST((!(cc1 == cr2)));
-	BOOST_TEST((!(cc1 == rc2)));
-	BOOST_TEST((!(cc1 == rr2)));
-
-	BOOST_TEST((!(cr1 == cc2)));
-	BOOST_TEST((!(cr1 == cr2)));
-	BOOST_TEST((!(cr1 == rc2)));
-	BOOST_TEST((!(cr1 == rr2)));
-
-	BOOST_TEST((!(rc1 == cc2)));
-	BOOST_TEST((!(rc1 == cr2)));
-	BOOST_TEST((!(rc1 == rc2)));
-	BOOST_TEST((!(rc1 == rr2)));
-
-	BOOST_TEST((!(rr1 == cc2)));
-	BOOST_TEST((!(rr1 == cr2)));
-	BOOST_TEST((!(rr1 == rc2)));
-	BOOST_TEST((!(rr1 == rr2)));
+	dim_compare_test(cc1, rr1, true);
+	dim_compare_test(cr1, rr1, true);
+	dim_compare_test(rc1, rr1, true);
+	dim_compare_test(rr1, rr1, true);
 
 
-	BOOST_TEST(((cc1 != cc2)));
-	BOOST_TEST(((cc1 != cr2)));
-	BOOST_TEST(((cc1 != rc2)));
-	BOOST_TEST(((cc1 != rr2)));
+	dim_compare_test(cc1, cc2, false);
+	dim_compare_test(cr1, cc2, false);
+	dim_compare_test(rc1, cc2, false);
+	dim_compare_test(rr1, cc2, false);
 
-	BOOST_TEST(((cr1 != cc2)));
-	BOOST_TEST(((cr1 != cr2)));
-	BOOST_TEST(((cr1 != rc2)));
-	BOOST_TEST(((cr1 != rr2)));
+	dim_compare_test(cc1, cr2, false);
+	dim_compare_test(cr1, cr2, false);
+	dim_compare_test(rc1, cr2, false);
+	dim_compare_test(rr1, cr2, false);
 
-	BOOST_TEST(((rc1 != cc2)));
-	BOOST_TEST(((rc1 != cr2)));
-	BOOST_TEST(((rc1 != rc2)));
-	BOOST_TEST(((rc1 != rr2)));
+	dim_compare_test(cc1, rc2, false);
+	dim_compare_test(cr1, rc2, false);
+	dim_compare_test(rc1, rc2, false);
+	dim_compare_test(rr1, rc2, false);
 
-	BOOST_TEST(((rr1 != cc2)));
-	BOOST_TEST(((rr1 != cr2)));
-	BOOST_TEST(((rr1 != rc2)));
-	BOOST_TEST(((rr1 != rr2)));
+	dim_compare_test(cc1, rr2, false);
+	dim_compare_test(cr1, rr2, false);
+	dim_compare_test(rc1, rr2, false);
+	dim_compare_test(rr1, rr2, false);
+
+
+	dim_compare_test(cc1, cc3, false);
+	dim_compare_test(cr1, cc3, false);
+	dim_compare_test(rc1, cc3, false);
+	dim_compare_test(rr1, cc3, false);
+
+	dim_compare_test(cc1, cr3, false);
+	dim_compare_test(cr1, cr3, false);
+	dim_compare_test(rc1, cr3, false);
+	dim_compare_test(rr1, cr3, false);
+
+	dim_compare_test(cc1, rc3, false);
+	dim_compare_test(cr1, rc3, false);
+	dim_compare_test(rc1, rc3, false);
+	dim_compare_test(rr1, rc3, false);
+
+	dim_compare_test(cc1, rr3, false);
+	dim_compare_test(cr1, rr3, false);
+	dim_compare_test(rc1, rr3, false);
+	dim_compare_test(rr1, rr3, false);
+
+
+	dim_compare_test(cc1, cc4, false);
+	dim_compare_test(cr1, cc4, false);
+	dim_compare_test(rc1, cc4, false);
+	dim_compare_test(rr1, cc4, false);
+
+	dim_compare_test(cc1, cr4, false);
+	dim_compare_test(cr1, cr4, false);
+	dim_compare_test(rc1, cr4, false);
+	dim_compare_test(rr1, cr4, false);
+
+	dim_compare_test(cc1, rc4, false);
+	dim_compare_test(cr1, rc4, false);
+	dim_compare_test(rc1, rc4, false);
+	dim_compare_test(rr1, rc4, false);
+
+	dim_compare_test(cc1, rr4, false);
+	dim_compare_test(cr1, rr4, false);
+	dim_compare_test(rc1, rr4, false);
+	dim_compare_test(rr1, rr4, false);
 }
 
 template < typename Op >
