@@ -323,6 +323,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_3x3, T, types){
 	constexpr auto m59 = make_matrix_i(dim_pair(3_D), init_p);
 	auto m60 = make_matrix_i(dim_pair(3_Dd), init_p);
 
+	constexpr auto m61 = make_matrix< T >({{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
+	constexpr auto m62 = make_matrix(ref_i);
+	constexpr auto m63 = make_matrix(
+		{{T(0), T(1), T(2)}, {T(3), T(4), T(5)}, {T(6), T(7), T(8)}});
+
 	BOOST_TEST((rt_id(m01) == id< std_matrix< T, 3, 3 > >));
 	BOOST_TEST((rt_id(m02) == id< std_matrix< T, 0, 3 > >));
 	BOOST_TEST((rt_id(m03) == id< std_matrix< T, 3, 0 > >));
@@ -387,6 +392,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_3x3, T, types){
 	BOOST_TEST((rt_id(m58) == id< std_matrix< T, 0, 0 > >));
 	BOOST_TEST((rt_id(m59) == id< std_matrix< T, 3, 3 > >));
 	BOOST_TEST((rt_id(m60) == id< std_matrix< T, 0, 0 > >));
+
+	BOOST_TEST((rt_id(m61) == id< std_matrix< T, 3, 3 > >));
+	BOOST_TEST((rt_id(m62) == id< std_matrix< T, 3, 3 > >));
+	BOOST_TEST((rt_id(m63) == id< std_matrix< T, 3, 3 > >));
 
 
 	BOOST_TEST((check(m01, ref_0)));
@@ -453,6 +462,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_3x3, T, types){
 	BOOST_TEST((check(m58, ref_i)));
 	BOOST_TEST((check(m59, ref_i)));
 	BOOST_TEST((check(m60, ref_i)));
+
+	BOOST_TEST((check(m61, ref_i)));
+	BOOST_TEST((check(m62, ref_i)));
+	BOOST_TEST((check(m63, ref_i)));
 }
 
 
@@ -511,6 +524,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_2x3, T, types){
 	auto m39 = make_matrix_i(dim_pair(2_C, 3_Rd), init_p);
 	auto m40 = make_matrix_i(dim_pair(2_Cd, 3_Rd), init_p);
 
+	constexpr auto m41 = make_matrix< T >({{0, 1}, {2, 3}, {4, 5}});
+	constexpr auto m42 = make_matrix(ref_i);
+	constexpr auto m43 = make_matrix(
+		{{T(0), T(1)}, {T(2), T(3)}, {T(4), T(5)}});
+
 
 	BOOST_TEST((rt_id(m01) == id< std_matrix< T, 2, 3 > >));
 	BOOST_TEST((rt_id(m02) == id< std_matrix< T, 0, 3 > >));
@@ -557,6 +575,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_2x3, T, types){
 	BOOST_TEST((rt_id(m39) == id< std_matrix< T, 2, 0 > >));
 	BOOST_TEST((rt_id(m40) == id< std_matrix< T, 0, 0 > >));
 
+	BOOST_TEST((rt_id(m41) == id< std_matrix< T, 2, 3 > >));
+	BOOST_TEST((rt_id(m42) == id< std_matrix< T, 2, 3 > >));
+	BOOST_TEST((rt_id(m43) == id< std_matrix< T, 2, 3 > >));
+
 
 	BOOST_TEST(check(m01, ref_0));
 	BOOST_TEST(check(m02, ref_0));
@@ -602,6 +624,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_2x3, T, types){
 	BOOST_TEST(check(m38, ref_i));
 	BOOST_TEST(check(m39, ref_i));
 	BOOST_TEST(check(m40, ref_i));
+
+	BOOST_TEST(check(m41, ref_i));
+	BOOST_TEST(check(m42, ref_i));
+	BOOST_TEST(check(m43, ref_i));
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_3x2, T, types){
@@ -658,6 +684,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_3x2, T, types){
 	auto m39 = make_matrix_i(dim_pair(3_C, 2_Rd), init_p);
 	auto m40 = make_matrix_i(dim_pair(3_Cd, 2_Rd), init_p);
 
+	constexpr auto m41 = make_matrix< T >({{0, 1, 2}, {3, 4, 5}});
+	constexpr auto m42 = make_matrix(ref_i);
+	constexpr auto m43 = make_matrix(
+		{{T(0), T(1), T(2)}, {T(3), T(4), T(5)}});
+
 
 	BOOST_TEST((rt_id(m01) == id< std_matrix< T, 3, 2 > >));
 	BOOST_TEST((rt_id(m02) == id< std_matrix< T, 0, 2 > >));
@@ -704,6 +735,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_3x2, T, types){
 	BOOST_TEST((rt_id(m39) == id< std_matrix< T, 3, 0 > >));
 	BOOST_TEST((rt_id(m40) == id< std_matrix< T, 0, 0 > >));
 
+	BOOST_TEST((rt_id(m41) == id< std_matrix< T, 3, 2 > >));
+	BOOST_TEST((rt_id(m42) == id< std_matrix< T, 3, 2 > >));
+	BOOST_TEST((rt_id(m43) == id< std_matrix< T, 3, 2 > >));
+
 
 	BOOST_TEST(check(m01, ref_0));
 	BOOST_TEST(check(m02, ref_0));
@@ -749,6 +784,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_3x2, T, types){
 	BOOST_TEST(check(m38, ref_i));
 	BOOST_TEST(check(m39, ref_i));
 	BOOST_TEST(check(m40, ref_i));
+
+	BOOST_TEST(check(m41, ref_i));
+	BOOST_TEST(check(m42, ref_i));
+	BOOST_TEST(check(m43, ref_i));
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_1x3, T, types){
@@ -799,6 +838,19 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_1x3, T, types){
 	constexpr auto m31 = make_matrix_i(dim_pair(1_C, 3_R), init_p);
 	auto m32 = make_matrix_i(dim_pair(1_C, 3_Rd), init_p);
 
+	constexpr auto m33 = make_matrix< T >({{0}, {1}, {2}});
+	constexpr auto m34 = make_matrix(ref_i);
+	constexpr auto m35 = make_matrix({{T(0)}, {T(1)}, {T(2)}});
+	constexpr auto m36 = make_col_vector< T >(3_R, {0, 1, 2});
+	constexpr auto m37 = make_col_vector(3_R, ref_i_vec);
+	constexpr auto m38 = make_col_vector(3_R, {T(0), T(1), T(2)});
+	auto m39 = make_col_vector< T >(3_Rd, {0, 1, 2});
+	auto m40 = make_col_vector(3_Rd, ref_i_vec);
+	auto m41 = make_col_vector(3_Rd, {T(0), T(1), T(2)});
+	constexpr auto m42 = make_col_vector< T >({0, 1, 2});
+	constexpr auto m43 = make_col_vector(ref_i_vec);
+	constexpr auto m44 = make_col_vector({T(0), T(1), T(2)});
+
 
 	BOOST_TEST((rt_id(m01) == id< std_matrix< T, 1, 3 > >));
 	BOOST_TEST((rt_id(m02) == id< std_matrix< T, 1, 3 > >));
@@ -837,6 +889,19 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_1x3, T, types){
 	BOOST_TEST((rt_id(m31) == id< std_matrix< T, 1, 3 > >));
 	BOOST_TEST((rt_id(m32) == id< std_matrix< T, 1, 0 > >));
 
+	BOOST_TEST((rt_id(m33) == id< std_matrix< T, 1, 3 > >));
+	BOOST_TEST((rt_id(m34) == id< std_matrix< T, 1, 3 > >));
+	BOOST_TEST((rt_id(m35) == id< std_matrix< T, 1, 3 > >));
+	BOOST_TEST((rt_id(m36) == id< std_matrix< T, 1, 3 > >));
+	BOOST_TEST((rt_id(m37) == id< std_matrix< T, 1, 3 > >));
+	BOOST_TEST((rt_id(m38) == id< std_matrix< T, 1, 3 > >));
+	BOOST_TEST((rt_id(m39) == id< std_matrix< T, 1, 0 > >));
+	BOOST_TEST((rt_id(m40) == id< std_matrix< T, 1, 0 > >));
+	BOOST_TEST((rt_id(m41) == id< std_matrix< T, 1, 0 > >));
+	BOOST_TEST((rt_id(m42) == id< std_matrix< T, 1, 3 > >));
+	BOOST_TEST((rt_id(m43) == id< std_matrix< T, 1, 3 > >));
+	BOOST_TEST((rt_id(m44) == id< std_matrix< T, 1, 3 > >));
+
 
 	BOOST_TEST(check(m01, ref_0));
 	BOOST_TEST(check(m02, ref_0));
@@ -874,6 +939,19 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_1x3, T, types){
 	BOOST_TEST(check(m30, ref_i));
 	BOOST_TEST(check(m31, ref_i));
 	BOOST_TEST(check(m32, ref_i));
+
+	BOOST_TEST(check(m33, ref_i));
+	BOOST_TEST(check(m34, ref_i));
+	BOOST_TEST(check(m35, ref_i));
+	BOOST_TEST(check(m36, ref_i));
+	BOOST_TEST(check(m37, ref_i));
+	BOOST_TEST(check(m38, ref_i));
+	BOOST_TEST(check(m39, ref_i));
+	BOOST_TEST(check(m40, ref_i));
+	BOOST_TEST(check(m41, ref_i));
+	BOOST_TEST(check(m42, ref_i));
+	BOOST_TEST(check(m43, ref_i));
+	BOOST_TEST(check(m44, ref_i));
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_3x1, T, types){
@@ -924,6 +1002,19 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_3x1, T, types){
 	constexpr auto m31 = make_matrix_i(dim_pair(3_C, 1_R), init_p);
 	auto m32 = make_matrix_i(dim_pair(3_Cd, 1_R), init_p);
 
+	constexpr auto m33 = make_matrix< T >({{0, 1, 2}});
+	constexpr auto m34 = make_matrix(ref_i);
+	constexpr auto m35 = make_matrix({{T(0), T(1), T(2)}});
+	constexpr auto m36 = make_row_vector< T >(3_C, {0, 1, 2});
+	constexpr auto m37 = make_row_vector(3_C, ref_i_vec);
+	constexpr auto m38 = make_row_vector(3_C, {T(0), T(1), T(2)});
+	auto m39 = make_row_vector< T >(3_Cd, {0, 1, 2});
+	auto m40 = make_row_vector(3_Cd, ref_i_vec);
+	auto m41 = make_row_vector(3_Cd, {T(0), T(1), T(2)});
+	constexpr auto m42 = make_row_vector< T >({0, 1, 2});
+	constexpr auto m43 = make_row_vector(ref_i_vec);
+	constexpr auto m44 = make_row_vector({T(0), T(1), T(2)});
+
 
 	BOOST_TEST((rt_id(m01) == id< std_matrix< T, 3, 1 > >));
 	BOOST_TEST((rt_id(m02) == id< std_matrix< T, 3, 1 > >));
@@ -962,6 +1053,20 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_3x1, T, types){
 	BOOST_TEST((rt_id(m31) == id< std_matrix< T, 3, 1 > >));
 	BOOST_TEST((rt_id(m32) == id< std_matrix< T, 0, 1 > >));
 
+	BOOST_TEST((rt_id(m33) == id< std_matrix< T, 3, 1 > >));
+	BOOST_TEST((rt_id(m34) == id< std_matrix< T, 3, 1 > >));
+	BOOST_TEST((rt_id(m35) == id< std_matrix< T, 3, 1 > >));
+	BOOST_TEST((rt_id(m36) == id< std_matrix< T, 3, 1 > >));
+	BOOST_TEST((rt_id(m37) == id< std_matrix< T, 3, 1 > >));
+	BOOST_TEST((rt_id(m38) == id< std_matrix< T, 3, 1 > >));
+	BOOST_TEST((rt_id(m39) == id< std_matrix< T, 0, 1 > >));
+	BOOST_TEST((rt_id(m40) == id< std_matrix< T, 0, 1 > >));
+	BOOST_TEST((rt_id(m41) == id< std_matrix< T, 0, 1 > >));
+	BOOST_TEST((rt_id(m42) == id< std_matrix< T, 3, 1 > >));
+	BOOST_TEST((rt_id(m43) == id< std_matrix< T, 3, 1 > >));
+	BOOST_TEST((rt_id(m44) == id< std_matrix< T, 3, 1 > >));
+
+
 
 	BOOST_TEST(check(m01, ref_0));
 	BOOST_TEST(check(m02, ref_0));
@@ -999,6 +1104,19 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_3x1, T, types){
 	BOOST_TEST(check(m30, ref_i));
 	BOOST_TEST(check(m31, ref_i));
 	BOOST_TEST(check(m32, ref_i));
+
+	BOOST_TEST(check(m33, ref_i));
+	BOOST_TEST(check(m34, ref_i));
+	BOOST_TEST(check(m35, ref_i));
+	BOOST_TEST(check(m36, ref_i));
+	BOOST_TEST(check(m37, ref_i));
+	BOOST_TEST(check(m38, ref_i));
+	BOOST_TEST(check(m39, ref_i));
+	BOOST_TEST(check(m40, ref_i));
+	BOOST_TEST(check(m41, ref_i));
+	BOOST_TEST(check(m42, ref_i));
+	BOOST_TEST(check(m43, ref_i));
+	BOOST_TEST(check(m44, ref_i));
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_1x1, T, types){
@@ -1046,6 +1164,30 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_1x1, T, types){
 	constexpr auto m27 = make_matrix_i(dim_pair(1_C, 1_R), init_p);
 	constexpr auto m28 = make_matrix_i(1_D, init_p);
 
+	constexpr auto m29 = make_matrix< T >({{0}});
+	constexpr auto m30 = make_matrix(ref_i);
+	constexpr auto m31 = make_matrix({{T(0)}});
+
+	constexpr auto m32 = make_col_vector< T >(1_R, {0});
+	constexpr auto m33 = make_col_vector(1_R, ref_i_vec);
+	constexpr auto m34 = make_col_vector(1_R, {T(0)});
+	auto m35 = make_col_vector< T >(1_Rd, {0});
+	auto m36 = make_col_vector(1_Rd, ref_i_vec);
+	auto m37 = make_col_vector(1_Rd, {T(0)});
+	constexpr auto m38 = make_col_vector< T >({0});
+	constexpr auto m39 = make_col_vector(ref_i_vec);
+	constexpr auto m40 = make_col_vector({T(0)});
+
+	constexpr auto m41 = make_row_vector< T >(1_C, {0});
+	constexpr auto m42 = make_row_vector(1_C, ref_i_vec);
+	constexpr auto m43 = make_row_vector(1_C, {T(0)});
+	auto m44 = make_row_vector< T >(1_Cd, {0});
+	auto m45 = make_row_vector(1_Cd, ref_i_vec);
+	auto m46 = make_row_vector(1_Cd, {T(0)});
+	constexpr auto m47 = make_row_vector< T >({0});
+	constexpr auto m48 = make_row_vector(ref_i_vec);
+	constexpr auto m49 = make_row_vector({T(0)});
+
 
 	BOOST_TEST((rt_id(m01) == id< std_matrix< T, 1, 1 > >));
 	BOOST_TEST((rt_id(m02) == id< std_matrix< T, 1, 1 > >));
@@ -1080,6 +1222,30 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_1x1, T, types){
 	BOOST_TEST((rt_id(m27) == id< std_matrix< T, 1, 1 > >));
 	BOOST_TEST((rt_id(m28) == id< std_matrix< T, 1, 1 > >));
 
+	BOOST_TEST((rt_id(m29) == id< std_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m30) == id< std_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m31) == id< std_matrix< T, 1, 1 > >));
+
+	BOOST_TEST((rt_id(m32) == id< std_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m33) == id< std_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m34) == id< std_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m35) == id< std_matrix< T, 1, 0 > >));
+	BOOST_TEST((rt_id(m36) == id< std_matrix< T, 1, 0 > >));
+	BOOST_TEST((rt_id(m37) == id< std_matrix< T, 1, 0 > >));
+	BOOST_TEST((rt_id(m38) == id< std_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m39) == id< std_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m40) == id< std_matrix< T, 1, 1 > >));
+
+	BOOST_TEST((rt_id(m41) == id< std_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m42) == id< std_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m43) == id< std_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m44) == id< std_matrix< T, 0, 1 > >));
+	BOOST_TEST((rt_id(m45) == id< std_matrix< T, 0, 1 > >));
+	BOOST_TEST((rt_id(m46) == id< std_matrix< T, 0, 1 > >));
+	BOOST_TEST((rt_id(m47) == id< std_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m48) == id< std_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m49) == id< std_matrix< T, 1, 1 > >));
+
 
 	BOOST_TEST(check(m01, ref_0));
 	BOOST_TEST(check(m02, ref_0));
@@ -1113,6 +1279,30 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std_matrix_1x1, T, types){
 	BOOST_TEST(check(m26, ref_i));
 	BOOST_TEST(check(m27, ref_i));
 	BOOST_TEST(check(m28, ref_i));
+
+	BOOST_TEST(check(m29, ref_i));
+	BOOST_TEST(check(m30, ref_i));
+	BOOST_TEST(check(m31, ref_i));
+
+	BOOST_TEST(check(m32, ref_i));
+	BOOST_TEST(check(m33, ref_i));
+	BOOST_TEST(check(m34, ref_i));
+	BOOST_TEST(check(m35, ref_i));
+	BOOST_TEST(check(m36, ref_i));
+	BOOST_TEST(check(m37, ref_i));
+	BOOST_TEST(check(m38, ref_i));
+	BOOST_TEST(check(m39, ref_i));
+	BOOST_TEST(check(m40, ref_i));
+
+	BOOST_TEST(check(m41, ref_i));
+	BOOST_TEST(check(m42, ref_i));
+	BOOST_TEST(check(m43, ref_i));
+	BOOST_TEST(check(m44, ref_i));
+	BOOST_TEST(check(m45, ref_i));
+	BOOST_TEST(check(m46, ref_i));
+	BOOST_TEST(check(m47, ref_i));
+	BOOST_TEST(check(m48, ref_i));
+	BOOST_TEST(check(m49, ref_i));
 }
 
 

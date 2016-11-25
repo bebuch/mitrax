@@ -364,6 +364,20 @@ namespace mitrax{
 			static_cast< Maker&& >(maker));
 	}
 
+	template < typename T, bool Nct, size_t N, typename Maker = maker::std_t >
+	constexpr auto make_col_vector(
+		row_t< Nct, N > r, T(&&v)[N], Maker&& maker = maker::std_t()
+	){
+		return make_vector(r, std::move(v), static_cast< Maker&& >(maker));
+	}
+
+	template < typename T, bool Nct, size_t N, typename Maker = maker::std_t >
+	constexpr auto make_col_vector(
+		row_t< Nct, N > r, T(&v)[N], Maker&& maker = maker::std_t()
+	){
+		return make_vector(r, v, static_cast< Maker&& >(maker));
+	}
+
 	template < typename T, size_t N, typename Maker = maker::std_t >
 	constexpr auto make_col_vector(T(&v)[N], Maker&& maker = maker::std_t()){
 		return make_vector(rows< N >(), v, static_cast< Maker&& >(maker));
@@ -392,6 +406,20 @@ namespace mitrax{
 		using namespace literals;
 		return make_matrix_i(c, 1_R, mitrax::begin(v),
 			static_cast< Maker&& >(maker));
+	}
+
+	template < typename T, bool Nct, size_t N, typename Maker = maker::std_t >
+	constexpr auto make_row_vector(
+		col_t< Nct, N > c, T(&&v)[N], Maker&& maker = maker::std_t()
+	){
+		return make_vector(c, std::move(v), static_cast< Maker&& >(maker));
+	}
+
+	template < typename T, bool Nct, size_t N, typename Maker = maker::std_t >
+	constexpr auto make_row_vector(
+		col_t< Nct, N > c, T(&v)[N], Maker&& maker = maker::std_t()
+	){
+		return make_vector(c, v, static_cast< Maker&& >(maker));
 	}
 
 	template < typename T, size_t N, typename Maker = maker::std_t >
