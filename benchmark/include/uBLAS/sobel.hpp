@@ -17,14 +17,12 @@ namespace uBLAS{
 
 	template < typename ResultType, typename T >
 	constexpr auto sobel_x(ublas::matrix< T > const& m){
-		ublas::matrix< ResultType, ublas::row_major,
-			ublas::bounded_array< ResultType, 3 > > cv(1, 3);
+		ublas::c_matrix< ResultType, 1, 3 > cv(1, 3);
 		cv(0, 0) = 1;
 		cv(0, 1) = 2;
 		cv(0, 2) = 1;
 
-		ublas::matrix< ResultType, ublas::row_major,
-			ublas::bounded_array< ResultType, 3 > > rv(3, 1);
+		ublas::c_matrix< ResultType, 3, 1 > rv(3, 1);
 		rv(0, 0) = -1;
 		rv(1, 0) = 0;
 		rv(2, 0) = 1;
@@ -34,14 +32,12 @@ namespace uBLAS{
 
 	template < typename ResultType, typename T >
 	constexpr auto sobel_y(ublas::matrix< T > const& m){
-		ublas::matrix< ResultType, ublas::row_major,
-			ublas::bounded_array< ResultType, 3 > > cv(1, 3);
+		ublas::c_matrix< ResultType, 1, 3 > cv(1, 3);
 		cv(0, 0) = -1;
 		cv(0, 1) = 0;
 		cv(0, 2) = 1;
 
-		ublas::matrix< ResultType, ublas::row_major,
-			ublas::bounded_array< ResultType, 3 > > rv(3, 1);
+		ublas::c_matrix< ResultType, 3, 1 > rv(3, 1);
 		rv(0, 0) = 1;
 		rv(1, 0) = 2;
 		rv(2, 0) = 1;

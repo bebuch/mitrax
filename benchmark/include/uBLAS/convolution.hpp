@@ -17,19 +17,20 @@ namespace uBLAS{
 
 	namespace ublas = boost::numeric::ublas;
 
-	template < typename T1, typename F1, typename A1, typename T2, typename F2, typename A2 >
-	inline auto convolution(ublas::matrix< T1, F1, A1 > const& m, ublas::matrix< T2, F2, A2 > const& k){
+	template < typename M1, typename M2 >
+	inline auto convolution(M1 const& m, M2 const& k){
 		int kc = k.size1();
 		int kr = k.size2();
 
 		int res_c = m.size1() - kc + 1;
 		int res_r = m.size2() - kr + 1;
 
-		ublas::matrix< T2 > res(res_c, res_r);
+		using value_type = typename M2::value_type;
+		ublas::matrix< value_type > res(res_c, res_r);
 
 		for(int row = 0; row < res_r; ++row){
 			for(int col = 0; col < res_c; ++col){
-				T2 b = 0;
+				value_type b = 0;
 
 				for(int r = 0; r < kr; ++r){
 					for(int c = 0; c < kc; ++c){
@@ -44,12 +45,11 @@ namespace uBLAS{
 		return res;
 	}
 
-	template < typename TM, typename TR1, typename FR1, typename AR1,
-		typename TR2, typename FR2, typename AR2 >
+	template < typename TM, typename V1, typename V2 >
 	inline auto convolution(
 		ublas::matrix< TM > const& m,
-		ublas::matrix< TR1, FR1, AR1 > const& vc,
-		ublas::matrix< TR2, FR2, AR2 > const& vr
+		V1 const& vc,
+		V2 const& vr
 	){
 		return convolution(convolution(m, vr), vc);
 	}
