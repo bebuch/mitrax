@@ -286,7 +286,9 @@ namespace mitrax{
 	}
 
 	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
-	constexpr auto make_view_matrix(dim_pair_t< Cct, C, Rct, R > const& d, T& object){
+	constexpr auto make_view_matrix(
+		dim_pair_t< Cct, C, Rct, R > const& d, T& object
+	){
 		return make_view_matrix(d.cols(), d.rows(), object);
 	}
 
