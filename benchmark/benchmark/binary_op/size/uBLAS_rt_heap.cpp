@@ -51,7 +51,7 @@ void bm(benchmark::State& state, Op op, rt_dim_pair_t d1, rt_dim_pair_t d2){
 
 namespace init{
 
-	auto dimensions = boost::hana::make_tuple(
+	constexpr auto dimensions = boost::hana::make_tuple(
 			dim_pair(2_C, 2_R),
 			dim_pair(4_C, 2_R),
 			dim_pair(8_C, 2_R),
@@ -68,8 +68,6 @@ namespace init{
 			dim_pair(256_C, 128_R),
 			dim_pair(256_C, 256_R)
 		);
-
-	using type = float;
 
 	using plus = std::plus<>;
 	struct multiplies{

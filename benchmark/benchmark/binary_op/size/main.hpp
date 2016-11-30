@@ -1,3 +1,8 @@
+namespace init{
+
+	using type = float;
+
+}
 
 
 int main(int argc, char** argv){
