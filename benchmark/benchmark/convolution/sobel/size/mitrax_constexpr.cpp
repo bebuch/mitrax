@@ -11,7 +11,7 @@ using namespace mitrax::literals;
 
 template < typename T, typename D >
 [[gnu::noinline]]
-void BM_sobel2(benchmark::State& state, D d1){
+void BM_sobel2(benchmark::State& state, D d){
 	using value_type = T;
 
 	std::random_device rd;
@@ -21,7 +21,7 @@ void BM_sobel2(benchmark::State& state, D d1){
 		std::numeric_limits< value_type >::max()
 	);
 
-	auto m = make_matrix_fn(d1, [&dis, &gen](auto, auto){
+	auto m = make_matrix_fn(d, [&dis, &gen](auto, auto){
 		return dis(gen);
 	});
 
@@ -36,12 +36,12 @@ void BM_sobel2(benchmark::State& state, D d1){
 int main(int argc, char** argv) {
 	using f4 = float;
 
-	for(auto& d1: std::vector< auto_dim_pair_t< 0, 0 > >{
+	for(auto& d: std::vector< auto_dim_pair_t< 0, 0 > >{
 		{1024_Cd, 1024_Rd}
 	}){
 		benchmark::RegisterBenchmark(
-			std::to_string(d1.point_count()).c_str(),
-			BM_sobel2< f4, auto_dim_pair_t< 0, 0 > >, d1
+			std::to_string(d.point_count()).c_str(),
+			BM_sobel2< f4, auto_dim_pair_t< 0, 0 > >, d
 		);
 	}
 

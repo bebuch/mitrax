@@ -7,7 +7,7 @@
 
 template < typename T >
 [[gnu::noinline]]
-void BM_sobel2(benchmark::State& state, std::pair< int, int > d1){
+void BM_sobel2(benchmark::State& state, std::pair< int, int > d){
 	using value_type = T;
 
 	std::random_device rd;
@@ -17,7 +17,7 @@ void BM_sobel2(benchmark::State& state, std::pair< int, int > d1){
 		std::numeric_limits< value_type >::max()
 	);
 
-	boost::numeric::ublas::matrix< T > m(d1.first, d1.second);
+	boost::numeric::ublas::matrix< T > m(d.first, d.second);
 
 	for(size_t y = 0; y < m.size2(); ++y){
 		for(size_t x = 0; x < m.size1(); ++x){
@@ -35,12 +35,12 @@ void BM_sobel2(benchmark::State& state, std::pair< int, int > d1){
 int main(int argc, char** argv) {
 	using f4 = float;
 
-	for(auto& d1: std::vector< std::pair< int, int > >{
+	for(auto& d: std::vector< std::pair< int, int > >{
 		{1024, 1024}
 	}){
 		benchmark::RegisterBenchmark(
-			std::to_string(d1.first * d1.second).c_str(),
-			BM_sobel2< f4 >, d1
+			std::to_string(d.first * d.second).c_str(),
+			BM_sobel2< f4 >, d
 		);
 	}
 
