@@ -10,6 +10,7 @@ using namespace mitrax::literals;
 
 
 template < typename InputType, typename ResultType, typename D >
+[[gnu::noinline]]
 void BM_sobel(benchmark::State& state, D d1){
 	using value_type = InputType;
 

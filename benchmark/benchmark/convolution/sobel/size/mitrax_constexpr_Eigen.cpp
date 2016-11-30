@@ -11,6 +11,7 @@ using namespace mitrax::literals;
 
 
 template < typename T, typename D >
+[[gnu::noinline]]
 void BM_sobel2(benchmark::State& state, D d1){
 	using value_type = T;
 

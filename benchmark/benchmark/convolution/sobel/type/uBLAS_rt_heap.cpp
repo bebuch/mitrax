@@ -6,6 +6,7 @@
 
 
 template < typename InputType, typename ResultType >
+[[gnu::noinline]]
 void BM_sobel(benchmark::State& state, std::pair< int, int > d1){
 	using value_type = InputType;
 

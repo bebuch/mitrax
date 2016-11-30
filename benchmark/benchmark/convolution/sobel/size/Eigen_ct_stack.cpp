@@ -6,6 +6,7 @@
 using namespace Eigen;
 
 template < typename T >
+[[gnu::noinline]]
 void BM_sobel2(benchmark::State& state, std::pair< int, int > d1){
 	auto m = Matrix< T, Eigen::Dynamic, Eigen::Dynamic >::
 		Random(d1.second, d1.first);

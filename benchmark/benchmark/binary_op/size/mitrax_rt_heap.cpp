@@ -13,6 +13,7 @@ using namespace mitrax::literals;
 
 
 template < typename Op, typename T, typename D >
+[[gnu::noinline]]
 void BM_binaryop(benchmark::State& state, Op op, D dims1, D dims2){
 	std::random_device rd;
 	std::mt19937 gen(rd());

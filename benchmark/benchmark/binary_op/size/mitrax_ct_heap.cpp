@@ -20,6 +20,7 @@ namespace hana = boost::hana;
 
 
 template < typename Op, typename T, typename D1, typename D2 >
+[[gnu::noinline]]
 void BM_binaryop(benchmark::State& state, Op op, D1 d1, D2 d2){
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -58,8 +59,8 @@ int main(int argc, char** argv){
 				dim_pair(8_C, 64_R),
 				dim_pair(16_C, 64_R),
 				dim_pair(32_C, 64_R),
-				dim_pair(64_C, 64_R)
-// 				dim_pair(128_C, 64_R),
+				dim_pair(64_C, 64_R),
+				dim_pair(128_C, 64_R)
 // 				dim_pair(256_C, 64_R),
 // 				dim_pair(256_C, 128_R),
 // 				dim_pair(256_C, 256_R)

@@ -17,6 +17,7 @@ namespace hana = boost::hana;
 
 
 template < typename T, typename D1 >
+[[gnu::noinline]]
 void BM_make(benchmark::State& state, D1 d1){
 	auto r = mitrax::random_vector< T >(d1.point_count());
 

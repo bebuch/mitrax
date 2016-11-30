@@ -9,6 +9,7 @@ using namespace Eigen;
 
 
 template < typename T >
+[[gnu::noinline]]
 void BM_make(benchmark::State& state, std::pair< int, int > d1){
 	auto r = mitrax::random_vector< T >(d1.second * d1.first);
 

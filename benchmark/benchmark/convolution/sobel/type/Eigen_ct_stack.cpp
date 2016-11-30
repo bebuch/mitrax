@@ -7,6 +7,7 @@ using namespace Eigen;
 
 
 template < typename InputType, typename ResultType >
+[[gnu::noinline]]
 void BM_sobel(benchmark::State& state, std::pair< int, int > d1){
 	auto m = Matrix< InputType, Eigen::Dynamic, Eigen::Dynamic >::
 		Random(d1.second, d1.first);

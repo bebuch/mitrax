@@ -19,17 +19,12 @@ namespace hana = boost::hana;
 
 
 template < typename T, typename D1 >
+[[gnu::noinline]]
 void BM_make(benchmark::State& state, D1){
 	auto r = mitrax::random_vector< T >(D1::ct_rows * D1::ct_cols);
 
 	while(state.KeepRunning()){
-		auto m = Eigen::Matrix< T, D1::ct_rows, D1::ct_cols >();
-
-		for(int y = 0; y < m.rows(); ++y){
-			for(int x = 0; x < m.cols(); ++x){
-				m(y, x) = r[y * m.cols() + x];
-			}
-		}
+		auto m = Eigen::Matrix< T, D1::ct_rows, D1::ct_cols >(r.data());
 
 		benchmark::DoNotOptimize(m);
 	}

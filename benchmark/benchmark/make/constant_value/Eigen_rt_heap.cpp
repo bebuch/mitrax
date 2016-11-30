@@ -7,6 +7,7 @@ using namespace Eigen;
 
 
 template < typename T >
+[[gnu::noinline]]
 void BM_make(benchmark::State& state, T v, std::pair< int, int > d1){
 	while(state.KeepRunning()){
 		auto m = Matrix< T, Dynamic, Dynamic >(d1.second, d1.first);

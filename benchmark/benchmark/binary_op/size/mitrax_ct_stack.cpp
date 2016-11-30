@@ -20,6 +20,7 @@ namespace hana = boost::hana;
 
 
 template < typename Op, typename T, typename D1, typename D2 >
+[[gnu::noinline]]
 void BM_binaryop(benchmark::State& state, Op op, D1 d1, D2 d2){
 	std::random_device rd;
 	std::mt19937 gen(rd());

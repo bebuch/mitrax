@@ -17,6 +17,7 @@ namespace hana = boost::hana;
 
 
 template < typename T, typename D1 >
+[[gnu::noinline]]
 void BM_make(benchmark::State& state, T v, D1){
 	while(state.KeepRunning()){
 		auto m = Eigen::Matrix< T, D1::ct_rows, D1::ct_cols >();

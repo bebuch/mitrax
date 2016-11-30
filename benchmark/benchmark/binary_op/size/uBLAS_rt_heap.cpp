@@ -9,6 +9,7 @@
 
 
 template < typename Op, typename T >
+[[gnu::noinline]]
 void BM_binaryop(
 	benchmark::State& state, Op op,
 	std::pair< int, int > d1,

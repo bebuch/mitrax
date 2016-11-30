@@ -10,6 +10,7 @@ using namespace mitrax::literals;
 
 
 template < typename T, typename D >
+[[gnu::noinline]]
 void BM_make(benchmark::State& state, D d1){
 	auto r = mitrax::random_vector< T >(d1.point_count());
 

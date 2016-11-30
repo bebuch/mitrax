@@ -4,6 +4,7 @@
 
 
 template < typename T >
+[[gnu::noinline]]
 void BM_make(benchmark::State& state, T v, std::pair< int, int > d1){
 	while(state.KeepRunning()){
 		boost::numeric::ublas::matrix< T > m(d1.first, d1.second, v);
