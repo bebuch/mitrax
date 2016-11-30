@@ -2,56 +2,58 @@
 
 #include <Eigen/Core>
 
+#include <mitrax/dim.hpp>
+
+#include <algorithm>
+
 #include "../../../include/random_vector.hpp"
 
 
-using namespace Eigen;
+using namespace mitrax;
+using namespace mitrax::literals;
 
 
 template < typename T >
 [[gnu::noinline]]
-void BM_make(benchmark::State& state, std::pair< int, int > d1){
-	auto r = mitrax::random_vector< T >(d1.second * d1.first);
+void bm(benchmark::State& state, rt_dim_pair_t d){
+	auto r = mitrax::random_vector< T >(d.point_count());
 
 	while(state.KeepRunning()){
-		auto m = Matrix< T, Dynamic, Dynamic >(d1.second, d1.first);
+		Eigen::Matrix< T, Eigen::Dynamic, Eigen::Dynamic > m(
+			size_t(d.cols()), size_t(d.rows())
+		);
 
-		for(int y = 0; y < m.rows(); ++y){
-			for(int x = 0; x < m.cols(); ++x){
-				m(y, x) = r[y * m.cols() + x];
-			}
-		}
+		std::copy(r.begin(), r.end(), m.data());
 
 		benchmark::DoNotOptimize(m);
 	}
 }
 
-int main(int argc, char** argv){
-	using f4 = float;
 
-	for(auto& d1: std::vector< std::pair< int, int > >{
-		{2, 2},
-		{4, 2},
-		{8, 2},
-		{8, 4},
-		{8, 8},
-		{8, 16},
-		{8, 32},
-		{8, 64},
-		{16, 64},
-		{32, 64},
-		{64, 64},
-		{128, 64},
-		{256, 64},
-		{256, 128},
-		{256, 256}
-	}){
-		benchmark::RegisterBenchmark(
-			std::to_string(d1.first * d1.second).c_str(),
-			BM_make< f4 >, d1
+#include <boost/hana/tuple.hpp>
+#include <boost/hana/for_each.hpp>
+
+
+namespace init{
+
+	constexpr auto dimensions = boost::hana::make_tuple(
+			dim_pair(2_C, 2_R),
+			dim_pair(4_C, 2_R),
+			dim_pair(8_C, 2_R),
+			dim_pair(8_C, 4_R),
+			dim_pair(8_C, 8_R),
+			dim_pair(8_C, 16_R),
+			dim_pair(8_C, 32_R),
+			dim_pair(8_C, 64_R),
+			dim_pair(16_C, 64_R),
+			dim_pair(32_C, 64_R),
+			dim_pair(64_C, 64_R),
+			dim_pair(128_C, 64_R),
+			dim_pair(256_C, 64_R),
+			dim_pair(256_C, 128_R),
+			dim_pair(256_C, 256_R)
 		);
-	}
 
-	benchmark::Initialize(&argc, argv);
-	benchmark::RunSpecifiedBenchmarks();
 }
+
+#include "main.hpp"
