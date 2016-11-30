@@ -1,48 +1,47 @@
 #include <benchmark/benchmark.h>
 
-#include <mitrax/operator.hpp>
+#include <mitrax/make_matrix.hpp>
 
 
 using namespace mitrax;
 using namespace mitrax::literals;
 
 
-template < typename T, typename D >
+template < typename T >
 [[gnu::noinline]]
-void BM_make(benchmark::State& state, T v, D d1){
+void bm(benchmark::State& state, T v, rt_dim_pair_t d){
 	while(state.KeepRunning()){
-		auto m = make_matrix_v(d1, v);
+		auto m = make_matrix_v(d, v);
 
 		benchmark::DoNotOptimize(m);
 	}
 }
 
-int main(int argc, char** argv){
-	using f4 = float;
 
-	for(auto& d1: std::vector< auto_dim_pair_t< 0, 0 > >{
-		{2_Cd, 2_Rd},
-		{4_Cd, 2_Rd},
-		{8_Cd, 2_Rd},
-		{8_Cd, 4_Rd},
-		{8_Cd, 8_Rd},
-		{8_Cd, 16_Rd},
-		{8_Cd, 32_Rd},
-		{8_Cd, 64_Rd},
-		{16_Cd, 64_Rd},
-		{32_Cd, 64_Rd},
-		{64_Cd, 64_Rd},
-		{128_Cd, 64_Rd},
-		{256_Cd, 64_Rd},
-		{256_Cd, 128_Rd},
-		{256_Cd, 256_Rd}
-	}){
-		benchmark::RegisterBenchmark(
-			std::to_string(d1.point_count()).c_str(),
-			BM_make< f4, auto_dim_pair_t< 0, 0 > >, 5, d1
+#include <boost/hana/tuple.hpp>
+#include <boost/hana/for_each.hpp>
+
+
+namespace init{
+
+	constexpr auto dimensions = boost::hana::make_tuple(
+			dim_pair(2_C, 2_R),
+			dim_pair(4_C, 2_R),
+			dim_pair(8_C, 2_R),
+			dim_pair(8_C, 4_R),
+			dim_pair(8_C, 8_R),
+			dim_pair(8_C, 16_R),
+			dim_pair(8_C, 32_R),
+			dim_pair(8_C, 64_R),
+			dim_pair(16_C, 64_R),
+			dim_pair(32_C, 64_R),
+			dim_pair(64_C, 64_R),
+			dim_pair(128_C, 64_R),
+			dim_pair(256_C, 64_R),
+			dim_pair(256_C, 128_R),
+			dim_pair(256_C, 256_R)
 		);
-	}
 
-	benchmark::Initialize(&argc, argv);
-	benchmark::RunSpecifiedBenchmarks();
 }
+
+#include "main.hpp"
