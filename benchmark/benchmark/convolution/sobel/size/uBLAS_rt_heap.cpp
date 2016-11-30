@@ -36,8 +36,6 @@ int main(int argc, char** argv) {
 	using f4 = float;
 
 	for(auto& d1: std::vector< std::pair< int, int > >{
-		{64, 64},
-		{256, 256},
 		{1024, 1024}
 	}){
 		benchmark::RegisterBenchmark(

@@ -37,8 +37,6 @@ int main(int argc, char** argv) {
 	using f4 = float;
 
 	for(auto& d1: std::vector< auto_dim_pair_t< 0, 0 > >{
-		{64_Cd, 64_Rd},
-		{256_Cd, 256_Rd},
 		{1024_Cd, 1024_Rd}
 	}){
 		benchmark::RegisterBenchmark(

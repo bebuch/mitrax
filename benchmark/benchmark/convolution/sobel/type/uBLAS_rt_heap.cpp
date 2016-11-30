@@ -7,7 +7,7 @@
 
 template < typename InputType, typename ResultType >
 [[gnu::noinline]]
-void BM_sobel(benchmark::State& state, std::pair< int, int > d1){
+void BM_sobel(benchmark::State& state, std::pair< int, int > d){
 	using value_type = InputType;
 
 	std::random_device rd;
@@ -17,7 +17,7 @@ void BM_sobel(benchmark::State& state, std::pair< int, int > d1){
 		std::numeric_limits< value_type >::max()
 	);
 
-	boost::numeric::ublas::matrix< InputType > m(d1.first, d1.second);
+	boost::numeric::ublas::matrix< InputType > m(d.first, d.second);
 
 	for(size_t y = 0; y < m.size2(); ++y){
 		for(size_t x = 0; x < m.size1(); ++x){
@@ -40,23 +40,23 @@ int main(int argc, char** argv) {
 	using f8 = double;
 
 
-	for(auto& d1: std::vector< std::pair< int, int > >{
+	for(auto& d: std::vector< std::pair< int, int > >{
 		{1024, 1024}
 	}){
-		benchmark::RegisterBenchmark("i1->i1", BM_sobel< i1, i1 >, d1);
-		benchmark::RegisterBenchmark("u1->i2", BM_sobel< u1, i2 >, d1);
-		benchmark::RegisterBenchmark("u1->f4", BM_sobel< u1, f4 >, d1);
-		benchmark::RegisterBenchmark("u1->f8", BM_sobel< u1, f8 >, d1);
+		benchmark::RegisterBenchmark("i1->i1", BM_sobel< i1, i1 >, d);
+		benchmark::RegisterBenchmark("u1->i2", BM_sobel< u1, i2 >, d);
+		benchmark::RegisterBenchmark("u1->f4", BM_sobel< u1, f4 >, d);
+		benchmark::RegisterBenchmark("u1->f8", BM_sobel< u1, f8 >, d);
 
-		benchmark::RegisterBenchmark("i2->i2", BM_sobel< i2, i2 >, d1);
-		benchmark::RegisterBenchmark("u2->i4", BM_sobel< u2, i4 >, d1);
-		benchmark::RegisterBenchmark("u2->f4", BM_sobel< u2, f4 >, d1);
-		benchmark::RegisterBenchmark("u2->f8", BM_sobel< u2, f8 >, d1);
+		benchmark::RegisterBenchmark("i2->i2", BM_sobel< i2, i2 >, d);
+		benchmark::RegisterBenchmark("u2->i4", BM_sobel< u2, i4 >, d);
+		benchmark::RegisterBenchmark("u2->f4", BM_sobel< u2, f4 >, d);
+		benchmark::RegisterBenchmark("u2->f8", BM_sobel< u2, f8 >, d);
 
-		benchmark::RegisterBenchmark("f4->f4", BM_sobel< f4, f4 >, d1);
-		benchmark::RegisterBenchmark("f4->f8", BM_sobel< f4, f8 >, d1);
-		benchmark::RegisterBenchmark("f8->f4", BM_sobel< f8, f4 >, d1);
-		benchmark::RegisterBenchmark("f8->f8", BM_sobel< f8, f8 >, d1);
+		benchmark::RegisterBenchmark("f4->f4", BM_sobel< f4, f4 >, d);
+		benchmark::RegisterBenchmark("f4->f8", BM_sobel< f4, f8 >, d);
+		benchmark::RegisterBenchmark("f8->f4", BM_sobel< f8, f4 >, d);
+		benchmark::RegisterBenchmark("f8->f8", BM_sobel< f8, f8 >, d);
 	}
 
 	benchmark::Initialize(&argc, argv);
