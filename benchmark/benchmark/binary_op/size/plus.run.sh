@@ -23,7 +23,11 @@ for benchmark in $(find ./ -maxdepth 1 -executable -type f)
 do
 	echo "run  $name:${benchmark#./*}"
 	if [ -z ${dontexec+x} ]; then
-		cset shield --exec $benchmark -- --op=+ $param --benchmark_out=plus-${benchmark#./*}.json
+		if [[ $EUID -ne 0 ]]; then
+			$benchmark --op=+ $param --benchmark_out=plus-${benchmark#./*}.json
+		else
+			cset shield --exec $benchmark -- --op=+ $param --benchmark_out=plus-${benchmark#./*}.json
+		fi
 	fi
 	echo "eval $name:${benchmark#./*}"
 	lua $dir/script/json2gnuplot.lua plus-${benchmark#./*}.json > plus-${benchmark#./*}.dat

@@ -1,13 +1,19 @@
 #!/bin/bash
 
-./build.sh
-
-# Use cset for better benchmarks
+# Set repetitions by:
 #
-# As root:
-# $#> for ((i=0;i<$(nproc);++i)); do cpufreq-set -g performance -d 2GHz -u 2GHz -c $i; done
-# $#> cset shield -k on -c 1
-# $#> export repetitions=20
+# export repetitions=20
+#
+
+
+if [[ $EUID -eq 0 ]]; then
+	for ((i=0;i<$(nproc);++i))
+	do
+		cpufreq-set -g performance -d 2GHz -u 2GHz -c $i
+	done
+
+	cset shield -k on -c 1
+fi
 
 cd ..
 
