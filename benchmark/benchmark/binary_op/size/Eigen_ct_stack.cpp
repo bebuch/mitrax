@@ -29,14 +29,14 @@ void bm(benchmark::State& state, Op op, D1, D2){
 	Matrix< T, D1::ct_rows, D1::ct_cols > m1;
 	for(int y = 0; y < m1.rows(); ++y){
 		for(int x = 0; x < m1.cols(); ++x){
-			m1(x, y) = dis(gen);
+			m1(y, x) = dis(gen);
 		}
 	}
 
 	Matrix< T, D2::ct_rows, D2::ct_cols > m2;
 	for(int y = 0; y < m2.rows(); ++y){
 		for(int x = 0; x < m2.cols(); ++x){
-			m2(x, y) = dis(gen);
+			m2(y, x) = dis(gen);
 		}
 	}
 
