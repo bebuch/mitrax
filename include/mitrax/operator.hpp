@@ -11,6 +11,7 @@
 
 #include "convert.hpp"
 
+#include <algorithm>
 #include <stdexcept>
 #include <cmath>
 
@@ -18,232 +19,126 @@
 namespace mitrax{
 
 
-	namespace detail{
-
-
-		struct plus_assign{
-			template < typename T, typename U >
-			constexpr void operator()(T& a, U const& b)const{
-				a += b;
-			}
-		};
-
-		struct minus_assign{
-			template < typename T, typename U >
-			constexpr void operator()(T& a, U const& b)const{
-				a -= b;
-			}
-		};
-
-		struct multiplies_assign{
-			template < typename T, typename U >
-			constexpr void operator()(T& a, U const& b)const{
-				a *= b;
-			}
-		};
-
-		struct divides_assign{
-			template < typename T, typename U >
-			constexpr void operator()(T& a, U const& b)const{
-				a /= b;
-			}
-		};
-
-		struct modulus_assign{
-			template < typename T, typename U >
-			constexpr void operator()(T& a, U const& b)const{
-				a %= b;
-			}
-		};
-
-
-		template < typename M, size_t C, size_t R, typename T, typename O >
-		constexpr void m1op(
-			matrix< M, C, R >& m,
-			T const& v,
-			O const& operation
-		){
-			for(size_t y = 0; y < m.rows(); ++y){
-				for(size_t x = 0; x < m.cols(); ++x){
-					operation(m(x, y), v);
-				}
-			}
-		}
-
-
-		template <
-			typename M1, size_t C1, size_t R1,
-			typename M2, size_t C2, size_t R2,
-			typename O
-		> constexpr void m2op(
-			matrix< M1, C1, R1 >& m1,
-			matrix< M2, C2, R2 > const& m2,
-			O const& operation
-		){
-			auto size = get_dims(m1, m2);
-
-			for(size_t y = 0; y < size.rows(); ++y){
-				for(size_t x = 0; x < size.cols(); ++x){
-					operation(m1(x, y), m2(x, y));
-				}
-			}
-		}
-
-
-		template < typename M, size_t C, size_t R >
-		class unary_op{
-		public:
-			constexpr unary_op(matrix< M, C, R > const& m): m_(m) {}
-
-		protected:
-			matrix< M, C, R > const& m_;
-		};
-
-		template < typename M, size_t C, size_t R >
-		struct transpose_f: unary_op< M, C, R >{
-			using unary_op< M, C, R >::unary_op;
-
-			constexpr auto operator()(size_t x, size_t y)const{
-				return this->m_(y, x);
-			}
-		};
-
-		template < typename M, size_t C, size_t R >
-		struct unary_minus_op: unary_op< M, C, R >{
-			using unary_op< M, C, R >::unary_op;
-
-			constexpr auto operator()(size_t x, size_t y)const{
-				return -this->m_(x, y);
-			}
-		};
-
-		template < typename M, size_t C, size_t R >
-		struct abs_op: unary_op< M, C, R >{
-			using unary_op< M, C, R >::unary_op;
-
-			constexpr auto operator()(size_t x, size_t y)const{
-				using std::abs;
-				return abs(this->m_(x, y));
-			}
-		};
-
-
-	}
-
-
 	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto& element_plus_assign(matrix< M, C, R >& m, T const& v){
-		detail::m1op(m, v, detail::plus_assign());
-		return m;
-	}
-
-
-	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto& element_minus_assign(matrix< M, C, R >& m, T const& v){
-		detail::m1op(m, v, detail::minus_assign());
-		return m;
-	}
-
-
-	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto& operator*=(matrix< M, C, R >& m, T const& v){
-		detail::m1op(m, v, detail::multiplies_assign());
-		return m;
-	}
-
-
-	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto& operator/=(matrix< M, C, R >& m, T const& v){
-		detail::m1op(m, v, detail::divides_assign());
-		return m;
-	}
-
-
-	template < typename M, size_t C, size_t R, typename T >
-	constexpr auto& operator%=(matrix< M, C, R >& m, T const& v){
-		detail::m1op(m, v, detail::modulus_assign());
-		return m;
-	}
-
-
-
-	template <
-		typename M1, size_t C1, size_t R1,
-		typename M2, size_t C2, size_t R2
-	> constexpr auto& operator+=(
-		matrix< M1, C1, R1 >& m1,
-		matrix< M2, C2, R2 > const& m2
+	constexpr matrix< M, C, R >& element_plus_assign(
+		matrix< M, C, R >& m, T const& v
 	){
-		detail::m2op(m1, m2, detail::plus_assign());
-		return m1;
+		for(auto& c: m) c += v;
+		return m;
+	}
+
+	template < typename M, size_t C, size_t R, typename T >
+	constexpr matrix< M, C, R >& element_minus_assign(
+		matrix< M, C, R >& m, T const& v
+	){
+		for(auto& c: m) c -= v;
+		return m;
+	}
+
+	template < typename M, size_t C, size_t R, typename T >
+	constexpr matrix< M, C, R >& operator*=(matrix< M, C, R >& m, T const& v){
+		for(auto& c: m) c *= v;
+		return m;
+	}
+
+	template < typename M, size_t C, size_t R, typename T >
+	constexpr matrix< M, C, R >& operator/=(matrix< M, C, R >& m, T const& v){
+		for(auto& c: m) c /= v;
+		return m;
+	}
+
+	template < typename M, size_t C, size_t R, typename T >
+	constexpr matrix< M, C, R >& operator%=(matrix< M, C, R >& m, T const& v){
+		for(auto& c: m) c %= v;
+		return m;
 	}
 
 
 	template <
 		typename M1, size_t C1, size_t R1,
 		typename M2, size_t C2, size_t R2
-	> constexpr auto& operator-=(
+	> constexpr matrix< M1, C1, R1 >& operator+=(
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		detail::m2op(m1, m2, detail::minus_assign());
+		get_dims(m1, m2);
+		auto iter = m2.begin();
+		for(auto& c: m1) c += *iter++;
 		return m1;
 	}
-
 
 	template <
 		typename M1, size_t C1, size_t R1,
 		typename M2, size_t C2, size_t R2
-	> constexpr auto& element_multiplies_assign(
+	> constexpr matrix< M1, C1, R1 >& operator-=(
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		detail::m2op(m1, m2, detail::multiplies_assign());
+		get_dims(m1, m2);
+		auto iter = m2.begin();
+		for(auto& c: m1) c -= *iter++;
 		return m1;
 	}
-
 
 	template <
 		typename M1, size_t C1, size_t R1,
 		typename M2, size_t C2, size_t R2
-	> constexpr auto& element_divides_assign(
+	> constexpr matrix< M1, C1, R1 >& element_multiplies_assign(
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		detail::m2op(m1, m2, detail::divides_assign());
+		get_dims(m1, m2);
+		auto iter = m2.begin();
+		for(auto& c: m1) c *= *iter++;
 		return m1;
 	}
-
 
 	template <
 		typename M1, size_t C1, size_t R1,
 		typename M2, size_t C2, size_t R2
-	> constexpr auto& element_modulus_assign(
+	> constexpr matrix< M1, C1, R1 >& element_divides_assign(
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		detail::m2op(m1, m2, detail::modulus_assign());
+		get_dims(m1, m2);
+		auto iter = m2.begin();
+		for(auto& c: m1) c /= *iter++;
 		return m1;
 	}
 
+	template <
+		typename M1, size_t C1, size_t R1,
+		typename M2, size_t C2, size_t R2
+	> constexpr matrix< M1, C1, R1 >& element_modulus_assign(
+		matrix< M1, C1, R1 >& m1,
+		matrix< M2, C2, R2 > const& m2
+	){
+		get_dims(m1, m2);
+		auto iter = m2.begin();
+		for(auto& c: m1) c %= *iter++;
+		return m1;
+	}
 
 
 	template < typename M, size_t C, size_t R, typename T >
 	constexpr auto element_plus(matrix< M, C, R > const& m, T const& v){
-		auto t = convert< std::common_type_t< value_type_t< M >, T > >(m);
-		return element_plus_assign(t, v);
+		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
+				return m(x, y) + v;
+			});
 	}
 
 	template < typename M, size_t C, size_t R, typename T >
 	constexpr auto element_minus(matrix< M, C, R > const& m, T const& v){
-		auto t = convert< std::common_type_t< value_type_t< M >, T > >(m);
-		return element_minus_assign(t, v);
+		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
+				return m(x, y) - v;
+			});
 	}
 
 	template < typename M, size_t C, size_t R, typename T >
 	constexpr auto operator*(matrix< M, C, R > const& m, T const& v){
-		auto t = convert< std::common_type_t< value_type_t< M >, T > >(m);
-		return t *= v;
+		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
+				return m(x, y) * v;
+			});
 	}
 
 	template < typename M, size_t C, size_t R, typename T >
@@ -253,16 +148,19 @@ namespace mitrax{
 
 	template < typename M, size_t C, size_t R, typename T >
 	constexpr auto operator/(matrix< M, C, R > const& m, T const& v){
-		auto t = convert< std::common_type_t< value_type_t< M >, T > >(m);
-		return t /= v;
+		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
+				return m(x, y) / v;
+			});
+
 	}
 
 	template < typename M, size_t C, size_t R, typename T >
 	constexpr auto operator%(matrix< M, C, R > const& m, T const& v){
-		auto t = convert< std::common_type_t< value_type_t< M >, T > >(m);
-		return t %= v;
-	}
+		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
+				return m(x, y) % v;
+			});
 
+	}
 
 
 	template <
@@ -272,10 +170,9 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		auto t = convert< std::common_type_t<
-				value_type_t< M1 >, value_type_t< M2 >
-			> >(m1);
-		return t += m2;
+		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](size_t x, size_t y){
+				return m1(x, y) + m2(x, y);
+			});
 	}
 
 	template <
@@ -285,10 +182,9 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		auto t = convert< std::common_type_t<
-				value_type_t< M1 >, value_type_t< M2 >
-			> >(m1);
-		return t -= m2;
+		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](size_t x, size_t y){
+				return m1(x, y) - m2(x, y);
+			});
 	}
 
 	template <
@@ -298,10 +194,9 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		auto t = convert< std::common_type_t<
-				value_type_t< M1 >, value_type_t< M2 >
-			> >(m1);
-		return element_multiplies_assign(t, m2);
+		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](size_t x, size_t y){
+				return m1(x, y) * m2(x, y);
+			});
 	}
 
 	template <
@@ -311,10 +206,9 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		auto t = convert< std::common_type_t<
-				value_type_t< M1 >, value_type_t< M2 >
-			> >(m1);
-		return element_divides_assign(t, m2);
+		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](size_t x, size_t y){
+				return m1(x, y) / m2(x, y);
+			});
 	}
 
 	template <
@@ -324,10 +218,9 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		auto t = convert< std::common_type_t<
-				value_type_t< M1 >, value_type_t< M2 >
-			> >(m1);
-		return element_modulus_assign(t, m2);
+		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](size_t x, size_t y){
+				return m1(x, y) % m2(x, y);
+			});
 	}
 
 
@@ -375,7 +268,7 @@ namespace mitrax{
 	constexpr auto transpose(matrix< M, C, R > const& m){
 		return make_matrix_fn(
 			m.rows().as_col(), m.cols().as_row(),
-			detail::transpose_f< M, C, R >(m)
+			[&m](size_t x, size_t y){ return m(y, x); }
 		);
 	}
 
@@ -387,12 +280,17 @@ namespace mitrax{
 
 	template < typename M, size_t C, size_t R >
 	constexpr auto operator-(matrix< M, C, R > const& m){
-		return make_matrix_fn(m.dims(), detail::unary_minus_op< M, C, R >(m));
+		return make_matrix_fn(m.dims(), [&m](size_t x, size_t y){
+				return -m(x, y);
+			});
 	}
 
 	template < typename M, size_t C, size_t R >
 	constexpr auto abs(matrix< M, C, R > const& m){
-		return make_matrix_fn(m.dims(), detail::abs_op< M, C, R >(m));
+		return make_matrix_fn(m.dims(), [&m](size_t x, size_t y){
+				using std::abs;
+				return abs(m(x, y));
+			});
 	}
 
 

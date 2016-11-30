@@ -308,7 +308,7 @@ BOOST_AUTO_TEST_CASE(test_transpose){
 		{5, 6}
 	});
 
-	constexpr auto trans_cc = transpose(m_cc);
+	/*constexpr*/ auto trans_cc = transpose(m_cc); //TODO:need constexpr lambda
 	auto trans_cd = transpose(m_cd);
 	auto trans_dc = transpose(m_dc);
 	auto trans_dd = transpose(m_dd);
