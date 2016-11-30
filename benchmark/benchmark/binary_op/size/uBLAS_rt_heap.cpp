@@ -2,19 +2,21 @@
 
 #include <boost/numeric/ublas/matrix.hpp>
 
+#include <mitrax/dim.hpp>
+
 #include <random>
 #include <string>
 
 #include "../../../include/get_binaryop.hpp"
 
 
-template < typename Op, typename T >
+using namespace mitrax;
+using namespace mitrax::literals;
+
+
+template < typename T, typename Op >
 [[gnu::noinline]]
-void BM_binaryop(
-	benchmark::State& state, Op op,
-	std::pair< int, int > d1,
-	std::pair< int, int > d2
-){
+void bm(benchmark::State& state, Op op, rt_dim_pair_t d1, rt_dim_pair_t d2){
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution< T > dis(
@@ -22,16 +24,14 @@ void BM_binaryop(
 		std::numeric_limits< T >::max()
 	);
 
-	boost::numeric::ublas::matrix< T > m1(d1.first, d1.second);
-
+	boost::numeric::ublas::matrix< T > m1(size_t(d1.cols()), size_t(d1.rows()));
 	for(size_t y = 0; y < m1.size2(); ++y){
 		for(size_t x = 0; x < m1.size1(); ++x){
 			m1(x, y) = dis(gen);
 		}
 	}
 
-	boost::numeric::ublas::matrix< T > m2(d2.first, d2.second);
-
+	boost::numeric::ublas::matrix< T > m2(size_t(d2.cols()), size_t(d2.rows()));
 	for(size_t y = 0; y < m2.size2(); ++y){
 		for(size_t x = 0; x < m2.size1(); ++x){
 			m2(x, y) = dis(gen);
@@ -45,67 +45,44 @@ void BM_binaryop(
 }
 
 
-template < typename T = void >
-struct prod{
-	constexpr T operator()(T const& lhs, T const& rhs)const{
-		return boost::numeric::ublas::prod(lhs, rhs);
-	}
-};
+#include <boost/hana/tuple.hpp>
+#include <boost/hana/for_each.hpp>
 
-template <>
-struct prod< void >{
-	template < typename T, typename U>
-	constexpr decltype(auto) operator()(T&& lhs, U&& rhs)const{
-		return boost::numeric::ublas::prod(
-			static_cast< T&& >(lhs),
-			static_cast< U&& >(rhs)
+
+namespace init{
+
+	auto dimensions = boost::hana::make_tuple(
+			dim_pair(2_C, 2_R),
+			dim_pair(4_C, 2_R),
+			dim_pair(8_C, 2_R),
+			dim_pair(8_C, 4_R),
+			dim_pair(8_C, 8_R),
+			dim_pair(8_C, 16_R),
+			dim_pair(8_C, 32_R),
+			dim_pair(8_C, 64_R),
+			dim_pair(16_C, 64_R),
+			dim_pair(32_C, 64_R),
+			dim_pair(64_C, 64_R),
+			dim_pair(128_C, 64_R),
+			dim_pair(256_C, 64_R),
+			dim_pair(256_C, 128_R),
+			dim_pair(256_C, 256_R)
 		);
-	}
-};
 
+	using type = float;
 
-int main(int argc, char** argv){
-	using f4 = float;
-
-	auto register_fn = [](auto op, auto transfrom_dim){
-		for(auto& d1: std::vector< std::pair< int, int > >{
-			{2, 2},
-			{4, 2},
-			{8, 2},
-			{8, 4},
-			{8, 8},
-			{8, 16},
-			{8, 32},
-			{8, 64},
-			{16, 64},
-			{32, 64},
-			{64, 64},
-			{128, 64},
-			{256, 64},
-			{256, 128},
-			{256, 256}
-		}){
-			auto d2 = transfrom_dim(d1);
-			benchmark::RegisterBenchmark(
-				std::to_string(d1.first * d1.second).c_str(),
-				BM_binaryop< decltype(op), f4 >,
-				op, d1, d2
+	using plus = std::plus<>;
+	struct multiplies{
+		template < typename T, typename U>
+		constexpr decltype(auto) operator()(T&& lhs, U&& rhs)const{
+			return boost::numeric::ublas::prod(
+				static_cast< T&& >(lhs),
+				static_cast< U&& >(rhs)
 			);
 		}
 	};
 
-	switch(mitrax::get_binaryop(argc, argv)){
-		case mitrax::op::unknown: return 1;
-		case mitrax::op::plus:{
-			register_fn(std::plus<>(), [](auto d){ return d; });
-		}break;
-		case mitrax::op::mul:{
-			register_fn(prod<>(), [](auto d){
-				return std::make_pair(d.second, d.first);
-			});
-		}break;
-	}
-
-	benchmark::Initialize(&argc, argv);
-	benchmark::RunSpecifiedBenchmarks();
 }
+
+#include "main.hpp"
+

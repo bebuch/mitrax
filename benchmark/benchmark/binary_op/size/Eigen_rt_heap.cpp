@@ -2,23 +2,41 @@
 
 #include <Eigen/Core>
 
+#include <mitrax/dim.hpp>
+
+#include <random>
 #include <string>
 
 #include "../../../include/get_binaryop.hpp"
 
 
-using namespace Eigen;
+using namespace mitrax;
+using namespace mitrax::literals;
 
 
-template < typename Op, typename T >
+template < typename T, typename Op >
 [[gnu::noinline]]
-void BM_binaryop(
-	benchmark::State& state, Op op,
-	std::pair< int, int > d1,
-	std::pair< int, int > d2
-){
-	auto m1 = Matrix< T, Dynamic, Dynamic >::Random(d1.first, d1.second);
-	auto m2 = Matrix< T, Dynamic, Dynamic >::Random(d2.first, d2.second);
+void bm(benchmark::State& state, Op op, rt_dim_pair_t d1, rt_dim_pair_t d2){
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution< T > dis(
+		std::numeric_limits< T >::min(),
+		std::numeric_limits< T >::max()
+	);
+
+	auto m1 = Eigen::Matrix< T, Eigen::Dynamic, Eigen::Dynamic >();
+	for(int y = 0; y < m1.rows(); ++y){
+		for(int x = 0; x < m1.cols(); ++x){
+			m1(x, y) = dis(gen);
+		}
+	}
+
+	auto m2 = Eigen::Matrix< T, Eigen::Dynamic, Eigen::Dynamic >();
+	for(int y = 0; y < m2.rows(); ++y){
+		for(int x = 0; x < m2.cols(); ++x){
+			m2(x, y) = dis(gen);
+		}
+	}
 
 	while(state.KeepRunning()){
 		auto res = op(m1, m2);
@@ -26,48 +44,36 @@ void BM_binaryop(
 	}
 }
 
-int main(int argc, char** argv){
-	using f4 = float;
 
-	auto register_fn = [](auto op, auto transfrom_dim){
-		for(auto& d1: std::vector< std::pair< int, int > >{
-			{2, 2},
-			{4, 2},
-			{8, 2},
-			{8, 4},
-			{8, 8},
-			{8, 16},
-			{8, 32},
-			{8, 64},
-			{16, 64},
-			{32, 64},
-			{64, 64},
-			{128, 64},
-			{256, 64},
-			{256, 128},
-			{256, 256}
-		}){
-			auto d2 = transfrom_dim(d1);
-			benchmark::RegisterBenchmark(
-				std::to_string(d1.first * d1.second).c_str(),
-				BM_binaryop< decltype(op), f4 >,
-				op, d1, d2
-			);
-		}
-	};
+#include <boost/hana/tuple.hpp>
+#include <boost/hana/for_each.hpp>
 
-	switch(mitrax::get_binaryop(argc, argv)){
-		case mitrax::op::unknown: return 1;
-		case mitrax::op::plus:{
-			register_fn(std::plus<>(), [](auto d){ return d; });
-		}break;
-		case mitrax::op::mul:{
-			register_fn(std::multiplies<>(), [](auto d){
-				return std::make_pair(d.second, d.first);
-			});
-		}break;
-	}
 
-	benchmark::Initialize(&argc, argv);
-	benchmark::RunSpecifiedBenchmarks();
+namespace init{
+
+	auto dimensions = boost::hana::make_tuple(
+			dim_pair(2_C, 2_R),
+			dim_pair(4_C, 2_R),
+			dim_pair(8_C, 2_R),
+			dim_pair(8_C, 4_R),
+			dim_pair(8_C, 8_R),
+			dim_pair(8_C, 16_R),
+			dim_pair(8_C, 32_R),
+			dim_pair(8_C, 64_R),
+			dim_pair(16_C, 64_R),
+			dim_pair(32_C, 64_R),
+			dim_pair(64_C, 64_R),
+			dim_pair(128_C, 64_R),
+			dim_pair(256_C, 64_R),
+			dim_pair(256_C, 128_R),
+			dim_pair(256_C, 256_R)
+		);
+
+	using type = float;
+
+	using plus = std::plus<>;
+	using multiplies = std::multiplies<>;
+
 }
+
+#include "main.hpp"
