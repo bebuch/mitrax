@@ -39,9 +39,9 @@ namespace init{
 			dim_pair(8_C, 64_R),
 			dim_pair(16_C, 64_R),
 			dim_pair(32_C, 64_R),
-			dim_pair(64_C, 64_R)/*,
+			dim_pair(64_C, 64_R),
 			dim_pair(128_C, 64_R),
-			dim_pair(256_C, 64_R),
+			dim_pair(256_C, 64_R)/*,
 			dim_pair(256_C, 128_R),
 			dim_pair(256_C, 256_R)*/
 		);
