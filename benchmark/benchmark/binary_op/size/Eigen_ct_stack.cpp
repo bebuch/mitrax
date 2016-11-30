@@ -41,7 +41,7 @@ void bm(benchmark::State& state, Op op, D1, D2){
 	}
 
 	while(state.KeepRunning()){
-		auto res = op(m1, m2);
+		auto res = op(m1, m2).eval();
 		benchmark::DoNotOptimize(res);
 	}
 }

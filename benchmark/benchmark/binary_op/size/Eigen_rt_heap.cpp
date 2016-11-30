@@ -43,7 +43,7 @@ void bm(benchmark::State& state, Op op, rt_dim_pair_t d1, rt_dim_pair_t d2){
 	}
 
 	while(state.KeepRunning()){
-		auto res = op(m1, m2);
+		auto res = op(m1, m2).eval();
 		benchmark::DoNotOptimize(res);
 	}
 }
