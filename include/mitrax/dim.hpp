@@ -107,8 +107,16 @@ namespace mitrax{
 
 		constexpr dim_pair_t()noexcept = default;
 
-		constexpr dim_pair_t(col_t< Cct, C > cols,row_t< Rct, R > rows)noexcept:
+		constexpr dim_pair_t(
+			col_t< Cct, C > cols, row_t< Rct, R > rows
+		)noexcept:
 			col_t< Cct, C >(cols), row_t< Rct, R >(rows) {}
+
+		template < bool Ccto, size_t Co, bool Rcto, size_t Ro >
+		explicit constexpr dim_pair_t(
+			dim_pair_t< Ccto, Co, Rcto, Ro > const& d
+		)noexcept:
+			col_t< Cct, C >(d.cols()), row_t< Rct, R >(d.rows()) {}
 
 
 		constexpr col_t< Cct, C > cols()const noexcept{ return *this; }
