@@ -12,8 +12,10 @@ set xtics rotate
 set datafile separator '\t'
 
 set key left
+set yrange [0:]
+set style fill solid 1.0
 
 plot \
 	'Eigen_ct_stack.dat' using 1:6:xticlabels(2) linetype -3 notitle, \
-	'Eigen_ct_stack.dat' using ($1 + 0.00):4:5:6:7 with candlesticks title "Eigen rt heap + Eigen ct stack" lw 2 lt 4 lc 13, \
-	'mitrax_constexpr.dat' using ($1 - 0.15):4:5:6:7 with candlesticks title "mitrax rt heap + mitrax constexpr" lw 2 lt 1 lc 4, \
+	'Eigen_ct_stack.dat' using ($1 + 0.00):3 with boxes title "Eigen rt heap + Eigen ct stack" lw 2 lt 4 lc 13, \
+	'mitrax_constexpr.dat' using ($1 - 0.15):3 with boxes title "mitrax rt heap + mitrax constexpr" lw 2 lt 1 lc 4, \
