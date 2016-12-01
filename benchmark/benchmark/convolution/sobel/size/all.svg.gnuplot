@@ -27,7 +27,9 @@ plot \
 	'Eigen_ct_stack.dat' using (2.0):3:xtic("Eigen rt heap\nEigen ct stack") with boxes lw 2 lt 4 lc 13, \
 	'mitrax_constexpr_Eigen.dat' using (3.0):3:xtic("mitrax(Eigen) rt heap\nmitrax constexpr") with boxes lw 2 lt 12 lc 10, \
 	'mitrax_constexpr.dat' using (4.0):3:xtic("mitrax rt heap\nmitrax constexpr") with boxes lw 2 lt 1 lc 4, \
+	'mitrax_constexpr_ct_in.dat' using (5.0):3:xtic("mitrax ct heap\nmitrax constexpr") with boxes lw 2 lt 1 lc 4, \
 	'uBLAS_rt_heap.dat' using (1.0):($3+150):(print(round2($3, 2))) with labels, \
 	'Eigen_ct_stack.dat' using (2.0):($3+150):(print(round2($3, 2))) with labels, \
 	'mitrax_constexpr_Eigen.dat' using (3.0):($3+150):(print(round2($3, 2))) with labels, \
 	'mitrax_constexpr.dat' using (4.0):($3+150):(print(round2($3, 2))) with labels, \
+	'mitrax_constexpr_ct_in.dat' using (5.0):($3+150):(print(round2($3, 2))) with labels, \

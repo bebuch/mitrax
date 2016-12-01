@@ -78,6 +78,13 @@ exe benchmark/convolution/sobel/size/mitrax_constexpr_Eigen
 	benchmark
 	;
 
+# Need massively memory and compile time
+# exe benchmark/convolution/sobel/size/mitrax_constexpr_ct_in
+# 	:
+# 	benchmark/convolution/sobel/size/mitrax_constexpr_ct_in.cpp
+# 	benchmark
+# 	;
+
 exe benchmark/convolution/sobel/size/Eigen_ct_stack
 	:
 	benchmark/convolution/sobel/size/Eigen_ct_stack.cpp
