@@ -15,5 +15,5 @@ set key left
 
 plot \
 	'Eigen_ct_stack.dat' using 1:6:xticlabels(2) linetype -3 notitle, \
-	'Eigen_ct_stack.dat' using ($1 + 0.00):4:5:6:7 with candlesticks title "Eigen rt heap + Eigen ct stack", \
-	'mitrax_constexpr.dat' using ($1 - 0.15):4:5:6:7 with candlesticks title "mitrax rt heap + mitrax constexpr", \
+	'Eigen_ct_stack.dat' using ($1 + 0.00):4:5:6:7 with candlesticks title "Eigen rt heap + Eigen ct stack" lw 2 lt 4 lc 13, \
+	'mitrax_constexpr.dat' using ($1 - 0.15):4:5:6:7 with candlesticks title "mitrax rt heap + mitrax constexpr" lw 2 lt 1 lc 4, \

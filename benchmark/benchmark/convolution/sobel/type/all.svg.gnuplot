@@ -18,6 +18,6 @@ set key left
 
 plot \
 	'uBLAS_rt_heap.dat' using 1:6:xticlabels(2) linetype -3 notitle, \
-	'uBLAS_rt_heap.dat' using ($1 + 0.15):4:5:6:7 with candlesticks title "uBLAS rt heap + uBLAS rt heap", \
-	'Eigen_ct_stack.dat' using ($1 + 0.00):4:5:6:7 with candlesticks title "Eigen rt heap + Eigen ct stack", \
-	'mitrax_constexpr.dat' using ($1 - 0.15):4:5:6:7 with candlesticks title "mitrax rt heap + mitrax constexpr", \
+	'uBLAS_rt_heap.dat' using ($1 + 0.15):4:5:6:7 with candlesticks title "uBLAS rt heap + uBLAS rt heap" lw 2 lt 8 lc 7, \
+	'Eigen_ct_stack.dat' using ($1 + 0.00):4:5:6:7 with candlesticks title "Eigen rt heap + Eigen ct stack" lw 2 lt 4 lc 13, \
+	'mitrax_constexpr.dat' using ($1 - 0.15):4:5:6:7 with candlesticks title "mitrax rt heap + mitrax constexpr" lw 2 lt 1 lc 4, \

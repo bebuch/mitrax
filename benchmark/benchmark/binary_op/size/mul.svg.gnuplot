@@ -19,9 +19,9 @@ set key left
 ## Last datafile plotted: "sobel.dat"
 plot \
 	'mul-uBLAS_rt_heap.dat' using 1:3:xticlabels(2) linetype -3 notitle, \
-	'mul-mitrax_rt_heap.dat' using 1:3 with linespoints title "mitrax rt heap", \
-	'mul-mitrax_ct_stack.dat' using 1:3 with linespoints title "mitrax ct stack", \
-	'mul-mitrax_ct_heap.dat' using 1:3 with linespoints title "mitrax ct heap", \
-	'mul-Eigen_rt_heap.dat' using 1:3 with linespoints title "Eigen rt heap", \
-	'mul-Eigen_ct_stack.dat' using 1:3 with linespoints title "Eigen ct stack", \
-	'mul-uBLAS_rt_heap.dat' using 1:3 with linespoints title "uBLAS rt heap", \
+	'mul-mitrax_rt_heap.dat' using 1:3 with linespoints title "mitrax rt heap" lw 2 ps 1.3 lt 2 lc 3, \
+	'mul-mitrax_ct_heap.dat' using 1:3 with linespoints title "mitrax ct heap" lw 2 ps 1.3 lt 6 lc 8, \
+	'mul-mitrax_ct_stack.dat' using 1:3 with linespoints title "mitrax ct stack" lw 2 ps 1.3 lt 1 lc 4, \
+	'mul-Eigen_rt_heap.dat' using 1:3 with linespoints title "Eigen rt heap" lw 2 ps 1.3 lt 12 lc 5, \
+	'mul-Eigen_ct_stack.dat' using 1:3 with linespoints title "Eigen ct stack" lw 2 ps 1.3 lt 4 lc 13, \
+	'mul-uBLAS_rt_heap.dat' using 1:3 with linespoints title "uBLAS rt heap" lw 2 ps 1.3 lt 8 lc 7, \

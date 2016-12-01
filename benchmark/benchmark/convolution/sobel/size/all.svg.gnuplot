@@ -23,7 +23,7 @@ set pointintervalbox 2
 
 plot \
 	'uBLAS_rt_heap.dat' using 1:3:xticlabels(2) linetype -3 notitle, \
-	'uBLAS_rt_heap.dat' using 1:3 with linespoints ls 4 title "uBLAS rt heap + uBLAS rt heap", \
-	'Eigen_ct_stack.dat' using 1:3 with linespoints ls 3 title "Eigen rt heap + Eigen ct stack", \
-	'mitrax_constexpr.dat' using 1:3 with linespoints ls 1 title "mitrax rt heap + mitrax constexpr", \
-	'mitrax_constexpr_Eigen.dat' using 1:3 with linespoints ls 2 title "mitrax(Eigen) rt heap + mitrax constexpr", \
+	'uBLAS_rt_heap.dat' using 1:3 with linespoints title "uBLAS rt heap + uBLAS rt heap" lw 2 ps 1.3 lt 8 lc 7, \
+	'Eigen_ct_stack.dat' using 1:3 with linespoints title "Eigen rt heap + Eigen ct stack" lw 2 ps 1.3 lt 4 lc 13, \
+	'mitrax_constexpr.dat' using 1:3 with linespoints title "mitrax rt heap + mitrax constexpr" lw 2 ps 1.3 lt 1 lc 4, \
+	'mitrax_constexpr_Eigen.dat' using 1:3 with linespoints title "mitrax(Eigen) rt heap + mitrax constexpr" lw 2 ps 1.3 lt 6 lc 8, \
