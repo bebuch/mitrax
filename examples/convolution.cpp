@@ -10,20 +10,125 @@
 #include <mitrax/convert.hpp>
 #include <mitrax/convolution/edge_operators.hpp>
 
-#include <disposer/log.hpp>
-#include <disposer/log_tag.hpp>
-
 #include <iostream>
+#include <iomanip>
+#include <sstream>
+#include <chrono>
+#include <ctime>
 #include <cmath>
 
 
-struct info: disposer::log_tag_base{};
+template < typename CharT, typename Traits >
+inline std::basic_ostream< CharT, Traits >& time_to_string(
+	std::basic_ostream< CharT, Traits >& os,
+	std::chrono::system_clock::time_point const& time =
+		std::chrono::system_clock::now()
+){
+	auto microseconds = std::chrono::duration_cast<
+			std::chrono::microseconds
+		>(time.time_since_epoch());
+	auto localtime = std::chrono::system_clock::to_time_t(time);
+	auto datetime = *std::localtime(&localtime);
+
+	return os
+		<< std::fixed << std::setfill('0')
+		<< std::setw(4) << 1900 + datetime.tm_year << "-"
+		<< std::setw(2) << 1 + datetime.tm_mon << "-"
+		<< std::setw(2) << datetime.tm_mday << " "
+		<< std::setw(2) << datetime.tm_hour << ":"
+		<< std::setw(2) << datetime.tm_min << ":"
+		<< std::setw(2) << datetime.tm_sec << " "
+		<< std::setw(3) << microseconds.count() / 1000 % 1000 << '.'
+		<< std::setw(3) << microseconds.count() % 1000;
+}
+
+template <
+	typename CharT,
+	typename Traits = std::char_traits< CharT >,
+	typename Allocator = std::allocator< CharT >
+>
+inline std::basic_string< CharT, Traits, Allocator > time_to_string(
+	std::chrono::system_clock::time_point const& time =
+		std::chrono::system_clock::now()
+){
+	std::basic_ostringstream< CharT, Traits, Allocator > os;
+
+	time_to_string(os, time);
+
+	return os.str();
+}
+
+inline std::string time_to_string(
+	std::chrono::system_clock::time_point const& time =
+		std::chrono::system_clock::now()
+){
+	return time_to_string< char >(time);
+}
+
+class info{
+public:
+	static std::size_t unique_id(){
+		static std::atomic< std::size_t > next_id(0);
+		return next_id++;
+	}
+
+	info(): id_(unique_id()), start_(std::chrono::system_clock::now()) {}
+
+	void pre(){
+		auto end = std::chrono::system_clock::now();
+
+		os_ << std::setfill('0') << std::setw(6) << id_ << ' ';
+
+		time_to_string(os_, start_);
+
+		os_ << " ( " << std::setfill(' ') << std::setprecision(3)
+			<< std::setw(12)
+			<< std::chrono::duration< double, std::milli >(
+					end - start_
+				).count() << "ms ) ";
+	}
+
+	~info(){
+		std::cout << os_.str() << std::endl;
+	}
+
+	template < typename T >
+	friend info& operator<<(info& log, T&& data){
+		log.os_ << static_cast< T&& >(data);
+		return log;
+	}
+
+private:
+	std::size_t id_;
+	std::ostringstream os_;
+	std::chrono::system_clock::time_point const start_;
+};
 
 
-int main(){
+template < typename Log, typename Body >
+inline decltype(auto) log(Log&& f, Body&& body){
+	info log;
+
+	return [](auto&& f, auto&& body, auto& log)->decltype(auto){
+			try{
+				decltype(auto) result = body();
+				log.pre();
+				f(log);
+				return result;
+			}catch(...){
+				log.pre();
+				f(log);
+				log << " (failed with exception)";
+				throw;
+			}
+		}(static_cast< Log&& >(f), static_cast< Body&& >(body), log);
+}
+
+
+
+int main()try{
 	using namespace mitrax;
 	using namespace mitrax::literals;
-	using disposer::log;
 
 	auto m = make_matrix_v< std::uint16_t >(3264_Cd, 2448_Rd);
 	mitrax::png::load(m, "image_01.png");
@@ -156,4 +261,8 @@ int main(){
 		mitrax::png::save(normalize(ma), "image_A3.png");
 		mitrax::png::save(normalize(md), "image_D3.png");
 	}
+}catch(std::exception const& e){
+	std::cerr << "Terminate with exception: " << e.what() << "\n";
+}catch(...){
+	std::cerr << "Terminate with unknown exception.\n";
 }
