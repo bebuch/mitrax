@@ -1,9 +1,9 @@
 set terminal svg size 1000,500 fname 'Verdana' fsize 13
 set output 'mul-plot.svg'
 
-set title "Matrix multiplication Benchmark"
-set xlabel "Number of elements"
-set ylabel "Runtime in ms"
+set title "Matrixmultiplikation"
+set xlabel "Anzahl der Elemente"
+set ylabel "Laufzeit in ms"
 
 set grid y
 set boxwidth 0.1 absolute

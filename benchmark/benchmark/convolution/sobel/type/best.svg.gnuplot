@@ -1,9 +1,9 @@
 set terminal svg size 1000,500 fname 'Verdana' fsize 13
 set output 'best-plot.svg'
 
-set title "Sobel-Operator Benchmark"
+set title "Sobel-Operator"
 set xlabel "Benchmark"
-set ylabel "Runtime in ms"
+set ylabel "Laufzeit in ms"
 
 set grid y
 set boxwidth 0.1 absolute
