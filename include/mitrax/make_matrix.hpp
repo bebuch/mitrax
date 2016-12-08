@@ -139,7 +139,7 @@ namespace mitrax{
 		row_t< Nct, N > r, F&& f, Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
-		return maker.by_sequence(1_C, r,
+		return maker.by_sequence(1_c, r,
 			make_function_iterator(static_cast< F&& >(f)));
 	}
 
@@ -148,7 +148,7 @@ namespace mitrax{
 		col_t< Nct, N > c, F&& f, Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
-		return maker.by_sequence(c, 1_R,
+		return maker.by_sequence(c, 1_r,
 			make_function_iterator(static_cast< F&& >(f)));
 	}
 
@@ -194,7 +194,7 @@ namespace mitrax{
 		row_t< Nct, N > r, T const& v = T(), Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
-		return make_matrix_v(1_C, r, v, static_cast< Maker&& >(maker));
+		return make_matrix_v(1_c, r, v, static_cast< Maker&& >(maker));
 	}
 
 	template < typename T, bool Nct, size_t N, typename Maker = maker::std_t >
@@ -202,7 +202,7 @@ namespace mitrax{
 		col_t< Nct, N > c, T const& v = T(), Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
-		return make_matrix_v(c, 1_R, v, static_cast< Maker&& >(maker));
+		return make_matrix_v(c, 1_r, v, static_cast< Maker&& >(maker));
 	}
 
 	template < typename T, bool Nct, size_t N, typename Maker = maker::std_t >
@@ -255,7 +255,7 @@ namespace mitrax{
 		row_t< Nct, N > r, I i, Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
-		return make_matrix_i(1_C, r, i, static_cast< Maker&& >(maker));
+		return make_matrix_i(1_c, r, i, static_cast< Maker&& >(maker));
 	}
 
 	template < typename I, bool Nct, size_t N, typename Maker = maker::std_t >
@@ -263,7 +263,7 @@ namespace mitrax{
 		col_t< Nct, N > c, I i, Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
-		return make_matrix_i(c, 1_R, i, static_cast< Maker&& >(maker));
+		return make_matrix_i(c, 1_r, i, static_cast< Maker&& >(maker));
 	}
 
 	template < typename I, bool Nct, size_t N, typename Maker = maker::std_t >
@@ -350,7 +350,7 @@ namespace mitrax{
 		row_t< Nct, N > r, T(&&v)[N], Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
-		return make_matrix_i(1_C, r,
+		return make_matrix_i(1_c, r,
 			mitrax::make_move_iterator(mitrax::begin(v)),
 				static_cast< Maker&& >(maker));
 	}
@@ -360,7 +360,7 @@ namespace mitrax{
 		row_t< Nct, N > r, T(&v)[N], Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
-		return make_matrix_i(1_C, r, mitrax::begin(v),
+		return make_matrix_i(1_c, r, mitrax::begin(v),
 			static_cast< Maker&& >(maker));
 	}
 
@@ -380,7 +380,7 @@ namespace mitrax{
 		col_t< Nct, N > c, T(&&v)[N], Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
-		return make_matrix_i(c, 1_R,
+		return make_matrix_i(c, 1_r,
 			mitrax::make_move_iterator(mitrax::begin(v)),
 			static_cast< Maker&& >(maker));
 	}
@@ -390,7 +390,7 @@ namespace mitrax{
 		col_t< Nct, N > c, T(&v)[N], Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
-		return make_matrix_i(c, 1_R, mitrax::begin(v),
+		return make_matrix_i(c, 1_r, mitrax::begin(v),
 			static_cast< Maker&& >(maker));
 	}
 

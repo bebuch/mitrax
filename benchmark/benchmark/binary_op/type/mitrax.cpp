@@ -22,11 +22,11 @@ void BM_matrix_multiplication(benchmark::State& state){
 		std::numeric_limits< T2 >::max()
 	);
 
-	auto m1 = make_matrix_fn(100_Cd, 50_Rd, [&dis1, &gen](auto, auto){
+	auto m1 = make_matrix_fn(100_cd, 50_rd, [&dis1, &gen](auto, auto){
 		return dis1(gen);
 	});
 
-	auto m2 = make_matrix_fn(50_Cd, 100_Rd, [&dis2, &gen](auto, auto){
+	auto m2 = make_matrix_fn(50_cd, 100_rd, [&dis2, &gen](auto, auto){
 		return dis2(gen);
 	});
 

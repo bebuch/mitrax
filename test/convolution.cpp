@@ -20,7 +20,7 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-constexpr auto image = make_matrix< int >(5_D, {
+constexpr auto image = make_matrix< int >(5_d, {
 	{1, 2, 3, 4, 5},
 	{2, 3, 4, 5, 6},
 	{3, 4, 5, 6, 7},
@@ -28,7 +28,7 @@ constexpr auto image = make_matrix< int >(5_D, {
 	{5, 6, 7, 8, 9}
 });
 
-constexpr auto sobel_x = make_matrix< int >(3_D, {
+constexpr auto sobel_x = make_matrix< int >(3_d, {
 	{1, 0, -1},
 	{2, 0, -2},
 	{1, 0, -1}

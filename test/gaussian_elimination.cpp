@@ -21,25 +21,25 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-constexpr auto ref1 = make_matrix< float >(3_D, {
+constexpr auto ref1 = make_matrix< float >(3_d, {
 	{1, 2, 3},
 	{1, 1, 1},
 	{3, 3, 1}
 });
 
-constexpr auto ref2 = make_matrix< float >(3_D, {
+constexpr auto ref2 = make_matrix< float >(3_d, {
 	{1, 2, 3},
 	{4, 5, 6},
 	{7, 8, 9}
 });
 
-constexpr auto ref3 = make_matrix< float >(3_D, {
+constexpr auto ref3 = make_matrix< float >(3_d, {
 	{-1,  2, 0},
 	{ 1,  0, 1},
 	{ 2, -4, 0}
 });
 
-constexpr auto ref4 = make_matrix< float >(3_D, {
+constexpr auto ref4 = make_matrix< float >(3_d, {
 	{1, 2, 3},
 	{4, 5, 6},
 	{0, 0, 0}
@@ -130,13 +130,13 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_numeric){
 }
 
 BOOST_AUTO_TEST_CASE(test_gaussian_elimination){
-	constexpr auto m = make_matrix< float >(3_D, {
+	constexpr auto m = make_matrix< float >(3_d, {
 		{ 1  , -0.2, -0.2},
 		{-0.4,  0.8, -0.1},
 		{ 0  , -0.5,  0.9}
 	});
 
-	constexpr auto v = make_vector< float >(3_R, {7, 12.5, 16.5});
+	constexpr auto v = make_vector< float >(3_r, {7, 12.5, 16.5});
 
 	auto res = gaussian_elimination(m, v);
 
@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_CASE(test_gaussian_elimination){
 }
 
 BOOST_AUTO_TEST_CASE(test_inverse_2x2){
-	constexpr auto m = make_matrix< float >(2_D, {
+	constexpr auto m = make_matrix< float >(2_d, {
 		{2, 5},
 		{1, 3}
 	});
@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE(test_inverse_2x2){
 }
 
 BOOST_AUTO_TEST_CASE(test_inverse_3x3_1){
-	constexpr auto m = make_matrix< float >(3_D, {
+	constexpr auto m = make_matrix< float >(3_d, {
 		{1, 2, 0},
 		{2, 4, 1},
 		{2, 1, 0}
@@ -192,7 +192,7 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_1){
 }
 
 BOOST_AUTO_TEST_CASE(test_inverse_3x3_2){
-	constexpr auto m = make_matrix< float >(3_D, {
+	constexpr auto m = make_matrix< float >(3_d, {
 		{ 2, -1,  0},
 		{-1,  2, -1},
 		{ 0, -1,  2}
@@ -216,7 +216,7 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_2){
 }
 
 BOOST_AUTO_TEST_CASE(test_inverse_3x3_3){
-	constexpr auto m = make_matrix< float >(3_D, {
+	constexpr auto m = make_matrix< float >(3_d, {
 		{ 2, -1,  0},
 		{ 1,  2, -2},
 		{ 0, -1,  1}

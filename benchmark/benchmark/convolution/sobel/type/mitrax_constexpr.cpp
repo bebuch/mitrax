@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
 	using dt = auto_dim_pair_t< 0, 0 >;
 
 	for(auto& d: std::vector< dt >{
-		{1024_Cd, 1024_Rd}
+		{1024_cd, 1024_rd}
 	}){
 		benchmark::RegisterBenchmark("i1->i1", BM_sobel< i1, i1, dt >, d);
 		benchmark::RegisterBenchmark("u1->i2", BM_sobel< u1, i2, dt >, d);

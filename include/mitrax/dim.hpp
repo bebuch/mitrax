@@ -521,44 +521,44 @@ namespace mitrax::literals{
 
 
 	template < char ... C >
-	constexpr auto operator"" _C()noexcept{
+	constexpr auto operator"" _c()noexcept{
 		static_assert(
 			detail::parse_int< sizeof...(C) >({C ...}),
-			"Compile time cols can not be 0, use '_Cd' prefix instead"
+			"Compile time cols can not be 0, use '_cd' prefix instead"
 		);
 		return cols< detail::parse_int< sizeof...(C) >({C ...}) >();
 	}
 
 	template < char ... C >
-	constexpr auto operator"" _Cd()noexcept{
+	constexpr auto operator"" _cd()noexcept{
 		return cols_rt< detail::parse_int< sizeof...(C) >({C ...}) >();
 	}
 
 	template < char ... C >
-	constexpr auto operator"" _R()noexcept{
+	constexpr auto operator"" _r()noexcept{
 		static_assert(
 			detail::parse_int< sizeof...(C) >({C ...}),
-			"Compile time rows can not be 0, use '_Rd' prefix instead"
+			"Compile time rows can not be 0, use '_rd' prefix instead"
 		);
 		return rows< detail::parse_int< sizeof...(C) >({C ...}) >();
 	}
 
 	template < char ... C >
-	constexpr auto operator"" _Rd()noexcept{
+	constexpr auto operator"" _rd()noexcept{
 		return rows_rt< detail::parse_int< sizeof...(C) >({C ...}) >();
 	}
 
 	template < char ... C >
-	constexpr auto operator"" _D()noexcept{
+	constexpr auto operator"" _d()noexcept{
 		static_assert(
 			detail::parse_int< sizeof...(C) >({C ...}),
-			"Compile time dims can not be 0, use '_Dd' prefix instead"
+			"Compile time dims can not be 0, use '_dd' prefix instead"
 		);
 		return dims< detail::parse_int< sizeof...(C) >({C ...}) >();
 	}
 
 	template < char ... C >
-	constexpr auto operator"" _Dd()noexcept{
+	constexpr auto operator"" _dd()noexcept{
 		return dims_rt< detail::parse_int< sizeof...(C) >({C ...}) >();
 	}
 

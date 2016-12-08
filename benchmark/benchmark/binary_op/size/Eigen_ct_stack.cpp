@@ -54,21 +54,21 @@ void bm(benchmark::State& state, Op op, D1, D2){
 namespace init{
 
 	constexpr auto dimensions = boost::hana::make_tuple(
-			dim_pair(2_C, 2_R),
-			dim_pair(4_C, 2_R),
-			dim_pair(8_C, 2_R),
-			dim_pair(8_C, 4_R),
-			dim_pair(8_C, 8_R),
-			dim_pair(8_C, 16_R),
-			dim_pair(8_C, 32_R),
-			dim_pair(8_C, 64_R),
-			dim_pair(16_C, 64_R),
-			dim_pair(32_C, 64_R),
-			dim_pair(64_C, 64_R)/*,
-			dim_pair(128_C, 64_R),
-			dim_pair(256_C, 64_R),
-			dim_pair(256_C, 128_R),
-			dim_pair(256_C, 256_R)*/
+			dim_pair(2_c, 2_r),
+			dim_pair(4_c, 2_r),
+			dim_pair(8_c, 2_r),
+			dim_pair(8_c, 4_r),
+			dim_pair(8_c, 8_r),
+			dim_pair(8_c, 16_r),
+			dim_pair(8_c, 32_r),
+			dim_pair(8_c, 64_r),
+			dim_pair(16_c, 64_r),
+			dim_pair(32_c, 64_r),
+			dim_pair(64_c, 64_r)/*,
+			dim_pair(128_c, 64_r),
+			dim_pair(256_c, 64_r),
+			dim_pair(256_c, 128_r),
+			dim_pair(256_c, 256_r)*/
 		);
 
 	using plus = std::plus<>;

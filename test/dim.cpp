@@ -68,14 +68,14 @@ void default_construct(){
 void dim_literal(){
 	using namespace mitrax::literals;
 
-	BOOST_TEST((rt_id(3_C) == id< col_t< true, 3 > >));
-	BOOST_TEST((rt_id(3_Cd) == id< col_t< false, 3 > >));
+	BOOST_TEST((rt_id(3_c) == id< col_t< true, 3 > >));
+	BOOST_TEST((rt_id(3_cd) == id< col_t< false, 3 > >));
 
-	BOOST_TEST((rt_id(3_R) == id< row_t< true, 3 > >));
-	BOOST_TEST((rt_id(3_Rd) == id< row_t< false, 3 > >));
+	BOOST_TEST((rt_id(3_r) == id< row_t< true, 3 > >));
+	BOOST_TEST((rt_id(3_rd) == id< row_t< false, 3 > >));
 
-	BOOST_TEST((rt_id(3_D) == id< dim_t< true, 3 > >));
-	BOOST_TEST((rt_id(3_Dd) == id< dim_t< false, 3 > >));
+	BOOST_TEST((rt_id(3_d) == id< dim_t< true, 3 > >));
+	BOOST_TEST((rt_id(3_dd) == id< dim_t< false, 3 > >));
 }
 
 template < template < bool, size_t > typename DimT >
@@ -652,25 +652,25 @@ constexpr void dim_compare_test(
 void dim_pair_t_compare(){
 	using namespace ::mitrax::literals;
 
-	constexpr auto cc1 = dim_pair(3_C, 4_R);
-	constexpr auto cr1 = dim_pair(3_C, 4_Rd);
-	constexpr auto rc1 = dim_pair(3_Cd, 4_R);
-	constexpr auto rr1 = dim_pair(3_Cd, 4_Rd);
+	constexpr auto cc1 = dim_pair(3_c, 4_r);
+	constexpr auto cr1 = dim_pair(3_c, 4_rd);
+	constexpr auto rc1 = dim_pair(3_cd, 4_r);
+	constexpr auto rr1 = dim_pair(3_cd, 4_rd);
 
-	constexpr auto cc2 = dim_pair(6_C, 5_R);
-	constexpr auto cr2 = dim_pair(6_C, 5_Rd);
-	constexpr auto rc2 = dim_pair(6_Cd, 5_R);
-	constexpr auto rr2 = dim_pair(6_Cd, 5_Rd);
+	constexpr auto cc2 = dim_pair(6_c, 5_r);
+	constexpr auto cr2 = dim_pair(6_c, 5_rd);
+	constexpr auto rc2 = dim_pair(6_cd, 5_r);
+	constexpr auto rr2 = dim_pair(6_cd, 5_rd);
 
-	constexpr auto cc3 = dim_pair(3_C, 5_R);
-	constexpr auto cr3 = dim_pair(3_C, 5_Rd);
-	constexpr auto rc3 = dim_pair(3_Cd, 5_R);
-	constexpr auto rr3 = dim_pair(3_Cd, 5_Rd);
+	constexpr auto cc3 = dim_pair(3_c, 5_r);
+	constexpr auto cr3 = dim_pair(3_c, 5_rd);
+	constexpr auto rc3 = dim_pair(3_cd, 5_r);
+	constexpr auto rr3 = dim_pair(3_cd, 5_rd);
 
-	constexpr auto cc4 = dim_pair(6_C, 4_R);
-	constexpr auto cr4 = dim_pair(6_C, 4_Rd);
-	constexpr auto rc4 = dim_pair(6_Cd, 4_R);
-	constexpr auto rr4 = dim_pair(6_Cd, 4_Rd);
+	constexpr auto cc4 = dim_pair(6_c, 4_r);
+	constexpr auto cr4 = dim_pair(6_c, 4_rd);
+	constexpr auto rc4 = dim_pair(6_cd, 4_r);
+	constexpr auto rr4 = dim_pair(6_cd, 4_rd);
 
 
 	dim_compare_test(cc1, cc1, true);

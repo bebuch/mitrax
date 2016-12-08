@@ -129,11 +129,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_std, T, types){
 	constexpr auto init_p = mitrax::begin(init_i);
 	constexpr auto fn = fn_xy_t< T >();
 
-	auto m1 = make_matrix_v< T >(3_C, 3_R);
-	auto m2 = make_matrix_v< T >(3_Cd, 3_R);
-	auto m3 = make_matrix_v< T >(3_C, 3_Rd);
-	auto m4 = make_matrix_v< T >(3_Cd, 3_Rd);
-	auto m5 = make_matrix_v(3_C, 3_R, T(), maker::heap);
+	auto m1 = make_matrix_v< T >(3_c, 3_r);
+	auto m2 = make_matrix_v< T >(3_cd, 3_r);
+	auto m3 = make_matrix_v< T >(3_c, 3_rd);
+	auto m4 = make_matrix_v< T >(3_cd, 3_rd);
+	auto m5 = make_matrix_v(3_c, 3_r, T(), maker::heap);
 
 	BOOST_TEST((check(m1, ref_0)));
 	BOOST_TEST((check(m2, ref_0)));
@@ -183,8 +183,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_ct, T, types){
 	constexpr T ref_i[3][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
 	constexpr T ref_v[3][3] = {{7, 7, 7}, {7, 7, 7}, {7, 7, 7}};
 
-	auto m1 = make_matrix_v< T >(3_C, 3_R);
-	auto m2 = make_matrix_v(3_C, 3_R, T(), maker::heap);
+	auto m1 = make_matrix_v< T >(3_c, 3_r);
+	auto m2 = make_matrix_v(3_c, 3_r, T(), maker::heap);
 
 	reinit(m1, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
 	reinit(m2, {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}});
@@ -215,10 +215,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_vector, T, types){
 	constexpr T ref_v_r[1][3] = {{7, 7, 7}};
 	constexpr auto fn = fn_i_t< T >();
 
-	auto mc1 = make_vector_v< T >(3_R);
-	auto mc2 = make_vector_v(3_R, T(), maker::heap);
-	auto mr1 = make_vector_v< T >(3_C);
-	auto mr2 = make_vector_v(3_C, T(), maker::heap);
+	auto mc1 = make_vector_v< T >(3_r);
+	auto mc2 = make_vector_v(3_r, T(), maker::heap);
+	auto mr1 = make_vector_v< T >(3_c);
+	auto mr2 = make_vector_v(3_c, T(), maker::heap);
 
 	reinit_vector_fn(mc1, fn);
 	reinit_vector_fn(mc2, fn);

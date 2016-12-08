@@ -29,7 +29,7 @@ namespace mitrax{
 		auto r = m;
 		auto q = identity;
 
-		for(size_t i = 0; i < m.cols() - 1_C; ++i){
+		for(size_t i = 0; i < m.cols() - 1_c; ++i){
 			auto v = make_vector_fn(m.rows(),
 				[i, &r](size_t y){
 					if(y < i) return value_type();

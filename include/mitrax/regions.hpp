@@ -78,16 +78,16 @@ namespace mitrax{
 		);
 
 		auto result_dims =
-			(size - dim_pair(1_C, 1_R) - (region_dims - overlapp_dims)) /
-			(region_dims - overlapp_dims) + dim_pair(1_C, 1_R);
+			(size - dim_pair(1_c, 1_r) - (region_dims - overlapp_dims)) /
+			(region_dims - overlapp_dims) + dim_pair(1_c, 1_r);
 
 		double x_factor =
 			static_cast< double >(size.cols() - region_dims.cols()) /
-			static_cast< double >(result_dims.cols() - 1_C);
+			static_cast< double >(result_dims.cols() - 1_c);
 
 		double y_factor =
 			static_cast< double >(size.rows() - region_dims.rows()) /
-			static_cast< double >(result_dims.rows() - 1_R);
+			static_cast< double >(result_dims.rows() - 1_r);
 
 		return make_matrix_fn(result_dims, make_multi_invoke_adapter(
 			static_cast< F&& >(f), detail::make_region_sub_matrix(
@@ -138,14 +138,14 @@ namespace mitrax{
 
 		double x_factor =
 			static_cast< double >(size.cols() - region_dims.cols()) /
-			static_cast< double >(regions.cols() - 1_C);
+			static_cast< double >(regions.cols() - 1_c);
 
 		double y_factor =
 			static_cast< double >(size.rows() - region_dims.rows()) /
-			static_cast< double >(regions.rows() - 1_R);
+			static_cast< double >(regions.rows() - 1_r);
 
 
-		auto x_bounds = make_vector_fn(regions.cols().as_row() * 2_R,
+		auto x_bounds = make_vector_fn(regions.cols().as_row() * 2_r,
 			[x_factor, &region_dims](size_t i){
 				auto p = static_cast< size_t >((i / 2) * x_factor + 0.5);
 				bool begin = i % 2 == 0;
@@ -156,7 +156,7 @@ namespace mitrax{
 			}
 		);
 
-		auto y_bounds = make_vector_fn(regions.rows() * 2_R,
+		auto y_bounds = make_vector_fn(regions.rows() * 2_r,
 			[y_factor, &region_dims](size_t i){
 				auto p = static_cast< size_t >((i / 2) * y_factor + 0.5);
 				bool begin = i % 2 == 0;
@@ -174,7 +174,7 @@ namespace mitrax{
 		std::vector< std::tuple< size_t, size_t, size_t > > x_sc;
 		std::vector< std::tuple< size_t, size_t, size_t > > y_sc;
 
-		for(size_t x = 0, s = 0, c = 0; x < x_bounds.rows() - 1_R; ++x){
+		for(size_t x = 0, s = 0, c = 0; x < x_bounds.rows() - 1_r; ++x){
 			if(x_bounds[x].second){
 				++c;
 			}else{
@@ -187,7 +187,7 @@ namespace mitrax{
 			x_sc.emplace_back(x_bounds[x].first, s, c);
 		}
 
-		for(size_t y = 0, s = 0, c = 0; y < y_bounds.rows() - 1_R; ++y){
+		for(size_t y = 0, s = 0, c = 0; y < y_bounds.rows() - 1_r; ++y){
 			if(y_bounds[y].second){
 				++c;
 			}else{

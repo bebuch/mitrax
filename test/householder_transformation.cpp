@@ -42,14 +42,14 @@ BOOST_AUTO_TEST_SUITE(suite_householder_transformation)
 
 
 // BOOST_AUTO_TEST_CASE(test_householder_transformation){
-// 	constexpr auto m = make_matrix< double >(3_D, {
+// 	constexpr auto m = make_matrix< double >(3_d, {
 // 		{0, -4,  2},
 // 		{6, -3, -2},
 // 		{8,  1, -1}
 // 	});
 //
-// 	auto q = make_matrix< double >(3_D);
-// 	auto r = make_matrix< double >(3_D);
+// 	auto q = make_matrix< double >(3_d);
+// 	auto r = make_matrix< double >(3_d);
 //
 // 	std::tie(q, r) = householder_transformation(m);
 //

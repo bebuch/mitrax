@@ -5,7 +5,7 @@
 namespace init{
 
 	constexpr auto dimensions = boost::hana::make_tuple(
-			dim_pair(1024_C, 1024_R)
+			dim_pair(1024_c, 1024_r)
 		);
 
 	using type = float;
