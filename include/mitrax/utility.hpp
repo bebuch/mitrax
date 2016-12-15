@@ -53,19 +53,6 @@ namespace mitrax{
 	using enable_if_t = std::enable_if_t< Condition, int >;
 
 
-	template < size_t C, size_t R >
-	struct is_static: std::true_type{};
-
-	template < size_t R >
-	struct is_static< 0, R >: std::false_type{};
-
-	template < size_t C >
-	struct is_static< C, 0 >: std::false_type{};
-
-	template <>
-	struct is_static< 0, 0 >: std::false_type{};
-
-
 	template< typename Result, typename T, typename = void >
 	struct has_data: std::false_type{};
 
@@ -104,6 +91,19 @@ namespace mitrax{
 	template< typename T >
 	using iterator_fn_t = typename iterator_fn< T >::type;
 
+
+	template < template < typename, typename > typename checker,
+		typename ... T >
+	struct is_all: std::true_type{};
+
+	template < template < typename, typename > typename checker,
+		typename T0, typename T1, typename ... T >
+	struct is_all< checker, T0, T1, T ... >: std::bool_constant<
+		checker< T0, T1 >::value && is_all< checker, T0, T ... >::value >{};
+
+	template < template < typename, typename > typename checker,
+		typename ... T >
+	constexpr bool is_all_v = is_all< checker, T ... >::value;
 
 }
 

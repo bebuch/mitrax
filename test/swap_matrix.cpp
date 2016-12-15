@@ -239,7 +239,6 @@ BOOST_AUTO_TEST_CASE(test_swap_cols_m_0_m_2){
 			m(0, 2) == 8 &&
 			m(1, 2) == 7 &&
 			m(2, 2) == 6;
-
 	};
 
 	BOOST_TEST(check(m1));

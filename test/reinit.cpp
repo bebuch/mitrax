@@ -38,8 +38,8 @@ constexpr bool check_fn(
 	using value_type = value_type_t< Matrix >;
 
 	bool res = true;
-	res &= m.cols() == cols< RefC >();
-	res &= m.rows() == rows< RefR >();
+	res &= m.cols() == cols< col_ct(RefC) >();
+	res &= m.rows() == rows< row_ct(RefR) >();
 
 	for(size_t y = 0; y < RefR; ++y){
 		for(size_t x = 0; x < RefC; ++x){
@@ -47,7 +47,7 @@ constexpr bool check_fn(
 		}
 	}
 
-	if constexpr(Matrix::ct_cols == 1 || Matrix::ct_rows == 1){
+	if constexpr(Matrix::ct_cols == 1_C || Matrix::ct_rows == 1_R){
 		auto vec_ref =
 			reinterpret_cast< value_type const(&)[RefC * RefR] >(ref);
 
@@ -56,14 +56,14 @@ constexpr bool check_fn(
 		}
 	}
 
-	if constexpr(Matrix::ct_cols == 1 && Matrix::ct_rows == 1){
+	if constexpr(Matrix::ct_cols == 1_C && Matrix::ct_rows == 1_R){
 		res &= static_cast< value_type >(m) == ref[0][0];
 	}
 
 	return res;
 }
 
-template < typename M, size_t C, size_t R, size_t RefC, size_t RefR >
+template < typename M, col_ct C, row_ct R, size_t RefC, size_t RefR >
 constexpr bool check(
 	matrix< M, C, R > const& m,
 	value_type_t< M > const(&ref)[RefR][RefC]
@@ -71,7 +71,7 @@ constexpr bool check(
 	return check_fn(m, ref);
 }
 
-template < typename M, size_t C, size_t R, size_t RefC, size_t RefR >
+template < typename M, col_ct C, row_ct R, size_t RefC, size_t RefR >
 constexpr bool check(
 	matrix< M, C, R >& m,
 	value_type_t< M > const(&ref)[RefR][RefC]

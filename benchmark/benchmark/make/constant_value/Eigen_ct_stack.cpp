@@ -13,7 +13,7 @@ template < typename T, typename D >
 [[gnu::noinline]]
 void bm(benchmark::State& state, T v, D){
 	while(state.KeepRunning()){
-		Eigen::Matrix< T, D::ct_rows, D::ct_cols > m;
+		Eigen::Matrix< T, size_t(D::ct_rows), size_t(D::ct_cols) > m;
 		m.fill(v);
 
 		benchmark::DoNotOptimize(m);

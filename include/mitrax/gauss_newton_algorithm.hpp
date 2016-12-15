@@ -24,7 +24,7 @@
 namespace mitrax{
 
 
-	template < typename F, typename M, size_t R, typename T, typename ... V >
+	template < typename F, typename M, row_ct R, typename T, typename ... V >
 	auto gauss_newton_algorithm(
 		F&& f,
 		col_vector< M, R > const& start_value,
@@ -72,7 +72,7 @@ namespace mitrax{
 	}
 
 
-	template < typename F, typename M, size_t R, typename T, typename ... V >
+	template < typename F, typename M, row_ct R, typename T, typename ... V >
 	auto levenberg_marquardt_algorithm(
 		F&& f,
 		col_vector< M, R > const& start_value,

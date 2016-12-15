@@ -43,7 +43,7 @@ namespace mitrax{
 	struct default_constructor_key{};
 
 
-	template < typename M, size_t Cols, size_t Rows >
+	template < typename M, col_ct Cols, row_ct Rows >
 	class matrix final{
 	public:
 		// TODO: Check if M is a matrix_impl type!!!
@@ -57,8 +57,8 @@ namespace mitrax{
 			"::mitrax::default_constructor_key as first parameter");
 
 
-		static constexpr size_t ct_cols = Cols;
-		static constexpr size_t ct_rows = Rows;
+		static constexpr col_ct ct_cols = Cols;
+		static constexpr row_ct ct_rows = Rows;
 
 
 		/// \brief Type of the matrix implementation
@@ -132,11 +132,11 @@ namespace mitrax{
 		constexpr matrix& operator=(matrix const&) = default;
 
 
-		constexpr col_t< Cols != 0, Cols > cols()const noexcept{
+		constexpr col_t< Cols != 0_C, Cols > cols()const noexcept{
 			return m_.cols();
 		}
 
-		constexpr row_t< Rows != 0, Rows > rows()const noexcept{
+		constexpr row_t< Rows != 0_R, Rows > rows()const noexcept{
 			return m_.rows();
 		}
 
@@ -150,48 +150,48 @@ namespace mitrax{
 
 
 		constexpr decltype(auto) operator()(size_t x, size_t y){
-			assert(x < cols() && y < rows());
+			assert(x < size_t(cols()) && y < size_t(rows()));
 			return m_(x, y);
 		}
 
 		constexpr decltype(auto) operator()(size_t x, size_t y)const{
-			assert(x < cols() && y < rows());
+			assert(x < size_t(cols()) && y < size_t(rows()));
 			return m_(x, y);
 		}
 
 
 		constexpr decltype(auto) operator[](size_t i){
 			static_assert(
-				Cols == 1 || Rows == 1,
+				Cols == 1_C || Rows == 1_R,
 				"access operator only allowed for compile time dim vectors"
 			);
 
-			if constexpr(Cols == 1 && Rows == 1){
+			if constexpr(Cols == 1_C && Rows == 1_R){
 				assert(i == 0);
 				return m_(0, 0);
-			}else if(Cols == 1){
-				assert(i < rows());
+			}else if(Cols == 1_C){
+				assert(i < size_t(rows()));
 				return m_(0, i);
 			}else{
-				assert(i < cols());
+				assert(i < size_t(cols()));
 				return m_(i, 0);
 			}
 		}
 
 		constexpr decltype(auto) operator[](size_t i)const{
 			static_assert(
-				Cols == 1 || Rows == 1,
+				Cols == 1_C || Rows == 1_R,
 				"access operator only allowed for compile time dim vectors"
 			);
 
-			if constexpr(Cols == 1 && Rows == 1){
+			if constexpr(Cols == 1_C && Rows == 1_R){
 				assert(i == 0);
 				return m_(0, 0);
-			}else if(Cols == 1){
-				assert(i < rows());
+			}else if(Cols == 1_C){
+				assert(i < size_t(rows()));
 				return m_(0, i);
 			}else{
-				assert(i < cols());
+				assert(i < size_t(cols()));
 				return m_(i, 0);
 			}
 		}
@@ -199,7 +199,7 @@ namespace mitrax{
 
 		constexpr operator value_type const&()const{
 			static_assert(
-				Cols == 1 && Rows == 1,
+				Cols == 1_C && Rows == 1_R,
 				"value conversion is only allowed for compile time dim "
 				"matrices with one element"
 			);
@@ -209,7 +209,7 @@ namespace mitrax{
 
 		constexpr operator value_type&(){
 			static_assert(
-				Cols == 1 && Rows == 1,
+				Cols == 1_C && Rows == 1_R,
 				"value conversion is only allowed for compile time dim "
 				"matrices with one element"
 			);
@@ -321,7 +321,7 @@ namespace mitrax{
 // 		–– (or only by implementation maker type???) –– <- no, copy and move is by matrix …
 // 	Priority: Default-Constructor! It can by protected by keypass :-D
 // 	class matrix_impl_base{
-// 		template < typename M, size_t C, size_t R > friend class matrix;
+// 		template < typename M, col_ct C, row_ct R > friend class matrix;
 // 	protected:
 // 		constexpr matrix_impl_base()noexcept = default;
 // 		constexpr matrix_impl_base(matrix_impl_base const&)noexcept = default;
@@ -332,17 +332,17 @@ namespace mitrax{
 // 	};
 
 
-	template < typename ... M, size_t ... C, size_t ... R >
+	template < typename ... M, col_ct ... C, row_ct ... R >
 	constexpr auto get_cols(matrix< M, C, R > const& ... m){
 		return get(m.cols() ...);
 	}
 
-	template < typename ... M, size_t ... C, size_t ... R >
+	template < typename ... M, col_ct ... C, row_ct ... R >
 	constexpr auto get_rows(matrix< M, C, R > const& ... m){
 		return get(m.rows() ...);
 	}
 
-	template < typename ... M, size_t ... C, size_t ... R >
+	template < typename ... M, col_ct ... C, row_ct ... R >
 	constexpr auto get_dims(matrix< M, C, R > const& ... m){
 		return get(m.dims() ...);
 	}

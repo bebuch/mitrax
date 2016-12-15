@@ -17,34 +17,34 @@
 namespace mitrax{
 
 
-	template < typename charT, typename traits, bool Cct, size_t C >
+	template < typename charT, typename traits, bool Cct, col_ct C >
 	std::basic_ostream< charT, traits >& operator<<(
 		std::basic_ostream< charT, traits >& os, col_t< Cct, C > col
 	){
 		return os << size_t(col);
 	}
 
-	template < typename charT, typename traits, bool Rct, size_t R >
+	template < typename charT, typename traits, bool Rct, row_ct R >
 	std::basic_ostream< charT, traits >& operator<<(
 		std::basic_ostream< charT, traits >& os, row_t< Rct, R > row
 	){
 		return os << size_t(row);
 	}
 
-	template < typename charT, typename traits, bool Nct, size_t N >
+	template < typename charT, typename traits, bool Dct, dim_ct D >
 	std::basic_ostream< charT, traits >& operator<<(
-		std::basic_ostream< charT, traits >& os, dim_t< Nct, N > dim
+		std::basic_ostream< charT, traits >& os, dim_t< Dct, D > dim
 	){
 		return os << size_t(dim);
 	}
 
 	template < typename charT, typename traits,
-		bool Cct, size_t C, bool Rct, size_t R >
+		bool Cct, col_ct C, bool Rct, row_ct R >
 	std::basic_ostream< charT, traits >& operator<<(
 		std::basic_ostream< charT, traits >& os,
 		dim_pair_t< Cct, C, Rct, R > const& dim
 	){
-		return os << dim.cols() << "x" << dim.rows();
+		return os << size_t(dim.cols()) << "x" << size_t(dim.rows());
 	}
 
 

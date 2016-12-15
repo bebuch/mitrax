@@ -17,14 +17,14 @@
 namespace mitrax{
 
 
-	template < typename M, size_t C, size_t R >
+	template < typename M, col_ct C, row_ct R >
 	std::ostream& operator<<(std::ostream& os, matrix< M, C, R > const& m){
 		os << '[' << m.cols() << ',' << m.rows() << ']';
 		os << '(';
-		for(size_t y = 0; y < m.rows(); ++y){
+		for(size_t y = 0; y < size_t(m.rows()); ++y){
 			if(y > 0) os << ',';
 			os << '(';
-			for(size_t x = 0; x < m.cols(); ++x){
+			for(size_t x = 0; x < size_t(m.cols()); ++x){
 				if(x > 0) os << ',';
 				os << m(x, y);
 			}

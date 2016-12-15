@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 	using f4 = float;
 	using f8 = double;
 
-	using dt = auto_dim_pair_t< 0, 0 >;
+	using dt = auto_dim_pair_t< 0_C, 0_R >;
 
 	for(auto& d: std::vector< dt >{
 		{1024_cd, 1024_rd}

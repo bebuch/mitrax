@@ -27,7 +27,7 @@ namespace mitrax{
 
 
 	template <
-		typename F, bool Ccto, size_t Co, bool Rcto, size_t Ro,
+		typename F, bool Ccto, col_ct Co, bool Rcto, row_ct Ro,
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr void for_each_view(
 		F&& f,
@@ -45,7 +45,7 @@ namespace mitrax{
 	}
 
 	template <
-		typename F, bool Ccto, size_t Co, bool Rcto, size_t Ro,
+		typename F, bool Ccto, col_ct Co, bool Rcto, row_ct Ro,
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr void for_each_view(
 		F&& f,

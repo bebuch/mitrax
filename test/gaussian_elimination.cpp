@@ -45,7 +45,7 @@ constexpr auto ref4 = make_matrix< float >(3_d, {
 	{0, 0, 0}
 });
 
-template < typename M, size_t C, size_t R >
+template < typename M, col_ct C, row_ct R >
 constexpr bool near_null(
 	matrix< M, C, R > const& m,
 	value_type_t< M > const& threshold
@@ -67,8 +67,8 @@ BOOST_AUTO_TEST_CASE(test_upper_triangular_matrix){
 	auto m = upper_triangular_matrix(ref1);
 
 	BOOST_TEST((
-		m.cols() == 3 &&
-		m.rows() == 3 &&
+		m.cols() == 3_c &&
+		m.rows() == 3_r &&
 		m(0, 0) ==  1 &&
 		m(1, 0) ==  2 &&
 		m(2, 0) ==  3 &&
@@ -85,8 +85,8 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_1){
 	auto const v = matrix_kernel(ref2);
 
 	BOOST_TEST((
-		v.cols() == 1 &&
-		v.rows() == 3 &&
+		v.cols() == 1_c &&
+		v.rows() == 3_r &&
 		v[0] ==  1 &&
 		v[1] == -2 &&
 		v[2] ==  1
@@ -97,8 +97,8 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_2){
 	auto const v = matrix_kernel(ref3);
 
 	BOOST_TEST((
-		v.cols() == 1 &&
-		v.rows() == 3 &&
+		v.cols() == 1_c &&
+		v.rows() == 3_r &&
 		v[0] == -1 &&
 		v[1] == -0.5 &&
 		v[2] ==  1
@@ -109,8 +109,8 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_3){
 	auto const v = matrix_kernel(ref4);
 
 	BOOST_TEST((
-		v.cols() == 1 &&
-		v.rows() == 3 &&
+		v.cols() == 1_c &&
+		v.rows() == 3_r &&
 		v[0] ==  1 &&
 		v[1] == -2 &&
 		v[2] ==  1
@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_3){
 
 BOOST_AUTO_TEST_CASE(test_matrix_kernel_numeric){
 	for(size_t i = 0; i < 10; ++i){
-		auto m = make_matrix_v< double >(dims(i + 1));
+		auto m = make_matrix_v< double >(dims(dim_ct(i + 1)));
 		size_t j = 5;
 		for(auto& v: m) v = ++j;
 
@@ -141,8 +141,8 @@ BOOST_AUTO_TEST_CASE(test_gaussian_elimination){
 	auto res = gaussian_elimination(m, v);
 
 	BOOST_TEST((
-		res.cols() == 1 &&
-		res.rows() == 3 &&
+		res.cols() == 1_c &&
+		res.rows() == 3_r &&
 		res[0] == 20 &&
 		res[1] == 30 &&
 		res[2] == 35
@@ -158,8 +158,8 @@ BOOST_AUTO_TEST_CASE(test_inverse_2x2){
 	auto i = inverse(m);
 
 	BOOST_TEST((
-		i.cols() == 2 &&
-		i.rows() == 2 &&
+		i.cols() == 2_c &&
+		i.rows() == 2_r &&
 		i(0, 0) ==  3 &&
 		i(1, 0) == -5 &&
 		i(0, 1) == -1 &&
@@ -177,8 +177,8 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_1){
 	auto i = inverse(m) * 3;
 
 	BOOST_TEST((
-		i.cols() == 3 &&
-		i.rows() == 3 &&
+		i.cols() == 3_c &&
+		i.rows() == 3_r &&
 		equal(i(0, 0), -1) &&
 		equal(i(1, 0),  0) &&
 		equal(i(2, 0),  2) &&
@@ -201,8 +201,8 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_2){
 	auto i = inverse(m) * 4;
 
 	BOOST_TEST((
-		i.cols() == 3 &&
-		i.rows() == 3 &&
+		i.cols() == 3_c &&
+		i.rows() == 3_r &&
 		equal(i(0, 0), 3) &&
 		equal(i(1, 0), 2) &&
 		equal(i(2, 0), 1) &&
@@ -225,8 +225,8 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_3){
 	auto i = inverse(m);
 
 	BOOST_TEST((
-		i.cols() == 3 &&
-		i.rows() == 3 &&
+		i.cols() == 3_c &&
+		i.rows() == 3_r &&
 		equal(i(0, 0),  0) &&
 		equal(i(1, 0),  1) &&
 		equal(i(2, 0),  2) &&

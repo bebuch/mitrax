@@ -38,8 +38,8 @@ constexpr bool check_fn(
 	using value_type = value_type_t< Matrix >;
 
 	bool res = true;
-	res &= m.cols() == cols< RefC >();
-	res &= m.rows() == rows< RefR >();
+	res &= m.cols() == cols< col_ct(RefC) >();
+	res &= m.rows() == rows< row_ct(RefR) >();
 
 	for(size_t y = 0; y < RefR; ++y){
 		for(size_t x = 0; x < RefC; ++x){
@@ -47,7 +47,7 @@ constexpr bool check_fn(
 		}
 	}
 
-	if constexpr(Matrix::ct_cols == 1 || Matrix::ct_rows == 1){
+	if constexpr(Matrix::ct_cols == 1_C || Matrix::ct_rows == 1_R){
 		auto vec_ref =
 			reinterpret_cast< value_type const(&)[RefC * RefR] >(ref);
 
@@ -56,14 +56,14 @@ constexpr bool check_fn(
 		}
 	}
 
-	if constexpr(Matrix::ct_cols == 1 && Matrix::ct_rows == 1){
+	if constexpr(Matrix::ct_cols == 1_C && Matrix::ct_rows == 1_R){
 		res &= static_cast< value_type >(m) == ref[0][0];
 	}
 
 	return res;
 }
 
-template < typename M, size_t C, size_t R, size_t RefC, size_t RefR >
+template < typename M, col_ct C, row_ct R, size_t RefC, size_t RefR >
 constexpr bool check(
 	matrix< M, C, R > const& m,
 	value_type_t< M > const(&ref)[RefR][RefC]
@@ -71,7 +71,7 @@ constexpr bool check(
 	return check_fn(m, ref);
 }
 
-template < typename M, size_t C, size_t R, size_t RefC, size_t RefR >
+template < typename M, col_ct C, row_ct R, size_t RefC, size_t RefR >
 constexpr bool check(
 	matrix< M, C, R >& m,
 	value_type_t< M > const(&ref)[RefR][RefC]
@@ -122,38 +122,38 @@ using types = boost::mpl::list< int, double, std::complex< float > >;
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_types, T, types){
 	BOOST_TEST((
-		id< eigen_matrix< T, 3, 4 > > ==
-		id< matrix< detail::eigen_matrix_impl< T, 3, 4 >, 3, 4 > >
+		id< eigen_matrix< T, 3_C, 4_R > > ==
+		id< matrix< detail::eigen_matrix_impl< T, 3_C, 4_R >, 3_C, 4_R > >
 	));
 
 	BOOST_TEST((
-		id< eigen_col_vector< T, 4 > > ==
-		id< col_vector< detail::eigen_matrix_impl< T, 1, 4 >, 4 > >
+		id< eigen_col_vector< T, 4_R > > ==
+		id< col_vector< detail::eigen_matrix_impl< T, 1_C, 4_R >, 4_R > >
 	));
 
 	BOOST_TEST((
-		id< eigen_col_vector< T, 4 > > ==
-		id< matrix< detail::eigen_matrix_impl< T, 1, 4 >, 1, 4 > >
+		id< eigen_col_vector< T, 4_R > > ==
+		id< matrix< detail::eigen_matrix_impl< T, 1_C, 4_R >, 1_C, 4_R > >
 	));
 
 	BOOST_TEST((
-		id< eigen_row_vector< T, 4 > > ==
-		id< row_vector< detail::eigen_matrix_impl< T, 4, 1 >, 4 > >
+		id< eigen_row_vector< T, 4_C > > ==
+		id< row_vector< detail::eigen_matrix_impl< T, 4_C, 1_R >, 4_C > >
 	));
 
 	BOOST_TEST((
-		id< eigen_row_vector< T, 4 > > ==
-		id< matrix< detail::eigen_matrix_impl< T, 4, 1 >, 4, 1 > >
+		id< eigen_row_vector< T, 4_C > > ==
+		id< matrix< detail::eigen_matrix_impl< T, 4_C, 1_R >, 4_C, 1_R > >
 	));
 
 	BOOST_TEST((
-		id< eigen_square_matrix< T, 4 > > ==
-		id< square_matrix< detail::eigen_matrix_impl< T, 4, 4 >, 4 > >
+		id< eigen_square_matrix< T, 4_D > > ==
+		id< square_matrix< detail::eigen_matrix_impl< T, 4_C, 4_R >, 4_D > >
 	));
 
 	BOOST_TEST((
-		id< eigen_square_matrix< T, 4 > > ==
-		id< matrix< detail::eigen_matrix_impl< T, 4, 4 >, 4, 4 > >
+		id< eigen_square_matrix< T, 4_D > > ==
+		id< matrix< detail::eigen_matrix_impl< T, 4_C, 4_R >, 4_C, 4_R > >
 	));
 }
 
@@ -239,70 +239,70 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_3x3, T, types){
 	auto m60 = make_matrix_i(dim_pair(3_dd), init_p, maker::eigen);
 
 
-	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m05) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m06) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m07) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m08) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m09) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m10) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m11) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m12) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m05) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m06) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m07) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m08) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m09) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m10) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m11) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m12) == id< eigen_matrix< T, 0_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m13) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m14) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m15) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m16) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m17) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m18) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m19) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m20) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m21) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m22) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m23) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m24) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m13) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m14) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m15) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m16) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m17) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m18) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m19) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m20) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m21) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m22) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m23) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m24) == id< eigen_matrix< T, 0_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m25) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m26) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m27) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m28) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m29) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m30) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m31) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m32) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m33) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m34) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m35) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m36) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m25) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m26) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m27) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m28) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m29) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m30) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m31) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m32) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m33) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m34) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m35) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m36) == id< eigen_matrix< T, 0_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m37) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m38) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m39) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m40) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m41) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m42) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m43) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m44) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m45) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m46) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m47) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m48) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m37) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m38) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m39) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m40) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m41) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m42) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m43) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m44) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m45) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m46) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m47) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m48) == id< eigen_matrix< T, 0_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m49) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m50) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m51) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m52) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m53) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m54) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m55) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m56) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m57) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m58) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m59) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m60) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m49) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m50) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m51) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m52) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m53) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m54) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m55) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m56) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m57) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m58) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m59) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m60) == id< eigen_matrix< T, 0_C, 0_R > >));
 
 
 	BOOST_TEST((check(m01, ref_0)));
@@ -431,50 +431,50 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_2x3, T, types){
 	auto m40 = make_matrix_i(dim_pair(2_cd, 3_rd), init_p, maker::eigen);
 
 
-	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 2, 3 > >));
-	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 2, 0 > >));
-	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m05) == id< eigen_matrix< T, 2, 3 > >));
-	BOOST_TEST((rt_id(m06) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m07) == id< eigen_matrix< T, 2, 0 > >));
-	BOOST_TEST((rt_id(m08) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 2_C, 3_R > >));
+	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 2_C, 0_R > >));
+	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m05) == id< eigen_matrix< T, 2_C, 3_R > >));
+	BOOST_TEST((rt_id(m06) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m07) == id< eigen_matrix< T, 2_C, 0_R > >));
+	BOOST_TEST((rt_id(m08) == id< eigen_matrix< T, 0_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m09) == id< eigen_matrix< T, 2, 3 > >));
-	BOOST_TEST((rt_id(m10) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m11) == id< eigen_matrix< T, 2, 0 > >));
-	BOOST_TEST((rt_id(m12) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m13) == id< eigen_matrix< T, 2, 3 > >));
-	BOOST_TEST((rt_id(m14) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m15) == id< eigen_matrix< T, 2, 0 > >));
-	BOOST_TEST((rt_id(m16) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m09) == id< eigen_matrix< T, 2_C, 3_R > >));
+	BOOST_TEST((rt_id(m10) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m11) == id< eigen_matrix< T, 2_C, 0_R > >));
+	BOOST_TEST((rt_id(m12) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m13) == id< eigen_matrix< T, 2_C, 3_R > >));
+	BOOST_TEST((rt_id(m14) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m15) == id< eigen_matrix< T, 2_C, 0_R > >));
+	BOOST_TEST((rt_id(m16) == id< eigen_matrix< T, 0_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m17) == id< eigen_matrix< T, 2, 3 > >));
-	BOOST_TEST((rt_id(m18) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m19) == id< eigen_matrix< T, 2, 0 > >));
-	BOOST_TEST((rt_id(m20) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m21) == id< eigen_matrix< T, 2, 3 > >));
-	BOOST_TEST((rt_id(m22) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m23) == id< eigen_matrix< T, 2, 0 > >));
-	BOOST_TEST((rt_id(m24) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m17) == id< eigen_matrix< T, 2_C, 3_R > >));
+	BOOST_TEST((rt_id(m18) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m19) == id< eigen_matrix< T, 2_C, 0_R > >));
+	BOOST_TEST((rt_id(m20) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m21) == id< eigen_matrix< T, 2_C, 3_R > >));
+	BOOST_TEST((rt_id(m22) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m23) == id< eigen_matrix< T, 2_C, 0_R > >));
+	BOOST_TEST((rt_id(m24) == id< eigen_matrix< T, 0_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m25) == id< eigen_matrix< T, 2, 3 > >));
-	BOOST_TEST((rt_id(m26) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m27) == id< eigen_matrix< T, 2, 0 > >));
-	BOOST_TEST((rt_id(m28) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m29) == id< eigen_matrix< T, 2, 3 > >));
-	BOOST_TEST((rt_id(m30) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m31) == id< eigen_matrix< T, 2, 0 > >));
-	BOOST_TEST((rt_id(m32) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m25) == id< eigen_matrix< T, 2_C, 3_R > >));
+	BOOST_TEST((rt_id(m26) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m27) == id< eigen_matrix< T, 2_C, 0_R > >));
+	BOOST_TEST((rt_id(m28) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m29) == id< eigen_matrix< T, 2_C, 3_R > >));
+	BOOST_TEST((rt_id(m30) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m31) == id< eigen_matrix< T, 2_C, 0_R > >));
+	BOOST_TEST((rt_id(m32) == id< eigen_matrix< T, 0_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m33) == id< eigen_matrix< T, 2, 3 > >));
-	BOOST_TEST((rt_id(m34) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m35) == id< eigen_matrix< T, 2, 0 > >));
-	BOOST_TEST((rt_id(m36) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m37) == id< eigen_matrix< T, 2, 3 > >));
-	BOOST_TEST((rt_id(m38) == id< eigen_matrix< T, 0, 3 > >));
-	BOOST_TEST((rt_id(m39) == id< eigen_matrix< T, 2, 0 > >));
-	BOOST_TEST((rt_id(m40) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m33) == id< eigen_matrix< T, 2_C, 3_R > >));
+	BOOST_TEST((rt_id(m34) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m35) == id< eigen_matrix< T, 2_C, 0_R > >));
+	BOOST_TEST((rt_id(m36) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m37) == id< eigen_matrix< T, 2_C, 3_R > >));
+	BOOST_TEST((rt_id(m38) == id< eigen_matrix< T, 0_C, 3_R > >));
+	BOOST_TEST((rt_id(m39) == id< eigen_matrix< T, 2_C, 0_R > >));
+	BOOST_TEST((rt_id(m40) == id< eigen_matrix< T, 0_C, 0_R > >));
 
 
 	BOOST_TEST(check(m01, ref_0));
@@ -582,50 +582,50 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_3x2, T, types){
 	auto m40 = make_matrix_i(dim_pair(3_cd, 2_rd), init_p, maker::eigen);
 
 
-	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 3, 2 > >));
-	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 0, 2 > >));
-	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m05) == id< eigen_matrix< T, 3, 2 > >));
-	BOOST_TEST((rt_id(m06) == id< eigen_matrix< T, 0, 2 > >));
-	BOOST_TEST((rt_id(m07) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m08) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 3_C, 2_R > >));
+	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 0_C, 2_R > >));
+	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m05) == id< eigen_matrix< T, 3_C, 2_R > >));
+	BOOST_TEST((rt_id(m06) == id< eigen_matrix< T, 0_C, 2_R > >));
+	BOOST_TEST((rt_id(m07) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m08) == id< eigen_matrix< T, 0_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m09) == id< eigen_matrix< T, 3, 2 > >));
-	BOOST_TEST((rt_id(m10) == id< eigen_matrix< T, 0, 2 > >));
-	BOOST_TEST((rt_id(m11) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m12) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m13) == id< eigen_matrix< T, 3, 2 > >));
-	BOOST_TEST((rt_id(m14) == id< eigen_matrix< T, 0, 2 > >));
-	BOOST_TEST((rt_id(m15) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m16) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m09) == id< eigen_matrix< T, 3_C, 2_R > >));
+	BOOST_TEST((rt_id(m10) == id< eigen_matrix< T, 0_C, 2_R > >));
+	BOOST_TEST((rt_id(m11) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m12) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m13) == id< eigen_matrix< T, 3_C, 2_R > >));
+	BOOST_TEST((rt_id(m14) == id< eigen_matrix< T, 0_C, 2_R > >));
+	BOOST_TEST((rt_id(m15) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m16) == id< eigen_matrix< T, 0_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m17) == id< eigen_matrix< T, 3, 2 > >));
-	BOOST_TEST((rt_id(m18) == id< eigen_matrix< T, 0, 2 > >));
-	BOOST_TEST((rt_id(m19) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m20) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m21) == id< eigen_matrix< T, 3, 2 > >));
-	BOOST_TEST((rt_id(m22) == id< eigen_matrix< T, 0, 2 > >));
-	BOOST_TEST((rt_id(m23) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m24) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m17) == id< eigen_matrix< T, 3_C, 2_R > >));
+	BOOST_TEST((rt_id(m18) == id< eigen_matrix< T, 0_C, 2_R > >));
+	BOOST_TEST((rt_id(m19) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m20) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m21) == id< eigen_matrix< T, 3_C, 2_R > >));
+	BOOST_TEST((rt_id(m22) == id< eigen_matrix< T, 0_C, 2_R > >));
+	BOOST_TEST((rt_id(m23) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m24) == id< eigen_matrix< T, 0_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m25) == id< eigen_matrix< T, 3, 2 > >));
-	BOOST_TEST((rt_id(m26) == id< eigen_matrix< T, 0, 2 > >));
-	BOOST_TEST((rt_id(m27) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m28) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m29) == id< eigen_matrix< T, 3, 2 > >));
-	BOOST_TEST((rt_id(m30) == id< eigen_matrix< T, 0, 2 > >));
-	BOOST_TEST((rt_id(m31) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m32) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m25) == id< eigen_matrix< T, 3_C, 2_R > >));
+	BOOST_TEST((rt_id(m26) == id< eigen_matrix< T, 0_C, 2_R > >));
+	BOOST_TEST((rt_id(m27) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m28) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m29) == id< eigen_matrix< T, 3_C, 2_R > >));
+	BOOST_TEST((rt_id(m30) == id< eigen_matrix< T, 0_C, 2_R > >));
+	BOOST_TEST((rt_id(m31) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m32) == id< eigen_matrix< T, 0_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m33) == id< eigen_matrix< T, 3, 2 > >));
-	BOOST_TEST((rt_id(m34) == id< eigen_matrix< T, 0, 2 > >));
-	BOOST_TEST((rt_id(m35) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m36) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m37) == id< eigen_matrix< T, 3, 2 > >));
-	BOOST_TEST((rt_id(m38) == id< eigen_matrix< T, 0, 2 > >));
-	BOOST_TEST((rt_id(m39) == id< eigen_matrix< T, 3, 0 > >));
-	BOOST_TEST((rt_id(m40) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m33) == id< eigen_matrix< T, 3_C, 2_R > >));
+	BOOST_TEST((rt_id(m34) == id< eigen_matrix< T, 0_C, 2_R > >));
+	BOOST_TEST((rt_id(m35) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m36) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m37) == id< eigen_matrix< T, 3_C, 2_R > >));
+	BOOST_TEST((rt_id(m38) == id< eigen_matrix< T, 0_C, 2_R > >));
+	BOOST_TEST((rt_id(m39) == id< eigen_matrix< T, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(m40) == id< eigen_matrix< T, 0_C, 0_R > >));
 
 
 	BOOST_TEST(check(m01, ref_0));
@@ -723,42 +723,42 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_1x3, T, types){
 	auto m32 = make_matrix_i(dim_pair(1_c, 3_rd), init_p, maker::eigen);
 
 
-	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 1, 0 > >));
-	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 1, 0 > >));
-	BOOST_TEST((rt_id(m05) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m06) == id< eigen_matrix< T, 1, 0 > >));
+	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 1_C, 0_R > >));
+	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 1_C, 0_R > >));
+	BOOST_TEST((rt_id(m05) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m06) == id< eigen_matrix< T, 1_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m07) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m08) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m09) == id< eigen_matrix< T, 1, 0 > >));
-	BOOST_TEST((rt_id(m10) == id< eigen_matrix< T, 1, 0 > >));
-	BOOST_TEST((rt_id(m11) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m12) == id< eigen_matrix< T, 1, 0 > >));
+	BOOST_TEST((rt_id(m07) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m08) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m09) == id< eigen_matrix< T, 1_C, 0_R > >));
+	BOOST_TEST((rt_id(m10) == id< eigen_matrix< T, 1_C, 0_R > >));
+	BOOST_TEST((rt_id(m11) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m12) == id< eigen_matrix< T, 1_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m13) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m14) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m15) == id< eigen_matrix< T, 1, 0 > >));
-	BOOST_TEST((rt_id(m16) == id< eigen_matrix< T, 1, 0 > >));
-	BOOST_TEST((rt_id(m17) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m18) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m19) == id< eigen_matrix< T, 1, 0 > >));
-	BOOST_TEST((rt_id(m20) == id< eigen_matrix< T, 1, 0 > >));
+	BOOST_TEST((rt_id(m13) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m14) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m15) == id< eigen_matrix< T, 1_C, 0_R > >));
+	BOOST_TEST((rt_id(m16) == id< eigen_matrix< T, 1_C, 0_R > >));
+	BOOST_TEST((rt_id(m17) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m18) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m19) == id< eigen_matrix< T, 1_C, 0_R > >));
+	BOOST_TEST((rt_id(m20) == id< eigen_matrix< T, 1_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m21) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m22) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m23) == id< eigen_matrix< T, 1, 0 > >));
-	BOOST_TEST((rt_id(m24) == id< eigen_matrix< T, 1, 0 > >));
-	BOOST_TEST((rt_id(m25) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m26) == id< eigen_matrix< T, 1, 0 > >));
+	BOOST_TEST((rt_id(m21) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m22) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m23) == id< eigen_matrix< T, 1_C, 0_R > >));
+	BOOST_TEST((rt_id(m24) == id< eigen_matrix< T, 1_C, 0_R > >));
+	BOOST_TEST((rt_id(m25) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m26) == id< eigen_matrix< T, 1_C, 0_R > >));
 
-	BOOST_TEST((rt_id(m27) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m28) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m29) == id< eigen_matrix< T, 1, 0 > >));
-	BOOST_TEST((rt_id(m30) == id< eigen_matrix< T, 1, 0 > >));
-	BOOST_TEST((rt_id(m31) == id< eigen_matrix< T, 1, 3 > >));
-	BOOST_TEST((rt_id(m32) == id< eigen_matrix< T, 1, 0 > >));
+	BOOST_TEST((rt_id(m27) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m28) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m29) == id< eigen_matrix< T, 1_C, 0_R > >));
+	BOOST_TEST((rt_id(m30) == id< eigen_matrix< T, 1_C, 0_R > >));
+	BOOST_TEST((rt_id(m31) == id< eigen_matrix< T, 1_C, 3_R > >));
+	BOOST_TEST((rt_id(m32) == id< eigen_matrix< T, 1_C, 0_R > >));
 
 
 	BOOST_TEST(check(m01, ref_0));
@@ -848,42 +848,42 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_3x1, T, types){
 	auto m32 = make_matrix_i(dim_pair(3_cd, 1_r), init_p, maker::eigen);
 
 
-	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 0, 1 > >));
-	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0, 1 > >));
-	BOOST_TEST((rt_id(m05) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m06) == id< eigen_matrix< T, 0, 1 > >));
+	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 0_C, 1_R > >));
+	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0_C, 1_R > >));
+	BOOST_TEST((rt_id(m05) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m06) == id< eigen_matrix< T, 0_C, 1_R > >));
 
-	BOOST_TEST((rt_id(m07) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m08) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m09) == id< eigen_matrix< T, 0, 1 > >));
-	BOOST_TEST((rt_id(m10) == id< eigen_matrix< T, 0, 1 > >));
-	BOOST_TEST((rt_id(m11) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m12) == id< eigen_matrix< T, 0, 1 > >));
+	BOOST_TEST((rt_id(m07) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m08) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m09) == id< eigen_matrix< T, 0_C, 1_R > >));
+	BOOST_TEST((rt_id(m10) == id< eigen_matrix< T, 0_C, 1_R > >));
+	BOOST_TEST((rt_id(m11) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m12) == id< eigen_matrix< T, 0_C, 1_R > >));
 
-	BOOST_TEST((rt_id(m13) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m14) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m15) == id< eigen_matrix< T, 0, 1 > >));
-	BOOST_TEST((rt_id(m16) == id< eigen_matrix< T, 0, 1 > >));
-	BOOST_TEST((rt_id(m17) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m18) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m19) == id< eigen_matrix< T, 0, 1 > >));
-	BOOST_TEST((rt_id(m20) == id< eigen_matrix< T, 0, 1 > >));
+	BOOST_TEST((rt_id(m13) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m14) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m15) == id< eigen_matrix< T, 0_C, 1_R > >));
+	BOOST_TEST((rt_id(m16) == id< eigen_matrix< T, 0_C, 1_R > >));
+	BOOST_TEST((rt_id(m17) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m18) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m19) == id< eigen_matrix< T, 0_C, 1_R > >));
+	BOOST_TEST((rt_id(m20) == id< eigen_matrix< T, 0_C, 1_R > >));
 
-	BOOST_TEST((rt_id(m21) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m22) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m23) == id< eigen_matrix< T, 0, 1 > >));
-	BOOST_TEST((rt_id(m24) == id< eigen_matrix< T, 0, 1 > >));
-	BOOST_TEST((rt_id(m25) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m26) == id< eigen_matrix< T, 0, 1 > >));
+	BOOST_TEST((rt_id(m21) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m22) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m23) == id< eigen_matrix< T, 0_C, 1_R > >));
+	BOOST_TEST((rt_id(m24) == id< eigen_matrix< T, 0_C, 1_R > >));
+	BOOST_TEST((rt_id(m25) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m26) == id< eigen_matrix< T, 0_C, 1_R > >));
 
-	BOOST_TEST((rt_id(m27) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m28) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m29) == id< eigen_matrix< T, 0, 1 > >));
-	BOOST_TEST((rt_id(m30) == id< eigen_matrix< T, 0, 1 > >));
-	BOOST_TEST((rt_id(m31) == id< eigen_matrix< T, 3, 1 > >));
-	BOOST_TEST((rt_id(m32) == id< eigen_matrix< T, 0, 1 > >));
+	BOOST_TEST((rt_id(m27) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m28) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m29) == id< eigen_matrix< T, 0_C, 1_R > >));
+	BOOST_TEST((rt_id(m30) == id< eigen_matrix< T, 0_C, 1_R > >));
+	BOOST_TEST((rt_id(m31) == id< eigen_matrix< T, 3_C, 1_R > >));
+	BOOST_TEST((rt_id(m32) == id< eigen_matrix< T, 0_C, 1_R > >));
 
 
 	BOOST_TEST(check(m01, ref_0));
@@ -970,38 +970,38 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_eigen_matrix_1x1, T, types){
 	auto m28 = make_matrix_i(1_d, init_p, maker::eigen);
 
 
-	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m05) == id< eigen_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m05) == id< eigen_matrix< T, 1_C, 1_R > >));
 
-	BOOST_TEST((rt_id(m06) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m07) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m08) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m09) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m10) == id< eigen_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m06) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m07) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m08) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m09) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m10) == id< eigen_matrix< T, 1_C, 1_R > >));
 
-	BOOST_TEST((rt_id(m11) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m12) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m13) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m14) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m15) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m16) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m17) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m18) == id< eigen_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m11) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m12) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m13) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m14) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m15) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m16) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m17) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m18) == id< eigen_matrix< T, 1_C, 1_R > >));
 
-	BOOST_TEST((rt_id(m19) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m20) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m21) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m22) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m23) == id< eigen_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m19) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m20) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m21) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m22) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m23) == id< eigen_matrix< T, 1_C, 1_R > >));
 
-	BOOST_TEST((rt_id(m24) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m25) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m26) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m27) == id< eigen_matrix< T, 1, 1 > >));
-	BOOST_TEST((rt_id(m28) == id< eigen_matrix< T, 1, 1 > >));
+	BOOST_TEST((rt_id(m24) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m25) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m26) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m27) == id< eigen_matrix< T, 1_C, 1_R > >));
+	BOOST_TEST((rt_id(m28) == id< eigen_matrix< T, 1_C, 1_R > >));
 
 
 	BOOST_TEST(check(m01, ref_0));
@@ -1067,18 +1067,18 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_diag_heap_matrix, T, types){
 	auto m12 = make_diag_matrix_i(3_dd, init_p, maker::eigen);
 
 
-	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m05) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m06) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m07) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m08) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m09) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m10) == id< eigen_matrix< T, 0, 0 > >));
-	BOOST_TEST((rt_id(m11) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m12) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m05) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m06) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m07) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m08) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m09) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m10) == id< eigen_matrix< T, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(m11) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m12) == id< eigen_matrix< T, 0_C, 0_R > >));
 
 
 	BOOST_TEST(check(m01, ref_0));
@@ -1103,8 +1103,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_identity_heap_matrix, T, types){
 	auto m02 = make_identity_matrix< T >(3_dd, maker::eigen);
 
 
-	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m01) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m02) == id< eigen_matrix< T, 0_C, 0_R > >));
 
 
 	BOOST_TEST(check(m01, ref_i));
@@ -1112,10 +1112,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_identity_heap_matrix, T, types){
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_default_constructor, T, types){
-	eigen_matrix< T, 3, 3 > m01;
-	eigen_matrix< T, 3, 0 > m02;
-	eigen_matrix< T, 0, 3 > m03;
-	eigen_matrix< T, 0, 0 > m04;
+	eigen_matrix< T, 3_C, 3_R > m01;
+	eigen_matrix< T, 3_C, 0_R > m02;
+	eigen_matrix< T, 0_C, 3_R > m03;
+	eigen_matrix< T, 0_C, 0_R > m04;
 
 	BOOST_TEST((m01.dims() == dim_pair(3_c, 3_r)));
 	BOOST_TEST((m02.dims() == dim_pair(3_c, 0_rd)));
@@ -1134,8 +1134,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_copy_constructor_heap, T, types){
 	auto m03 = m01;
 	auto m04 = m02;
 
-	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0_C, 0_R > >));
 
 
 	BOOST_TEST(check(m03, ref_i));
@@ -1152,8 +1152,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_move_constructor_heap, T, types){
 	auto m03 = std::move(m01);
 	auto m04 = std::move(m02);
 
-	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0_C, 0_R > >));
 
 
 	BOOST_TEST(check(m03, ref_i));
@@ -1177,8 +1177,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_copy_assignment_heap, T, types){
 	m04 = m02;
 
 
-	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0_C, 0_R > >));
 
 
 	BOOST_TEST(check(m03, ref_i));
@@ -1202,8 +1202,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_move_assignment_heap, T, types){
 	m04 = std::move(m02);
 
 
-	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 3, 3 > >));
-	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0, 0 > >));
+	BOOST_TEST((rt_id(m03) == id< eigen_matrix< T, 3_C, 3_R > >));
+	BOOST_TEST((rt_id(m04) == id< eigen_matrix< T, 0_C, 0_R > >));
 
 
 	BOOST_TEST(check(m03, ref_i));

@@ -23,7 +23,7 @@ namespace mitrax::detail{
 		}
 	};
 
-	template < bool Ccto, size_t Co, bool Rcto, size_t Ro >
+	template < bool Ccto, col_ct Co, bool Rcto, row_ct Ro >
 	struct call_sub_matrix{
 		dim_pair_t< Ccto, Co, Rcto, Ro > dims;
 
@@ -33,7 +33,7 @@ namespace mitrax::detail{
 		}
 	};
 
-	template < bool Ccto, size_t Co, bool Rcto, size_t Ro >
+	template < bool Ccto, col_ct Co, bool Rcto, row_ct Ro >
 	constexpr auto make_call_sub_matrix(
 		dim_pair_t< Ccto, Co, Rcto, Ro > const& dims
 	){
@@ -56,7 +56,7 @@ namespace mitrax{
 
 
 	template <
-		typename F, bool Ccto, size_t Co, bool Rcto, size_t Ro,
+		typename F, bool Ccto, col_ct Co, bool Rcto, row_ct Ro,
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto transform_per_view(
 		F&& f,
@@ -76,7 +76,7 @@ namespace mitrax{
 
 
 	template <
-		typename F, bool Ccto, size_t Co, bool Rcto, size_t Ro,
+		typename F, bool Ccto, col_ct Co, bool Rcto, row_ct Ro,
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto transform_per_view(
 		F&& f,

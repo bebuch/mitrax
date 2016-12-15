@@ -64,13 +64,13 @@ namespace mitrax::detail{
 	}
 
 
-	template < typename T, size_t C, size_t R >
+	template < typename T, col_ct C, row_ct R >
 	class stack_matrix_impl final: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >);
 		static_assert(!std::is_reference_v< T >);
 		static_assert(
-			C > 0 && R > 0,
+			C > 0_C && R > 0_R,
 			"stack_matrix_impl< T, C, R > is for static dimensions only, "
 			"use heap_matrix_impl< T, C, R > instead"
 		);
@@ -84,7 +84,7 @@ namespace mitrax::detail{
 
 
 		constexpr stack_matrix_impl(default_constructor_key):
-			values_(to_array< C * R >(
+			values_(to_array< size_t(C) * size_t(R) >(
 				mitrax::make_value_iterator(value_type()))) {}
 
 		constexpr stack_matrix_impl(stack_matrix_impl&&) = default;
@@ -93,7 +93,7 @@ namespace mitrax::detail{
 
 		template < typename Iter >
 		constexpr stack_matrix_impl(Iter iter):
-			values_(detail::to_array< C * R >(iter)) {}
+			values_(detail::to_array< size_t(C) * size_t(R) >(iter)) {}
 
 
 		constexpr stack_matrix_impl& operator=(stack_matrix_impl&&) = default;
@@ -107,11 +107,11 @@ namespace mitrax::detail{
 
 
 		constexpr value_type& operator()(size_t x, size_t y){
-			return values_[y * this->cols() + x];
+			return values_[y * size_t(this->cols()) + x];
 		}
 
 		constexpr value_type const& operator()(size_t x, size_t y)const{
-			return values_[y * this->cols() + x];
+			return values_[y * size_t(this->cols()) + x];
 		}
 
 
@@ -132,7 +132,7 @@ namespace mitrax::detail{
 
 
 	private:
-		array_s< value_type, C * R > values_;
+		array_s< value_type, size_t(C) * size_t(R) > values_;
 	};
 
 
@@ -142,8 +142,8 @@ namespace mitrax::detail{
 namespace mitrax::maker{
 
 
-	template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
-	constexpr stack_matrix< iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >
+	template < typename Iter, bool Cct, col_ct C, bool Rct, row_ct R >
+	constexpr stack_matrix< iter_type_t< Iter >, Cct ? C : 0_C, Rct ? R : 0_R >
 	stack_t::by_sequence(col_t< Cct, C >, row_t< Rct, R >, Iter iter)const{
 		return {init, iter};
 	}

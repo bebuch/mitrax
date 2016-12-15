@@ -17,7 +17,8 @@ void bm(benchmark::State& state, D d){
 	auto r = mitrax::random_vector< T >(d.point_count());
 
 	while(state.KeepRunning()){
-		auto m = Eigen::Matrix< T, D::ct_rows, D::ct_cols >(r.data());
+		auto m = Eigen::Matrix< T, size_t(D::ct_rows), size_t(D::ct_cols) >(
+			r.data());
 
 		benchmark::DoNotOptimize(m);
 	}

@@ -315,8 +315,8 @@ BOOST_AUTO_TEST_CASE(test_transpose){
 
 	auto check1 = [](auto const& m){
 		return
-			m.cols() == 3 &&
-			m.rows() == 2 &&
+			m.cols() == 3_c &&
+			m.rows() == 2_r &&
 			m(0, 0) == 1 &&
 			m(1, 0) == 3 &&
 			m(2, 0) == 5 &&
@@ -327,8 +327,8 @@ BOOST_AUTO_TEST_CASE(test_transpose){
 
 	auto check2 = [](auto const& m){
 		return
-			m.cols() == 2 &&
-			m.rows() == 3 &&
+			m.cols() == 2_c &&
+			m.rows() == 3_r &&
 			m(0, 0) == 1 &&
 			m(1, 0) == 2 &&
 			m(0, 1) == 3 &&
@@ -342,10 +342,10 @@ BOOST_AUTO_TEST_CASE(test_transpose){
 	BOOST_TEST(check1(trans_dc));
 	BOOST_TEST(check1(trans_dd));
 
-	BOOST_TEST((rt_id(trans_cc) == id< std_matrix< int, 3, 2 > >));
-	BOOST_TEST((rt_id(trans_cd) == id< std_matrix< int, 0, 2 > >));
-	BOOST_TEST((rt_id(trans_dc) == id< std_matrix< int, 3, 0 > >));
-	BOOST_TEST((rt_id(trans_dd) == id< std_matrix< int, 0, 0 > >));
+	BOOST_TEST((rt_id(trans_cc) == id< std_matrix< int, 3_C, 2_R > >));
+	BOOST_TEST((rt_id(trans_cd) == id< std_matrix< int, 0_C, 2_R > >));
+	BOOST_TEST((rt_id(trans_dc) == id< std_matrix< int, 3_C, 0_R > >));
+	BOOST_TEST((rt_id(trans_dd) == id< std_matrix< int, 0_C, 0_R > >));
 
 	BOOST_TEST(check2(transpose(trans_cc)));
 	BOOST_TEST(check2(transpose(trans_cd)));
@@ -359,8 +359,8 @@ BOOST_AUTO_TEST_CASE(test_unary_plus){
 	auto n = +m;
 
 	BOOST_TEST((
-			n.cols() == 3 &&
-			n.rows() == 3 &&
+			n.cols() == 3_c &&
+			n.rows() == 3_r &&
 			n(0, 0) == -1 &&
 			n(1, 0) == 0 &&
 			n(2, 0) == 1 &&
@@ -379,8 +379,8 @@ BOOST_AUTO_TEST_CASE(test_unary_minus){
 	auto n = -m;
 
 	BOOST_TEST((
-			n.cols() == 3 &&
-			n.rows() == 3 &&
+			n.cols() == 3_c &&
+			n.rows() == 3_r &&
 			n(0, 0) == 1 &&
 			n(1, 0) == 0 &&
 			n(2, 0) == -1 &&
@@ -399,8 +399,8 @@ BOOST_AUTO_TEST_CASE(test_abs){
 	auto n = abs(m);
 
 	BOOST_TEST((
-			n.cols() == 3 &&
-			n.rows() == 3 &&
+			n.cols() == 3_c &&
+			n.rows() == 3_r &&
 			n(0, 0) == 1 &&
 			n(1, 0) == 0 &&
 			n(2, 0) == 1 &&

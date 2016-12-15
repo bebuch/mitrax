@@ -17,91 +17,91 @@
 namespace mitrax{
 
 
-	template < typename T = void, typename M, size_t C, size_t R >
+	template < typename T = void, typename M, col_ct C, row_ct R >
 	constexpr auto roberts_cross_x(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_matrix< value_type >(dims< 2 >(), {{1, 0}, {0, -1}}),
+			make_matrix< value_type >(2_d, {{1, 0}, {0, -1}}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
 
-	template < typename T = void, typename M, size_t C, size_t R >
+	template < typename T = void, typename M, col_ct C, row_ct R >
 	constexpr auto roberts_cross_y(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_matrix< value_type >(dims< 2 >(), {{0, 1}, {-1, 0}}),
+			make_matrix< value_type >(2_d, {{0, 1}, {-1, 0}}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
 
 
-	template < typename T = void, typename M, size_t C, size_t R >
+	template < typename T = void, typename M, col_ct C, row_ct R >
 	constexpr auto prewitt_x(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_vector< value_type >(rows< 3 >(), {1, 1, 1}),
-			make_vector< value_type >(cols< 3 >(), {-1, 0, 1}),
+			make_vector< value_type >(3_r, {1, 1, 1}),
+			make_vector< value_type >(3_c, {-1, 0, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
 
-	template < typename T = void, typename M, size_t C, size_t R >
+	template < typename T = void, typename M, col_ct C, row_ct R >
 	constexpr auto prewitt_y(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_vector< value_type >(rows< 3 >(), {-1, 0, 1}),
-			make_vector< value_type >(cols< 3 >(), {1, 1, 1}),
+			make_vector< value_type >(3_r, {-1, 0, 1}),
+			make_vector< value_type >(3_c, {1, 1, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
 
 
-	template < typename T = void, typename M, size_t C, size_t R >
+	template < typename T = void, typename M, col_ct C, row_ct R >
 	constexpr auto sobel_x(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_vector< value_type >(rows< 3 >(), {1, 2, 1}),
-			make_vector< value_type >(cols< 3 >(), {-1, 0, 1}),
+			make_vector< value_type >(3_r, {1, 2, 1}),
+			make_vector< value_type >(3_c, {-1, 0, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
 
-	template < typename T = void, typename M, size_t C, size_t R >
+	template < typename T = void, typename M, col_ct C, row_ct R >
 	constexpr auto sobel_y(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_vector< value_type >(rows< 3 >(), {-1, 0, 1}),
-			make_vector< value_type >(cols< 3 >(), {1, 2, 1}),
+			make_vector< value_type >(3_r, {-1, 0, 1}),
+			make_vector< value_type >(3_c, {1, 2, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
 
 
-	template < typename T = void, typename M, size_t C, size_t R >
+	template < typename T = void, typename M, col_ct C, row_ct R >
 	constexpr auto scharr_x(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_vector< value_type >(rows< 3 >(), {3, 10, 3}),
-			make_vector< value_type >(cols< 3 >(), {-1, 0, 1}),
+			make_vector< value_type >(3_r, {3, 10, 3}),
+			make_vector< value_type >(3_c, {-1, 0, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
 
-	template < typename T = void, typename M, size_t C, size_t R >
+	template < typename T = void, typename M, col_ct C, row_ct R >
 	constexpr auto scharr_y(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_vector< value_type >(rows< 3 >(), {-1, 0, 1}),
-			make_vector< value_type >(cols< 3 >(), {3, 10, 3}),
+			make_vector< value_type >(3_r, {-1, 0, 1}),
+			make_vector< value_type >(3_c, {3, 10, 3}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
@@ -109,8 +109,8 @@ namespace mitrax{
 
 	template <
 		typename T = void,
-		typename M1, size_t C1, size_t R1,
-		typename M2, size_t C2, size_t R2
+		typename M1, col_ct C1, row_ct R1,
+		typename M2, col_ct C2, row_ct R2
 	> constexpr auto gradient_magnitude(
 		matrix< M1, C1, R1 > const& mx,
 		matrix< M2, C2, R2 > const& my
@@ -124,8 +124,8 @@ namespace mitrax{
 
 	template <
 		typename T = void,
-		typename M1, size_t C1, size_t R1,
-		typename M2, size_t C2, size_t R2
+		typename M1, col_ct C1, row_ct R1,
+		typename M2, col_ct C2, row_ct R2
 	> constexpr auto gradient_magnitude_approximately(
 		matrix< M1, C1, R1 > const& mx,
 		matrix< M2, C2, R2 > const& my
@@ -140,8 +140,8 @@ namespace mitrax{
 
 	template <
 		typename T = void,
-		typename M1, size_t C1, size_t R1,
-		typename M2, size_t C2, size_t R2
+		typename M1, col_ct C1, row_ct R1,
+		typename M2, col_ct C2, row_ct R2
 	> constexpr auto gradient_direction(
 		matrix< M1, C1, R1 > const& mx,
 		matrix< M2, C2, R2 > const& my

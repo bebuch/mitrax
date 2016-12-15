@@ -17,7 +17,7 @@
 namespace mitrax::detail{
 
 
-	template < typename T, size_t C, size_t R >
+	template < typename T, col_ct C, row_ct R >
 	class eigen_matrix_impl final: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >);
@@ -32,8 +32,8 @@ namespace mitrax::detail{
 
 		/// \brief Type of the underlaying Eigen matrix
 		using eigen_type = ::Eigen::Matrix< value_type,
-			R == 0 ? ::Eigen::Dynamic : static_cast< int >(R),
-			C == 0 ? ::Eigen::Dynamic : static_cast< int >(C) >;
+			R == 0_R ? ::Eigen::Dynamic : static_cast< int >(R),
+			C == 0_C ? ::Eigen::Dynamic : static_cast< int >(C) >;
 
 
 		eigen_matrix_impl(default_constructor_key)
@@ -45,7 +45,7 @@ namespace mitrax::detail{
 		eigen_matrix_impl(eigen_matrix_impl const&) = default;
 
 		eigen_matrix_impl(
-			col_t< C != 0, C > c, row_t< R != 0, R > r,
+			col_t< C != 0_C, C > c, row_t< R != 0_R, R > r,
 			eigen_type&& values
 		):
 			auto_dim_pair_t< C, R >(c, r),
@@ -92,7 +92,7 @@ namespace mitrax::detail{
 	};
 
 
-	template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
+	template < typename Iter, bool Cct, col_ct C, bool Rct, row_ct R >
 	auto to_eigen_matrix_data(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter){
 		::Eigen::Matrix< iter_type_t< Iter >,
 			Rct ? static_cast< int >(R) : ::Eigen::Dynamic,
@@ -115,8 +115,8 @@ namespace mitrax::detail{
 namespace mitrax::maker{
 
 
-	template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
-	eigen_matrix< iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >
+	template < typename Iter, bool Cct, col_ct C, bool Rct, row_ct R >
+	eigen_matrix< iter_type_t< Iter >, Cct ? C : 0_C, Rct ? R : 0_R >
 	eigen_t::by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter)const{
 		return {init, c, r, detail::to_eigen_matrix_data(c, r, iter)};
 	}

@@ -26,7 +26,7 @@ namespace mitrax{
 		});
 	}
 
-	template < typename M, size_t C, size_t R >
+	template < typename M, col_ct C, row_ct R >
 	constexpr auto convert(matrix< M, C, R > const& m){
 		ublas::matrix< value_type_t< M > > res(size_t(m.cols()), size_t(m.rows()));
 

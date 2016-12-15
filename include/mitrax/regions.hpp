@@ -21,7 +21,7 @@ namespace mitrax{
 	namespace detail{
 
 
-		template < size_t Cr, size_t Rr >
+		template < col_ct Cr, row_ct Rr >
 		struct region_sub_matrix{
 			auto_dim_pair_t< Cr, Rr > region_dims;
 			double x_factor;
@@ -35,7 +35,7 @@ namespace mitrax{
 			}
 		};
 
-		template < bool Cctr, size_t Cr, bool Rctr, size_t Rr >
+		template < bool Cctr, col_ct Cr, bool Rctr, row_ct Rr >
 		constexpr auto make_region_sub_matrix(
 			dim_pair_t< Cctr, Cr, Rctr, Rr > const& region_dims,
 			double x_factor,
@@ -52,8 +52,8 @@ namespace mitrax{
 
 	template <
 		typename F,
-		bool Cctr, size_t Cr, bool Rctr, size_t Rr,
-		bool Ccto, size_t Co, bool Rcto, size_t Ro,
+		bool Cctr, col_ct Cr, bool Rctr, row_ct Rr,
+		bool Ccto, col_ct Co, bool Rcto, row_ct Ro,
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto calc_regions(
 		F&& f,
@@ -99,8 +99,8 @@ namespace mitrax{
 
 	template <
 		typename F,
-		bool Cctr, size_t Cr, bool Rctr, size_t Rr,
-		bool Ccto, size_t Co, bool Rcto, size_t Ro,
+		bool Cctr, col_ct Cr, bool Rctr, row_ct Rr,
+		bool Ccto, col_ct Co, bool Rcto, row_ct Ro,
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto calc_regions(
 		F&& f,
@@ -121,8 +121,8 @@ namespace mitrax{
 
 	template <
 		typename F,
-		bool Cctr, size_t Cr, bool Rctr, size_t Rr,
-		typename M, size_t C, size_t R,
+		bool Cctr, col_ct Cr, bool Rctr, row_ct Rr,
+		typename M, col_ct C, row_ct R,
 		typename ... Mi, size_t ... Ci, size_t ... Ri
 	> auto apply_regions(
 		F&& f,
@@ -229,8 +229,8 @@ namespace mitrax{
 
 	template <
 		typename F,
-		bool Cctr, size_t Cr, bool Rctr, size_t Rr,
-		typename M, size_t C, size_t R,
+		bool Cctr, col_ct Cr, bool Rctr, row_ct Rr,
+		typename M, col_ct C, row_ct R,
 		typename ... Mi, size_t ... Ci, size_t ... Ri
 	> auto apply_regions(
 		F&& f,

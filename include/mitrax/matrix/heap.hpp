@@ -145,7 +145,7 @@ namespace mitrax::detail{
 	};
 
 
-	template < typename T, size_t C, size_t R >
+	template < typename T, col_ct C, row_ct R >
 	class heap_matrix_impl final: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >);
@@ -160,7 +160,8 @@ namespace mitrax::detail{
 
 
 		heap_matrix_impl(default_constructor_key):
-			values_(mitrax::make_value_iterator(value_type()), C * R)
+			values_(mitrax::make_value_iterator(value_type()),
+				size_t(C) * size_t(R))
 			{}
 
 		heap_matrix_impl(heap_matrix_impl&&) = default;
@@ -168,7 +169,7 @@ namespace mitrax::detail{
 		heap_matrix_impl(heap_matrix_impl const&) = default;
 
 		heap_matrix_impl(
-			col_t< C != 0, C > c, row_t< R != 0, R > r,
+			col_t< C != 0_C, C > c, row_t< R != 0_R, R > r,
 			detail::array_d< value_type >&& values
 		):
 			auto_dim_pair_t< C, R >(c, r),
@@ -186,11 +187,11 @@ namespace mitrax::detail{
 
 
 		value_type& operator()(size_t x, size_t y){
-			return values_[y * this->cols() + x];
+			return values_[y * size_t(this->cols()) + x];
 		}
 
 		value_type const& operator()(size_t x, size_t y)const{
-			return values_[y * this->cols() + x];
+			return values_[y * size_t(this->cols()) + x];
 		}
 
 
@@ -221,8 +222,8 @@ namespace mitrax::detail{
 namespace mitrax::maker{
 
 
-	template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
-	heap_matrix< iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >
+	template < typename Iter, bool Cct, col_ct C, bool Rct, row_ct R >
+	heap_matrix< iter_type_t< Iter >, Cct ? C : 0_C, Rct ? R : 0_R >
 	heap_t::by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter)const{
 		return {
 			init, c, r,

@@ -13,20 +13,20 @@
 namespace mitrax{
 
 
-	template < typename M, size_t Cols, size_t Rows >
+	template < typename M, col_ct C, row_ct R >
 	class matrix;
 
-	template < typename M, size_t N >
-	using square_matrix = matrix< M, N, N >;
+	template < typename M, dim_ct D >
+	using square_matrix = matrix< M, col_ct(D), row_ct(D) >;
 
-	template < typename M, size_t Rows >
-	using col_vector = matrix< M, 1, Rows >;
+	template < typename M, row_ct R >
+	using col_vector = matrix< M, 1_C, R >;
 
-	template < typename M, size_t Cols >
-	using row_vector = matrix< M, Cols, 1 >;
+	template < typename M, col_ct C >
+	using row_vector = matrix< M, C, 1_R >;
 
 	template < typename M >
-	using bitmap = matrix< M, 0, 0 >;
+	using bitmap = matrix< M, 0_C, 0_R >;
 
 
 }

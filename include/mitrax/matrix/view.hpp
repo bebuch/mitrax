@@ -24,7 +24,7 @@ namespace mitrax::detail{
 	);
 
 
-	template < typename T, bool RowOrder, size_t C, size_t R >
+	template < typename T, bool RowOrder, col_ct C, row_ct R >
 	class view_matrix_impl final: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >, "use const_view_matrix");
@@ -56,7 +56,7 @@ namespace mitrax::detail{
 			= default;
 
 		constexpr view_matrix_impl(
-			col_t< C != 0, C > c, row_t< R != 0, R > r,
+			col_t< C != 0_C, C > c, row_t< R != 0_R, R > r,
 			T& object
 		)noexcept:
 			auto_dim_pair_t< C, R >(c, r),
@@ -77,17 +77,17 @@ namespace mitrax::detail{
 
 		constexpr decltype(auto) operator()(size_t x, size_t y){
 			if constexpr(row_memory_order){
-				return *(begin() + (y * this->cols() + x));
+				return *(begin() + (y * size_t(this->cols()) + x));
 			}else{
-				return *(begin() + (x * this->rows() + y));
+				return *(begin() + (x * size_t(this->rows()) + y));
 			}
 		}
 
 		constexpr decltype(auto) operator()(size_t x, size_t y)const{
 			if constexpr(row_memory_order){
-				return *(begin() + (y * this->cols() + x));
+				return *(begin() + (y * size_t(this->cols()) + x));
 			}else{
-				return *(begin() + (x * this->rows() + y));
+				return *(begin() + (x * size_t(this->rows()) + y));
 			}
 		}
 
@@ -144,7 +144,7 @@ namespace mitrax::detail{
 	};
 
 
-	template < typename T, bool RowOrder, size_t C, size_t R >
+	template < typename T, bool RowOrder, col_ct C, row_ct R >
 	class const_view_matrix_impl final: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >,
@@ -176,7 +176,7 @@ namespace mitrax::detail{
 			noexcept = default;
 
 		constexpr const_view_matrix_impl(
-			col_t< C != 0, C > c, row_t< R != 0, R > r,
+			col_t< C != 0_C, C > c, row_t< R != 0_R, R > r,
 			T const& object
 		)noexcept:
 			auto_dim_pair_t< C, R >(c, r),
@@ -197,9 +197,9 @@ namespace mitrax::detail{
 
 		constexpr decltype(auto) operator()(size_t x, size_t y)const{
 			if constexpr(row_memory_order){
-				return *(begin() + (y * this->cols() + x));
+				return *(begin() + (y * size_t(this->cols()) + x));
 			}else{
-				return *(begin() + (x * this->rows() + y));
+				return *(begin() + (x * size_t(this->rows()) + y));
 			}
 		}
 
@@ -242,12 +242,12 @@ namespace mitrax::maker{
 
 
 	template < typename T, typename MemoryOrder,
-		bool Cct, size_t C, bool Rct, size_t R >
+		bool Cct, col_ct C, bool Rct, row_ct R >
 	constexpr auto view_t::by_object(
 		col_t< Cct, C > c, row_t< Rct, R > r, T& object, MemoryOrder
 	)const{
 		return view_matrix<
-			T, static_cast< bool >(MemoryOrder()), Cct ? C : 0, Rct ? R : 0
+			T, static_cast< bool >(MemoryOrder()), Cct ? C : 0_C, Rct ? R : 0_R
 		>{init, c, r, object};
 	}
 
@@ -255,12 +255,12 @@ namespace mitrax::maker{
 
 
 	template < typename T, typename MemoryOrder,
-		bool Cct, size_t C, bool Rct, size_t R >
+		bool Cct, col_ct C, bool Rct, row_ct R >
 	constexpr auto const_view_t::by_object(
 		col_t< Cct, C > c, row_t< Rct, R > r, T const& object, MemoryOrder
 	)const{
 		return const_view_matrix<
-			T, static_cast< bool >(MemoryOrder()), Cct ? C : 0, Rct ? R : 0
+			T, static_cast< bool >(MemoryOrder()), Cct ? C : 0_C, Rct ? R : 0_R
 		>{init, c, r, object};
 	}
 
@@ -273,19 +273,19 @@ namespace mitrax::maker{
 namespace mitrax{
 
 
-	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
+	template < typename T, bool Cct, col_ct C, bool Rct, row_ct R >
 	constexpr auto make_view_matrix(
 		col_t< Cct, C > c, row_t< Rct, R > r, T& object
 	){
 		return maker::view.by_object(c, r, object);
 	}
 
-	template < typename T, bool Nct, size_t N >
-	constexpr auto make_view_matrix(dim_t< Nct, N > n, T& object){
-		return make_view_matrix(n.as_col(), n.as_row(), object);
+	template < typename T, bool Dct, dim_ct D >
+	constexpr auto make_view_matrix(dim_t< Dct, D > d, T& object){
+		return make_view_matrix(d.as_col(), d.as_row(), object);
 	}
 
-	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
+	template < typename T, bool Cct, col_ct C, bool Rct, row_ct R >
 	constexpr auto make_view_matrix(
 		dim_pair_t< Cct, C, Rct, R > const& d, T& object
 	){
@@ -293,21 +293,21 @@ namespace mitrax{
 	}
 
 
-	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
+	template < typename T, bool Cct, col_ct C, bool Rct, row_ct R >
 	constexpr auto make_const_view_matrix(
 		col_t< Cct, C > c, row_t< Rct, R > r, T const& object
 	){
 		return maker::const_view.by_object(c, r, object);
 	}
 
-	template < typename T, bool Nct, size_t N >
+	template < typename T, bool Dct, dim_ct D >
 	constexpr auto make_const_view_matrix(
-		dim_t< Nct, N > n, T const& object
+		dim_t< Dct, D > d, T const& object
 	){
-		return make_const_view_matrix(n.as_col(), n.as_row(), object);
+		return make_const_view_matrix(d.as_col(), d.as_row(), object);
 	}
 
-	template < typename T, bool Cct, size_t C, bool Rct, size_t R >
+	template < typename T, bool Cct, col_ct C, bool Rct, row_ct R >
 	constexpr auto make_const_view_matrix(
 		dim_pair_t< Cct, C, Rct, R > const& d, T const& object
 	){

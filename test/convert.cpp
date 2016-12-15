@@ -23,8 +23,8 @@ constexpr int data[2][2] = {{0, 1}, {2, 3}};
 template < typename M >
 constexpr bool check(M const& m){
 	return
-		m.cols() == 2 &&
-		m.rows() == 2 &&
+		m.cols() == 2_c &&
+		m.rows() == 2_r &&
 		m(0, 0) == 0 &&
 		m(1, 0) == 1 &&
 		m(0, 1) == 2 &&
@@ -66,10 +66,10 @@ BOOST_AUTO_TEST_CASE(test_convert_as_std_matrix){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
-	BOOST_TEST(rt_id(n1) == (id< std_matrix< int, 2, 2 > >));
-	BOOST_TEST(rt_id(n2) == (id< std_matrix< int, 0, 2 > >));
-	BOOST_TEST(rt_id(n3) == (id< std_matrix< int, 2, 0 > >));
-	BOOST_TEST(rt_id(n4) == (id< std_matrix< int, 0, 0 > >));
+	BOOST_TEST(rt_id(n1) == (id< std_matrix< int, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(n2) == (id< std_matrix< int, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(n3) == (id< std_matrix< int, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(n4) == (id< std_matrix< int, 0_C, 0_R > >));
 
 	auto const o1 = as_std_matrix(m5);
 	auto const o2 = as_std_matrix(m2);
@@ -81,10 +81,10 @@ BOOST_AUTO_TEST_CASE(test_convert_as_std_matrix){
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
 
-	BOOST_TEST(rt_id(o1) == (id< std_matrix< int, 2, 2 > >));
-	BOOST_TEST(rt_id(o2) == (id< std_matrix< int, 0, 2 > >));
-	BOOST_TEST(rt_id(o3) == (id< std_matrix< int, 2, 0 > >));
-	BOOST_TEST(rt_id(o4) == (id< std_matrix< int, 0, 0 > >));
+	BOOST_TEST(rt_id(o1) == (id< std_matrix< int, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(o2) == (id< std_matrix< int, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(o3) == (id< std_matrix< int, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(o4) == (id< std_matrix< int, 0_C, 0_R > >));
 }
 
 
@@ -105,10 +105,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_type){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
-	BOOST_TEST(rt_id(n1) == (id< std_matrix< double, 2, 2 > >));
-	BOOST_TEST(rt_id(n2) == (id< std_matrix< double, 0, 2 > >));
-	BOOST_TEST(rt_id(n3) == (id< std_matrix< double, 2, 0 > >));
-	BOOST_TEST(rt_id(n4) == (id< std_matrix< double, 0, 0 > >));
+	BOOST_TEST(rt_id(n1) == (id< std_matrix< double, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(n2) == (id< std_matrix< double, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(n3) == (id< std_matrix< double, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(n4) == (id< std_matrix< double, 0_C, 0_R > >));
 
 	auto const o1 = convert< double >(m5);
 	auto const o2 = convert< double >(m2);
@@ -120,10 +120,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_type){
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
 
-	BOOST_TEST(rt_id(o1) == (id< std_matrix< double, 2, 2 > >));
-	BOOST_TEST(rt_id(o2) == (id< std_matrix< double, 0, 2 > >));
-	BOOST_TEST(rt_id(o3) == (id< std_matrix< double, 2, 0 > >));
-	BOOST_TEST(rt_id(o4) == (id< std_matrix< double, 0, 0 > >));
+	BOOST_TEST(rt_id(o1) == (id< std_matrix< double, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(o2) == (id< std_matrix< double, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(o3) == (id< std_matrix< double, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(o4) == (id< std_matrix< double, 0_C, 0_R > >));
 }
 
 
@@ -144,10 +144,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
-	BOOST_TEST(rt_id(n1) == (id< std_matrix< int, 2, 2 > >));
-	BOOST_TEST(rt_id(n2) == (id< std_matrix< int, 2, 2 > >));
-	BOOST_TEST(rt_id(n3) == (id< std_matrix< int, 2, 2 > >));
-	BOOST_TEST(rt_id(n4) == (id< std_matrix< int, 2, 2 > >));
+	BOOST_TEST(rt_id(n1) == (id< std_matrix< int, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(n2) == (id< std_matrix< int, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(n3) == (id< std_matrix< int, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(n4) == (id< std_matrix< int, 2_C, 2_R > >));
 
 	auto const o1 = convert< int >(m5, 2_c, 2_r);
 	auto const o2 = convert< int >(m2, 2_c, 2_r);
@@ -159,10 +159,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2){
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
 
-	BOOST_TEST(rt_id(o1) == (id< std_matrix< int, 2, 2 > >));
-	BOOST_TEST(rt_id(o2) == (id< std_matrix< int, 2, 2 > >));
-	BOOST_TEST(rt_id(o3) == (id< std_matrix< int, 2, 2 > >));
-	BOOST_TEST(rt_id(o4) == (id< std_matrix< int, 2, 2 > >));
+	BOOST_TEST(rt_id(o1) == (id< std_matrix< int, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(o2) == (id< std_matrix< int, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(o3) == (id< std_matrix< int, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(o4) == (id< std_matrix< int, 2_C, 2_R > >));
 }
 
 
@@ -182,10 +182,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
-	BOOST_TEST(rt_id(n1) == (id< std_matrix< int, 0, 2 > >));
-	BOOST_TEST(rt_id(n2) == (id< std_matrix< int, 0, 2 > >));
-	BOOST_TEST(rt_id(n3) == (id< std_matrix< int, 0, 2 > >));
-	BOOST_TEST(rt_id(n4) == (id< std_matrix< int, 0, 2 > >));
+	BOOST_TEST(rt_id(n1) == (id< std_matrix< int, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(n2) == (id< std_matrix< int, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(n3) == (id< std_matrix< int, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(n4) == (id< std_matrix< int, 0_C, 2_R > >));
 
 	auto const o1 = convert< int >(m1, 2_cd, 2_r);
 	auto const o2 = convert< int >(m2, 2_cd, 2_r);
@@ -197,10 +197,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2){
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
 
-	BOOST_TEST(rt_id(o1) == (id< std_matrix< int, 0, 2 > >));
-	BOOST_TEST(rt_id(o2) == (id< std_matrix< int, 0, 2 > >));
-	BOOST_TEST(rt_id(o3) == (id< std_matrix< int, 0, 2 > >));
-	BOOST_TEST(rt_id(o4) == (id< std_matrix< int, 0, 2 > >));
+	BOOST_TEST(rt_id(o1) == (id< std_matrix< int, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(o2) == (id< std_matrix< int, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(o3) == (id< std_matrix< int, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(o4) == (id< std_matrix< int, 0_C, 2_R > >));
 }
 
 
@@ -220,10 +220,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2rt){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
-	BOOST_TEST(rt_id(n1) == (id< std_matrix< int, 2, 0 > >));
-	BOOST_TEST(rt_id(n2) == (id< std_matrix< int, 2, 0 > >));
-	BOOST_TEST(rt_id(n3) == (id< std_matrix< int, 2, 0 > >));
-	BOOST_TEST(rt_id(n4) == (id< std_matrix< int, 2, 0 > >));
+	BOOST_TEST(rt_id(n1) == (id< std_matrix< int, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(n2) == (id< std_matrix< int, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(n3) == (id< std_matrix< int, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(n4) == (id< std_matrix< int, 2_C, 0_R > >));
 
 	auto const o1 = convert< int >(m1, 2_c, 2_rd);
 	auto const o2 = convert< int >(m2, 2_c, 2_rd);
@@ -235,10 +235,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2rt){
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
 
-	BOOST_TEST(rt_id(o1) == (id< std_matrix< int, 2, 0 > >));
-	BOOST_TEST(rt_id(o2) == (id< std_matrix< int, 2, 0 > >));
-	BOOST_TEST(rt_id(o3) == (id< std_matrix< int, 2, 0 > >));
-	BOOST_TEST(rt_id(o4) == (id< std_matrix< int, 2, 0 > >));
+	BOOST_TEST(rt_id(o1) == (id< std_matrix< int, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(o2) == (id< std_matrix< int, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(o3) == (id< std_matrix< int, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(o4) == (id< std_matrix< int, 2_C, 0_R > >));
 }
 
 
@@ -258,10 +258,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2rt){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
-	BOOST_TEST(rt_id(n1) == (id< std_matrix< int, 0, 0 > >));
-	BOOST_TEST(rt_id(n2) == (id< std_matrix< int, 0, 0 > >));
-	BOOST_TEST(rt_id(n3) == (id< std_matrix< int, 0, 0 > >));
-	BOOST_TEST(rt_id(n4) == (id< std_matrix< int, 0, 0 > >));
+	BOOST_TEST(rt_id(n1) == (id< std_matrix< int, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(n2) == (id< std_matrix< int, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(n3) == (id< std_matrix< int, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(n4) == (id< std_matrix< int, 0_C, 0_R > >));
 
 	auto const o1 = convert< int >(m1, 2_cd, 2_rd);
 	auto const o2 = convert< int >(m2, 2_cd, 2_rd);
@@ -273,10 +273,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2rt){
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
 
-	BOOST_TEST(rt_id(o1) == (id< std_matrix< int, 0, 0 > >));
-	BOOST_TEST(rt_id(o2) == (id< std_matrix< int, 0, 0 > >));
-	BOOST_TEST(rt_id(o3) == (id< std_matrix< int, 0, 0 > >));
-	BOOST_TEST(rt_id(o4) == (id< std_matrix< int, 0, 0 > >));
+	BOOST_TEST(rt_id(o1) == (id< std_matrix< int, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(o2) == (id< std_matrix< int, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(o3) == (id< std_matrix< int, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(o4) == (id< std_matrix< int, 0_C, 0_R > >));
 }
 
 
@@ -297,10 +297,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2_and_type){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
-	BOOST_TEST(rt_id(n1) == (id< std_matrix< double, 2, 2 > >));
-	BOOST_TEST(rt_id(n2) == (id< std_matrix< double, 2, 2 > >));
-	BOOST_TEST(rt_id(n3) == (id< std_matrix< double, 2, 2 > >));
-	BOOST_TEST(rt_id(n4) == (id< std_matrix< double, 2, 2 > >));
+	BOOST_TEST(rt_id(n1) == (id< std_matrix< double, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(n2) == (id< std_matrix< double, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(n3) == (id< std_matrix< double, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(n4) == (id< std_matrix< double, 2_C, 2_R > >));
 
 	auto const o1 = convert< double >(m5, 2_c, 2_r);
 	auto const o2 = convert< double >(m2, 2_c, 2_r);
@@ -312,10 +312,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2_and_type){
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
 
-	BOOST_TEST(rt_id(o1) == (id< std_matrix< double, 2, 2 > >));
-	BOOST_TEST(rt_id(o2) == (id< std_matrix< double, 2, 2 > >));
-	BOOST_TEST(rt_id(o3) == (id< std_matrix< double, 2, 2 > >));
-	BOOST_TEST(rt_id(o4) == (id< std_matrix< double, 2, 2 > >));
+	BOOST_TEST(rt_id(o1) == (id< std_matrix< double, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(o2) == (id< std_matrix< double, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(o3) == (id< std_matrix< double, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(o4) == (id< std_matrix< double, 2_C, 2_R > >));
 }
 
 
@@ -335,10 +335,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2_and_type){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
-	BOOST_TEST(rt_id(n1) == (id< std_matrix< double, 0, 2 > >));
-	BOOST_TEST(rt_id(n2) == (id< std_matrix< double, 0, 2 > >));
-	BOOST_TEST(rt_id(n3) == (id< std_matrix< double, 0, 2 > >));
-	BOOST_TEST(rt_id(n4) == (id< std_matrix< double, 0, 2 > >));
+	BOOST_TEST(rt_id(n1) == (id< std_matrix< double, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(n2) == (id< std_matrix< double, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(n3) == (id< std_matrix< double, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(n4) == (id< std_matrix< double, 0_C, 2_R > >));
 
 	auto const o1 = convert< double >(m1, 2_cd, 2_r);
 	auto const o2 = convert< double >(m2, 2_cd, 2_r);
@@ -350,10 +350,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2_and_type){
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
 
-	BOOST_TEST(rt_id(o1) == (id< std_matrix< double, 0, 2 > >));
-	BOOST_TEST(rt_id(o2) == (id< std_matrix< double, 0, 2 > >));
-	BOOST_TEST(rt_id(o3) == (id< std_matrix< double, 0, 2 > >));
-	BOOST_TEST(rt_id(o4) == (id< std_matrix< double, 0, 2 > >));
+	BOOST_TEST(rt_id(o1) == (id< std_matrix< double, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(o2) == (id< std_matrix< double, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(o3) == (id< std_matrix< double, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(o4) == (id< std_matrix< double, 0_C, 2_R > >));
 }
 
 
@@ -373,10 +373,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2rt_and_type){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
-	BOOST_TEST(rt_id(n1) == (id< std_matrix< double, 2, 0 > >));
-	BOOST_TEST(rt_id(n2) == (id< std_matrix< double, 2, 0 > >));
-	BOOST_TEST(rt_id(n3) == (id< std_matrix< double, 2, 0 > >));
-	BOOST_TEST(rt_id(n4) == (id< std_matrix< double, 2, 0 > >));
+	BOOST_TEST(rt_id(n1) == (id< std_matrix< double, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(n2) == (id< std_matrix< double, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(n3) == (id< std_matrix< double, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(n4) == (id< std_matrix< double, 2_C, 0_R > >));
 
 	auto const o1 = convert< double >(m1, 2_c, 2_rd);
 	auto const o2 = convert< double >(m2, 2_c, 2_rd);
@@ -388,10 +388,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2rt_and_type){
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
 
-	BOOST_TEST(rt_id(o1) == (id< std_matrix< double, 2, 0 > >));
-	BOOST_TEST(rt_id(o2) == (id< std_matrix< double, 2, 0 > >));
-	BOOST_TEST(rt_id(o3) == (id< std_matrix< double, 2, 0 > >));
-	BOOST_TEST(rt_id(o4) == (id< std_matrix< double, 2, 0 > >));
+	BOOST_TEST(rt_id(o1) == (id< std_matrix< double, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(o2) == (id< std_matrix< double, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(o3) == (id< std_matrix< double, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(o4) == (id< std_matrix< double, 2_C, 0_R > >));
 }
 
 
@@ -411,10 +411,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2rt_and_type){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
-	BOOST_TEST(rt_id(n1) == (id< std_matrix< double, 0, 0 > >));
-	BOOST_TEST(rt_id(n2) == (id< std_matrix< double, 0, 0 > >));
-	BOOST_TEST(rt_id(n3) == (id< std_matrix< double, 0, 0 > >));
-	BOOST_TEST(rt_id(n4) == (id< std_matrix< double, 0, 0 > >));
+	BOOST_TEST(rt_id(n1) == (id< std_matrix< double, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(n2) == (id< std_matrix< double, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(n3) == (id< std_matrix< double, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(n4) == (id< std_matrix< double, 0_C, 0_R > >));
 
 	auto const o1 = convert< double >(m1, 2_cd, 2_rd);
 	auto const o2 = convert< double >(m2, 2_cd, 2_rd);
@@ -426,10 +426,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2rt_and_type){
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
 
-	BOOST_TEST(rt_id(o1) == (id< std_matrix< double, 0, 0 > >));
-	BOOST_TEST(rt_id(o2) == (id< std_matrix< double, 0, 0 > >));
-	BOOST_TEST(rt_id(o3) == (id< std_matrix< double, 0, 0 > >));
-	BOOST_TEST(rt_id(o4) == (id< std_matrix< double, 0, 0 > >));
+	BOOST_TEST(rt_id(o1) == (id< std_matrix< double, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(o2) == (id< std_matrix< double, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(o3) == (id< std_matrix< double, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(o4) == (id< std_matrix< double, 0_C, 0_R > >));
 }
 
 
@@ -449,10 +449,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2_and_type_to_ref){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
-	BOOST_TEST(rt_id(n1) == (id< std_matrix< int_ref, 2, 2 > >));
-	BOOST_TEST(rt_id(n2) == (id< std_matrix< int_ref, 2, 2 > >));
-	BOOST_TEST(rt_id(n3) == (id< std_matrix< int_ref, 2, 2 > >));
-	BOOST_TEST(rt_id(n4) == (id< std_matrix< int_ref, 2, 2 > >));
+	BOOST_TEST(rt_id(n1) == (id< std_matrix< int_ref, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(n2) == (id< std_matrix< int_ref, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(n3) == (id< std_matrix< int_ref, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(n4) == (id< std_matrix< int_ref, 2_C, 2_R > >));
 
 	auto const o1 = convert< cint_ref >(m1, 2_c, 2_r);
 	auto const o2 = convert< cint_ref >(m2, 2_c, 2_r);
@@ -464,10 +464,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2_and_type_to_ref){
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
 
-	BOOST_TEST(rt_id(o1) == (id< std_matrix< cint_ref, 2, 2 > >));
-	BOOST_TEST(rt_id(o2) == (id< std_matrix< cint_ref, 2, 2 > >));
-	BOOST_TEST(rt_id(o3) == (id< std_matrix< cint_ref, 2, 2 > >));
-	BOOST_TEST(rt_id(o4) == (id< std_matrix< cint_ref, 2, 2 > >));
+	BOOST_TEST(rt_id(o1) == (id< std_matrix< cint_ref, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(o2) == (id< std_matrix< cint_ref, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(o3) == (id< std_matrix< cint_ref, 2_C, 2_R > >));
+	BOOST_TEST(rt_id(o4) == (id< std_matrix< cint_ref, 2_C, 2_R > >));
 }
 
 
@@ -487,10 +487,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2_and_type_to_ref){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
-	BOOST_TEST(rt_id(n1) == (id< std_matrix< int_ref, 0, 2 > >));
-	BOOST_TEST(rt_id(n2) == (id< std_matrix< int_ref, 0, 2 > >));
-	BOOST_TEST(rt_id(n3) == (id< std_matrix< int_ref, 0, 2 > >));
-	BOOST_TEST(rt_id(n4) == (id< std_matrix< int_ref, 0, 2 > >));
+	BOOST_TEST(rt_id(n1) == (id< std_matrix< int_ref, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(n2) == (id< std_matrix< int_ref, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(n3) == (id< std_matrix< int_ref, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(n4) == (id< std_matrix< int_ref, 0_C, 2_R > >));
 
 	auto const o1 = convert< cint_ref >(m1, 2_cd, 2_r);
 	auto const o2 = convert< cint_ref >(m2, 2_cd, 2_r);
@@ -502,10 +502,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2_and_type_to_ref){
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
 
-	BOOST_TEST(rt_id(o1) == (id< std_matrix< cint_ref, 0, 2 > >));
-	BOOST_TEST(rt_id(o2) == (id< std_matrix< cint_ref, 0, 2 > >));
-	BOOST_TEST(rt_id(o3) == (id< std_matrix< cint_ref, 0, 2 > >));
-	BOOST_TEST(rt_id(o4) == (id< std_matrix< cint_ref, 0, 2 > >));
+	BOOST_TEST(rt_id(o1) == (id< std_matrix< cint_ref, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(o2) == (id< std_matrix< cint_ref, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(o3) == (id< std_matrix< cint_ref, 0_C, 2_R > >));
+	BOOST_TEST(rt_id(o4) == (id< std_matrix< cint_ref, 0_C, 2_R > >));
 }
 
 
@@ -525,10 +525,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2rt_and_type_to_ref){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
-	BOOST_TEST(rt_id(n1) == (id< std_matrix< int_ref, 2, 0 > >));
-	BOOST_TEST(rt_id(n2) == (id< std_matrix< int_ref, 2, 0 > >));
-	BOOST_TEST(rt_id(n3) == (id< std_matrix< int_ref, 2, 0 > >));
-	BOOST_TEST(rt_id(n4) == (id< std_matrix< int_ref, 2, 0 > >));
+	BOOST_TEST(rt_id(n1) == (id< std_matrix< int_ref, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(n2) == (id< std_matrix< int_ref, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(n3) == (id< std_matrix< int_ref, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(n4) == (id< std_matrix< int_ref, 2_C, 0_R > >));
 
 	auto const o1 = convert< cint_ref >(m1, 2_c, 2_rd);
 	auto const o2 = convert< cint_ref >(m2, 2_c, 2_rd);
@@ -540,10 +540,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2x2rt_and_type_to_ref){
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
 
-	BOOST_TEST(rt_id(o1) == (id< std_matrix< cint_ref, 2, 0 > >));
-	BOOST_TEST(rt_id(o2) == (id< std_matrix< cint_ref, 2, 0 > >));
-	BOOST_TEST(rt_id(o3) == (id< std_matrix< cint_ref, 2, 0 > >));
-	BOOST_TEST(rt_id(o4) == (id< std_matrix< cint_ref, 2, 0 > >));
+	BOOST_TEST(rt_id(o1) == (id< std_matrix< cint_ref, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(o2) == (id< std_matrix< cint_ref, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(o3) == (id< std_matrix< cint_ref, 2_C, 0_R > >));
+	BOOST_TEST(rt_id(o4) == (id< std_matrix< cint_ref, 2_C, 0_R > >));
 }
 
 
@@ -563,10 +563,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2rt_and_type_to_ref){
 	BOOST_TEST(check(n3));
 	BOOST_TEST(check(n4));
 
-	BOOST_TEST(rt_id(n1) == (id< std_matrix< int_ref, 0, 0 > >));
-	BOOST_TEST(rt_id(n2) == (id< std_matrix< int_ref, 0, 0 > >));
-	BOOST_TEST(rt_id(n3) == (id< std_matrix< int_ref, 0, 0 > >));
-	BOOST_TEST(rt_id(n4) == (id< std_matrix< int_ref, 0, 0 > >));
+	BOOST_TEST(rt_id(n1) == (id< std_matrix< int_ref, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(n2) == (id< std_matrix< int_ref, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(n3) == (id< std_matrix< int_ref, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(n4) == (id< std_matrix< int_ref, 0_C, 0_R > >));
 
 	auto const o1 = convert< cint_ref >(m1, 2_cd, 2_rd);
 	auto const o2 = convert< cint_ref >(m2, 2_cd, 2_rd);
@@ -578,10 +578,10 @@ BOOST_AUTO_TEST_CASE(test_convert_convert_to_2rtx2rt_and_type_to_ref){
 	BOOST_TEST(check(o3));
 	BOOST_TEST(check(o4));
 
-	BOOST_TEST(rt_id(o1) == (id< std_matrix< cint_ref, 0, 0 > >));
-	BOOST_TEST(rt_id(o2) == (id< std_matrix< cint_ref, 0, 0 > >));
-	BOOST_TEST(rt_id(o3) == (id< std_matrix< cint_ref, 0, 0 > >));
-	BOOST_TEST(rt_id(o4) == (id< std_matrix< cint_ref, 0, 0 > >));
+	BOOST_TEST(rt_id(o1) == (id< std_matrix< cint_ref, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(o2) == (id< std_matrix< cint_ref, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(o3) == (id< std_matrix< cint_ref, 0_C, 0_R > >));
+	BOOST_TEST(rt_id(o4) == (id< std_matrix< cint_ref, 0_C, 0_R > >));
 }
 
 

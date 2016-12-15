@@ -15,7 +15,7 @@
 namespace mitrax::detail{
 
 
-	template < typename T, size_t C, size_t R >
+	template < typename T, col_ct C, row_ct R >
 	class stack_matrix_impl;
 
 
@@ -25,18 +25,18 @@ namespace mitrax::detail{
 namespace mitrax{
 
 
-	template < typename T, size_t Cols, size_t Rows >
+	template < typename T, col_ct C, row_ct R >
 	using stack_matrix =
-		matrix< detail::stack_matrix_impl< T, Cols, Rows >, Cols, Rows >;
+		matrix< detail::stack_matrix_impl< T, C, R >, C, R >;
 
-	template < typename T, size_t N >
-	using stack_square_matrix = stack_matrix< T, N, N >;
+	template < typename T, dim_ct D >
+	using stack_square_matrix = stack_matrix< T, col_ct(D), row_ct(D) >;
 
-	template < typename T, size_t Rows >
-	using stack_col_vector = stack_matrix< T, 1, Rows >;
+	template < typename T, row_ct R >
+	using stack_col_vector = stack_matrix< T, 1_C, R >;
 
-	template < typename T, size_t Cols >
-	using stack_row_vector = stack_matrix< T, Cols, 1 >;
+	template < typename T, col_ct C >
+	using stack_row_vector = stack_matrix< T, C, 1_R >;
 
 
 }
@@ -46,8 +46,9 @@ namespace mitrax::maker{
 
 
 	struct stack_t: key{
-		template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr stack_matrix< iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >
+		template < typename Iter, bool Cct, col_ct C, bool Rct, row_ct R >
+		constexpr
+		stack_matrix< iter_type_t< Iter >, Cct ? C : 0_C, Rct ? R : 0_R >
 		by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter)const;
 	};
 

@@ -16,8 +16,8 @@ namespace mitrax{
 
 
 	template <
-		bool Ccto, size_t Co, bool Rcto, size_t Ro,
-		typename M, size_t C, size_t R
+		bool Ccto, col_ct Co, bool Rcto, row_ct Ro,
+		typename M, col_ct C, row_ct R
 	> constexpr auto pass_in(
 		col_t< Ccto, Co > c,
 		row_t< Rcto, Ro > r,
@@ -65,8 +65,8 @@ namespace mitrax{
 		});
 	}
 
-	template < bool Ccto, size_t Co, bool Rcto, size_t Ro,
-		typename M, size_t C, size_t R >
+	template < bool Ccto, col_ct Co, bool Rcto, row_ct Ro,
+		typename M, col_ct C, row_ct R >
 	constexpr auto pass_in(
 		dim_pair_t< Ccto, Co, Rcto, Ro > const& dims,
 		matrix< M, C, R > const& m,

@@ -18,16 +18,16 @@ namespace mitrax{
 
 
 	template <
-		typename M1, size_t C1, size_t R1,
-		typename M2, size_t C2, size_t R2
+		typename M1, col_ct C1, row_ct R1,
+		typename M2, col_ct C2, row_ct R2
 	> constexpr bool operator==(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
 		auto size = get_dims(m2, m1);
 
-		for(size_t y = 0; y < size.rows(); ++y){
-			for(size_t x = 0; x < size.cols(); ++x){
+		for(size_t y = 0; y < size_t(size.rows()); ++y){
+			for(size_t x = 0; x < size_t(size.cols()); ++x){
 				if(m1(x, y) != m2(x, y)) return false;
 			}
 		}
@@ -36,8 +36,8 @@ namespace mitrax{
 	}
 
 	template <
-		typename M1, size_t C1, size_t R1,
-		typename M2, size_t C2, size_t R2
+		typename M1, col_ct C1, row_ct R1,
+		typename M2, col_ct C2, row_ct R2
 	> constexpr bool operator!=(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2

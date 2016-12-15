@@ -107,14 +107,17 @@ namespace mitrax{ namespace png{
 	}
 
 
-	template < typename M, size_t Cols, size_t Rows >
+	template < typename M, col_ct Cols, row_ct Rows >
 	void load(matrix< M, Cols, Rows >& m, std::string const& filename){
 		using value_type = value_type_t< M >;
 
 		::png::image< detail::png_type_t< value_type > > output;
 		output.read(filename);
 
-		if(m.cols() != output.get_width() || m.rows() != output.get_height()){
+		if(
+			size_t(m.cols()) != output.get_width() ||
+			size_t(m.rows()) != output.get_height()
+		){
 			throw std::runtime_error("Can't load PNG-File, dims are wrong.");
 		}
 
@@ -126,13 +129,13 @@ namespace mitrax{ namespace png{
 	}
 
 
-	template < typename M, size_t Cols, size_t Rows >
+	template < typename M, col_ct Cols, row_ct Rows >
 	void save(matrix< M, Cols, Rows > const& m, std::string const& filename){
 		using value_type = value_type_t< M >;
 		using image_type = ::png::image< detail::png_type_t< value_type > >;
 		using ivalue_type = typename image_type::traits::pixel_type;
 
-		image_type output(m.cols(), m.rows());
+		image_type output(size_t(m.cols()), size_t(m.rows()));
 
 		for(std::size_t y = 0; y < output.get_height(); ++y){
 			for(std::size_t x = 0; x < output.get_width(); ++x){

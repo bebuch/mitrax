@@ -16,21 +16,21 @@
 namespace mitrax{
 
 
-	template < typename T, size_t Cols, size_t Rows >
-	using std_matrix = std::conditional_t< Cols != 0 && Rows != 0,
-		stack_matrix< T, Cols, Rows >, heap_matrix< T, Cols, Rows > >;
+	template < typename T, col_ct C, row_ct R >
+	using std_matrix = std::conditional_t< C != 0_C && R != 0_R,
+		stack_matrix< T, C, R >, heap_matrix< T, C, R > >;
 
-	template < typename T, size_t N >
-	using std_square_matrix = std_matrix< T, N, N >;
+	template < typename T, dim_ct D >
+	using std_square_matrix = std_matrix< T, col_ct(D), row_ct(D) >;
 
-	template < typename T, size_t Rows >
-	using std_col_vector = std_matrix< T, 1, Rows >;
+	template < typename T, row_ct R >
+	using std_col_vector = std_matrix< T, 1_C, R >;
 
-	template < typename T, size_t Cols >
-	using std_row_vector = std_matrix< T, Cols, 1 >;
+	template < typename T, col_ct C >
+	using std_row_vector = std_matrix< T, C, 1_R >;
 
 	template < typename T >
-	using std_bitmap = std_matrix< T, 0, 0 >;
+	using std_bitmap = std_matrix< T, 0_C, 0_R >;
 
 
 }
@@ -40,14 +40,15 @@ namespace mitrax::maker{
 
 
 	struct std_t: key{
-		template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
-		constexpr std_matrix< iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >
+		template < typename Iter, bool Cct, col_ct C, bool Rct, row_ct R >
+		constexpr
+		std_matrix< iter_type_t< Iter >, Cct ? C : 0_C, Rct ? R : 0_R >
 		by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter)const;
 	};
 
 
-	template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
-	constexpr std_matrix< iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >
+	template < typename Iter, bool Cct, col_ct C, bool Rct, row_ct R >
+	constexpr std_matrix< iter_type_t< Iter >, Cct ? C : 0_C, Rct ? R : 0_R >
 	std_t::by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter)const{
 		if constexpr(Cct && Rct){
 			return stack.by_sequence(c, r, iter);

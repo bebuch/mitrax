@@ -15,10 +15,10 @@
 namespace mitrax::detail{
 
 
-	template < typename T, bool RowOrder, size_t C, size_t R >
+	template < typename T, bool RowOrder, col_ct C, row_ct R >
 	class view_matrix_impl;
 
-	template < typename T, bool RowOrder, size_t C, size_t R >
+	template < typename T, bool RowOrder, col_ct C, row_ct R >
 	class const_view_matrix_impl;
 
 
@@ -28,38 +28,40 @@ namespace mitrax::detail{
 namespace mitrax{
 
 
-	template < typename T, bool RowOrder, size_t Cols, size_t Rows >
+	template < typename T, bool RowOrder, col_ct C, row_ct R >
 	using view_matrix = matrix< detail::view_matrix_impl
-		< T, RowOrder, Cols, Rows >, Cols, Rows >;
+		< T, RowOrder, C, R >, C, R >;
 
-	template < typename T, bool RowOrder, size_t N >
-	using view_square_matrix = view_matrix< T, RowOrder, N, N >;
+	template < typename T, bool RowOrder, dim_ct D >
+	using view_square_matrix =
+		view_matrix< T, RowOrder, col_ct(D), row_ct(D) >;
 
-	template < typename T, bool RowOrder, size_t Rows >
-	using view_col_vector = view_matrix< T, RowOrder, 1, Rows >;
+	template < typename T, bool RowOrder, row_ct R >
+	using view_col_vector = view_matrix< T, RowOrder, 1_C, R >;
 
-	template < typename T, bool RowOrder, size_t Cols >
-	using view_row_vector = view_matrix< T, RowOrder, Cols, 1 >;
+	template < typename T, bool RowOrder, col_ct C >
+	using view_row_vector = view_matrix< T, RowOrder, C, 1_R >;
 
 	template < typename T, bool RowOrder >
-	using view_bitmap = view_matrix< T, RowOrder, 0, 0 >;
+	using view_bitmap = view_matrix< T, RowOrder, 0_C, 0_R >;
 
 
-	template < typename T, bool RowOrder, size_t Cols, size_t Rows >
+	template < typename T, bool RowOrder, col_ct C, row_ct R >
 	using const_view_matrix = matrix< detail::const_view_matrix_impl
-		< T, RowOrder, Cols, Rows >, Cols, Rows >;
+		< T, RowOrder, C, R >, C, R >;
 
-	template < typename T, bool RowOrder, size_t N >
-	using const_view_square_matrix = const_view_matrix< T, RowOrder, N, N >;
+	template < typename T, bool RowOrder, dim_ct D >
+	using const_view_square_matrix =
+		const_view_matrix< T, RowOrder, col_ct(D), row_ct(D) >;
 
-	template < typename T, bool RowOrder, size_t Rows >
-	using const_view_col_vector = const_view_matrix< T, RowOrder, 1, Rows >;
+	template < typename T, bool RowOrder, row_ct R >
+	using const_view_col_vector = const_view_matrix< T, RowOrder, 1_C, R >;
 
-	template < typename T, bool RowOrder, size_t Cols >
-	using const_view_row_vector = const_view_matrix< T, RowOrder, Cols, 1 >;
+	template < typename T, bool RowOrder, col_ct C >
+	using const_view_row_vector = const_view_matrix< T, RowOrder, C, 1_R >;
 
 	template < typename T, bool RowOrder >
-	using const_view_bitmap = const_view_matrix< T, RowOrder, 0, 0 >;
+	using const_view_bitmap = const_view_matrix< T, RowOrder, 0_C, 0_R >;
 
 
 }
@@ -70,7 +72,7 @@ namespace mitrax::maker{
 
 	struct view_t: key{
 		template < typename T, typename MemoryOrder = memory_order::row_t,
-			bool Cct, size_t C, bool Rct, size_t R >
+			bool Cct, col_ct C, bool Rct, row_ct R >
 		constexpr auto by_object(
 			col_t< Cct, C > c, row_t< Rct, R > r,
 			T& object, MemoryOrder = memory_order::row
@@ -79,7 +81,7 @@ namespace mitrax::maker{
 
 	struct const_view_t: key{
 		template < typename T, typename MemoryOrder = memory_order::row_t,
-			bool Cct, size_t C, bool Rct, size_t R >
+			bool Cct, col_ct C, bool Rct, row_ct R >
 		constexpr auto by_object(
 			col_t< Cct, C > c, row_t< Rct, R > r,
 			T const& object, MemoryOrder = memory_order::row

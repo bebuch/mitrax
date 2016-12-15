@@ -42,8 +42,8 @@ BOOST_AUTO_TEST_CASE(test_convolution){
 	constexpr auto m = convolution(image, sobel_x);
 
 	auto eq =
-		m.cols() == 3 &&
-		m.rows() == 3 &&
+		m.cols() == 3_c &&
+		m.rows() == 3_r &&
 		m(0, 0) == -8 &&
 		m(1, 0) == -8 &&
 		m(2, 0) == -8 &&
@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(test_convolution){
 
 	BOOST_TEST(eq);
 
-	BOOST_TEST(type_id_runtime(m) == (type_id< std_matrix< int, 3, 3 > >()));
+	BOOST_TEST(type_id_runtime(m) == (type_id< std_matrix< int, 3_C, 3_R > >()));
 }
 
 

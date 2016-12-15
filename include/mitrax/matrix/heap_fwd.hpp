@@ -15,7 +15,7 @@
 namespace mitrax::detail{
 
 
-	template < typename T, size_t C, size_t R >
+	template < typename T, col_ct C, row_ct R >
 	class heap_matrix_impl;
 
 
@@ -25,18 +25,18 @@ namespace mitrax::detail{
 namespace mitrax{
 
 
-	template < typename T, size_t Cols, size_t Rows >
+	template < typename T, col_ct C, row_ct R >
 	using heap_matrix =
-		matrix< detail::heap_matrix_impl< T, Cols, Rows >, Cols, Rows >;
+		matrix< detail::heap_matrix_impl< T, C, R >, C, R >;
 
-	template < typename T, size_t N >
-	using heap_square_matrix = heap_matrix< T, N, N >;
+	template < typename T, dim_ct D >
+	using heap_square_matrix = heap_matrix< T, col_ct(D), row_ct(D) >;
 
-	template < typename T, size_t Rows >
-	using heap_col_vector = heap_matrix< T, 1, Rows >;
+	template < typename T, row_ct R >
+	using heap_col_vector = heap_matrix< T, 1_C, R >;
 
-	template < typename T, size_t Cols >
-	using heap_row_vector = heap_matrix< T, Cols, 1 >;
+	template < typename T, col_ct C >
+	using heap_row_vector = heap_matrix< T, C, 1_R >;
 
 
 }
@@ -46,8 +46,8 @@ namespace mitrax::maker{
 
 
 	struct heap_t: key{
-		template < typename Iter, bool Cct, size_t C, bool Rct, size_t R >
-		heap_matrix< iter_type_t< Iter >, Cct ? C : 0, Rct ? R : 0 >
+		template < typename Iter, bool Cct, col_ct C, bool Rct, row_ct R >
+		heap_matrix< iter_type_t< Iter >, Cct ? C : 0_C, Rct ? R : 0_R >
 		by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter)const;
 	};
 

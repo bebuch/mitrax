@@ -16,7 +16,7 @@
 namespace mitrax{
 
 
-	template < typename M, size_t C, size_t R >
+	template < typename M, col_ct C, row_ct R >
 	constexpr std_matrix< value_type_t< M >, C, R >
 	upper_triangular_matrix(matrix< M, C, R > const& in){
 		if(size_t(in.rows()) != size_t(in.cols())){
@@ -26,7 +26,7 @@ namespace mitrax{
 		}
 
 		// Compiler may optimize with the compile time dimension
-		size_t const size = C == 0 ? size_t(in.rows()) : size_t(in.cols());
+		size_t const size = C == 0_C ? size_t(in.rows()) : size_t(in.cols());
 
 		auto m = convert< value_type_t< M > >(in);
 
@@ -62,7 +62,7 @@ namespace mitrax{
 	}
 
 
-	template < typename M1, size_t C1, size_t R1, typename M2, size_t R2 >
+	template < typename M1, col_ct C1, row_ct R1, typename M2, row_ct R2 >
 	constexpr auto gaussian_elimination(
 		matrix< M1, C1, R1 > m,
 		col_vector< M2, R2 > v
@@ -80,8 +80,8 @@ namespace mitrax{
 		auto b = convert< value_type >(v);
 
 		// Compiler may optimize with the compile time dimension
-		size_t const size = C1 != 0 ?
-			size_t(m.cols()) : R1 != 0 ? size_t(m.rows()) : size_t(b.rows());
+		size_t const size = C1 != 0_C ?
+			size_t(m.cols()) : R1 != 0_R ? size_t(m.rows()) : size_t(b.rows());
 
 		size_t swap_count = 0;
 		for(size_t i = 0; i < size; ++i){
@@ -134,9 +134,9 @@ namespace mitrax{
 
 
 	template <
-		typename M1, size_t C1, size_t R1,
-		typename M2, size_t R2,
-		typename M3, size_t R3
+		typename M1, col_ct C1, row_ct R1,
+		typename M2, row_ct R2,
+		typename M3, row_ct R3
 	> constexpr auto gaussian_elimination(
 		matrix< M1, C1, R1 > a,
 		col_vector< M2, R2 > v,
@@ -163,7 +163,7 @@ namespace mitrax{
 				}
 			});
 
-		for(size_t i = a.rows(); i < b.rows(); ++i){
+		for(size_t i = size_t(a.rows()); i < size_t(b.rows()); ++i){
 			for(size_t y = 0; y < a.rows(); ++y){
 				b[y] -= a(y, y) * b[i];
 			}
@@ -175,8 +175,8 @@ namespace mitrax{
 			});
 
 		// Compiler may optimize with the compile time dimension
-		size_t const size = C1 != 0 ?
-			size_t(m.cols()) : R1 != 0 ? size_t(m.rows()) : size_t(b.rows());
+		size_t const size = C1 != 0_C ?
+			size_t(m.cols()) : R1 != 0_R ? size_t(m.rows()) : size_t(b.rows());
 
 		size_t swap_count = 0;
 		for(size_t i = 0; i < size; ++i){
@@ -228,7 +228,7 @@ namespace mitrax{
 	}
 
 
-	template < typename M, size_t C, size_t R >
+	template < typename M, col_ct C, row_ct R >
 	constexpr std_matrix< value_type_t< M >, C, R >
 	inverse(matrix< M, C, R > m){
 		using value_type = value_type_t< M >;
@@ -240,7 +240,7 @@ namespace mitrax{
 		}
 
 		// Compiler may optimize with the compile time dimension
-		size_t const size = C == 0 ? size_t(m.rows()) : size_t(m.cols());
+		size_t const size = C == 0_C ? size_t(m.rows()) : size_t(m.cols());
 
 		auto r = make_matrix_v< value_type >(m.dims());
 		for(size_t i = 0; i < size; ++i){
@@ -307,7 +307,7 @@ namespace mitrax{
 	}
 
 
-	template < typename M, size_t C, size_t R >
+	template < typename M, col_ct C, row_ct R >
 	constexpr auto matrix_kernel(matrix< M, C, R > m){
 		using value_type = value_type_t< M >;
 
@@ -322,7 +322,7 @@ namespace mitrax{
 		);
 
 		// Compiler may optimize with the compile time dimension
-		size_t const size = C == 0 ? size_t(m.rows()) : size_t(m.cols());
+		size_t const size = C == 0_C ? size_t(m.rows()) : size_t(m.cols());
 
 		for(size_t i = 0; i < size; ++i){
 			if(m(i, i) == 0){
