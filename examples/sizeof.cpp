@@ -7,17 +7,17 @@ int main(){
 	using namespace mitrax;
 	using namespace mitrax::literals;
 
-	auto dcc = dim_pair(2_c, 4_r);
-	auto drc = dim_pair(2_cd, 4_r);
-	auto dcr = dim_pair(2_c, 4_rd);
-	auto drr = dim_pair(2_cd, 4_rd);
+	auto dcc = dim_pair(2_CS, 4_RS);
+	auto drc = dim_pair(2_CD, 4_RS);
+	auto dcr = dim_pair(2_CS, 4_RD);
+	auto drr = dim_pair(2_CD, 4_RD);
 
-	auto mcc = make_matrix_v< std::uint8_t >(2_c, 4_r);
-	auto mrc = make_matrix_v< std::uint8_t >(2_cd, 4_r);
-	auto mcr = make_matrix_v< std::uint8_t >(2_c, 4_rd);
-	auto mrr = make_matrix_v< std::uint8_t >(2_cd, 4_rd);
+	auto mcc = make_matrix_v< std::uint8_t >(2_CS, 4_RS);
+	auto mrc = make_matrix_v< std::uint8_t >(2_CD, 4_RS);
+	auto mcr = make_matrix_v< std::uint8_t >(2_CS, 4_RD);
+	auto mrr = make_matrix_v< std::uint8_t >(2_CD, 4_RD);
 
-	auto hcc = make_matrix_v(2_c, 4_r, std::uint8_t(), maker::heap);
+	auto hcc = make_matrix_v(2_CS, 4_RS, std::uint8_t(), maker::heap);
 
 	std::cout << "sizeof(dcc) = " << sizeof(dcc) << std::endl;
 	std::cout << "sizeof(drc) = " << sizeof(drc) << std::endl;

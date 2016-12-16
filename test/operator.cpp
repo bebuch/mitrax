@@ -28,73 +28,73 @@ template < typename T >
 auto const id = type_id< T >();
 
 
-constexpr auto ref1 = make_matrix< int >(3_d, {
+constexpr auto ref1 = make_matrix< int >(3_DS, {
 	{0, 1, 2},
 	{3, 4, 5},
 	{6, 7, 8}
 });
 
-constexpr auto ref2 = make_matrix< int >(3_d, {
+constexpr auto ref2 = make_matrix< int >(3_DS, {
 	{0, 2, 4},
 	{6, 8, 10},
 	{12, 14, 16}
 });
 
-constexpr auto ref3 = make_matrix< int >(3_d, {
+constexpr auto ref3 = make_matrix< int >(3_DS, {
 	{0, 3, 6},
 	{9, 12, 15},
 	{18, 21, 24}
 });
 
-constexpr auto ref1_mod3 = make_matrix< int >(3_d, {
+constexpr auto ref1_mod3 = make_matrix< int >(3_DS, {
 	{0, 1, 2},
 	{0, 1, 2},
 	{0, 1, 2}
 });
 
-constexpr auto ref1_square = make_matrix< int >(3_d, {
+constexpr auto ref1_square = make_matrix< int >(3_DS, {
 	{0, 1, 4},
 	{9, 16, 25},
 	{36, 49, 64}
 });
 
-constexpr auto ref1_element_plus1 = make_matrix< int >(3_d, {
+constexpr auto ref1_element_plus1 = make_matrix< int >(3_DS, {
 	{1, 2, 3},
 	{4, 5, 6},
 	{7, 8, 9}
 });
 
-constexpr auto ref1_element_minus1 = make_matrix< int >(3_d, {
+constexpr auto ref1_element_minus1 = make_matrix< int >(3_DS, {
 	{-1, 0, 1},
 	{2, 3, 4},
 	{5, 6, 7}
 });
 
-constexpr auto ref_all1 = make_matrix< int >(3_d, {
+constexpr auto ref_all1 = make_matrix< int >(3_DS, {
 	{1, 1, 1},
 	{1, 1, 1},
 	{1, 1, 1}
 });
 
-constexpr auto ref_all3 = make_matrix< int >(3_d, {
+constexpr auto ref_all3 = make_matrix< int >(3_DS, {
 	{3, 3, 3},
 	{3, 3, 3},
 	{3, 3, 3}
 });
 
-constexpr auto ref_all9 = make_matrix< int >(3_d, {
+constexpr auto ref_all9 = make_matrix< int >(3_DS, {
 	{9, 9, 9},
 	{9, 9, 9},
 	{9, 9, 9}
 });
 
-constexpr auto ref_mod = make_matrix< int >(3_d, {
+constexpr auto ref_mod = make_matrix< int >(3_DS, {
 	{2, 3, 4},
 	{5, 6, 7},
 	{8, 9, 10}
 });
 
-constexpr auto ref_all9_mod_res = make_matrix< int >(3_d, {
+constexpr auto ref_all9_mod_res = make_matrix< int >(3_DS, {
 	{1, 0, 1},
 	{4, 3, 2},
 	{1, 0, 9}
@@ -284,39 +284,39 @@ BOOST_AUTO_TEST_CASE(test_matrix_multiplies){
 
 
 BOOST_AUTO_TEST_CASE(test_transpose){
-	constexpr auto m_cc = make_matrix< int >(2_c, 3_r, {
+	constexpr auto m_cc = make_matrix< int >(2_CS, 3_RS, {
 		{1, 2},
 		{3, 4},
 		{5, 6}
 	});
 
-	auto m_cd = make_matrix< int >(2_c, 3_rd, {
+	auto m_CD = make_matrix< int >(2_CS, 3_RD, {
 		{1, 2},
 		{3, 4},
 		{5, 6}
 	});
 
-	auto m_dc = make_matrix< int >(2_cd, 3_r, {
+	auto m_dc = make_matrix< int >(2_CD, 3_RS, {
 		{1, 2},
 		{3, 4},
 		{5, 6}
 	});
 
-	auto m_dd = make_matrix< int >(2_cd, 3_rd, {
+	auto m_DD = make_matrix< int >(2_CD, 3_RD, {
 		{1, 2},
 		{3, 4},
 		{5, 6}
 	});
 
 	/*constexpr*/ auto trans_cc = transpose(m_cc); //TODO:need constexpr lambda
-	auto trans_cd = transpose(m_cd);
+	auto trans_CD = transpose(m_CD);
 	auto trans_dc = transpose(m_dc);
-	auto trans_dd = transpose(m_dd);
+	auto trans_DD = transpose(m_DD);
 
 	auto check1 = [](auto const& m){
 		return
-			m.cols() == 3_c &&
-			m.rows() == 2_r &&
+			m.cols() == 3_CS &&
+			m.rows() == 2_RS &&
 			m(0, 0) == 1 &&
 			m(1, 0) == 3 &&
 			m(2, 0) == 5 &&
@@ -327,8 +327,8 @@ BOOST_AUTO_TEST_CASE(test_transpose){
 
 	auto check2 = [](auto const& m){
 		return
-			m.cols() == 2_c &&
-			m.rows() == 3_r &&
+			m.cols() == 2_CS &&
+			m.rows() == 3_RS &&
 			m(0, 0) == 1 &&
 			m(1, 0) == 2 &&
 			m(0, 1) == 3 &&
@@ -338,19 +338,19 @@ BOOST_AUTO_TEST_CASE(test_transpose){
 	};
 
 	BOOST_TEST(check1(trans_cc));
-	BOOST_TEST(check1(trans_cd));
+	BOOST_TEST(check1(trans_CD));
 	BOOST_TEST(check1(trans_dc));
-	BOOST_TEST(check1(trans_dd));
+	BOOST_TEST(check1(trans_DD));
 
 	BOOST_TEST((rt_id(trans_cc) == id< std_matrix< int, 3_C, 2_R > >));
-	BOOST_TEST((rt_id(trans_cd) == id< std_matrix< int, 0_C, 2_R > >));
+	BOOST_TEST((rt_id(trans_CD) == id< std_matrix< int, 0_C, 2_R > >));
 	BOOST_TEST((rt_id(trans_dc) == id< std_matrix< int, 3_C, 0_R > >));
-	BOOST_TEST((rt_id(trans_dd) == id< std_matrix< int, 0_C, 0_R > >));
+	BOOST_TEST((rt_id(trans_DD) == id< std_matrix< int, 0_C, 0_R > >));
 
 	BOOST_TEST(check2(transpose(trans_cc)));
-	BOOST_TEST(check2(transpose(trans_cd)));
+	BOOST_TEST(check2(transpose(trans_CD)));
 	BOOST_TEST(check2(transpose(trans_dc)));
-	BOOST_TEST(check2(transpose(trans_dd)));
+	BOOST_TEST(check2(transpose(trans_DD)));
 }
 
 BOOST_AUTO_TEST_CASE(test_unary_plus){
@@ -359,8 +359,8 @@ BOOST_AUTO_TEST_CASE(test_unary_plus){
 	auto n = +m;
 
 	BOOST_TEST((
-			n.cols() == 3_c &&
-			n.rows() == 3_r &&
+			n.cols() == 3_CS &&
+			n.rows() == 3_RS &&
 			n(0, 0) == -1 &&
 			n(1, 0) == 0 &&
 			n(2, 0) == 1 &&
@@ -379,8 +379,8 @@ BOOST_AUTO_TEST_CASE(test_unary_minus){
 	auto n = -m;
 
 	BOOST_TEST((
-			n.cols() == 3_c &&
-			n.rows() == 3_r &&
+			n.cols() == 3_CS &&
+			n.rows() == 3_RS &&
 			n(0, 0) == 1 &&
 			n(1, 0) == 0 &&
 			n(2, 0) == -1 &&
@@ -399,8 +399,8 @@ BOOST_AUTO_TEST_CASE(test_abs){
 	auto n = abs(m);
 
 	BOOST_TEST((
-			n.cols() == 3_c &&
-			n.rows() == 3_r &&
+			n.cols() == 3_CS &&
+			n.rows() == 3_RS &&
 			n(0, 0) == 1 &&
 			n(1, 0) == 0 &&
 			n(2, 0) == 1 &&

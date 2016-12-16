@@ -56,10 +56,10 @@ BOOST_AUTO_TEST_SUITE(suite_output)
 
 
 BOOST_AUTO_TEST_CASE(test_output_3x3){
-	auto m1 = make_matrix(3_c, 3_r, m33);
-	auto m2 = make_matrix(3_cd, 3_r, m33);
-	auto m3 = make_matrix(3_c, 3_rd, m33);
-	auto m4 = make_matrix(3_cd, 3_rd, m33);
+	auto m1 = make_matrix(3_CS, 3_RS, m33);
+	auto m2 = make_matrix(3_CD, 3_RS, m33);
+	auto m3 = make_matrix(3_CS, 3_RD, m33);
+	auto m4 = make_matrix(3_CD, 3_RD, m33);
 
 	BOOST_TEST(out(m1) == m33_ref);
 	BOOST_TEST(out(m2) == m33_ref);
@@ -68,10 +68,10 @@ BOOST_AUTO_TEST_CASE(test_output_3x3){
 }
 
 BOOST_AUTO_TEST_CASE(test_output_2x3){
-	auto m1 = make_matrix(2_c, 3_r, m23);
-	auto m2 = make_matrix(2_cd, 3_r, m23);
-	auto m3 = make_matrix(2_c, 3_rd, m23);
-	auto m4 = make_matrix(2_cd, 3_rd, m23);
+	auto m1 = make_matrix(2_CS, 3_RS, m23);
+	auto m2 = make_matrix(2_CD, 3_RS, m23);
+	auto m3 = make_matrix(2_CS, 3_RD, m23);
+	auto m4 = make_matrix(2_CD, 3_RD, m23);
 
 	BOOST_TEST(out(m1) == m23_ref);
 	BOOST_TEST(out(m2) == m23_ref);
@@ -80,10 +80,10 @@ BOOST_AUTO_TEST_CASE(test_output_2x3){
 }
 
 BOOST_AUTO_TEST_CASE(test_output_3x2){
-	auto m1 = make_matrix(3_c, 2_r, m32);
-	auto m2 = make_matrix(3_cd, 2_r, m32);
-	auto m3 = make_matrix(3_c, 2_rd, m32);
-	auto m4 = make_matrix(3_cd, 2_rd, m32);
+	auto m1 = make_matrix(3_CS, 2_RS, m32);
+	auto m2 = make_matrix(3_CD, 2_RS, m32);
+	auto m3 = make_matrix(3_CS, 2_RD, m32);
+	auto m4 = make_matrix(3_CD, 2_RD, m32);
 
 	BOOST_TEST(out(m1) == m32_ref);
 	BOOST_TEST(out(m2) == m32_ref);

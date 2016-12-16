@@ -672,44 +672,44 @@ namespace mitrax::literals{
 
 
 	template < char ... C >
-	constexpr auto operator"" _c()noexcept{
+	constexpr auto operator"" _CS()noexcept{
 		static_assert(
 			detail::parse_int< sizeof...(C) >({C ...}),
-			"Compile time cols can not be 0, use '_cd' prefix instead"
+			"Compile time cols can not be 0, use '_CD' prefix instead"
 		);
 		return cols< col_t(detail::parse_int< sizeof...(C) >({C ...})) >();
 	}
 
 	template < char ... C >
-	constexpr auto operator"" _cd()noexcept{
+	constexpr auto operator"" _CD()noexcept{
 		return cols_rt< col_t(detail::parse_int< sizeof...(C) >({C ...})) >();
 	}
 
 	template < char ... C >
-	constexpr auto operator"" _r()noexcept{
+	constexpr auto operator"" _RS()noexcept{
 		static_assert(
 			detail::parse_int< sizeof...(C) >({C ...}),
-			"Compile time rows can not be 0, use '_rd' prefix instead"
+			"Compile time rows can not be 0, use '_RD' prefix instead"
 		);
 		return rows< row_t(detail::parse_int< sizeof...(C) >({C ...})) >();
 	}
 
 	template < char ... C >
-	constexpr auto operator"" _rd()noexcept{
+	constexpr auto operator"" _RD()noexcept{
 		return rows_rt< row_t(detail::parse_int< sizeof...(C) >({C ...})) >();
 	}
 
 	template < char ... C >
-	constexpr auto operator"" _d()noexcept{
+	constexpr auto operator"" _DS()noexcept{
 		static_assert(
 			detail::parse_int< sizeof...(C) >({C ...}),
-			"Compile time dims can not be 0, use '_dd' prefix instead"
+			"Compile time dims can not be 0, use '_DD' prefix instead"
 		);
 		return dims< dim_t(detail::parse_int< sizeof...(C) >({C ...})) >();
 	}
 
 	template < char ... C >
-	constexpr auto operator"" _dd()noexcept{
+	constexpr auto operator"" _DD()noexcept{
 		return dims_rt< dim_t(detail::parse_int< sizeof...(C) >({C ...})) >();
 	}
 

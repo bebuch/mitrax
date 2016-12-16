@@ -28,8 +28,8 @@ using types = boost::mpl::list< int, double, std::complex< float > >;
 
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_1x1, T, types){
-	constexpr auto m1 = make_matrix(1_c, 1_r, {{T(5)}});
-	auto m2 = make_matrix(1_c, 1_r, {{T(5)}});
+	constexpr auto m1 = make_matrix(1_CS, 1_RS, {{T(5)}});
+	auto m2 = make_matrix(1_CS, 1_RS, {{T(5)}});
 
 	T a = m1;
 	T b = m2;

@@ -21,25 +21,25 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-constexpr auto ref1 = make_matrix< float >(3_d, {
+constexpr auto ref1 = make_matrix< float >(3_DS, {
 	{1, 2, 3},
 	{1, 1, 1},
 	{3, 3, 1}
 });
 
-constexpr auto ref2 = make_matrix< float >(3_d, {
+constexpr auto ref2 = make_matrix< float >(3_DS, {
 	{1, 2, 3},
 	{4, 5, 6},
 	{7, 8, 9}
 });
 
-constexpr auto ref3 = make_matrix< float >(3_d, {
+constexpr auto ref3 = make_matrix< float >(3_DS, {
 	{-1,  2, 0},
 	{ 1,  0, 1},
 	{ 2, -4, 0}
 });
 
-constexpr auto ref4 = make_matrix< float >(3_d, {
+constexpr auto ref4 = make_matrix< float >(3_DS, {
 	{1, 2, 3},
 	{4, 5, 6},
 	{0, 0, 0}
@@ -67,8 +67,8 @@ BOOST_AUTO_TEST_CASE(test_upper_triangular_matrix){
 	auto m = upper_triangular_matrix(ref1);
 
 	BOOST_TEST((
-		m.cols() == 3_c &&
-		m.rows() == 3_r &&
+		m.cols() == 3_CS &&
+		m.rows() == 3_RS &&
 		m(0, 0) ==  1 &&
 		m(1, 0) ==  2 &&
 		m(2, 0) ==  3 &&
@@ -85,8 +85,8 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_1){
 	auto const v = matrix_kernel(ref2);
 
 	BOOST_TEST((
-		v.cols() == 1_c &&
-		v.rows() == 3_r &&
+		v.cols() == 1_CS &&
+		v.rows() == 3_RS &&
 		v[0] ==  1 &&
 		v[1] == -2 &&
 		v[2] ==  1
@@ -97,8 +97,8 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_2){
 	auto const v = matrix_kernel(ref3);
 
 	BOOST_TEST((
-		v.cols() == 1_c &&
-		v.rows() == 3_r &&
+		v.cols() == 1_CS &&
+		v.rows() == 3_RS &&
 		v[0] == -1 &&
 		v[1] == -0.5 &&
 		v[2] ==  1
@@ -109,8 +109,8 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_3){
 	auto const v = matrix_kernel(ref4);
 
 	BOOST_TEST((
-		v.cols() == 1_c &&
-		v.rows() == 3_r &&
+		v.cols() == 1_CS &&
+		v.rows() == 3_RS &&
 		v[0] ==  1 &&
 		v[1] == -2 &&
 		v[2] ==  1
@@ -130,19 +130,19 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_numeric){
 }
 
 BOOST_AUTO_TEST_CASE(test_gaussian_elimination){
-	constexpr auto m = make_matrix< float >(3_d, {
+	constexpr auto m = make_matrix< float >(3_DS, {
 		{ 1  , -0.2, -0.2},
 		{-0.4,  0.8, -0.1},
 		{ 0  , -0.5,  0.9}
 	});
 
-	constexpr auto v = make_vector< float >(3_r, {7, 12.5, 16.5});
+	constexpr auto v = make_vector< float >(3_RS, {7, 12.5, 16.5});
 
 	auto res = gaussian_elimination(m, v);
 
 	BOOST_TEST((
-		res.cols() == 1_c &&
-		res.rows() == 3_r &&
+		res.cols() == 1_CS &&
+		res.rows() == 3_RS &&
 		res[0] == 20 &&
 		res[1] == 30 &&
 		res[2] == 35
@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_CASE(test_gaussian_elimination){
 }
 
 BOOST_AUTO_TEST_CASE(test_inverse_2x2){
-	constexpr auto m = make_matrix< float >(2_d, {
+	constexpr auto m = make_matrix< float >(2_DS, {
 		{2, 5},
 		{1, 3}
 	});
@@ -158,8 +158,8 @@ BOOST_AUTO_TEST_CASE(test_inverse_2x2){
 	auto i = inverse(m);
 
 	BOOST_TEST((
-		i.cols() == 2_c &&
-		i.rows() == 2_r &&
+		i.cols() == 2_CS &&
+		i.rows() == 2_RS &&
 		i(0, 0) ==  3 &&
 		i(1, 0) == -5 &&
 		i(0, 1) == -1 &&
@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE(test_inverse_2x2){
 }
 
 BOOST_AUTO_TEST_CASE(test_inverse_3x3_1){
-	constexpr auto m = make_matrix< float >(3_d, {
+	constexpr auto m = make_matrix< float >(3_DS, {
 		{1, 2, 0},
 		{2, 4, 1},
 		{2, 1, 0}
@@ -177,8 +177,8 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_1){
 	auto i = inverse(m) * 3;
 
 	BOOST_TEST((
-		i.cols() == 3_c &&
-		i.rows() == 3_r &&
+		i.cols() == 3_CS &&
+		i.rows() == 3_RS &&
 		equal(i(0, 0), -1) &&
 		equal(i(1, 0),  0) &&
 		equal(i(2, 0),  2) &&
@@ -192,7 +192,7 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_1){
 }
 
 BOOST_AUTO_TEST_CASE(test_inverse_3x3_2){
-	constexpr auto m = make_matrix< float >(3_d, {
+	constexpr auto m = make_matrix< float >(3_DS, {
 		{ 2, -1,  0},
 		{-1,  2, -1},
 		{ 0, -1,  2}
@@ -201,8 +201,8 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_2){
 	auto i = inverse(m) * 4;
 
 	BOOST_TEST((
-		i.cols() == 3_c &&
-		i.rows() == 3_r &&
+		i.cols() == 3_CS &&
+		i.rows() == 3_RS &&
 		equal(i(0, 0), 3) &&
 		equal(i(1, 0), 2) &&
 		equal(i(2, 0), 1) &&
@@ -216,7 +216,7 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_2){
 }
 
 BOOST_AUTO_TEST_CASE(test_inverse_3x3_3){
-	constexpr auto m = make_matrix< float >(3_d, {
+	constexpr auto m = make_matrix< float >(3_DS, {
 		{ 2, -1,  0},
 		{ 1,  2, -2},
 		{ 0, -1,  1}
@@ -225,8 +225,8 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_3){
 	auto i = inverse(m);
 
 	BOOST_TEST((
-		i.cols() == 3_c &&
-		i.rows() == 3_r &&
+		i.cols() == 3_CS &&
+		i.rows() == 3_RS &&
 		equal(i(0, 0),  0) &&
 		equal(i(1, 0),  1) &&
 		equal(i(2, 0),  2) &&

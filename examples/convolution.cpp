@@ -25,7 +25,7 @@ int main(){
 	using namespace mitrax::literals;
 	using disposer::log;
 
-	auto m = make_matrix_v< std::uint16_t >(3264_cd, 2448_rd);
+	auto m = make_matrix_v< std::uint16_t >(3264_CD, 2448_RD);
 	mitrax::png::load(m, "image_01.png");
 
 	auto normalize = [](auto const& m){

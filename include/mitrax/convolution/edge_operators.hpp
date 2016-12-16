@@ -22,7 +22,7 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_matrix< value_type >(2_d, {{1, 0}, {0, -1}}),
+			make_matrix< value_type >(2_DS, {{1, 0}, {0, -1}}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
@@ -32,7 +32,7 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_matrix< value_type >(2_d, {{0, 1}, {-1, 0}}),
+			make_matrix< value_type >(2_DS, {{0, 1}, {-1, 0}}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
@@ -43,8 +43,8 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_vector< value_type >(3_r, {1, 1, 1}),
-			make_vector< value_type >(3_c, {-1, 0, 1}),
+			make_vector< value_type >(3_RS, {1, 1, 1}),
+			make_vector< value_type >(3_CS, {-1, 0, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
@@ -54,8 +54,8 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_vector< value_type >(3_r, {-1, 0, 1}),
-			make_vector< value_type >(3_c, {1, 1, 1}),
+			make_vector< value_type >(3_RS, {-1, 0, 1}),
+			make_vector< value_type >(3_CS, {1, 1, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
@@ -66,8 +66,8 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_vector< value_type >(3_r, {1, 2, 1}),
-			make_vector< value_type >(3_c, {-1, 0, 1}),
+			make_vector< value_type >(3_RS, {1, 2, 1}),
+			make_vector< value_type >(3_CS, {-1, 0, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
@@ -77,8 +77,8 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_vector< value_type >(3_r, {-1, 0, 1}),
-			make_vector< value_type >(3_c, {1, 2, 1}),
+			make_vector< value_type >(3_RS, {-1, 0, 1}),
+			make_vector< value_type >(3_CS, {1, 2, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
@@ -89,8 +89,8 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_vector< value_type >(3_r, {3, 10, 3}),
-			make_vector< value_type >(3_c, {-1, 0, 1}),
+			make_vector< value_type >(3_RS, {3, 10, 3}),
+			make_vector< value_type >(3_CS, {-1, 0, 1}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}
@@ -100,8 +100,8 @@ namespace mitrax{
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
 			m,
-			make_vector< value_type >(3_r, {-1, 0, 1}),
-			make_vector< value_type >(3_c, {3, 10, 3}),
+			make_vector< value_type >(3_RS, {-1, 0, 1}),
+			make_vector< value_type >(3_CS, {3, 10, 3}),
 			std::plus< T >(), std::multiplies< T >()
 		);
 	}

@@ -69,14 +69,14 @@ void default_construct(){
 }
 
 void dim_literal(){
-	BOOST_TEST((rt_id(3_c ) == id< col< true,  3_C > >));
-	BOOST_TEST((rt_id(3_cd) == id< col< false, 3_C > >));
+	BOOST_TEST((rt_id(3_CS ) == id< col< true,  3_C > >));
+	BOOST_TEST((rt_id(3_CD) == id< col< false, 3_C > >));
 
-	BOOST_TEST((rt_id(3_r ) == id< row< true,  3_R > >));
-	BOOST_TEST((rt_id(3_rd) == id< row< false, 3_R > >));
+	BOOST_TEST((rt_id(3_RS ) == id< row< true,  3_R > >));
+	BOOST_TEST((rt_id(3_RD) == id< row< false, 3_R > >));
 
-	BOOST_TEST((rt_id(3_d ) == id< dim< true,  3_D > >));
-	BOOST_TEST((rt_id(3_dd) == id< dim< false, 3_D > >));
+	BOOST_TEST((rt_id(3_DS ) == id< dim< true,  3_D > >));
+	BOOST_TEST((rt_id(3_DD) == id< dim< false, 3_D > >));
 }
 
 template < typename CT >
@@ -104,25 +104,25 @@ void convert2dim(){
 	BOOST_TEST((rt_id(crt.as_col()) == id< col< false, 3_C > >));
 	BOOST_TEST((rt_id(rrt.as_col()) == id< col< false, 0_C > >));
 
-	BOOST_TEST((CP(cct.as_col()) == 3_c));
-	BOOST_TEST((CP(crt.as_col()) == 3_c));
-	BOOST_TEST((CP(rrt.as_col()) == 3_c));
+	BOOST_TEST((CP(cct.as_col()) == 3_CS));
+	BOOST_TEST((CP(crt.as_col()) == 3_CS));
+	BOOST_TEST((CP(rrt.as_col()) == 3_CS));
 
 	BOOST_TEST((rt_id(cct.as_row()) == id< row< true,  3_R > >));
 	BOOST_TEST((rt_id(crt.as_row()) == id< row< false, 3_R > >));
 	BOOST_TEST((rt_id(rrt.as_row()) == id< row< false, 0_R > >));
 
-	BOOST_TEST((CP(cct.as_row()) == 3_r));
-	BOOST_TEST((CP(crt.as_row()) == 3_r));
-	BOOST_TEST((CP(rrt.as_row()) == 3_r));
+	BOOST_TEST((CP(cct.as_row()) == 3_RS));
+	BOOST_TEST((CP(crt.as_row()) == 3_RS));
+	BOOST_TEST((CP(rrt.as_row()) == 3_RS));
 
 	BOOST_TEST((rt_id(cct.as_dim()) == id< dim< true,  3_D > >));
 	BOOST_TEST((rt_id(crt.as_dim()) == id< dim< false, 3_D > >));
 	BOOST_TEST((rt_id(rrt.as_dim()) == id< dim< false, 0_D > >));
 
-	BOOST_TEST((CP(cct.as_dim()) == 3_d));
-	BOOST_TEST((CP(crt.as_dim()) == 3_d));
-	BOOST_TEST((CP(rrt.as_dim()) == 3_d));
+	BOOST_TEST((CP(cct.as_dim()) == 3_DS));
+	BOOST_TEST((CP(crt.as_dim()) == 3_DS));
+	BOOST_TEST((CP(rrt.as_dim()) == 3_DS));
 }
 
 template < typename CT, typename Op >
@@ -349,9 +349,9 @@ void make_col(){
 	BOOST_TEST((rt_id(crt) == id< col< false, 3_C > >));
 	BOOST_TEST((rt_id(rrt) == id< col< false, 0_C > >));
 
-	BOOST_TEST((cct == 3_c));
-	BOOST_TEST((crt == 3_c));
-	BOOST_TEST((rrt == 3_c));
+	BOOST_TEST((cct == 3_CS));
+	BOOST_TEST((crt == 3_CS));
+	BOOST_TEST((rrt == 3_CS));
 }
 
 void make_row(){
@@ -363,9 +363,9 @@ void make_row(){
 	BOOST_TEST((rt_id(crt) == id< row< false, 3_R > >));
 	BOOST_TEST((rt_id(rrt) == id< row< false, 0_R > >));
 
-	BOOST_TEST((cct == 3_r));
-	BOOST_TEST((crt == 3_r));
-	BOOST_TEST((rrt == 3_r));
+	BOOST_TEST((cct == 3_RS));
+	BOOST_TEST((crt == 3_RS));
+	BOOST_TEST((rrt == 3_RS));
 }
 
 void make_dim(){
@@ -377,9 +377,9 @@ void make_dim(){
 	BOOST_TEST((rt_id(crt) == id< dim< false, 3_D > >));
 	BOOST_TEST((rt_id(rrt) == id< dim< false, 0_D > >));
 
-	BOOST_TEST((cct == 3_d));
-	BOOST_TEST((crt == 3_d));
-	BOOST_TEST((rrt == 3_d));
+	BOOST_TEST((cct == 3_DS));
+	BOOST_TEST((crt == 3_DS));
+	BOOST_TEST((rrt == 3_DS));
 }
 
 
@@ -394,13 +394,13 @@ void dim_pair_t_default_construct(){
 
 	BOOST_TEST((CP(cc.cols()) == cols(c)));
 	BOOST_TEST((CP(cr.cols()) == cols(c)));
-	BOOST_TEST((CP(rc.cols()) == 0_cd));
-	BOOST_TEST((CP(rr.cols()) == 0_cd));
+	BOOST_TEST((CP(rc.cols()) == 0_CD));
+	BOOST_TEST((CP(rr.cols()) == 0_CD));
 
 	BOOST_TEST((CP(cc.rows()) == rows(r)));
-	BOOST_TEST((CP(cr.rows()) == 0_rd));
+	BOOST_TEST((CP(cr.rows()) == 0_RD));
 	BOOST_TEST((CP(rc.rows()) == rows(r)));
-	BOOST_TEST((CP(rr.rows()) == 0_rd));
+	BOOST_TEST((CP(rr.rows()) == 0_RD));
 }
 
 
@@ -513,46 +513,46 @@ void dim_pair_t_make(){
 	BOOST_TEST((rt_id(dd.rows()) == id< row< false, 4_R > >));
 
 
-	BOOST_TEST((CP(ll.cols()) == 3_c));
-	BOOST_TEST((CP(lr.cols()) == 3_c));
-	BOOST_TEST((CP(lc.cols()) == 3_c));
-	BOOST_TEST((CP(ld.cols()) == 3_c));
+	BOOST_TEST((CP(ll.cols()) == 3_CS));
+	BOOST_TEST((CP(lr.cols()) == 3_CS));
+	BOOST_TEST((CP(lc.cols()) == 3_CS));
+	BOOST_TEST((CP(ld.cols()) == 3_CS));
 
-	BOOST_TEST((CP(rl.cols()) == 3_c));
-	BOOST_TEST((CP(rr.cols()) == 3_c));
-	BOOST_TEST((CP(rc.cols()) == 3_c));
-	BOOST_TEST((CP(rd.cols()) == 3_c));
+	BOOST_TEST((CP(rl.cols()) == 3_CS));
+	BOOST_TEST((CP(rr.cols()) == 3_CS));
+	BOOST_TEST((CP(rc.cols()) == 3_CS));
+	BOOST_TEST((CP(rd.cols()) == 3_CS));
 
-	BOOST_TEST((CP(cl.cols()) == 3_c));
-	BOOST_TEST((CP(cr.cols()) == 3_c));
-	BOOST_TEST((CP(cc.cols()) == 3_c));
-	BOOST_TEST((CP(cd.cols()) == 3_c));
+	BOOST_TEST((CP(cl.cols()) == 3_CS));
+	BOOST_TEST((CP(cr.cols()) == 3_CS));
+	BOOST_TEST((CP(cc.cols()) == 3_CS));
+	BOOST_TEST((CP(cd.cols()) == 3_CS));
 
-	BOOST_TEST((CP(dl.cols()) == 3_c));
-	BOOST_TEST((CP(dr.cols()) == 3_c));
-	BOOST_TEST((CP(dc.cols()) == 3_c));
-	BOOST_TEST((CP(dd.cols()) == 3_c));
+	BOOST_TEST((CP(dl.cols()) == 3_CS));
+	BOOST_TEST((CP(dr.cols()) == 3_CS));
+	BOOST_TEST((CP(dc.cols()) == 3_CS));
+	BOOST_TEST((CP(dd.cols()) == 3_CS));
 
 
-	BOOST_TEST((CP(ll.rows()) == 4_r));
-	BOOST_TEST((CP(lr.rows()) == 4_r));
-	BOOST_TEST((CP(lc.rows()) == 4_r));
-	BOOST_TEST((CP(ld.rows()) == 4_r));
+	BOOST_TEST((CP(ll.rows()) == 4_RS));
+	BOOST_TEST((CP(lr.rows()) == 4_RS));
+	BOOST_TEST((CP(lc.rows()) == 4_RS));
+	BOOST_TEST((CP(ld.rows()) == 4_RS));
 
-	BOOST_TEST((CP(rl.rows()) == 4_r));
-	BOOST_TEST((CP(rr.rows()) == 4_r));
-	BOOST_TEST((CP(rc.rows()) == 4_r));
-	BOOST_TEST((CP(rd.rows()) == 4_r));
+	BOOST_TEST((CP(rl.rows()) == 4_RS));
+	BOOST_TEST((CP(rr.rows()) == 4_RS));
+	BOOST_TEST((CP(rc.rows()) == 4_RS));
+	BOOST_TEST((CP(rd.rows()) == 4_RS));
 
-	BOOST_TEST((CP(cl.rows()) == 4_r));
-	BOOST_TEST((CP(cr.rows()) == 4_r));
-	BOOST_TEST((CP(cc.rows()) == 4_r));
-	BOOST_TEST((CP(cd.rows()) == 4_r));
+	BOOST_TEST((CP(cl.rows()) == 4_RS));
+	BOOST_TEST((CP(cr.rows()) == 4_RS));
+	BOOST_TEST((CP(cc.rows()) == 4_RS));
+	BOOST_TEST((CP(cd.rows()) == 4_RS));
 
-	BOOST_TEST((CP(dl.rows()) == 4_r));
-	BOOST_TEST((CP(dr.rows()) == 4_r));
-	BOOST_TEST((CP(dc.rows()) == 4_r));
-	BOOST_TEST((CP(dd.rows()) == 4_r));
+	BOOST_TEST((CP(dl.rows()) == 4_RS));
+	BOOST_TEST((CP(dr.rows()) == 4_RS));
+	BOOST_TEST((CP(dc.rows()) == 4_RS));
+	BOOST_TEST((CP(dd.rows()) == 4_RS));
 }
 
 
@@ -573,25 +573,25 @@ constexpr void dim_compare_test(
 void dim_pair_t_compare(){
 	using namespace ::mitrax::literals;
 
-	constexpr auto cc1 = dim_pair(3_c,  4_r );
-	constexpr auto cr1 = dim_pair(3_c,  4_rd);
-	constexpr auto rc1 = dim_pair(3_cd, 4_r );
-	constexpr auto rr1 = dim_pair(3_cd, 4_rd);
+	constexpr auto cc1 = dim_pair(3_CS,  4_RS );
+	constexpr auto cr1 = dim_pair(3_CS,  4_RD);
+	constexpr auto rc1 = dim_pair(3_CD, 4_RS );
+	constexpr auto rr1 = dim_pair(3_CD, 4_RD);
 
-	constexpr auto cc2 = dim_pair(6_c,  5_r );
-	constexpr auto cr2 = dim_pair(6_c,  5_rd);
-	constexpr auto rc2 = dim_pair(6_cd, 5_r );
-	constexpr auto rr2 = dim_pair(6_cd, 5_rd);
+	constexpr auto cc2 = dim_pair(6_CS,  5_RS );
+	constexpr auto cr2 = dim_pair(6_CS,  5_RD);
+	constexpr auto rc2 = dim_pair(6_CD, 5_RS );
+	constexpr auto rr2 = dim_pair(6_CD, 5_RD);
 
-	constexpr auto cc3 = dim_pair(3_c,  5_r );
-	constexpr auto cr3 = dim_pair(3_c,  5_rd);
-	constexpr auto rc3 = dim_pair(3_cd, 5_r );
-	constexpr auto rr3 = dim_pair(3_cd, 5_rd);
+	constexpr auto cc3 = dim_pair(3_CS,  5_RS );
+	constexpr auto cr3 = dim_pair(3_CS,  5_RD);
+	constexpr auto rc3 = dim_pair(3_CD, 5_RS );
+	constexpr auto rr3 = dim_pair(3_CD, 5_RD);
 
-	constexpr auto cc4 = dim_pair(6_c,  4_r );
-	constexpr auto cr4 = dim_pair(6_c,  4_rd);
-	constexpr auto rc4 = dim_pair(6_cd, 4_r );
-	constexpr auto rr4 = dim_pair(6_cd, 4_rd);
+	constexpr auto cc4 = dim_pair(6_CS,  4_RS );
+	constexpr auto cr4 = dim_pair(6_CS,  4_RD);
+	constexpr auto rc4 = dim_pair(6_CD, 4_RS );
+	constexpr auto rr4 = dim_pair(6_CD, 4_RD);
 
 
 	dim_compare_test(cc1, cc1, true);

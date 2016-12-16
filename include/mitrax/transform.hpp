@@ -65,7 +65,7 @@ namespace mitrax{
 	){
 		using namespace literals;
 		return make_matrix_fn(
-			get_dims(images ...) + dim_pair(1_c, 1_r) - view_dims,
+			get_dims(images ...) + dim_pair(1_CS, 1_RS) - view_dims,
 			make_multi_invoke_adapter(
 				static_cast< F&& >(f),
 				detail::make_call_sub_matrix(view_dims),

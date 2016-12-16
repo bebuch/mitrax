@@ -305,7 +305,7 @@ namespace mitrax{
 		);
 
 		// Compiler should skip this for compile time dimensions
-		if(m1.rows() != m2.rows() || m1.rows() != 3_r){
+		if(m1.rows() != m2.rows() || m1.rows() != 3_RS){
 			throw std::logic_error(
 				"matrix dimensions not compatible while comparing"
 			);
@@ -315,7 +315,7 @@ namespace mitrax{
 			std::common_type_t< value_type_t< M1 >, value_type_t< M2 > >;
 
 		// TODO: Use the compile time size from m1 or m2, if one is ct
-		return make_vector< value_type >(3_r, {
+		return make_vector< value_type >(3_RS, {
 			m1[1] * m2[2] - m1[2] * m2[1],
 			m1[2] * m2[0] - m1[0] * m2[2],
 			m1[0] * m2[1] - m1[1] * m2[0]
@@ -333,7 +333,7 @@ namespace mitrax{
 		);
 
 		// Compiler should skip this for compile time dimensions
-		if(m1.cols() != m2.cols() || m1.cols() != 3_r){
+		if(m1.cols() != m2.cols() || m1.cols() != 3_RS){
 			throw std::logic_error(
 				"matrix dimensions not compatible while comparing"
 			);
@@ -342,7 +342,7 @@ namespace mitrax{
 		using value_type =
 			std::common_type_t< value_type_t< M1 >, value_type_t< M2 > >;
 
-		return make_vector< value_type >(3_c, {
+		return make_vector< value_type >(3_CS, {
 			m1[1] * m2[2] - m1[2] * m2[1],
 			m1[2] * m2[0] - m1[0] * m2[2],
 			m1[0] * m2[1] - m1[1] * m2[0]

@@ -20,7 +20,7 @@ using namespace mitrax;
 using namespace mitrax::literals;
 
 
-constexpr auto image = make_matrix< int >(5_d, {
+constexpr auto image = make_matrix< int >(5_DS, {
 	{1, 2, 3, 4, 5},
 	{2, 3, 4, 5, 6},
 	{3, 4, 5, 6, 7},
@@ -28,7 +28,7 @@ constexpr auto image = make_matrix< int >(5_d, {
 	{5, 6, 7, 8, 9}
 });
 
-constexpr auto sobel_x = make_matrix< int >(3_d, {
+constexpr auto sobel_x = make_matrix< int >(3_DS, {
 	{1, 0, -1},
 	{2, 0, -2},
 	{1, 0, -1}
@@ -42,8 +42,8 @@ BOOST_AUTO_TEST_CASE(test_convolution){
 	constexpr auto m = convolution(image, sobel_x);
 
 	auto eq =
-		m.cols() == 3_c &&
-		m.rows() == 3_r &&
+		m.cols() == 3_CS &&
+		m.rows() == 3_RS &&
 		m(0, 0) == -8 &&
 		m(1, 0) == -8 &&
 		m(2, 0) == -8 &&

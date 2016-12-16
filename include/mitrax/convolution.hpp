@@ -66,8 +66,8 @@ namespace mitrax{
 		}
 
 		return make_matrix_fn(
-			1_c + i.cols() - m.cols(),
-			1_r + i.rows() - m.rows(),
+			1_CS + i.cols() - m.cols(),
+			1_RS + i.rows() - m.rows(),
 			detail::convolution_worker< M1, C1, R1, M2, C2, R2, SumOp, MulOp >{
 				i, m, sum, mul
 			});
