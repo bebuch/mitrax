@@ -17,8 +17,8 @@ namespace mitrax{
 
 	template < bool Cct, col_ct C, bool Rct, row_ct R, typename F >
 	constexpr bool square_area_search(
-		col_t< Cct, C > c,
-		row_t< Rct, R > r,
+		col< Cct, C > c,
+		row< Rct, R > r,
 		size_t x,
 		size_t y,
 		size_t max_distance,

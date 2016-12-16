@@ -169,7 +169,7 @@ namespace mitrax::detail{
 		heap_matrix_impl(heap_matrix_impl const&) = default;
 
 		heap_matrix_impl(
-			col_t< C != 0_C, C > c, row_t< R != 0_R, R > r,
+			col< C != 0_C, C > c, row< R != 0_R, R > r,
 			detail::array_d< value_type >&& values
 		):
 			auto_dim_pair_t< C, R >(c, r),
@@ -224,7 +224,7 @@ namespace mitrax::maker{
 
 	template < typename Iter, bool Cct, col_ct C, bool Rct, row_ct R >
 	heap_matrix< iter_type_t< Iter >, Cct ? C : 0_C, Rct ? R : 0_R >
-	heap_t::by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter)const{
+	heap_t::by_sequence(col< Cct, C > c, row< Rct, R > r, Iter iter)const{
 		return {
 			init, c, r,
 			detail::array_d< iter_type_t< Iter > >(iter, size_t(c) * size_t(r))

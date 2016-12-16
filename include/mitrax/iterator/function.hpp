@@ -188,11 +188,11 @@ namespace mitrax{
 		}
 
 		F f;
-		col_t< Cct, C > cols;
+		col< Cct, C > cols;
 	};
 
 	template < typename F, bool Cct, col_ct C >
-	constexpr auto make_function_xy_adapter(F&& f, col_t< Cct, C > cols){
+	constexpr auto make_function_xy_adapter(F&& f, col< Cct, C > cols){
 		return function_xy_adapter< std::remove_reference_t< F >, Cct, C >
 			{static_cast< F&& >(f), cols};
 	}

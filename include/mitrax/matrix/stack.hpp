@@ -144,7 +144,7 @@ namespace mitrax::maker{
 
 	template < typename Iter, bool Cct, col_ct C, bool Rct, row_ct R >
 	constexpr stack_matrix< iter_type_t< Iter >, Cct ? C : 0_C, Rct ? R : 0_R >
-	stack_t::by_sequence(col_t< Cct, C >, row_t< Rct, R >, Iter iter)const{
+	stack_t::by_sequence(col< Cct, C >, row< Rct, R >, Iter iter)const{
 		return {init, iter};
 	}
 

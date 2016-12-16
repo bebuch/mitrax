@@ -49,7 +49,7 @@ namespace mitrax::maker{
 		template < typename Iter, bool Cct, col_ct C, bool Rct, row_ct R >
 		constexpr
 		stack_matrix< iter_type_t< Iter >, Cct ? C : 0_C, Rct ? R : 0_R >
-		by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter)const;
+		by_sequence(col< Cct, C > c, row< Rct, R > r, Iter iter)const;
 	};
 
 

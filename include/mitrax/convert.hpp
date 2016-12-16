@@ -42,8 +42,8 @@ namespace mitrax{
 		typename M, col_ct C2, row_ct R2
 	> constexpr auto convert(
 		matrix< M, C2, R2 >& m,
-		col_t< Cct1, C1 > c,
-		row_t< Rct1, R1 > r
+		col< Cct1, C1 > c,
+		row< Rct1, R1 > r
 	){
 		return make_matrix_fn(c, r, detail::make_convert_fn< T >(m));
 	}
@@ -53,8 +53,8 @@ namespace mitrax{
 		typename M, col_ct C2, row_ct R2
 	> constexpr auto convert(
 		matrix< M, C2, R2 > const& m,
-		col_t< Cct1, C1 > c,
-		row_t< Rct1, R1 > r
+		col< Cct1, C1 > c,
+		row< Rct1, R1 > r
 	){
 		return make_matrix_fn(c, r, detail::make_convert_fn< T >(m));
 	}
@@ -64,8 +64,8 @@ namespace mitrax{
 		typename M, col_ct C2, row_ct R2
 	> constexpr auto convert(
 		matrix< M, C2, R2 >&& m,
-		col_t< Cct1, C1 > c,
-		row_t< Rct1, R1 > r
+		col< Cct1, C1 > c,
+		row< Rct1, R1 > r
 	){
 		return make_matrix_fn(c, r,
 			detail::make_convert_fn< T >(std::move(m)));
@@ -77,8 +77,8 @@ namespace mitrax{
 		typename M, col_ct C2, row_ct R2
 	> constexpr auto convert(
 		matrix< M, C2, R2 >& m,
-		col_t< Cct1, C1 > c,
-		row_t< Rct1, R1 > r
+		col< Cct1, C1 > c,
+		row< Rct1, R1 > r
 	){
 		return make_matrix_fn(c, r,
 			detail::make_convert_fn< value_type_t< M > >(m));
@@ -89,8 +89,8 @@ namespace mitrax{
 		typename M, col_ct C2, row_ct R2
 	> constexpr auto convert(
 		matrix< M, C2, R2 > const& m,
-		col_t< Cct1, C1 > c,
-		row_t< Rct1, R1 > r
+		col< Cct1, C1 > c,
+		row< Rct1, R1 > r
 	){
 		return make_matrix_fn(c, r,
 			detail::make_convert_fn< value_type_t< M > >(m));
@@ -101,8 +101,8 @@ namespace mitrax{
 		typename M, col_ct C2, row_ct R2
 	> constexpr auto convert(
 		matrix< M, C2, R2 >&& m,
-		col_t< Cct1, C1 > c,
-		row_t< Rct1, R1 > r
+		col< Cct1, C1 > c,
+		row< Rct1, R1 > r
 	){
 		return make_matrix_fn(c, r,
 			detail::make_convert_fn< value_type_t< M > >(std::move(m)));

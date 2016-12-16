@@ -104,10 +104,10 @@ namespace mitrax{
 		typename ... M, size_t ... C, size_t ... R
 	> constexpr auto calc_regions(
 		F&& f,
-		col_t< Cctr, Cr > region_cols,
-		row_t< Rctr, Rr > region_rows,
-		col_t< Ccto, Co > overlapp_cols,
-		row_t< Rcto, Ro > overlapp_rows,
+		col< Cctr, Cr > region_cols,
+		row< Rctr, Rr > region_rows,
+		col< Ccto, Co > overlapp_cols,
+		row< Rcto, Ro > overlapp_rows,
 		matrix< M, C, R > const& ... images
 	){
 		return calc_regions(
@@ -234,8 +234,8 @@ namespace mitrax{
 		typename ... Mi, size_t ... Ci, size_t ... Ri
 	> auto apply_regions(
 		F&& f,
-		col_t< Cctr, Cr > region_cols,
-		row_t< Rctr, Rr > region_rows,
+		col< Cctr, Cr > region_cols,
+		row< Rctr, Rr > region_rows,
 		matrix< M, C, R > const& regions,
 		matrix< Mi, Ci, Ri > const& ... images
 	){

@@ -107,7 +107,7 @@ namespace mitrax{
 	template < typename F, bool Cct, col_ct C, bool Rct, row_ct R,
 		typename Maker = maker::std_t >
 	constexpr auto make_matrix_fn(
-		col_t< Cct, C > c, row_t< Rct, R > r, F&& f,
+		col< Cct, C > c, row< Rct, R > r, F&& f,
 		Maker&& maker = maker::std_t()
 	){
 		return maker.by_sequence(c, r,
@@ -127,7 +127,7 @@ namespace mitrax{
 
 	template < typename F, bool Dct, dim_ct D, typename Maker = maker::std_t >
 	constexpr auto make_matrix_fn(
-		dim_t< Dct, D > d, F&& f, Maker&& maker = maker::std_t()
+		dim< Dct, D > d, F&& f, Maker&& maker = maker::std_t()
 	){
 		return make_matrix_fn(d.as_col(), d.as_row(),
 			static_cast< F&& >(f), static_cast< Maker&& >(maker)
@@ -136,7 +136,7 @@ namespace mitrax{
 
 	template < typename F, bool Rct, row_ct R, typename Maker = maker::std_t >
 	constexpr auto make_vector_fn(
-		row_t< Rct, R > r, F&& f, Maker&& maker = maker::std_t()
+		row< Rct, R > r, F&& f, Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
 		return maker.by_sequence(1_c, r,
@@ -145,7 +145,7 @@ namespace mitrax{
 
 	template < typename F, bool Cct, col_ct C, typename Maker = maker::std_t >
 	constexpr auto make_vector_fn(
-		col_t< Cct, C > c, F&& f, Maker&& maker = maker::std_t()
+		col< Cct, C > c, F&& f, Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
 		return maker.by_sequence(c, 1_r,
@@ -154,7 +154,7 @@ namespace mitrax{
 
 	template < typename F, bool Dct, dim_ct D, typename Maker = maker::std_t >
 	constexpr auto make_diag_matrix_fn(
-		dim_t< Dct, D > d, F&& f, Maker&& maker = maker::std_t()
+		dim< Dct, D > d, F&& f, Maker&& maker = maker::std_t()
 	){
 		return make_matrix_fn(d,
 			detail::make_init_diag_fn(static_cast< F&& >(f)),
@@ -165,7 +165,7 @@ namespace mitrax{
 	template < typename T, bool Cct, col_ct C, bool Rct, row_ct R,
 		typename Maker = maker::std_t >
 	constexpr auto make_matrix_v(
-		col_t< Cct, C > c, row_t< Rct, R > r, T const& v = T(),
+		col< Cct, C > c, row< Rct, R > r, T const& v = T(),
 		Maker&& maker = maker::std_t()
 	){
 		return maker.by_sequence(c, r, mitrax::make_value_iterator(v));
@@ -183,7 +183,7 @@ namespace mitrax{
 
 	template < typename T, bool Dct, dim_ct D, typename Maker = maker::std_t >
 	constexpr auto make_matrix_v(
-		dim_t< Dct, D > d, T const& v = T(), Maker&& maker = maker::std_t()
+		dim< Dct, D > d, T const& v = T(), Maker&& maker = maker::std_t()
 	){
 		return make_matrix_v(d.as_col(), d.as_row(), v,
 			static_cast< Maker&& >(maker));
@@ -191,7 +191,7 @@ namespace mitrax{
 
 	template < typename T, bool Rct, row_ct R, typename Maker = maker::std_t >
 	constexpr auto make_vector_v(
-		row_t< Rct, R > r, T const& v = T(), Maker&& maker = maker::std_t()
+		row< Rct, R > r, T const& v = T(), Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
 		return make_matrix_v(1_c, r, v, static_cast< Maker&& >(maker));
@@ -199,7 +199,7 @@ namespace mitrax{
 
 	template < typename T, bool Cct, col_ct C, typename Maker = maker::std_t >
 	constexpr auto make_vector_v(
-		col_t< Cct, C > c, T const& v = T(), Maker&& maker = maker::std_t()
+		col< Cct, C > c, T const& v = T(), Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
 		return make_matrix_v(c, 1_r, v, static_cast< Maker&& >(maker));
@@ -207,7 +207,7 @@ namespace mitrax{
 
 	template < typename T, bool Dct, dim_ct D, typename Maker = maker::std_t >
 	constexpr auto make_diag_matrix_v(
-		dim_t< Dct, D > d, T const& v = T(), Maker&& maker = maker::std_t()
+		dim< Dct, D > d, T const& v = T(), Maker&& maker = maker::std_t()
 	){
 		return make_matrix_fn(
 			d, detail::init_diag_by_value< T >{v},
@@ -217,7 +217,7 @@ namespace mitrax{
 
 	template < typename T, bool Dct, dim_ct D, typename Maker = maker::std_t >
 	constexpr auto make_identity_matrix(
-		dim_t< Dct, D > d, Maker&& maker = maker::std_t()
+		dim< Dct, D > d, Maker&& maker = maker::std_t()
 	){
 		return make_diag_matrix_v(d, T(1), static_cast< Maker&& >(maker));
 	}
@@ -226,7 +226,7 @@ namespace mitrax{
 	template < typename I, bool Cct, col_ct C, bool Rct, row_ct R,
 		typename Maker = maker::std_t >
 	constexpr auto make_matrix_i(
-		col_t< Cct, C > c, row_t< Rct, R > r, I i,
+		col< Cct, C > c, row< Rct, R > r, I i,
 		Maker&& maker = maker::std_t()
 	){
 		return maker.by_sequence(c, r, i);
@@ -244,7 +244,7 @@ namespace mitrax{
 
 	template < typename I, bool Dct, dim_ct D, typename Maker = maker::std_t >
 	constexpr auto make_matrix_i(
-		dim_t< Dct, D > d, I i, Maker&& maker = maker::std_t()
+		dim< Dct, D > d, I i, Maker&& maker = maker::std_t()
 	){
 		return make_matrix_i(d.as_col(), d.as_row(), i,
 			static_cast< Maker&& >(maker));
@@ -252,7 +252,7 @@ namespace mitrax{
 
 	template < typename I, bool Rct, row_ct R, typename Maker = maker::std_t >
 	constexpr auto make_vector_i(
-		row_t< Rct, R > r, I i, Maker&& maker = maker::std_t()
+		row< Rct, R > r, I i, Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
 		return make_matrix_i(1_c, r, i, static_cast< Maker&& >(maker));
@@ -260,7 +260,7 @@ namespace mitrax{
 
 	template < typename I, bool Cct, col_ct C, typename Maker = maker::std_t >
 	constexpr auto make_vector_i(
-		col_t< Cct, C > c, I i, Maker&& maker = maker::std_t()
+		col< Cct, C > c, I i, Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
 		return make_matrix_i(c, 1_r, i, static_cast< Maker&& >(maker));
@@ -268,7 +268,7 @@ namespace mitrax{
 
 	template < typename I, bool Dct, dim_ct D, typename Maker = maker::std_t >
 	constexpr auto make_diag_matrix_i(
-		dim_t< Dct, D > d, I i, Maker&& maker = maker::std_t()
+		dim< Dct, D > d, I i, Maker&& maker = maker::std_t()
 	){
 		return make_matrix_fn(
 			d, detail::init_diag_by_iter< I >{i}, static_cast< Maker&& >(maker)
@@ -279,7 +279,7 @@ namespace mitrax{
 	template < typename T, bool Cct, col_ct C, bool Rct, row_ct R,
 		typename Maker = maker::std_t >
 	constexpr auto make_matrix(
-		col_t< Cct, C > c, row_t< Rct, R > r, T(&&v)[size_t(R)][size_t(C)],
+		col< Cct, C > c, row< Rct, R > r, T(&&v)[size_t(R)][size_t(C)],
 		Maker&& maker = maker::std_t()
 	){
 		return make_matrix_i(c, r, mitrax::make_move_iterator(
@@ -290,7 +290,7 @@ namespace mitrax{
 	template < typename T, bool Cct, col_ct C, bool Rct, row_ct R,
 		typename Maker = maker::std_t >
 	constexpr auto make_matrix(
-		col_t< Cct, C > c, row_t< Rct, R > r, T(&v)[size_t(R)][size_t(C)],
+		col< Cct, C > c, row< Rct, R > r, T(&v)[size_t(R)][size_t(C)],
 		Maker&& maker = maker::std_t()
 	){
 		return make_matrix_i(c, r,
@@ -320,7 +320,7 @@ namespace mitrax{
 
 	template < typename T, bool Dct, dim_ct D, typename Maker = maker::std_t >
 	constexpr auto make_matrix(
-		dim_t< Dct, D > d, T(&&v)[size_t(D)][size_t(D)],
+		dim< Dct, D > d, T(&&v)[size_t(D)][size_t(D)],
 		Maker&& maker = maker::std_t()
 	){
 		return make_matrix(d.as_col(), d.as_row(), std::move(v),
@@ -329,7 +329,7 @@ namespace mitrax{
 
 	template < typename T, bool Dct, dim_ct D, typename Maker = maker::std_t >
 	constexpr auto make_matrix(
-		dim_t< Dct, D > d, T(&v)[size_t(D)][size_t(D)],
+		dim< Dct, D > d, T(&v)[size_t(D)][size_t(D)],
 		Maker&& maker = maker::std_t()
 	){
 		return make_matrix(d.as_col(), d.as_row(), v,
@@ -354,7 +354,7 @@ namespace mitrax{
 
 	template < typename T, bool Rct, row_ct R, typename Maker = maker::std_t >
 	constexpr auto make_vector(
-		row_t< Rct, R > r, T(&&v)[size_t(R)], Maker&& maker = maker::std_t()
+		row< Rct, R > r, T(&&v)[size_t(R)], Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
 		return make_matrix_i(1_c, r,
@@ -364,7 +364,7 @@ namespace mitrax{
 
 	template < typename T, bool Rct, row_ct R, typename Maker = maker::std_t >
 	constexpr auto make_vector(
-		row_t< Rct, R > r, T(&v)[size_t(R)], Maker&& maker = maker::std_t()
+		row< Rct, R > r, T(&v)[size_t(R)], Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
 		return make_matrix_i(1_c, r, mitrax::begin(v),
@@ -389,7 +389,7 @@ namespace mitrax{
 
 	template < typename T, bool Cct, col_ct C, typename Maker = maker::std_t >
 	constexpr auto make_vector(
-		col_t< Cct, C > c, T(&&v)[size_t(C)], Maker&& maker = maker::std_t()
+		col< Cct, C > c, T(&&v)[size_t(C)], Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
 		return make_matrix_i(c, 1_r,
@@ -399,7 +399,7 @@ namespace mitrax{
 
 	template < typename T, bool Cct, col_ct C, typename Maker = maker::std_t >
 	constexpr auto make_vector(
-		col_t< Cct, C > c, T(&v)[size_t(C)], Maker&& maker = maker::std_t()
+		col< Cct, C > c, T(&v)[size_t(C)], Maker&& maker = maker::std_t()
 	){
 		using namespace literals;
 		return make_matrix_i(c, 1_r, mitrax::begin(v),
@@ -423,7 +423,7 @@ namespace mitrax{
 
 	template < typename T, bool Dct, dim_ct D, typename Maker = maker::std_t >
 	constexpr auto make_diag_matrix(
-		dim_t< Dct, D > d, T(&&v)[size_t(D)], Maker&& maker = maker::std_t()
+		dim< Dct, D > d, T(&&v)[size_t(D)], Maker&& maker = maker::std_t()
 	){
 		detail::init_diag_by_array< T(&&)[size_t(D)], std::decay_t< T > > init
 			{std::move(v), std::decay_t< T >()};
@@ -433,7 +433,7 @@ namespace mitrax{
 
 	template < typename T, bool Dct, dim_ct D, typename Maker = maker::std_t >
 	constexpr auto make_diag_matrix(
-		dim_t< Dct, D > d, T(&v)[size_t(D)], Maker&& maker = maker::std_t()
+		dim< Dct, D > d, T(&v)[size_t(D)], Maker&& maker = maker::std_t()
 	){
 		detail::init_diag_by_array< T(&)[size_t(D)], std::decay_t< T > > init
 			{v, std::decay_t< T >()};

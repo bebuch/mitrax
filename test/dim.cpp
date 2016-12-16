@@ -69,14 +69,14 @@ void default_construct(){
 }
 
 void dim_literal(){
-	BOOST_TEST((rt_id(3_c ) == id< col_t< true,  3_C > >));
-	BOOST_TEST((rt_id(3_cd) == id< col_t< false, 3_C > >));
+	BOOST_TEST((rt_id(3_c ) == id< col< true,  3_C > >));
+	BOOST_TEST((rt_id(3_cd) == id< col< false, 3_C > >));
 
-	BOOST_TEST((rt_id(3_r ) == id< row_t< true,  3_R > >));
-	BOOST_TEST((rt_id(3_rd) == id< row_t< false, 3_R > >));
+	BOOST_TEST((rt_id(3_r ) == id< row< true,  3_R > >));
+	BOOST_TEST((rt_id(3_rd) == id< row< false, 3_R > >));
 
-	BOOST_TEST((rt_id(3_d ) == id< dim_t< true,  3_D > >));
-	BOOST_TEST((rt_id(3_dd) == id< dim_t< false, 3_D > >));
+	BOOST_TEST((rt_id(3_d ) == id< dim< true,  3_D > >));
+	BOOST_TEST((rt_id(3_dd) == id< dim< false, 3_D > >));
 }
 
 template < typename CT >
@@ -100,25 +100,25 @@ void convert2dim(){
 	constexpr auto crt = DimT< false, CT, 3 >();
 	constexpr auto rrt = DimT< false, CT, 0 >(CT(3));
 
-	BOOST_TEST((rt_id(cct.as_col()) == id< col_t< true,  3_C > >));
-	BOOST_TEST((rt_id(crt.as_col()) == id< col_t< false, 3_C > >));
-	BOOST_TEST((rt_id(rrt.as_col()) == id< col_t< false, 0_C > >));
+	BOOST_TEST((rt_id(cct.as_col()) == id< col< true,  3_C > >));
+	BOOST_TEST((rt_id(crt.as_col()) == id< col< false, 3_C > >));
+	BOOST_TEST((rt_id(rrt.as_col()) == id< col< false, 0_C > >));
 
 	BOOST_TEST((CP(cct.as_col()) == 3_c));
 	BOOST_TEST((CP(crt.as_col()) == 3_c));
 	BOOST_TEST((CP(rrt.as_col()) == 3_c));
 
-	BOOST_TEST((rt_id(cct.as_row()) == id< row_t< true,  3_R > >));
-	BOOST_TEST((rt_id(crt.as_row()) == id< row_t< false, 3_R > >));
-	BOOST_TEST((rt_id(rrt.as_row()) == id< row_t< false, 0_R > >));
+	BOOST_TEST((rt_id(cct.as_row()) == id< row< true,  3_R > >));
+	BOOST_TEST((rt_id(crt.as_row()) == id< row< false, 3_R > >));
+	BOOST_TEST((rt_id(rrt.as_row()) == id< row< false, 0_R > >));
 
 	BOOST_TEST((CP(cct.as_row()) == 3_r));
 	BOOST_TEST((CP(crt.as_row()) == 3_r));
 	BOOST_TEST((CP(rrt.as_row()) == 3_r));
 
-	BOOST_TEST((rt_id(cct.as_dim()) == id< dim_t< true,  3_D > >));
-	BOOST_TEST((rt_id(crt.as_dim()) == id< dim_t< false, 3_D > >));
-	BOOST_TEST((rt_id(rrt.as_dim()) == id< dim_t< false, 0_D > >));
+	BOOST_TEST((rt_id(cct.as_dim()) == id< dim< true,  3_D > >));
+	BOOST_TEST((rt_id(crt.as_dim()) == id< dim< false, 3_D > >));
+	BOOST_TEST((rt_id(rrt.as_dim()) == id< dim< false, 0_D > >));
 
 	BOOST_TEST((CP(cct.as_dim()) == 3_d));
 	BOOST_TEST((CP(crt.as_dim()) == 3_d));
@@ -340,42 +340,42 @@ void add_test(utf::test_suite* ts){
 	ts->add(BOOST_TEST_CASE((&compare< CT, std::greater_equal<> >)));
 }
 
-void make_col_t(){
+void make_col(){
 	constexpr auto cct = cols< 3_C >();
 	constexpr auto crt = cols_rt< 3_C >();
 	constexpr auto rrt = cols(3_C);
 
-	BOOST_TEST((rt_id(cct) == id< col_t< true,  3_C > >));
-	BOOST_TEST((rt_id(crt) == id< col_t< false, 3_C > >));
-	BOOST_TEST((rt_id(rrt) == id< col_t< false, 0_C > >));
+	BOOST_TEST((rt_id(cct) == id< col< true,  3_C > >));
+	BOOST_TEST((rt_id(crt) == id< col< false, 3_C > >));
+	BOOST_TEST((rt_id(rrt) == id< col< false, 0_C > >));
 
 	BOOST_TEST((cct == 3_c));
 	BOOST_TEST((crt == 3_c));
 	BOOST_TEST((rrt == 3_c));
 }
 
-void make_row_t(){
+void make_row(){
 	constexpr auto cct = rows< 3_R >();
 	constexpr auto crt = rows_rt< 3_R >();
 	constexpr auto rrt = rows(3_R);
 
-	BOOST_TEST((rt_id(cct) == id< row_t< true,  3_R > >));
-	BOOST_TEST((rt_id(crt) == id< row_t< false, 3_R > >));
-	BOOST_TEST((rt_id(rrt) == id< row_t< false, 0_R > >));
+	BOOST_TEST((rt_id(cct) == id< row< true,  3_R > >));
+	BOOST_TEST((rt_id(crt) == id< row< false, 3_R > >));
+	BOOST_TEST((rt_id(rrt) == id< row< false, 0_R > >));
 
 	BOOST_TEST((cct == 3_r));
 	BOOST_TEST((crt == 3_r));
 	BOOST_TEST((rrt == 3_r));
 }
 
-void make_dim_t(){
+void make_dim(){
 	constexpr auto cct = dims< 3_D >();
 	constexpr auto crt = dims_rt< 3_D >();
 	constexpr auto rrt = dims(3_D);
 
-	BOOST_TEST((rt_id(cct) == id< dim_t< true,  3_D > >));
-	BOOST_TEST((rt_id(crt) == id< dim_t< false, 3_D > >));
-	BOOST_TEST((rt_id(rrt) == id< dim_t< false, 0_D > >));
+	BOOST_TEST((rt_id(cct) == id< dim< true,  3_D > >));
+	BOOST_TEST((rt_id(crt) == id< dim< false, 3_D > >));
+	BOOST_TEST((rt_id(rrt) == id< dim< false, 0_D > >));
 
 	BOOST_TEST((cct == 3_d));
 	BOOST_TEST((crt == 3_d));
@@ -471,46 +471,46 @@ void dim_pair_t_make(){
 	BOOST_TEST((rt_id(dd) == id< dim_pair_t< false, 3_C, false, 4_R > >));
 
 
-	BOOST_TEST((rt_id(ll.cols()) == id< col_t< false, 0_C > >));
-	BOOST_TEST((rt_id(lr.cols()) == id< col_t< false, 0_C > >));
-	BOOST_TEST((rt_id(lc.cols()) == id< col_t< false, 0_C > >));
-	BOOST_TEST((rt_id(ld.cols()) == id< col_t< false, 0_C > >));
+	BOOST_TEST((rt_id(ll.cols()) == id< col< false, 0_C > >));
+	BOOST_TEST((rt_id(lr.cols()) == id< col< false, 0_C > >));
+	BOOST_TEST((rt_id(lc.cols()) == id< col< false, 0_C > >));
+	BOOST_TEST((rt_id(ld.cols()) == id< col< false, 0_C > >));
 
-	BOOST_TEST((rt_id(rl.cols()) == id< col_t< false, 0_C > >));
-	BOOST_TEST((rt_id(rr.cols()) == id< col_t< false, 0_C > >));
-	BOOST_TEST((rt_id(rc.cols()) == id< col_t< false, 0_C > >));
-	BOOST_TEST((rt_id(rd.cols()) == id< col_t< false, 0_C > >));
+	BOOST_TEST((rt_id(rl.cols()) == id< col< false, 0_C > >));
+	BOOST_TEST((rt_id(rr.cols()) == id< col< false, 0_C > >));
+	BOOST_TEST((rt_id(rc.cols()) == id< col< false, 0_C > >));
+	BOOST_TEST((rt_id(rd.cols()) == id< col< false, 0_C > >));
 
-	BOOST_TEST((rt_id(cl.cols()) == id< col_t< true,  3_C > >));
-	BOOST_TEST((rt_id(cr.cols()) == id< col_t< true,  3_C > >));
-	BOOST_TEST((rt_id(cc.cols()) == id< col_t< true,  3_C > >));
-	BOOST_TEST((rt_id(cd.cols()) == id< col_t< true,  3_C > >));
+	BOOST_TEST((rt_id(cl.cols()) == id< col< true,  3_C > >));
+	BOOST_TEST((rt_id(cr.cols()) == id< col< true,  3_C > >));
+	BOOST_TEST((rt_id(cc.cols()) == id< col< true,  3_C > >));
+	BOOST_TEST((rt_id(cd.cols()) == id< col< true,  3_C > >));
 
-	BOOST_TEST((rt_id(dl.cols()) == id< col_t< false, 3_C > >));
-	BOOST_TEST((rt_id(dr.cols()) == id< col_t< false, 3_C > >));
-	BOOST_TEST((rt_id(dc.cols()) == id< col_t< false, 3_C > >));
-	BOOST_TEST((rt_id(dd.cols()) == id< col_t< false, 3_C > >));
+	BOOST_TEST((rt_id(dl.cols()) == id< col< false, 3_C > >));
+	BOOST_TEST((rt_id(dr.cols()) == id< col< false, 3_C > >));
+	BOOST_TEST((rt_id(dc.cols()) == id< col< false, 3_C > >));
+	BOOST_TEST((rt_id(dd.cols()) == id< col< false, 3_C > >));
 
 
-	BOOST_TEST((rt_id(ll.rows()) == id< row_t< false, 0_R > >));
-	BOOST_TEST((rt_id(lr.rows()) == id< row_t< false, 0_R > >));
-	BOOST_TEST((rt_id(lc.rows()) == id< row_t< true,  4_R > >));
-	BOOST_TEST((rt_id(ld.rows()) == id< row_t< false, 4_R > >));
+	BOOST_TEST((rt_id(ll.rows()) == id< row< false, 0_R > >));
+	BOOST_TEST((rt_id(lr.rows()) == id< row< false, 0_R > >));
+	BOOST_TEST((rt_id(lc.rows()) == id< row< true,  4_R > >));
+	BOOST_TEST((rt_id(ld.rows()) == id< row< false, 4_R > >));
 
-	BOOST_TEST((rt_id(rl.rows()) == id< row_t< false, 0_R > >));
-	BOOST_TEST((rt_id(rr.rows()) == id< row_t< false, 0_R > >));
-	BOOST_TEST((rt_id(rc.rows()) == id< row_t< true,  4_R > >));
-	BOOST_TEST((rt_id(rd.rows()) == id< row_t< false, 4_R > >));
+	BOOST_TEST((rt_id(rl.rows()) == id< row< false, 0_R > >));
+	BOOST_TEST((rt_id(rr.rows()) == id< row< false, 0_R > >));
+	BOOST_TEST((rt_id(rc.rows()) == id< row< true,  4_R > >));
+	BOOST_TEST((rt_id(rd.rows()) == id< row< false, 4_R > >));
 
-	BOOST_TEST((rt_id(cl.rows()) == id< row_t< false, 0_R > >));
-	BOOST_TEST((rt_id(cr.rows()) == id< row_t< false, 0_R > >));
-	BOOST_TEST((rt_id(cc.rows()) == id< row_t< true,  4_R > >));
-	BOOST_TEST((rt_id(cd.rows()) == id< row_t< false, 4_R > >));
+	BOOST_TEST((rt_id(cl.rows()) == id< row< false, 0_R > >));
+	BOOST_TEST((rt_id(cr.rows()) == id< row< false, 0_R > >));
+	BOOST_TEST((rt_id(cc.rows()) == id< row< true,  4_R > >));
+	BOOST_TEST((rt_id(cd.rows()) == id< row< false, 4_R > >));
 
-	BOOST_TEST((rt_id(dl.rows()) == id< row_t< false, 0_R > >));
-	BOOST_TEST((rt_id(dr.rows()) == id< row_t< false, 0_R > >));
-	BOOST_TEST((rt_id(dc.rows()) == id< row_t< true,  4_R > >));
-	BOOST_TEST((rt_id(dd.rows()) == id< row_t< false, 4_R > >));
+	BOOST_TEST((rt_id(dl.rows()) == id< row< false, 0_R > >));
+	BOOST_TEST((rt_id(dr.rows()) == id< row< false, 0_R > >));
+	BOOST_TEST((rt_id(dc.rows()) == id< row< true,  4_R > >));
+	BOOST_TEST((rt_id(dd.rows()) == id< row< false, 4_R > >));
 
 
 	BOOST_TEST((CP(ll.cols()) == 3_c));
@@ -1100,9 +1100,9 @@ int main(int argc, char** argv, char** /*envp*/){
 	add_test< row_ct >(ts);
 	add_test< dim_ct >(ts);
 	ts->add(BOOST_TEST_CASE(&dim_literal));
-	ts->add(BOOST_TEST_CASE(&make_col_t));
-	ts->add(BOOST_TEST_CASE(&make_row_t));
-	ts->add(BOOST_TEST_CASE(&make_dim_t));
+	ts->add(BOOST_TEST_CASE(&make_col));
+	ts->add(BOOST_TEST_CASE(&make_row));
+	ts->add(BOOST_TEST_CASE(&make_dim));
 	ts->add(BOOST_TEST_CASE(&dim_pair_t_default_construct));
 	ts->add(BOOST_TEST_CASE(&dim_pair_t_construct));
 	ts->add(BOOST_TEST_CASE(&dim_pair_t_make));

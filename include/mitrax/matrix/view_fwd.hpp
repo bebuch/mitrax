@@ -74,7 +74,7 @@ namespace mitrax::maker{
 		template < typename T, typename MemoryOrder = memory_order::row_wise_t,
 			bool Cct, col_ct C, bool Rct, row_ct R >
 		constexpr auto by_object(
-			col_t< Cct, C > c, row_t< Rct, R > r,
+			col< Cct, C > c, row< Rct, R > r,
 			T& object, MemoryOrder = memory_order::row_wise
 		)const;
 	};
@@ -83,7 +83,7 @@ namespace mitrax::maker{
 		template < typename T, typename MemoryOrder = memory_order::row_wise_t,
 			bool Cct, col_ct C, bool Rct, row_ct R >
 		constexpr auto by_object(
-			col_t< Cct, C > c, row_t< Rct, R > r,
+			col< Cct, C > c, row< Rct, R > r,
 			T const& object, MemoryOrder = memory_order::row_wise
 		)const;
 	};

@@ -132,11 +132,11 @@ namespace mitrax{
 		constexpr matrix& operator=(matrix const&) = default;
 
 
-		constexpr col_t< Cols != 0_C, Cols > cols()const noexcept{
+		constexpr col< Cols != 0_C, Cols > cols()const noexcept{
 			return m_.cols();
 		}
 
-		constexpr row_t< Rows != 0_R, Rows > rows()const noexcept{
+		constexpr row< Rows != 0_R, Rows > rows()const noexcept{
 			return m_.rows();
 		}
 

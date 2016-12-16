@@ -45,7 +45,7 @@ namespace mitrax::detail{
 		eigen_matrix_impl(eigen_matrix_impl const&) = default;
 
 		eigen_matrix_impl(
-			col_t< C != 0_C, C > c, row_t< R != 0_R, R > r,
+			col< C != 0_C, C > c, row< R != 0_R, R > r,
 			eigen_type&& values
 		):
 			auto_dim_pair_t< C, R >(c, r),
@@ -93,7 +93,7 @@ namespace mitrax::detail{
 
 
 	template < typename Iter, bool Cct, col_ct C, bool Rct, row_ct R >
-	auto to_eigen_matrix_data(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter){
+	auto to_eigen_matrix_data(col< Cct, C > c, row< Rct, R > r, Iter iter){
 		::Eigen::Matrix< iter_type_t< Iter >,
 			Rct ? static_cast< int >(R) : ::Eigen::Dynamic,
 			Cct ? static_cast< int >(C) : ::Eigen::Dynamic > data(
@@ -117,7 +117,7 @@ namespace mitrax::maker{
 
 	template < typename Iter, bool Cct, col_ct C, bool Rct, row_ct R >
 	eigen_matrix< iter_type_t< Iter >, Cct ? C : 0_C, Rct ? R : 0_R >
-	eigen_t::by_sequence(col_t< Cct, C > c, row_t< Rct, R > r, Iter iter)const{
+	eigen_t::by_sequence(col< Cct, C > c, row< Rct, R > r, Iter iter)const{
 		return {init, c, r, detail::to_eigen_matrix_data(c, r, iter)};
 	}
 

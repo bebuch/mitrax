@@ -19,21 +19,21 @@ namespace mitrax{
 
 	template < typename charT, typename traits, bool Cct, col_ct C >
 	std::basic_ostream< charT, traits >& operator<<(
-		std::basic_ostream< charT, traits >& os, col_t< Cct, C > c
+		std::basic_ostream< charT, traits >& os, col< Cct, C > c
 	){
 		return os << size_t(c);
 	}
 
 	template < typename charT, typename traits, bool Rct, row_ct R >
 	std::basic_ostream< charT, traits >& operator<<(
-		std::basic_ostream< charT, traits >& os, row_t< Rct, R > r
+		std::basic_ostream< charT, traits >& os, row< Rct, R > r
 	){
 		return os << size_t(r);
 	}
 
 	template < typename charT, typename traits, bool Dct, dim_ct D >
 	std::basic_ostream< charT, traits >& operator<<(
-		std::basic_ostream< charT, traits >& os, dim_t< Dct, D > d
+		std::basic_ostream< charT, traits >& os, dim< Dct, D > d
 	){
 		return os << size_t(d);
 	}

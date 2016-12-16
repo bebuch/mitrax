@@ -164,17 +164,17 @@ namespace mitrax{
 
 
 	template < bool Cct, col_ct C >
-	struct col_t: dim_base< Cct, col_ct, C >{
+	struct col: dim_base< Cct, col_ct, C >{
 		using dim_base< Cct, col_ct, C >::dim_base;
 	};
 
 	template < bool Rct, row_ct R >
-	struct row_t: dim_base< Rct, row_ct, R >{
+	struct row: dim_base< Rct, row_ct, R >{
 		using dim_base< Rct, row_ct, R >::dim_base;
 	};
 
 	template < bool Dct, dim_ct D >
-	struct dim_t: dim_base< Dct, dim_ct, D >{
+	struct dim: dim_base< Dct, dim_ct, D >{
 		using dim_base< Dct, dim_ct, D >::dim_base;
 	};
 
@@ -182,15 +182,15 @@ namespace mitrax{
 	template < bool Nct, typename CT, CT N > struct dim_type;
 
 	template < bool Cct, col_ct C > struct dim_type< Cct, col_ct, C >{
-		using type = col_t< Cct, C >;
+		using type = col< Cct, C >;
 	};
 
 	template < bool Rct, row_ct R > struct dim_type< Rct, row_ct, R >{
-		using type = row_t< Rct, R >;
+		using type = row< Rct, R >;
 	};
 
 	template < bool Dct, dim_ct D > struct dim_type< Dct, dim_ct, D >{
-		using type = dim_t< Dct, D >;
+		using type = dim< Dct, D >;
 	};
 
 	template < bool Nct, typename CT, CT N >
@@ -213,15 +213,15 @@ namespace mitrax{
 		}
 
 		constexpr auto as_col()const noexcept{
-			return col_t< true, col_ct(N) >();
+			return col< true, col_ct(N) >();
 		}
 
 		constexpr auto as_row()const noexcept{
-			return row_t< true, row_ct(N) >();
+			return row< true, row_ct(N) >();
 		}
 
 		constexpr auto as_dim()const noexcept{
-			return dim_t< true, dim_ct(N) >();
+			return dim< true, dim_ct(N) >();
 		}
 	};
 
@@ -241,15 +241,15 @@ namespace mitrax{
 		}
 
 		constexpr auto as_col()const noexcept{
-			return col_t< false, col_ct(N) >();
+			return col< false, col_ct(N) >();
 		}
 
 		constexpr auto as_row()const noexcept{
-			return row_t< false, row_ct(N) >();
+			return row< false, row_ct(N) >();
 		}
 
 		constexpr auto as_dim()const noexcept{
-			return dim_t< false, dim_ct(N) >();
+			return dim< false, dim_ct(N) >();
 		}
 	};
 
@@ -278,15 +278,15 @@ namespace mitrax{
 		}
 
 		constexpr auto as_col()const noexcept{
-			return col_t< false, col_ct(0) >(col_ct(v_));
+			return col< false, col_ct(0) >(col_ct(v_));
 		}
 
 		constexpr auto as_row()const noexcept{
-			return row_t< false, row_ct(0) >(row_ct(v_));
+			return row< false, row_ct(0) >(row_ct(v_));
 		}
 
 		constexpr auto as_dim()const noexcept{
-			return dim_t< false, dim_ct(0) >(dim_ct(v_));
+			return dim< false, dim_ct(0) >(dim_ct(v_));
 		}
 
 	private:
@@ -310,7 +310,7 @@ namespace mitrax{
 
 
 	template < bool Cct, col_ct C, bool Rct, row_ct R >
-	class dim_pair_t: private col_t< Cct, C >, private row_t< Rct, R >{
+	class dim_pair_t: private col< Cct, C >, private row< Rct, R >{
 	public:
 		static constexpr col_ct ct_cols = C;
 		static constexpr row_ct ct_rows = R;
@@ -319,28 +319,28 @@ namespace mitrax{
 		constexpr dim_pair_t()noexcept = default;
 
 		constexpr dim_pair_t(
-			col_t< Cct, C > cols, row_t< Rct, R > rows
+			col< Cct, C > cols, row< Rct, R > rows
 		)noexcept:
-			col_t< Cct, C >(cols), row_t< Rct, R >(rows) {}
+			col< Cct, C >(cols), row< Rct, R >(rows) {}
 
 		template < bool Ccto, col_ct Co, bool Rcto, row_ct Ro >
 		constexpr dim_pair_t(dim_pair_t< Ccto, Co, Rcto, Ro > const& d)noexcept:
-			col_t< Cct, C >(d.cols()), row_t< Rct, R >(d.rows()) {}
+			col< Cct, C >(d.cols()), row< Rct, R >(d.rows()) {}
 
 
-		constexpr col_t< Cct, C > cols()const noexcept{ return *this; }
-		constexpr row_t< Rct, R > rows()const noexcept{ return *this; }
+		constexpr col< Cct, C > cols()const noexcept{ return *this; }
+		constexpr row< Rct, R > rows()const noexcept{ return *this; }
 
 
-		constexpr void set_cols(col_t< Cct, C > c)noexcept{
-			static_cast< col_t< Cct, C >& >(*this) = c;
+		constexpr void set_cols(col< Cct, C > c)noexcept{
+			static_cast< col< Cct, C >& >(*this) = c;
 		}
 
-		constexpr void set_rows(row_t< Rct, R > r)noexcept{
-			static_cast< row_t< Rct, R >& >(*this) = r;
+		constexpr void set_rows(row< Rct, R > r)noexcept{
+			static_cast< row< Rct, R >& >(*this) = r;
 		}
 
-		constexpr void set(col_t< Cct, C > c, row_t< Rct, R > r)noexcept{
+		constexpr void set(col< Cct, C > c, row< Rct, R > r)noexcept{
 			set_cols(c);
 			set_rows(r);
 		}
@@ -358,69 +358,69 @@ namespace mitrax{
 
 	constexpr auto dim_pair(col_ct c, row_ct r)noexcept{
 		return dim_pair_t< false, 0_C, false, 0_R >(
-			col_t< false, 0_C >(c), row_t< false, 0_R >(r));
+			col< false, 0_C >(c), row< false, 0_R >(r));
 	}
 
 	template < bool Cct, col_ct C >
-	constexpr auto dim_pair(col_t< Cct, C > c, row_ct r)noexcept{
-		return dim_pair_t< Cct, C, false, 0_R >(c, row_t< false, 0_R >(r));
+	constexpr auto dim_pair(col< Cct, C > c, row_ct r)noexcept{
+		return dim_pair_t< Cct, C, false, 0_R >(c, row< false, 0_R >(r));
 	}
 
 	template < bool Rct, row_ct R >
-	constexpr auto dim_pair(col_ct c, row_t< Rct, R > r)noexcept{
-		return dim_pair_t< false, 0_C, Rct, R >(col_t< false, 0_C >(c), r);
+	constexpr auto dim_pair(col_ct c, row< Rct, R > r)noexcept{
+		return dim_pair_t< false, 0_C, Rct, R >(col< false, 0_C >(c), r);
 	}
 
 	template < bool Cct, col_ct C, bool Rct, row_ct R >
-	constexpr auto dim_pair(col_t< Cct, C > c, row_t< Rct, R > r)noexcept{
+	constexpr auto dim_pair(col< Cct, C > c, row< Rct, R > r)noexcept{
 		return dim_pair_t< Cct, C, Rct, R >(c, r);
 	}
 
 	template < bool Dct, dim_ct D >
-	constexpr auto dim_pair(dim_t< Dct, D > d)noexcept{
+	constexpr auto dim_pair(dim< Dct, D > d)noexcept{
 		return dim_pair(d.as_col(), d.as_row());
 	}
 
 	// TODO; static_assert instead of deleting
 	template < typename T, bool Cct, col_ct C >
-	void dim_pair(T, col_t< Cct, C >) = delete;
+	void dim_pair(T, col< Cct, C >) = delete;
 
 	template < typename T, bool Rct, row_ct R >
-	void dim_pair(row_t< Rct, R >, T) = delete;
+	void dim_pair(row< Rct, R >, T) = delete;
 
 	template < bool Cct, col_ct C, bool Rct, row_ct R >
-	void dim_pair(row_t< Rct, R >, col_t< Cct, C >) = delete;
+	void dim_pair(row< Rct, R >, col< Cct, C >) = delete;
 
 	template < bool Cct, col_ct C, bool Rct, row_ct R >
-	void dim_pair(col_t< Rct, R >, col_t< Cct, C >) = delete;
+	void dim_pair(col< Rct, R >, col< Cct, C >) = delete;
 
 	template < bool Cct, col_ct C, bool Rct, row_ct R >
-	void dim_pair(row_t< Rct, R >, row_t< Cct, C >) = delete;
+	void dim_pair(row< Rct, R >, row< Cct, C >) = delete;
 
 
-	constexpr auto cols(col_ct c)noexcept{ return col_t< false, 0_C >(c); }
-	constexpr auto rows(row_ct r)noexcept{ return row_t< false, 0_R >(r); }
-	constexpr auto dims(dim_ct d)noexcept{ return dim_t< false, 0_D >(d); }
+	constexpr auto cols(col_ct c)noexcept{ return col< false, 0_C >(c); }
+	constexpr auto rows(row_ct r)noexcept{ return row< false, 0_R >(r); }
+	constexpr auto dims(dim_ct d)noexcept{ return dim< false, 0_D >(d); }
 
 
 	template < col_ct C >
-	constexpr auto cols()noexcept{ return col_t< true, C >(); }
+	constexpr auto cols()noexcept{ return col< true, C >(); }
 
 	template < row_ct R >
-	constexpr auto rows()noexcept{ return row_t< true, R >(); }
+	constexpr auto rows()noexcept{ return row< true, R >(); }
 
 	template < dim_ct D >
-	constexpr auto dims()noexcept{ return dim_t< true, D >(); }
+	constexpr auto dims()noexcept{ return dim< true, D >(); }
 
 
 	template < col_ct C >
-	constexpr auto cols_rt()noexcept{ return col_t< false, C >(); }
+	constexpr auto cols_rt()noexcept{ return col< false, C >(); }
 
 	template < row_ct R >
-	constexpr auto rows_rt()noexcept{ return row_t< false, R >(); }
+	constexpr auto rows_rt()noexcept{ return row< false, R >(); }
 
 	template < dim_ct D >
-	constexpr auto dims_rt()noexcept{ return dim_t< false, D >(); }
+	constexpr auto dims_rt()noexcept{ return dim< false, D >(); }
 
 
 }
@@ -435,7 +435,7 @@ namespace mitrax::detail{
 		Op op, dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
 	)noexcept{
 		static_assert(std::is_same_v< CT1, CT2 >,
-			"You must not mix col_t, row_t and dim_t.");
+			"You must not mix col, row and dim.");
 
 		if constexpr(N1 != CT1(0) && N2 != CT2(0)){
 			return dim_type_t< Nct1 || Nct2, CT1,
@@ -452,7 +452,7 @@ namespace mitrax::detail{
 		Op op, dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
 	)noexcept{
 		static_assert(std::is_same_v< CT1, CT2 >,
-			"You must not mix col_t, row_t and dim_t.");
+			"You must not mix col, row and dim.");
 
 		return op(size_t(n1), size_t(n2));
 	}
@@ -606,21 +606,21 @@ namespace mitrax{
 
 	template < bool Cct, col_ct C, bool Rct, row_ct R, bool Dct, dim_ct D >
 	constexpr auto operator*(
-		dim_pair_t< Cct, C, Rct, R > const& d, dim_t< Dct, D > v
+		dim_pair_t< Cct, C, Rct, R > const& d, dim< Dct, D > v
 	)noexcept{
 		return dim_pair(d.cols() * v.as_col(), d.rows() * v.as_row());
 	}
 
 	template < bool Cct, col_ct C, bool Rct, row_ct R, bool Dct, dim_ct D >
 	constexpr auto operator/(
-		dim_pair_t< Cct, C, Rct, R > const& d, dim_t< Dct, D > v
+		dim_pair_t< Cct, C, Rct, R > const& d, dim< Dct, D > v
 	)noexcept{
 		return dim_pair(d.cols() / v.as_col(), d.rows() / v.as_row());
 	}
 
 	template < bool Cct, col_ct C, bool Rct, row_ct R, bool Dct, dim_ct D >
 	constexpr auto operator%(
-		dim_pair_t< Cct, C, Rct, R > const& d, dim_t< Dct, D > v
+		dim_pair_t< Cct, C, Rct, R > const& d, dim< Dct, D > v
 	)noexcept{
 		return dim_pair(d.cols() % v.as_col(), d.rows() % v.as_row());
 	}
@@ -763,7 +763,7 @@ namespace mitrax{
 	template < bool ... Nct, typename ... CT, CT ... N >
 	constexpr auto get(dim_base< Nct, CT, N > ... v){
 		static_assert(is_all_v< std::is_same, CT ... >,
-			"You must not mix col_t, row_t and dim_t.");
+			"You must not mix col, row and dim.");
 		return detail::get_same(v ...);
 	}
 
@@ -773,11 +773,11 @@ namespace mitrax{
 	}
 
 
-	using rt_col_t = col_t< false, 0_C >;
+	using rt_col = col< false, 0_C >;
 
-	using rt_row_t = row_t< false, 0_R >;
+	using rt_row = row< false, 0_R >;
 
-	using rt_dim_t = dim_t< false, 0_D >;
+	using rt_dim = dim< false, 0_D >;
 
 	using rt_dim_pair_t = auto_dim_pair_t< 0_C, 0_R >;
 

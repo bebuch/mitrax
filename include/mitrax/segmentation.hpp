@@ -90,7 +90,7 @@ namespace mitrax{
 	}
 
 	template < bool EdgeNeighborhood, bool Cct, col_ct C, bool Rct, row_ct R >
-	constexpr auto make_segmentor(col_t< Cct, C > c, row_t< Rct, R > r){
+	constexpr auto make_segmentor(col< Cct, C > c, row< Rct, R > r){
 		return make_segmentor< EdgeNeighborhood >(dim_pair(c, r));
 	}
 

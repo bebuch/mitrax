@@ -19,8 +19,8 @@ namespace mitrax{
 		bool Ccto, col_ct Co, bool Rcto, row_ct Ro,
 		typename M, col_ct C, row_ct R
 	> constexpr auto pass_in(
-		col_t< Ccto, Co > c,
-		row_t< Rcto, Ro > r,
+		col< Ccto, Co > c,
+		row< Rcto, Ro > r,
 		matrix< M, C, R > const& m,
 		value_type_t< M > const& default_value
 	){

@@ -33,7 +33,7 @@ namespace mitrax::detail{
 		typename M
 	> constexpr auto make_sub_matrix_t(
 		M&& m,
-		size_t x, size_t y, col_t< Cct1, C1 > c, row_t< Rct1, R1 > r
+		size_t x, size_t y, col< Cct1, C1 > c, row< Rct1, R1 > r
 	){
 		if(
 			x >= size_t(m.cols()) || x + size_t(c) > size_t(m.cols()) ||
@@ -64,7 +64,7 @@ namespace mitrax{
 		typename M, col_ct C2, row_ct R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 > const& m,
-		size_t x, size_t y, col_t< Cct1, C1 > c, row_t< Rct1, R1 > r
+		size_t x, size_t y, col< Cct1, C1 > c, row< Rct1, R1 > r
  	){
 		return make_matrix_fn(c, r, detail::make_sub_matrix_t(m, x, y, c, r));
 	}
@@ -74,7 +74,7 @@ namespace mitrax{
 		typename M, col_ct C2, row_ct R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 >&& m,
-		size_t x, size_t y, col_t< Cct1, C1 > c, row_t< Rct1, R1 > r
+		size_t x, size_t y, col< Cct1, C1 > c, row< Rct1, R1 > r
  	){
 		return make_matrix_fn(c, r,
 			detail::make_sub_matrix_t(std::move(m), x, y, c, r));
@@ -105,7 +105,7 @@ namespace mitrax{
 		typename M, col_ct C2, row_ct R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 > const& m,
-		point< size_t > xy, col_t< Cct1, C1 > c, row_t< Rct1, R1 > r
+		point< size_t > xy, col< Cct1, C1 > c, row< Rct1, R1 > r
  	){
 		return sub_matrix(m, xy.x(), xy.y(), c, r);
 	}
@@ -115,7 +115,7 @@ namespace mitrax{
 		typename M, col_ct C2, row_ct R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 >&& m,
-		point< size_t > xy, col_t< Cct1, C1 > c, row_t< Rct1, R1 > r
+		point< size_t > xy, col< Cct1, C1 > c, row< Rct1, R1 > r
  	){
 		return sub_matrix(std::move(m), xy.x(), xy.y(), c, r);
 	}
