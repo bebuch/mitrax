@@ -22,8 +22,13 @@ namespace mitrax{
 	enum class row_ct: size_t{};
 	enum class dim_ct: size_t{};
 
+// 	enum class x_ct: size_t{};
+// 	enum class y_ct: size_t{};
+// 	enum class i_ct: size_t{};
+
 
 }
+
 
 namespace mitrax::detail{
 
@@ -778,11 +783,11 @@ namespace mitrax{
 
 
 	struct memory_order{
-		struct col_t: std::false_type{};
-		struct row_t: std::true_type{};
+		struct col_wise_t: std::false_type{};
+		struct row_wise_t: std::true_type{};
 
-		static constexpr auto col = col_t();
-		static constexpr auto row = row_t();
+		static constexpr auto col_wise = col_wise_t();
+		static constexpr auto row_wise = row_wise_t();
 	};
 
 

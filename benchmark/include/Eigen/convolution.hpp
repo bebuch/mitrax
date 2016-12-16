@@ -16,7 +16,10 @@ namespace Eigen{
 
 
 	template < typename DerivedM, typename DerivedK >
-	inline auto convolution(MatrixBase< DerivedM > const& m, MatrixBase< DerivedK > const& k){
+	inline auto convolution(
+		MatrixBase< DerivedM > const& m,
+		MatrixBase< DerivedK > const& k
+	){
 		using ScalarK = typename DerivedK::Scalar;
 
 		using ResultType = Matrix< ScalarK, Eigen::Dynamic, Eigen::Dynamic >;
@@ -29,17 +32,17 @@ namespace Eigen{
 
 		ResultType res(res_r, res_c);
 
-		for(int row = 0; row < res_r; ++row){
-			for(int col = 0; col < res_c; ++col){
+		for(int my = 0; my < res_r; ++my){
+			for(int mx = 0; mx < res_c; ++mx){
 				ScalarK b = 0;
 
-				for(int r = 0; r < kr; ++r){
-					for(int c = 0; c < kc; ++c){
-						b += m(row + r, col + c) * k(r, c);
+				for(int ky = 0; ky < kr; ++ky){
+					for(int kx = 0; kx < kc; ++kx){
+						b += m(my + ky, mx + kx) * k(ky, kx);
 					}
 				}
 
-				res.coeffRef(row, col) = b;
+				res.coeffRef(my, mx) = b;
 			}
 		}
 

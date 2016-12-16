@@ -28,19 +28,20 @@ namespace uBLAS{
 		using value_type = typename M2::value_type;
 		ublas::matrix< value_type > res(res_c, res_r);
 
-		for(int row = 0; row < res_r; ++row){
-			for(int col = 0; col < res_c; ++col){
+		for(int my = 0; my < res_r; ++my){
+			for(int mx = 0; mx < res_c; ++mx){
 				value_type b = 0;
 
-				for(int r = 0; r < kr; ++r){
-					for(int c = 0; c < kc; ++c){
-						b += m(col + c, row + r) * k(c, r);
+				for(int ky = 0; ky < kr; ++ky){
+					for(int kx = 0; kx < kc; ++kx){
+						b += m(mx + kx, my + ky) * k(kx, ky);
 					}
 				}
 
-				res(col, row) = b;
+				res(mx, my) = b;
 			}
 		}
+
 
 		return res;
 	}

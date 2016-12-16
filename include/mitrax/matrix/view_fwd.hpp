@@ -71,20 +71,20 @@ namespace mitrax::maker{
 
 
 	struct view_t: key{
-		template < typename T, typename MemoryOrder = memory_order::row_t,
+		template < typename T, typename MemoryOrder = memory_order::row_wise_t,
 			bool Cct, col_ct C, bool Rct, row_ct R >
 		constexpr auto by_object(
 			col_t< Cct, C > c, row_t< Rct, R > r,
-			T& object, MemoryOrder = memory_order::row
+			T& object, MemoryOrder = memory_order::row_wise
 		)const;
 	};
 
 	struct const_view_t: key{
-		template < typename T, typename MemoryOrder = memory_order::row_t,
+		template < typename T, typename MemoryOrder = memory_order::row_wise_t,
 			bool Cct, col_ct C, bool Rct, row_ct R >
 		constexpr auto by_object(
 			col_t< Cct, C > c, row_t< Rct, R > r,
-			T const& object, MemoryOrder = memory_order::row
+			T const& object, MemoryOrder = memory_order::row_wise
 		)const;
 	};
 
