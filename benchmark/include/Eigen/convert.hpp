@@ -24,7 +24,7 @@ namespace mitrax{
 		});
 	}
 
-	template < typename M, col_ct C, row_ct R >
+	template < typename M, col_t C, row_t R >
 	constexpr auto convert(matrix< M, C, R > const& m){
 		Eigen::Matrix<
 			value_type_t< M >,

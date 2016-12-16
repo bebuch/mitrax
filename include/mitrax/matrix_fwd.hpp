@@ -13,16 +13,16 @@
 namespace mitrax{
 
 
-	template < typename M, col_ct C, row_ct R >
+	template < typename M, col_t C, row_t R >
 	class matrix;
 
-	template < typename M, dim_ct D >
-	using square_matrix = matrix< M, col_ct(D), row_ct(D) >;
+	template < typename M, dim_t D >
+	using square_matrix = matrix< M, col_t(D), row_t(D) >;
 
-	template < typename M, row_ct R >
+	template < typename M, row_t R >
 	using col_vector = matrix< M, 1_C, R >;
 
-	template < typename M, col_ct C >
+	template < typename M, col_t C >
 	using row_vector = matrix< M, C, 1_R >;
 
 	template < typename M >

@@ -107,7 +107,7 @@ namespace mitrax{ namespace png{
 	}
 
 
-	template < typename M, col_ct Cols, row_ct Rows >
+	template < typename M, col_t Cols, row_t Rows >
 	void load(matrix< M, Cols, Rows >& m, std::string const& filename){
 		using value_type = value_type_t< M >;
 
@@ -129,7 +129,7 @@ namespace mitrax{ namespace png{
 	}
 
 
-	template < typename M, col_ct Cols, row_ct Rows >
+	template < typename M, col_t Cols, row_t Rows >
 	void save(matrix< M, Cols, Rows > const& m, std::string const& filename){
 		using value_type = value_type_t< M >;
 		using image_type = ::png::image< detail::png_type_t< value_type > >;

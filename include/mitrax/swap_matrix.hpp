@@ -23,8 +23,8 @@ namespace mitrax{
 		constexpr swap_rows_t(){}
 
 		template <
-			typename M1, col_ct C1, row_ct R1,
-			typename M2, col_ct C2, row_ct R2,
+			typename M1, col_t C1, row_t R1,
+			typename M2, col_t C2, row_t R2,
 			enable_if_t<
 				std::is_same_v< value_type_t< M1 >, value_type_t< M2 > > > = 0
 		> constexpr void operator()(
@@ -45,7 +45,7 @@ namespace mitrax{
 			}
 		}
 
-		template < typename M, col_ct C, row_ct R >
+		template < typename M, col_t C, row_t R >
 		constexpr void
 		operator()(matrix< M, C, R >& m, size_t i1, size_t i2)const{
 			(*this)(m, i1, m, i2);
@@ -59,8 +59,8 @@ namespace mitrax{
 		constexpr swap_cols_t(){}
 
 		template <
-			typename M1, col_ct C1, row_ct R1,
-			typename M2, col_ct C2, row_ct R2,
+			typename M1, col_t C1, row_t R1,
+			typename M2, col_t C2, row_t R2,
 			enable_if_t<
 				std::is_same_v< value_type_t< M1 >, value_type_t< M2 > > > = 0
 		> constexpr void operator()(
@@ -81,7 +81,7 @@ namespace mitrax{
 			}
 		}
 
-		template < typename M, col_ct C, row_ct R >
+		template < typename M, col_t C, row_t R >
 		constexpr void
 		operator()(matrix< M, C, R >& m, size_t i1, size_t i2)const{
 			operator()(m, i1, m, i2);

@@ -29,7 +29,7 @@ namespace mitrax::detail{
 	};
 
 	template <
-		bool Cct1, col_ct C1, bool Rct1, row_ct R1,
+		bool Cct1, col_t C1, bool Rct1, row_t R1,
 		typename M
 	> constexpr auto make_sub_matrix_t(
 		M&& m,
@@ -60,8 +60,8 @@ namespace mitrax{
 
 
 	template <
-		bool Cct1, col_ct C1, bool Rct1, row_ct R1,
-		typename M, col_ct C2, row_ct R2
+		bool Cct1, col_t C1, bool Rct1, row_t R1,
+		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 > const& m,
 		size_t x, size_t y, col< Cct1, C1 > c, row< Rct1, R1 > r
@@ -70,8 +70,8 @@ namespace mitrax{
 	}
 
 	template <
-		bool Cct1, col_ct C1, bool Rct1, row_ct R1,
-		typename M, col_ct C2, row_ct R2
+		bool Cct1, col_t C1, bool Rct1, row_t R1,
+		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 >&& m,
 		size_t x, size_t y, col< Cct1, C1 > c, row< Rct1, R1 > r
@@ -81,8 +81,8 @@ namespace mitrax{
 	}
 
 	template <
-		bool Cct1, col_ct C1, bool Rct1, row_ct R1,
-		typename M, col_ct C2, row_ct R2
+		bool Cct1, col_t C1, bool Rct1, row_t R1,
+		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 > const& m,
 		size_t x, size_t y, dim_pair_t< Cct1, C1, Rct1, R1 > const& dims
@@ -91,8 +91,8 @@ namespace mitrax{
 	}
 
 	template <
-		bool Cct1, col_ct C1, bool Rct1, row_ct R1,
-		typename M, col_ct C2, row_ct R2
+		bool Cct1, col_t C1, bool Rct1, row_t R1,
+		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 >&& m,
 		size_t x, size_t y, dim_pair_t< Cct1, C1, Rct1, R1 > const& dims
@@ -101,8 +101,8 @@ namespace mitrax{
 	}
 
 	template <
-		bool Cct1, col_ct C1, bool Rct1, row_ct R1,
-		typename M, col_ct C2, row_ct R2
+		bool Cct1, col_t C1, bool Rct1, row_t R1,
+		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 > const& m,
 		point< size_t > xy, col< Cct1, C1 > c, row< Rct1, R1 > r
@@ -111,8 +111,8 @@ namespace mitrax{
 	}
 
 	template <
-		bool Cct1, col_ct C1, bool Rct1, row_ct R1,
-		typename M, col_ct C2, row_ct R2
+		bool Cct1, col_t C1, bool Rct1, row_t R1,
+		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 >&& m,
 		point< size_t > xy, col< Cct1, C1 > c, row< Rct1, R1 > r
@@ -121,8 +121,8 @@ namespace mitrax{
 	}
 
 	template <
-		bool Cct1, col_ct C1, bool Rct1, row_ct R1,
-		typename M, col_ct C2, row_ct R2
+		bool Cct1, col_t C1, bool Rct1, row_t R1,
+		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 > const& m,
 		point< size_t > xy, dim_pair_t< Cct1, C1, Rct1, R1 > const& dims
@@ -131,8 +131,8 @@ namespace mitrax{
 	}
 
 	template <
-		bool Cct1, col_ct C1, bool Rct1, row_ct R1,
-		typename M, col_ct C2, row_ct R2
+		bool Cct1, col_t C1, bool Rct1, row_t R1,
+		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 >&& m,
 		point< size_t > xy, dim_pair_t< Cct1, C1, Rct1, R1 > const& dims

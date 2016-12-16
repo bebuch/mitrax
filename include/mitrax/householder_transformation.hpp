@@ -16,7 +16,7 @@
 namespace mitrax{
 
 
-	template < typename M, col_ct C, row_ct R >
+	template < typename M, col_t C, row_t R >
 	auto householder_transformation(matrix< M, C, R > const& m){
 		using namespace literals;
 

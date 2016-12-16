@@ -16,7 +16,7 @@
 namespace mitrax{
 
 
-	template < typename M, col_ct C, row_ct R >
+	template < typename M, col_t C, row_t R >
 	constexpr std_matrix< value_type_t< M >, C, R >
 	upper_triangular_matrix(matrix< M, C, R > const& in){
 		if(size_t(in.rows()) != size_t(in.cols())){
@@ -62,7 +62,7 @@ namespace mitrax{
 	}
 
 
-	template < typename M1, col_ct C1, row_ct R1, typename M2, row_ct R2 >
+	template < typename M1, col_t C1, row_t R1, typename M2, row_t R2 >
 	constexpr auto gaussian_elimination(
 		matrix< M1, C1, R1 > m,
 		col_vector< M2, R2 > v
@@ -134,9 +134,9 @@ namespace mitrax{
 
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, row_ct R2,
-		typename M3, row_ct R3
+		typename M1, col_t C1, row_t R1,
+		typename M2, row_t R2,
+		typename M3, row_t R3
 	> constexpr auto gaussian_elimination(
 		matrix< M1, C1, R1 > a,
 		col_vector< M2, R2 > v,
@@ -228,7 +228,7 @@ namespace mitrax{
 	}
 
 
-	template < typename M, col_ct C, row_ct R >
+	template < typename M, col_t C, row_t R >
 	constexpr std_matrix< value_type_t< M >, C, R >
 	inverse(matrix< M, C, R > m){
 		using value_type = value_type_t< M >;
@@ -307,7 +307,7 @@ namespace mitrax{
 	}
 
 
-	template < typename M, col_ct C, row_ct R >
+	template < typename M, col_t C, row_t R >
 	constexpr auto matrix_kernel(matrix< M, C, R > m){
 		using value_type = value_type_t< M >;
 

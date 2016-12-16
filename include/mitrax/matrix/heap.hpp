@@ -145,7 +145,7 @@ namespace mitrax::detail{
 	};
 
 
-	template < typename T, col_ct C, row_ct R >
+	template < typename T, col_t C, row_t R >
 	class heap_matrix_impl final: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >);
@@ -222,7 +222,7 @@ namespace mitrax::detail{
 namespace mitrax::maker{
 
 
-	template < typename Iter, bool Cct, col_ct C, bool Rct, row_ct R >
+	template < typename Iter, bool Cct, col_t C, bool Rct, row_t R >
 	heap_matrix< iter_type_t< Iter >, Cct ? C : 0_C, Rct ? R : 0_R >
 	heap_t::by_sequence(col< Cct, C > c, row< Rct, R > r, Iter iter)const{
 		return {

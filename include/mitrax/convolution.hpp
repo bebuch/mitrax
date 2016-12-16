@@ -19,8 +19,8 @@ namespace mitrax{
 
 
 		template <
-			typename M1, col_ct C1, row_ct R1,
-			typename M2, col_ct C2, row_ct R2,
+			typename M1, col_t C1, row_t R1,
+			typename M2, col_t C2, row_t R2,
 			typename SumOp, typename MulOp
 		> struct convolution_worker{
 			constexpr auto operator()(size_t x, size_t y)const{
@@ -45,8 +45,8 @@ namespace mitrax{
 
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2,
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2,
 		typename SumOp = std::plus<>,
 		typename MulOp = std::multiplies<>
 	> constexpr auto convolution(
@@ -75,9 +75,9 @@ namespace mitrax{
 
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, row_ct R2,
-		typename M3, col_ct C3,
+		typename M1, col_t C1, row_t R1,
+		typename M2, row_t R2,
+		typename M3, col_t C3,
 		typename SumOp = std::plus<>,
 		typename MulOp = std::multiplies<>
 	> constexpr auto convolution(

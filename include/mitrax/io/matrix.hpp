@@ -17,7 +17,7 @@
 namespace mitrax{
 
 
-	template < typename M, col_ct C, row_ct R >
+	template < typename M, col_t C, row_t R >
 	std::ostream& operator<<(std::ostream& os, matrix< M, C, R > const& m){
 		os << '[' << m.cols() << ',' << m.rows() << ']';
 		os << '(';

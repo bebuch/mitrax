@@ -18,8 +18,8 @@ namespace mitrax{
 
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr bool operator==(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -36,8 +36,8 @@ namespace mitrax{
 	}
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr bool operator!=(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2

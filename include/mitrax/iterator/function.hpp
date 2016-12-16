@@ -178,7 +178,7 @@ namespace mitrax{
 	}
 
 
-	template < typename F, bool Cct, col_ct C >
+	template < typename F, bool Cct, col_t C >
 	struct function_xy_adapter{
 		static_assert(!std::is_reference_v< F >);
 
@@ -191,7 +191,7 @@ namespace mitrax{
 		col< Cct, C > cols;
 	};
 
-	template < typename F, bool Cct, col_ct C >
+	template < typename F, bool Cct, col_t C >
 	constexpr auto make_function_xy_adapter(F&& f, col< Cct, C > cols){
 		return function_xy_adapter< std::remove_reference_t< F >, Cct, C >
 			{static_cast< F&& >(f), cols};

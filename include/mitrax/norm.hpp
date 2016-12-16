@@ -17,7 +17,7 @@
 namespace mitrax{
 
 
-	template < typename M, col_ct C, row_ct R >
+	template < typename M, col_t C, row_t R >
 	value_type_t< M > vector_norm_2sqr(matrix< M, C, R > const& v){
 		static_assert(
 			C == 1_C || C == 0_C || R == 1_R || R == 0_R,
@@ -40,7 +40,7 @@ namespace mitrax{
 		return r;
 	}
 
-	template < typename M, col_ct C, row_ct R >
+	template < typename M, col_t C, row_t R >
 	value_type_t< M > vector_norm_2(matrix< M, C, R > const& v){
 		using std::sqrt;
 		return sqrt(vector_norm_2sqr(v));

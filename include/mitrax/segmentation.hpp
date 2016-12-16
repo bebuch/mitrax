@@ -17,10 +17,10 @@
 namespace mitrax{
 
 
-	template < col_ct Cols, row_ct Rows, bool EdgeNeighborhood >
+	template < col_t Cols, row_t Rows, bool EdgeNeighborhood >
 	class segmentor{
 	public:
-		template < bool Cct, col_ct C, bool Rct, row_ct R >
+		template < bool Cct, col_t C, bool Rct, row_t R >
 		constexpr segmentor(dim_pair_t< Cct, C, Rct, R > const& dims):
 			used_(make_matrix_v< bool >(dims, false)) {}
 
@@ -83,13 +83,13 @@ namespace mitrax{
 	};
 
 
-	template < bool EdgeNeighborhood, bool Cct, col_ct C, bool Rct, row_ct R >
+	template < bool EdgeNeighborhood, bool Cct, col_t C, bool Rct, row_t R >
 	constexpr auto make_segmentor(dim_pair_t< Cct, C, Rct, R > const& dims){
 		return
 			segmentor< Cct ? C : 0_C, Rct ? R : 0_R, EdgeNeighborhood >(dims);
 	}
 
-	template < bool EdgeNeighborhood, bool Cct, col_ct C, bool Rct, row_ct R >
+	template < bool EdgeNeighborhood, bool Cct, col_t C, bool Rct, row_t R >
 	constexpr auto make_segmentor(col< Cct, C > c, row< Rct, R > r){
 		return make_segmentor< EdgeNeighborhood >(dim_pair(c, r));
 	}

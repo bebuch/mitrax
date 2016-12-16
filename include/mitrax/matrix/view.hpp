@@ -24,7 +24,7 @@ namespace mitrax::detail{
 	);
 
 
-	template < typename T, bool RowOrder, col_ct C, row_ct R >
+	template < typename T, bool RowOrder, col_t C, row_t R >
 	class view_matrix_impl final: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >, "use const_view_matrix");
@@ -144,7 +144,7 @@ namespace mitrax::detail{
 	};
 
 
-	template < typename T, bool RowOrder, col_ct C, row_ct R >
+	template < typename T, bool RowOrder, col_t C, row_t R >
 	class const_view_matrix_impl final: auto_dim_pair_t< C, R >{
 	public:
 		static_assert(!std::is_const_v< T >,
@@ -242,7 +242,7 @@ namespace mitrax::maker{
 
 
 	template < typename T, typename MemoryOrder,
-		bool Cct, col_ct C, bool Rct, row_ct R >
+		bool Cct, col_t C, bool Rct, row_t R >
 	constexpr auto view_t::by_object(
 		col< Cct, C > c, row< Rct, R > r, T& object, MemoryOrder
 	)const{
@@ -255,7 +255,7 @@ namespace mitrax::maker{
 
 
 	template < typename T, typename MemoryOrder,
-		bool Cct, col_ct C, bool Rct, row_ct R >
+		bool Cct, col_t C, bool Rct, row_t R >
 	constexpr auto const_view_t::by_object(
 		col< Cct, C > c, row< Rct, R > r, T const& object, MemoryOrder
 	)const{
@@ -273,19 +273,19 @@ namespace mitrax::maker{
 namespace mitrax{
 
 
-	template < typename T, bool Cct, col_ct C, bool Rct, row_ct R >
+	template < typename T, bool Cct, col_t C, bool Rct, row_t R >
 	constexpr auto make_view_matrix(
 		col< Cct, C > c, row< Rct, R > r, T& object
 	){
 		return maker::view.by_object(c, r, object);
 	}
 
-	template < typename T, bool Dct, dim_ct D >
+	template < typename T, bool Dct, dim_t D >
 	constexpr auto make_view_matrix(dim< Dct, D > d, T& object){
 		return make_view_matrix(d.as_col(), d.as_row(), object);
 	}
 
-	template < typename T, bool Cct, col_ct C, bool Rct, row_ct R >
+	template < typename T, bool Cct, col_t C, bool Rct, row_t R >
 	constexpr auto make_view_matrix(
 		dim_pair_t< Cct, C, Rct, R > const& d, T& object
 	){
@@ -293,21 +293,21 @@ namespace mitrax{
 	}
 
 
-	template < typename T, bool Cct, col_ct C, bool Rct, row_ct R >
+	template < typename T, bool Cct, col_t C, bool Rct, row_t R >
 	constexpr auto make_const_view_matrix(
 		col< Cct, C > c, row< Rct, R > r, T const& object
 	){
 		return maker::const_view.by_object(c, r, object);
 	}
 
-	template < typename T, bool Dct, dim_ct D >
+	template < typename T, bool Dct, dim_t D >
 	constexpr auto make_const_view_matrix(
 		dim< Dct, D > d, T const& object
 	){
 		return make_const_view_matrix(d.as_col(), d.as_row(), object);
 	}
 
-	template < typename T, bool Cct, col_ct C, bool Rct, row_ct R >
+	template < typename T, bool Cct, col_t C, bool Rct, row_t R >
 	constexpr auto make_const_view_matrix(
 		dim_pair_t< Cct, C, Rct, R > const& d, T const& object
 	){

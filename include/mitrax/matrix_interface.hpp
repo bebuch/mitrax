@@ -43,7 +43,7 @@ namespace mitrax{
 	struct default_constructor_key{};
 
 
-	template < typename M, col_ct Cols, row_ct Rows >
+	template < typename M, col_t Cols, row_t Rows >
 	class matrix final{
 	public:
 		// TODO: Check if M is a matrix_impl type!!!
@@ -57,8 +57,8 @@ namespace mitrax{
 			"::mitrax::default_constructor_key as first parameter");
 
 
-		static constexpr col_ct ct_cols = Cols;
-		static constexpr row_ct ct_rows = Rows;
+		static constexpr col_t ct_cols = Cols;
+		static constexpr row_t ct_rows = Rows;
 
 
 		/// \brief Type of the matrix implementation
@@ -321,7 +321,7 @@ namespace mitrax{
 // 		–– (or only by implementation maker type???) –– <- no, copy and move is by matrix …
 // 	Priority: Default-Constructor! It can by protected by keypass :-D
 // 	class matrix_impl_base{
-// 		template < typename M, col_ct C, row_ct R > friend class matrix;
+// 		template < typename M, col_t C, row_t R > friend class matrix;
 // 	protected:
 // 		constexpr matrix_impl_base()noexcept = default;
 // 		constexpr matrix_impl_base(matrix_impl_base const&)noexcept = default;
@@ -332,17 +332,17 @@ namespace mitrax{
 // 	};
 
 
-	template < typename ... M, col_ct ... C, row_ct ... R >
+	template < typename ... M, col_t ... C, row_t ... R >
 	constexpr auto get_cols(matrix< M, C, R > const& ... m){
 		return get(m.cols() ...);
 	}
 
-	template < typename ... M, col_ct ... C, row_ct ... R >
+	template < typename ... M, col_t ... C, row_t ... R >
 	constexpr auto get_rows(matrix< M, C, R > const& ... m){
 		return get(m.rows() ...);
 	}
 
-	template < typename ... M, col_ct ... C, row_ct ... R >
+	template < typename ... M, col_t ... C, row_t ... R >
 	constexpr auto get_dims(matrix< M, C, R > const& ... m){
 		return get(m.dims() ...);
 	}

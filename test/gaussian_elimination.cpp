@@ -45,7 +45,7 @@ constexpr auto ref4 = make_matrix< float >(3_d, {
 	{0, 0, 0}
 });
 
-template < typename M, col_ct C, row_ct R >
+template < typename M, col_t C, row_t R >
 constexpr bool near_null(
 	matrix< M, C, R > const& m,
 	value_type_t< M > const& threshold
@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_3){
 
 BOOST_AUTO_TEST_CASE(test_matrix_kernel_numeric){
 	for(size_t i = 0; i < 10; ++i){
-		auto m = make_matrix_v< double >(dims(dim_ct(i + 1)));
+		auto m = make_matrix_v< double >(dims(dim_t(i + 1)));
 		size_t j = 5;
 		for(auto& v: m) v = ++j;
 

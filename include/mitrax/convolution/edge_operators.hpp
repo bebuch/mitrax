@@ -17,7 +17,7 @@
 namespace mitrax{
 
 
-	template < typename T = void, typename M, col_ct C, row_ct R >
+	template < typename T = void, typename M, col_t C, row_t R >
 	constexpr auto roberts_cross_x(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
@@ -27,7 +27,7 @@ namespace mitrax{
 		);
 	}
 
-	template < typename T = void, typename M, col_ct C, row_ct R >
+	template < typename T = void, typename M, col_t C, row_t R >
 	constexpr auto roberts_cross_y(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
@@ -38,7 +38,7 @@ namespace mitrax{
 	}
 
 
-	template < typename T = void, typename M, col_ct C, row_ct R >
+	template < typename T = void, typename M, col_t C, row_t R >
 	constexpr auto prewitt_x(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
@@ -49,7 +49,7 @@ namespace mitrax{
 		);
 	}
 
-	template < typename T = void, typename M, col_ct C, row_ct R >
+	template < typename T = void, typename M, col_t C, row_t R >
 	constexpr auto prewitt_y(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
@@ -61,7 +61,7 @@ namespace mitrax{
 	}
 
 
-	template < typename T = void, typename M, col_ct C, row_ct R >
+	template < typename T = void, typename M, col_t C, row_t R >
 	constexpr auto sobel_x(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
@@ -72,7 +72,7 @@ namespace mitrax{
 		);
 	}
 
-	template < typename T = void, typename M, col_ct C, row_ct R >
+	template < typename T = void, typename M, col_t C, row_t R >
 	constexpr auto sobel_y(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
@@ -84,7 +84,7 @@ namespace mitrax{
 	}
 
 
-	template < typename T = void, typename M, col_ct C, row_ct R >
+	template < typename T = void, typename M, col_t C, row_t R >
 	constexpr auto scharr_x(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
@@ -95,7 +95,7 @@ namespace mitrax{
 		);
 	}
 
-	template < typename T = void, typename M, col_ct C, row_ct R >
+	template < typename T = void, typename M, col_t C, row_t R >
 	constexpr auto scharr_y(matrix< M, C, R > const& m){
 		using value_type = auto_t< T, value_type_t< M > >;
 		return convolution(
@@ -109,8 +109,8 @@ namespace mitrax{
 
 	template <
 		typename T = void,
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr auto gradient_magnitude(
 		matrix< M1, C1, R1 > const& mx,
 		matrix< M2, C2, R2 > const& my
@@ -124,8 +124,8 @@ namespace mitrax{
 
 	template <
 		typename T = void,
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr auto gradient_magnitude_approximately(
 		matrix< M1, C1, R1 > const& mx,
 		matrix< M2, C2, R2 > const& my
@@ -140,8 +140,8 @@ namespace mitrax{
 
 	template <
 		typename T = void,
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr auto gradient_direction(
 		matrix< M1, C1, R1 > const& mx,
 		matrix< M2, C2, R2 > const& my

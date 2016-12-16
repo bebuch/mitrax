@@ -19,7 +19,7 @@
 namespace mitrax{
 
 
-	template < typename M, col_ct C, row_ct R, typename T >
+	template < typename M, col_t C, row_t R, typename T >
 	constexpr matrix< M, C, R >& element_plus_assign(
 		matrix< M, C, R >& m, T const& v
 	){
@@ -27,7 +27,7 @@ namespace mitrax{
 		return m;
 	}
 
-	template < typename M, col_ct C, row_ct R, typename T >
+	template < typename M, col_t C, row_t R, typename T >
 	constexpr matrix< M, C, R >& element_minus_assign(
 		matrix< M, C, R >& m, T const& v
 	){
@@ -35,19 +35,19 @@ namespace mitrax{
 		return m;
 	}
 
-	template < typename M, col_ct C, row_ct R, typename T >
+	template < typename M, col_t C, row_t R, typename T >
 	constexpr matrix< M, C, R >& operator*=(matrix< M, C, R >& m, T const& v){
 		for(auto& c: m) c *= v;
 		return m;
 	}
 
-	template < typename M, col_ct C, row_ct R, typename T >
+	template < typename M, col_t C, row_t R, typename T >
 	constexpr matrix< M, C, R >& operator/=(matrix< M, C, R >& m, T const& v){
 		for(auto& c: m) c /= v;
 		return m;
 	}
 
-	template < typename M, col_ct C, row_ct R, typename T >
+	template < typename M, col_t C, row_t R, typename T >
 	constexpr matrix< M, C, R >& operator%=(matrix< M, C, R >& m, T const& v){
 		for(auto& c: m) c %= v;
 		return m;
@@ -55,8 +55,8 @@ namespace mitrax{
 
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr matrix< M1, C1, R1 >& operator+=(
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -68,8 +68,8 @@ namespace mitrax{
 	}
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr matrix< M1, C1, R1 >& operator-=(
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -81,8 +81,8 @@ namespace mitrax{
 	}
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr matrix< M1, C1, R1 >& element_multiplies_assign(
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -94,8 +94,8 @@ namespace mitrax{
 	}
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr matrix< M1, C1, R1 >& element_divides_assign(
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -107,8 +107,8 @@ namespace mitrax{
 	}
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr matrix< M1, C1, R1 >& element_modulus_assign(
 		matrix< M1, C1, R1 >& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -120,33 +120,33 @@ namespace mitrax{
 	}
 
 
-	template < typename M, col_ct C, row_ct R, typename T >
+	template < typename M, col_t C, row_t R, typename T >
 	constexpr auto element_plus(matrix< M, C, R > const& m, T const& v){
 		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
 				return m(x, y) + v;
 			});
 	}
 
-	template < typename M, col_ct C, row_ct R, typename T >
+	template < typename M, col_t C, row_t R, typename T >
 	constexpr auto element_minus(matrix< M, C, R > const& m, T const& v){
 		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
 				return m(x, y) - v;
 			});
 	}
 
-	template < typename M, col_ct C, row_ct R, typename T >
+	template < typename M, col_t C, row_t R, typename T >
 	constexpr auto operator*(matrix< M, C, R > const& m, T const& v){
 		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
 				return m(x, y) * v;
 			});
 	}
 
-	template < typename M, col_ct C, row_ct R, typename T >
+	template < typename M, col_t C, row_t R, typename T >
 	constexpr auto operator*(T const& v, matrix< M, C, R > const& m){
 		return m * v;
 	}
 
-	template < typename M, col_ct C, row_ct R, typename T >
+	template < typename M, col_t C, row_t R, typename T >
 	constexpr auto operator/(matrix< M, C, R > const& m, T const& v){
 		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
 				return m(x, y) / v;
@@ -154,7 +154,7 @@ namespace mitrax{
 
 	}
 
-	template < typename M, col_ct C, row_ct R, typename T >
+	template < typename M, col_t C, row_t R, typename T >
 	constexpr auto operator%(matrix< M, C, R > const& m, T const& v){
 		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
 				return m(x, y) % v;
@@ -164,8 +164,8 @@ namespace mitrax{
 
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr auto operator+(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -176,8 +176,8 @@ namespace mitrax{
 	}
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr auto operator-(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -188,8 +188,8 @@ namespace mitrax{
 	}
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr auto element_multiplies(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -200,8 +200,8 @@ namespace mitrax{
 	}
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr auto element_divides(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -212,8 +212,8 @@ namespace mitrax{
 	}
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr auto element_modulus(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -225,8 +225,8 @@ namespace mitrax{
 
 
 	template <
-		typename M1, col_ct C1, row_ct R1,
-		typename M2, col_ct C2, row_ct R2
+		typename M1, col_t C1, row_t R1,
+		typename M2, col_t C2, row_t R2
 	> constexpr auto operator*(
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
@@ -264,7 +264,7 @@ namespace mitrax{
 	}
 
 
-	template < typename M, col_ct C, row_ct R >
+	template < typename M, col_t C, row_t R >
 	constexpr auto transpose(matrix< M, C, R > const& m){
 		return make_matrix_fn(
 			m.rows().as_col(), m.cols().as_row(),
@@ -273,19 +273,19 @@ namespace mitrax{
 	}
 
 
-	template < typename M, col_ct C, row_ct R >
+	template < typename M, col_t C, row_t R >
 	constexpr auto operator+(matrix< M, C, R > const& m){
 		return as_std_matrix(m);
 	}
 
-	template < typename M, col_ct C, row_ct R >
+	template < typename M, col_t C, row_t R >
 	constexpr auto operator-(matrix< M, C, R > const& m){
 		return make_matrix_fn(m.dims(), [&m](size_t x, size_t y){
 				return -m(x, y);
 			});
 	}
 
-	template < typename M, col_ct C, row_ct R >
+	template < typename M, col_t C, row_t R >
 	constexpr auto abs(matrix< M, C, R > const& m){
 		return make_matrix_fn(m.dims(), [&m](size_t x, size_t y){
 				using std::abs;
@@ -294,7 +294,7 @@ namespace mitrax{
 	}
 
 
-	template < typename M1, row_ct R1, typename M2, row_ct R2 >
+	template < typename M1, row_t R1, typename M2, row_t R2 >
 	constexpr auto cross_product(
 		col_vector< M1, R1 > const& m1,
 		col_vector< M2, R2 > const& m2
@@ -322,7 +322,7 @@ namespace mitrax{
 		});
 	}
 
-	template < typename M1, col_ct C1, typename M2, col_ct C2 >
+	template < typename M1, col_t C1, typename M2, col_t C2 >
 	constexpr auto cross_product(
 		row_vector< M1, C1 > const& m1,
 		row_vector< M2, C2 > const& m2
@@ -350,7 +350,7 @@ namespace mitrax{
 	}
 
 
-	template < typename M1, row_ct R1, typename M2, row_ct R2 >
+	template < typename M1, row_t R1, typename M2, row_t R2 >
 	constexpr auto dot_product(
 		col_vector< M1, R1 > const& m1,
 		col_vector< M2, R2 > const& m2
@@ -368,7 +368,7 @@ namespace mitrax{
 		return res;
 	}
 
-	template < typename M1, col_ct C1, typename M2, col_ct C2 >
+	template < typename M1, col_t C1, typename M2, col_t C2 >
 	constexpr auto dot_product(
 		row_vector< M1, C1 > const& m1,
 		row_vector< M2, C2 > const& m2
