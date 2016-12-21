@@ -46,7 +46,7 @@ constexpr bool check_fn(
 
 	for(size_t y = 0; y < RefR; ++y){
 		for(size_t x = 0; x < RefC; ++x){
-			res &= m(x, y) == ref[y][x];
+			res &= m(c_t(x), r_t(y)) == ref[y][x];
 		}
 	}
 
@@ -55,7 +55,7 @@ constexpr bool check_fn(
 			reinterpret_cast< value_type const(&)[RefC * RefR] >(ref);
 
 		for(size_t i = 0; i < RefC * RefR; ++i){
-			res &= m[i] == vec_ref[i];
+			res &= m[d_t(i)] == vec_ref[i];
 		}
 	}
 
@@ -88,7 +88,7 @@ template < typename T >
 struct fn_xy_t{
 	template < typename T1, typename T2 >
 	constexpr T operator()(T1 x, T2 y)const noexcept{
-		return x + y * 10;
+		return size_t(x) + size_t(y) * 10;
 	}
 };
 
@@ -96,7 +96,7 @@ template < typename T >
 struct fn_x_t{
 	template < typename T1 >
 	constexpr T operator()(T1 i)const noexcept{
-		return i * 10;
+		return size_t(i) * 10;
 	}
 };
 
@@ -104,7 +104,7 @@ template < typename T >
 struct fn_y_t{
 	template < typename T1 >
 	constexpr T operator()(T1 i)const noexcept{
-		return i;
+		return size_t(i);
 	}
 };
 
@@ -112,7 +112,7 @@ template < typename T >
 struct fn_i_t{
 	template < typename T1 >
 	constexpr T operator()(T1 i)const noexcept{
-		return i + i * 10;
+		return size_t(i) + size_t(i) * 10;
 	}
 };
 

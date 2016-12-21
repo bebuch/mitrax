@@ -26,9 +26,9 @@ namespace mitrax{
 	){
 		auto size = get_dims(m2, m1);
 
-		for(size_t y = 0; y < size_t(size.rows()); ++y){
-			for(size_t x = 0; x < size_t(size.cols()); ++x){
-				if(m1(x, y) != m2(x, y)) return false;
+		for(auto r = 0_r; r < size.rows(); ++r){
+			for(auto c = 0_c; c < size.cols(); ++c){
+				if(m1(c, r) != m2(c, r)) return false;
 			}
 		}
 

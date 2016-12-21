@@ -69,15 +69,15 @@ BOOST_AUTO_TEST_CASE(test_upper_triangular_matrix){
 	BOOST_TEST((
 		m.cols() == 3_CS &&
 		m.rows() == 3_RS &&
-		m(0, 0) ==  1 &&
-		m(1, 0) ==  2 &&
-		m(2, 0) ==  3 &&
-		m(0, 1) ==  0 &&
-		m(1, 1) == -1 &&
-		m(2, 1) == -2 &&
-		m(0, 2) ==  0 &&
-		m(1, 2) ==  0 &&
-		m(2, 2) == -2
+		m(0_c, 0_r) ==  1 &&
+		m(1_c, 0_r) ==  2 &&
+		m(2_c, 0_r) ==  3 &&
+		m(0_c, 1_r) ==  0 &&
+		m(1_c, 1_r) == -1 &&
+		m(2_c, 1_r) == -2 &&
+		m(0_c, 2_r) ==  0 &&
+		m(1_c, 2_r) ==  0 &&
+		m(2_c, 2_r) == -2
 	));
 }
 
@@ -87,9 +87,9 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_1){
 	BOOST_TEST((
 		v.cols() == 1_CS &&
 		v.rows() == 3_RS &&
-		v[0] ==  1 &&
-		v[1] == -2 &&
-		v[2] ==  1
+		v[0_d] ==  1 &&
+		v[1_d] == -2 &&
+		v[2_d] ==  1
 	));
 }
 
@@ -99,9 +99,9 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_2){
 	BOOST_TEST((
 		v.cols() == 1_CS &&
 		v.rows() == 3_RS &&
-		v[0] == -1 &&
-		v[1] == -0.5 &&
-		v[2] ==  1
+		v[0_d] == -1 &&
+		v[1_d] == -0.5 &&
+		v[2_d] ==  1
 	));
 }
 
@@ -111,9 +111,9 @@ BOOST_AUTO_TEST_CASE(test_matrix_kernel_3x3_3){
 	BOOST_TEST((
 		v.cols() == 1_CS &&
 		v.rows() == 3_RS &&
-		v[0] ==  1 &&
-		v[1] == -2 &&
-		v[2] ==  1
+		v[0_d] ==  1 &&
+		v[1_d] == -2 &&
+		v[2_d] ==  1
 	));
 }
 
@@ -143,9 +143,9 @@ BOOST_AUTO_TEST_CASE(test_gaussian_elimination){
 	BOOST_TEST((
 		res.cols() == 1_CS &&
 		res.rows() == 3_RS &&
-		res[0] == 20 &&
-		res[1] == 30 &&
-		res[2] == 35
+		res[0_d] == 20 &&
+		res[1_d] == 30 &&
+		res[2_d] == 35
 	));
 }
 
@@ -160,10 +160,10 @@ BOOST_AUTO_TEST_CASE(test_inverse_2x2){
 	BOOST_TEST((
 		i.cols() == 2_CS &&
 		i.rows() == 2_RS &&
-		i(0, 0) ==  3 &&
-		i(1, 0) == -5 &&
-		i(0, 1) == -1 &&
-		i(1, 1) ==  2
+		i(0_c, 0_r) ==  3 &&
+		i(1_c, 0_r) == -5 &&
+		i(0_c, 1_r) == -1 &&
+		i(1_c, 1_r) ==  2
 	));
 }
 
@@ -179,15 +179,15 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_1){
 	BOOST_TEST((
 		i.cols() == 3_CS &&
 		i.rows() == 3_RS &&
-		equal(i(0, 0), -1) &&
-		equal(i(1, 0),  0) &&
-		equal(i(2, 0),  2) &&
-		equal(i(0, 1),  2) &&
-		equal(i(1, 1),  0) &&
-		equal(i(2, 1), -1) &&
-		equal(i(0, 2), -6) &&
-		equal(i(1, 2),  3) &&
-		equal(i(2, 2),  0)
+		equal(i(0_c, 0_r), -1) &&
+		equal(i(1_c, 0_r),  0) &&
+		equal(i(2_c, 0_r),  2) &&
+		equal(i(0_c, 1_r),  2) &&
+		equal(i(1_c, 1_r),  0) &&
+		equal(i(2_c, 1_r), -1) &&
+		equal(i(0_c, 2_r), -6) &&
+		equal(i(1_c, 2_r),  3) &&
+		equal(i(2_c, 2_r),  0)
 	));
 }
 
@@ -203,15 +203,15 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_2){
 	BOOST_TEST((
 		i.cols() == 3_CS &&
 		i.rows() == 3_RS &&
-		equal(i(0, 0), 3) &&
-		equal(i(1, 0), 2) &&
-		equal(i(2, 0), 1) &&
-		equal(i(0, 1), 2) &&
-		equal(i(1, 1), 4) &&
-		equal(i(2, 1), 2) &&
-		equal(i(0, 2), 1) &&
-		equal(i(1, 2), 2) &&
-		equal(i(2, 2), 3)
+		equal(i(0_c, 0_r), 3) &&
+		equal(i(1_c, 0_r), 2) &&
+		equal(i(2_c, 0_r), 1) &&
+		equal(i(0_c, 1_r), 2) &&
+		equal(i(1_c, 1_r), 4) &&
+		equal(i(2_c, 1_r), 2) &&
+		equal(i(0_c, 2_r), 1) &&
+		equal(i(1_c, 2_r), 2) &&
+		equal(i(2_c, 2_r), 3)
 	));
 }
 
@@ -227,15 +227,15 @@ BOOST_AUTO_TEST_CASE(test_inverse_3x3_3){
 	BOOST_TEST((
 		i.cols() == 3_CS &&
 		i.rows() == 3_RS &&
-		equal(i(0, 0),  0) &&
-		equal(i(1, 0),  1) &&
-		equal(i(2, 0),  2) &&
-		equal(i(0, 1), -1) &&
-		equal(i(1, 1),  2) &&
-		equal(i(2, 1),  4) &&
-		equal(i(0, 2), -1) &&
-		equal(i(1, 2),  2) &&
-		equal(i(2, 2),  5)
+		equal(i(0_c, 0_r),  0) &&
+		equal(i(1_c, 0_r),  1) &&
+		equal(i(2_c, 0_r),  2) &&
+		equal(i(0_c, 1_r), -1) &&
+		equal(i(1_c, 1_r),  2) &&
+		equal(i(2_c, 1_r),  4) &&
+		equal(i(0_c, 2_r), -1) &&
+		equal(i(1_c, 2_r),  2) &&
+		equal(i(2_c, 2_r),  5)
 	));
 }
 

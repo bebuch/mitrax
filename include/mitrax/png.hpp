@@ -123,7 +123,8 @@ namespace mitrax{ namespace png{
 
 		for(std::size_t y = 0; y < output.get_height(); ++y){
 			for(std::size_t x = 0; x < output.get_width(); ++x){
-				m(x, y) = detail::pngxx2mitrax< value_type >(output[y][x]);
+				m(c_t(x), r_t(y)) =
+					detail::pngxx2mitrax< value_type >(output[y][x]);
 			}
 		}
 	}
@@ -139,7 +140,8 @@ namespace mitrax{ namespace png{
 
 		for(std::size_t y = 0; y < output.get_height(); ++y){
 			for(std::size_t x = 0; x < output.get_width(); ++x){
-				output[y][x] = detail::mitrax2pngxx< ivalue_type >(m(x, y));
+				output[y][x] =
+					detail::mitrax2pngxx< ivalue_type >(m(c_t(x), r_t(y)));
 			}
 		}
 

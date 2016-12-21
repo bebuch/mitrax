@@ -17,12 +17,8 @@ namespace mitrax{
 
 	template < bool Cct, col_t C, bool Rct, row_t R, typename F >
 	constexpr bool square_area_search(
-		col< Cct, C > c,
-		row< Rct, R > r,
-		size_t x,
-		size_t y,
-		size_t max_distance,
-		F&& f
+		col< Cct, C > c, row< Rct, R > r,
+		c_t x, r_t y, size_t max_distance, F&& f
 	){
 		if(x < c || y < r){
 			if(f(x, y, 0)) return true;
@@ -30,29 +26,29 @@ namespace mitrax{
 
 		for(size_t distance = 1; distance <= max_distance; ++distance){
 			for(size_t i = 0; i < distance + 1; ++i){
-				auto dx = x - distance + i;
-				auto dy = y - distance;
+				auto dx = size_t(x) - distance + i;
+				auto dy = size_t(y) - distance;
 
 				if(dx < c || dy < r){
 					if(f(dx, dy, distance)) return true;
 				}
 
-				dx = x + distance;
-				dy = y - distance + i;
+				dx = size_t(x) + distance;
+				dy = size_t(y) - distance + i;
 
 				if(dx < c || dy < r){
 					if(f(dx, dy, distance)) return true;
 				}
 
-				dx = x + distance - i;
-				dy = y + distance;
+				dx = size_t(x) + distance - i;
+				dy = size_t(y) + distance;
 
 				if(dx < c || dy < r){
 					if(f(dx, dy, distance)) return true;
 				}
 
-				dx = x - distance;
-				dy = y + distance - i;
+				dx = size_t(x) - distance;
+				dy = size_t(y) + distance - i;
 
 				if(dx < c || dy < r){
 					if(f(dx, dy, distance)) return true;
@@ -66,9 +62,7 @@ namespace mitrax{
 	template < bool Cct, col_t C, bool Rct, row_t R, typename F >
 	constexpr bool square_area_search(
 		dim_pair_t< Cct, C, Rct, R > const& dims,
-		size_t x, size_t y,
-		size_t max_distance,
-		F&& f
+		c_t x, r_t y, size_t max_distance, F&& f
 	){
 		return square_area_search(
 			dims.cols(), dims.rows(),

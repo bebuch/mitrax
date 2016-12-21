@@ -30,10 +30,10 @@ namespace mitrax{
 		struct init_diag_fn{
 			F f;
 
-			constexpr decltype(std::declval< F&& >()(size_t()))
-			operator()(size_t x, size_t y)const
-			noexcept(noexcept(std::declval< F&& >()(size_t()))){
-				return x == y ? f(x) : decltype(f(x))();
+			constexpr decltype(std::declval< F&& >()(c_t()))
+			operator()(c_t c, r_t r)const
+			noexcept(noexcept(std::declval< F&& >()(c_t()))){
+				return c == c_t(r) ? f(c) : decltype(f(c))();
 			}
 		};
 
@@ -47,8 +47,8 @@ namespace mitrax{
 			T const& v;
 
 			constexpr std::remove_cv_t< T >
-			operator()(size_t x, size_t y)const{
-				return x == y ? v : std::remove_cv_t< T >();
+			operator()(c_t c, r_t r)const{
+				return c == c_t(r) ? v : std::remove_cv_t< T >();
 			}
 		};
 
@@ -84,8 +84,8 @@ namespace mitrax{
 			Array array_;
 			T default_;
 
-			constexpr T operator()(size_t x, size_t y){
-				return x == y ? array_[x] : default_;
+			constexpr T operator()(c_t c, r_t r){
+				return c == c_t(r) ? array_[size_t(c)] : default_;
 			}
 		};
 
@@ -93,9 +93,9 @@ namespace mitrax{
 		struct init_diag_by_iter{
 			I i;
 
-			constexpr auto operator()(size_t x, size_t y)const{
-				return x == y ?
-					static_cast< iter_type_t< I > >(i[x]) :
+			constexpr auto operator()(c_t c, r_t r)const{
+				return c == c_t(r) ?
+					static_cast< iter_type_t< I > >(i[size_t(c)]) :
 					iter_type_t< I >();
 			}
 		};

@@ -35,6 +35,7 @@ project mitrax
 	<toolset>clang:<cxxflags>-Wall
 	<toolset>clang:<cxxflags>-Wextra
 	<toolset>clang:<cxxflags>-stdlib=libc++
+	<toolset>clang:<cxxflags>-fcolor-diagnostics
 	<toolset>clang:<linkflags>-lpthread
 	<toolset>clang:<linkflags>-lc++abi
 	<toolset>clang:<linkflags>-stdlib=libc++

@@ -29,17 +29,17 @@ namespace mitrax{
 				std::is_same_v< value_type_t< M1 >, value_type_t< M2 > > > = 0
 		> constexpr void operator()(
 			matrix< M1, C1, R1 >& m1,
-			size_t i1,
+			r_t i1,
 			matrix< M2, C2, R2 >& m2,
-			size_t i2
+			r_t i2
 		)const{
-			if(size_t(m1.rows()) <= i1 || size_t(m2.rows()) <= i2){
+			if(m1.rows() <= i1 || m2.rows() <= i2){
 				throw std::out_of_range("matrix swap_rows");
 			}
 
 			auto cols = get_cols(m1, m2);
 
-			for(size_t i = 0; i < size_t(cols); ++i){
+			for(auto i = 0_c; i < cols; ++i){
 				using std::swap;
 				swap(m1(i, i1), m2(i, i2));
 			}
@@ -47,7 +47,7 @@ namespace mitrax{
 
 		template < typename M, col_t C, row_t R >
 		constexpr void
-		operator()(matrix< M, C, R >& m, size_t i1, size_t i2)const{
+		operator()(matrix< M, C, R >& m, r_t i1, r_t i2)const{
 			(*this)(m, i1, m, i2);
 		}
 	};
@@ -65,17 +65,17 @@ namespace mitrax{
 				std::is_same_v< value_type_t< M1 >, value_type_t< M2 > > > = 0
 		> constexpr void operator()(
 			matrix< M1, C1, R1 >& m1,
-			size_t i1,
+			c_t i1,
 			matrix< M2, C2, R2 >& m2,
-			size_t i2
+			c_t i2
 		)const{
-			if(size_t(m1.cols()) <= i1 || size_t(m2.cols()) <= i2){
+			if(m1.cols() <= i1 || m2.cols() <= i2){
 				throw std::out_of_range("matrix swap_cols");
 			}
 
 			auto rows = get_rows(m1, m2);
 
-			for(size_t i = 0; i < size_t(rows); ++i){
+			for(auto i = 0_r; i < rows; ++i){
 				using std::swap;
 				swap(m1(i1, i), m2(i2, i));
 			}
@@ -83,7 +83,7 @@ namespace mitrax{
 
 		template < typename M, col_t C, row_t R >
 		constexpr void
-		operator()(matrix< M, C, R >& m, size_t i1, size_t i2)const{
+		operator()(matrix< M, C, R >& m, c_t i1, c_t i2)const{
 			operator()(m, i1, m, i2);
 		}
 	};

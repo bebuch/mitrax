@@ -85,7 +85,7 @@ namespace mitrax{
 		using difference_type = std::ptrdiff_t;
 
 		/// \brief Type of points in the matrix
-		using point_type = point< size_t >;
+		using point_type = point_t;
 
 		/// \brief Type of matrix dimensions (cols and rows)
 		using dimension_type = auto_dim_pair_t< Cols, Rows >;
@@ -149,50 +149,50 @@ namespace mitrax{
 		}
 
 
-		constexpr decltype(auto) operator()(size_t x, size_t y){
-			assert(x < size_t(cols()) && y < size_t(rows()));
-			return m_(x, y);
+		constexpr decltype(auto) operator()(c_t c, r_t r){
+			assert(c < cols() && r < rows());
+			return m_(c, r);
 		}
 
-		constexpr decltype(auto) operator()(size_t x, size_t y)const{
-			assert(x < size_t(cols()) && y < size_t(rows()));
-			return m_(x, y);
+		constexpr decltype(auto) operator()(c_t c, r_t r)const{
+			assert(c < cols() && r < rows());
+			return m_(c, r);
 		}
 
 
-		constexpr decltype(auto) operator[](size_t i){
+		constexpr decltype(auto) operator[](d_t d){
 			static_assert(
 				Cols == 1_C || Rows == 1_R,
 				"access operator only allowed for compile time dim vectors"
 			);
 
 			if constexpr(Cols == 1_C && Rows == 1_R){
-				assert(i == 0);
-				return m_(0, 0);
+				assert(d == 0_d);
+				return m_(0_c, 0_r);
 			}else if(Cols == 1_C){
-				assert(i < size_t(rows()));
-				return m_(0, i);
+				assert(r_t(d) < rows());
+				return m_(0_c, r_t(d));
 			}else{
-				assert(i < size_t(cols()));
-				return m_(i, 0);
+				assert(c_t(d) < cols());
+				return m_(c_t(d), 0_r);
 			}
 		}
 
-		constexpr decltype(auto) operator[](size_t i)const{
+		constexpr decltype(auto) operator[](d_t d)const{
 			static_assert(
 				Cols == 1_C || Rows == 1_R,
 				"access operator only allowed for compile time dim vectors"
 			);
 
 			if constexpr(Cols == 1_C && Rows == 1_R){
-				assert(i == 0);
-				return m_(0, 0);
+				assert(d == 0_d);
+				return m_(0_c, 0_r);
 			}else if(Cols == 1_C){
-				assert(i < size_t(rows()));
-				return m_(0, i);
+				assert(r_t(d) < rows());
+				return m_(0_c, r_t(d));
 			}else{
-				assert(i < size_t(cols()));
-				return m_(i, 0);
+				assert(c_t(d) < cols());
+				return m_(c_t(d), 0_r);
 			}
 		}
 
@@ -204,7 +204,7 @@ namespace mitrax{
 				"matrices with one element"
 			);
 
-			return m_(0, 0);
+			return m_(0_c, 0_r);
 		}
 
 		constexpr operator value_type&(){
@@ -214,7 +214,7 @@ namespace mitrax{
 				"matrices with one element"
 			);
 
-			return m_(0, 0);
+			return m_(0_c, 0_r);
 		}
 
 
@@ -316,20 +316,6 @@ namespace mitrax{
 	private:
 		M m_;
 	};
-
-// 	TODO: The implementation shall only be constructible by matrix
-// 		–– (or only by implementation maker type???) –– <- no, copy and move is by matrix …
-// 	Priority: Default-Constructor! It can by protected by keypass :-D
-// 	class matrix_impl_base{
-// 		template < typename M, col_t C, row_t R > friend class matrix;
-// 	protected:
-// 		constexpr matrix_impl_base()noexcept = default;
-// 		constexpr matrix_impl_base(matrix_impl_base const&)noexcept = default;
-// 		constexpr matrix_impl_base(matrix_impl_base&&)noexcept = default;
-//
-// 		constexpr matrix_impl_base& operator=(matrix_impl_base const&)noexcept = default;
-// 		constexpr matrix_impl_base& operator=(matrix_impl_base&&)noexcept = default;
-// 	};
 
 
 	template < typename ... M, col_t ... C, row_t ... R >

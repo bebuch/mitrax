@@ -11,16 +11,18 @@
 
 #include "sub_matrix.hpp"
 
+// TODO: Unit-Tests!!!
+
 
 namespace mitrax{
 
 
-	template < typename F, typename ... M, size_t ... C, size_t ... R >
+	template < typename F, typename ... M, col_t ... C, row_t ... R >
 	constexpr void for_each(F&& f, matrix< M, C, R > const& ... images){
 		auto size = get_dims(images ...);
-		for(std::size_t y = 0; y < size.rows(); ++y){
-			for(std::size_t x = 0; x < size.cols(); ++x){
-				f(images(x, y) ...);
+		for(auto r = 0_r; r < size.rows(); ++r){
+			for(auto c = 0_c; c < size.cols(); ++c){
+				f(images(c, r) ...);
 			}
 		}
 	}
@@ -28,7 +30,7 @@ namespace mitrax{
 
 	template <
 		typename F, bool Ccto, col_t Co, bool Rcto, row_t Ro,
-		typename ... M, size_t ... C, size_t ... R
+		typename ... M, col_t ... C, row_t ... R
 	> constexpr void for_each_view(
 		F&& f,
 		col< Ccto, Co > view_cols,
@@ -37,16 +39,16 @@ namespace mitrax{
 	){
 		auto cols = get_cols(images ...);
 		auto rows = get_rows(images ...);
-		for(std::size_t y = 0; y < rows - view_rows; ++y){
-			for(std::size_t x = 0; x < cols - view_cols; ++x){
-				f(sub_matrix(images, x, y, view_cols, view_rows) ...);
+		for(auto r = 0; r < rows - view_rows; ++r){
+			for(auto c = 0; c < cols - view_cols; ++c){
+				f(sub_matrix(images, c, r, view_cols, view_rows) ...);
 			}
 		}
 	}
 
 	template <
 		typename F, bool Ccto, col_t Co, bool Rcto, row_t Ro,
-		typename ... M, size_t ... C, size_t ... R
+		typename ... M, col_t ... C, row_t ... R
 	> constexpr void for_each_view(
 		F&& f,
 		dim_pair_t< Ccto, Co, Rcto, Ro > const& view_dims,

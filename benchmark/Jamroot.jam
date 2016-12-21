@@ -36,6 +36,7 @@ project mitrax
 	<toolset>clang:<cxxflags>-stdlib=libc++
 	<toolset>clang:<cxxflags>-DNDEBUG
 	<toolset>clang:<cxxflags>-DBOOST_UBLAS_NDEBUG
+	<toolset>clang:<cxxflags>-fcolor-diagnostics
 	<toolset>clang:<linkflags>-lpthread
 	<toolset>clang:<linkflags>-lc++abi
 	<toolset>clang:<linkflags>-stdlib=libc++

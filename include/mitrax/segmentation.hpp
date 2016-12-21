@@ -26,7 +26,7 @@ namespace mitrax{
 
 		template < typename F >
 		size_t operator()(size_t x, size_t y, F&& f){
-			std::vector< point< size_t > > stack;
+			std::vector< point_t > stack;
 			stack.reserve(used_.point_count());
 
 			size_t count = 0;
@@ -68,7 +68,7 @@ namespace mitrax{
 		};
 
 		template < typename F >
-		size_t operator()(point< size_t > const& p, F&& f){
+		size_t operator()(point_t const& p, F&& f){
 			return (*this)(p.x(), p.y(), static_cast< F&& >(f));
 		}
 

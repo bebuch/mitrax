@@ -186,12 +186,12 @@ namespace mitrax::detail{
 		using auto_dim_pair_t< C, R >::rows;
 
 
-		value_type& operator()(size_t x, size_t y){
-			return values_[y * size_t(this->cols()) + x];
+		value_type& operator()(c_t c, r_t r){
+			return values_[size_t(r) * size_t(this->cols()) + size_t(c)];
 		}
 
-		value_type const& operator()(size_t x, size_t y)const{
-			return values_[y * size_t(this->cols()) + x];
+		value_type const& operator()(c_t c, r_t r)const{
+			return values_[size_t(r) * size_t(this->cols()) + size_t(c)];
 		}
 
 

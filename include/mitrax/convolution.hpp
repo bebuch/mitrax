@@ -23,12 +23,13 @@ namespace mitrax{
 			typename M2, col_t C2, row_t R2,
 			typename SumOp, typename MulOp
 		> struct convolution_worker{
-			constexpr auto operator()(size_t x, size_t y)const{
+			constexpr auto operator()(c_t c, r_t r)const{
 				auto v = std::decay_t< decltype(
-					sum(mul(i(0, 0), m(0, 0)), mul(i(0, 0), m(0, 0)))) >();
-				for(size_t b = 0; b < size_t(m.rows()); ++b){
-					for(size_t a = 0; a < size_t(m.cols()); ++a){
-						v = sum(v, mul(i(x + a, y + b), m(a, b)));
+					sum(mul(i(0_c, 0_r), m(0_c, 0_r)),
+						mul(i(0_c, 0_r), m(0_c, 0_r)))) >();
+				for(auto y = 0_r; y < m.rows(); ++y){
+					for(auto x = 0_c; x < m.cols(); ++x){
+						v = sum(v, mul(i(x + c, y + r), m(x, y)));
 					}
 				}
 				return v;

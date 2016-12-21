@@ -75,19 +75,23 @@ namespace mitrax::detail{
 		using auto_dim_pair_t< C, R >::rows;
 
 
-		constexpr decltype(auto) operator()(size_t x, size_t y){
+		constexpr decltype(auto) operator()(c_t c, r_t r){
 			if constexpr(row_memory_order){
-				return *(begin() + (y * size_t(this->cols()) + x));
+				return *(begin() +
+					(size_t(r) * size_t(this->cols()) + size_t(c)));
 			}else{
-				return *(begin() + (x * size_t(this->rows()) + y));
+				return *(begin() +
+					(size_t(c) * size_t(this->rows()) + size_t(r)));
 			}
 		}
 
-		constexpr decltype(auto) operator()(size_t x, size_t y)const{
+		constexpr decltype(auto) operator()(c_t c, r_t r)const{
 			if constexpr(row_memory_order){
-				return *(begin() + (y * size_t(this->cols()) + x));
+				return *(begin() +
+					(size_t(r) * size_t(this->cols()) + size_t(c)));
 			}else{
-				return *(begin() + (x * size_t(this->rows()) + y));
+				return *(begin() +
+					(size_t(c) * size_t(this->rows()) + size_t(r)));
 			}
 		}
 
@@ -195,11 +199,13 @@ namespace mitrax::detail{
 		using auto_dim_pair_t< C, R >::rows;
 
 
-		constexpr decltype(auto) operator()(size_t x, size_t y)const{
+		constexpr decltype(auto) operator()(c_t c, r_t r)const{
 			if constexpr(row_memory_order){
-				return *(begin() + (y * size_t(this->cols()) + x));
+				return *(begin() +
+					(size_t(r) * size_t(this->cols()) + size_t(c)));
 			}else{
-				return *(begin() + (x * size_t(this->rows()) + y));
+				return *(begin() +
+					(size_t(c) * size_t(this->rows()) + size_t(r)));
 			}
 		}
 

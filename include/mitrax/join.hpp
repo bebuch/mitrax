@@ -26,9 +26,8 @@ namespace mitrax{
 			constexpr join_h_proxy(M const& m, T const& ... v):
 				m(m), d(v ...){ rows(); }
 
-			constexpr auto operator()(size_t x, size_t y)const{
-				return x < size_t(m.cols()) ?
-					m(x, y) : d(x - size_t(m.cols()), y);
+			constexpr auto operator()(c_t c, r_t r)const{
+				return c < m.cols() ? m(c, r) : d(c - c_t(m.cols()), r);
 			}
 
 			constexpr auto cols()const{
@@ -48,8 +47,8 @@ namespace mitrax{
 			constexpr join_h_proxy(M const& m):
 				m(m){}
 
-			constexpr auto operator()(size_t x, size_t y)const{
-				if(x < size_t(m.cols())) return m(x, y);
+			constexpr auto operator()(c_t c, r_t r)const{
+				if(c < m.cols()) return m(c, r);
 				throw std::out_of_range("join_h_proxy");
 			}
 
@@ -70,9 +69,8 @@ namespace mitrax{
 				m(m), d(v ...){ cols(); }
 
 
-			constexpr auto operator()(size_t x, size_t y)const{
-				return y < size_t(m.rows()) ?
-					m(x, y) : d(x, y - size_t(m.rows()));
+			constexpr auto operator()(c_t c, r_t r)const{
+				return r < m.rows() ? m(c, r) : d(c, r - r_t(m.rows()));
 			}
 
 			constexpr auto cols()const{
@@ -92,8 +90,8 @@ namespace mitrax{
 			constexpr join_v_proxy(M const& m):
 				m(m){}
 
-			constexpr auto operator()(size_t x, size_t y)const{
-				if(y < size_t(m.rows())) return m(x, y);
+			constexpr auto operator()(c_t c, r_t r)const{
+				if(r < m.rows()) return m(c, r);
 				throw std::out_of_range("join_v_proxy");
 			}
 

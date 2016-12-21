@@ -13,6 +13,7 @@
 #include <stdexcept>
 
 #include "utility.hpp"
+#include "point.hpp"
 
 
 namespace mitrax{
@@ -22,9 +23,11 @@ namespace mitrax{
 	enum class row_t: size_t{};
 	enum class dim_t: size_t{};
 
-// 	enum class x_ct: size_t{};
-// 	enum class y_ct: size_t{};
-// 	enum class i_ct: size_t{};
+	enum class c_t: size_t{};
+	enum class r_t: size_t{};
+	enum class d_t: size_t{};
+
+	using point_t = point< c_t, r_t >;
 
 
 }
@@ -42,18 +45,27 @@ namespace mitrax::detail{
 	template < typename ... CT >
 	using enable_if_dim_t_t = enable_if_t< all_of(is_a_dim_t_v< CT > ...) >;
 
+
+	template < typename CT > struct is_a_d_t: std::false_type{};
+	template <> struct is_a_d_t< c_t >: std::true_type{};
+	template <> struct is_a_d_t< r_t >: std::true_type{};
+	template <> struct is_a_d_t< d_t >: std::true_type{};
+	template < typename CT > constexpr auto is_a_d_t_v = is_a_d_t< CT >();
+
+
+	template < typename ... CT >
+	using enable_if_d_t_t = enable_if_t< all_of(is_a_d_t_v< CT > ...) >;
+
+	template < typename ... CT >
+	using enable_if_d_or_dim_t_t = enable_if_t<
+		all_of(is_a_d_t_v< CT > || is_a_dim_t_v< CT > ...) >;
+
+
 	template < typename Op, typename CT1, typename CT2 >
 	constexpr auto dim_t_op(Op op, CT1 n1, CT2 n2)noexcept{
 		static_assert(std::is_same_v< CT1, CT2 >,
-			"You must not mix col_t, row_t and dim_t.");
+			"You must not mix col, row and dim.");
 		return CT1(op(size_t(n1), size_t(n2)));
-	}
-
-	template < typename Op, typename CT1, typename CT2 >
-	constexpr bool dim_t_comp(Op op, CT1 n1, CT2 n2)noexcept{
-		static_assert(std::is_same_v< CT1, CT2 >,
-			"You must not mix col_t, row_t and dim_t.");
-		return op(size_t(n1), size_t(n2));
 	}
 
 
@@ -95,39 +107,89 @@ namespace mitrax{
 
 
 	template < typename CT1, typename CT2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr bool operator==(CT1 n1, CT2 n2)noexcept{
-		return detail::dim_t_comp(std::equal_to< size_t >(), n1, n2);
+		detail::enable_if_d_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator+(CT1 n1, CT2 n2)noexcept{
+		return detail::dim_t_op(std::plus< size_t >(), n1, n2);
 	}
 
 	template < typename CT1, typename CT2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr bool operator!=(CT1 n1, CT2 n2)noexcept{
-		return detail::dim_t_comp(std::not_equal_to< size_t >(), n1, n2);
+		detail::enable_if_d_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator-(CT1 n1, CT2 n2)noexcept{
+		return detail::dim_t_op(std::minus< size_t >(), n1, n2);
 	}
 
 	template < typename CT1, typename CT2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr bool operator<(CT1 n1, CT2 n2)noexcept{
-		return detail::dim_t_comp(std::less< size_t >(), n1, n2);
+		detail::enable_if_d_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator*(CT1 n1, CT2 n2)noexcept{
+		return detail::dim_t_op(std::multiplies< size_t >(), n1, n2);
 	}
 
 	template < typename CT1, typename CT2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr bool operator>(CT1 n1, CT2 n2)noexcept{
-		return detail::dim_t_comp(std::greater< size_t >(), n1, n2);
+		detail::enable_if_d_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator/(CT1 n1, CT2 n2)noexcept{
+		return detail::dim_t_op(std::divides< size_t >(), n1, n2);
 	}
 
 	template < typename CT1, typename CT2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr bool operator<=(CT1 n1, CT2 n2)noexcept{
-		return detail::dim_t_comp(std::less_equal< size_t >(), n1, n2);
+		detail::enable_if_d_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator%(CT1 n1, CT2 n2)noexcept{
+		return detail::dim_t_op(std::modulus< size_t >(), n1, n2);
+	}
+
+
+	template < typename CT1, typename CT2,
+		detail::enable_if_d_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator+=(CT1& n1, CT2 n2)noexcept{
+		return n1 = detail::dim_t_op(std::plus< size_t >(), n1, n2);
 	}
 
 	template < typename CT1, typename CT2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr bool operator>=(CT1 n1, CT2 n2)noexcept{
-		return detail::dim_t_comp(std::greater_equal< size_t >(), n1, n2);
+		detail::enable_if_d_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator-=(CT1& n1, CT2 n2)noexcept{
+		return n1 = detail::dim_t_op(std::minus< size_t >(), n1, n2);
+	}
+
+	template < typename CT1, typename CT2,
+		detail::enable_if_d_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator*=(CT1& n1, CT2 n2)noexcept{
+		return n1 = detail::dim_t_op(std::multiplies< size_t >(), n1, n2);
+	}
+
+	template < typename CT1, typename CT2,
+		detail::enable_if_d_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator/=(CT1& n1, CT2 n2)noexcept{
+		return n1 = detail::dim_t_op(std::divides< size_t >(), n1, n2);
+	}
+
+	template < typename CT1, typename CT2,
+		detail::enable_if_d_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator%=(CT1& n1, CT2 n2)noexcept{
+		return n1 = detail::dim_t_op(std::modulus< size_t >(), n1, n2);
+	}
+
+
+	template < typename CT, detail::enable_if_d_or_dim_t_t< CT > = 0 >
+	constexpr auto operator++(CT& n)noexcept{
+		return n = CT(size_t(n) + 1);
+	}
+
+	template < typename CT, detail::enable_if_d_or_dim_t_t< CT > = 0 >
+	constexpr auto operator++(CT& n, int)noexcept{
+		auto r(n);
+		++n;
+		return r;
+	}
+
+	template < typename CT, detail::enable_if_d_or_dim_t_t< CT > = 0 >
+	constexpr auto operator--(CT& n)noexcept{
+		return n = CT(size_t(n) - 1);
+	}
+
+	template < typename CT, detail::enable_if_d_or_dim_t_t< CT > = 0 >
+	constexpr auto operator--(CT& n, int)noexcept{
+		auto r(n);
+		--n;
+		return r;
 	}
 
 
@@ -150,6 +212,19 @@ namespace mitrax::literals{
 	}
 
 
+	constexpr c_t operator"" _c(unsigned long long c)noexcept{
+		return c_t(c);
+	}
+
+	constexpr r_t operator"" _r(unsigned long long r)noexcept{
+		return r_t(r);
+	}
+
+	constexpr d_t operator"" _d(unsigned long long d)noexcept{
+		return d_t(d);
+	}
+
+
 }
 
 
@@ -160,58 +235,54 @@ namespace mitrax{
 
 
 	template < bool Nct, typename CT, CT N >
-	struct dim_base;
+	struct dim_type;
 
 
 	template < bool Cct, col_t C >
-	struct col: dim_base< Cct, col_t, C >{
-		using dim_base< Cct, col_t, C >::dim_base;
-	};
+	using col = dim_type< Cct, col_t, C >;
 
 	template < bool Rct, row_t R >
-	struct row: dim_base< Rct, row_t, R >{
-		using dim_base< Rct, row_t, R >::dim_base;
-	};
+	using row = dim_type< Rct, row_t, R >;
 
 	template < bool Dct, dim_t D >
-	struct dim: dim_base< Dct, dim_t, D >{
-		using dim_base< Dct, dim_t, D >::dim_base;
+	using dim = dim_type< Dct, dim_t, D >;
+
+
+	template < typename CT > struct index_type;
+	template <> struct index_type< col_t >{ using type = c_t; };
+	template <> struct index_type< row_t >{ using type = r_t; };
+	template <> struct index_type< dim_t >{ using type = d_t; };
+	template < bool Cct, col_t C > struct index_type< col< Cct, C > >{
+		using type = c_t;
 	};
-
-
-	template < bool Nct, typename CT, CT N > struct dim_type;
-
-	template < bool Cct, col_t C > struct dim_type< Cct, col_t, C >{
-		using type = col< Cct, C >;
+	template < bool Rct, row_t R > struct index_type< row< Rct, R > >{
+		using type = r_t;
 	};
-
-	template < bool Rct, row_t R > struct dim_type< Rct, row_t, R >{
-		using type = row< Rct, R >;
+	template < bool Dct, dim_t D > struct index_type< dim< Dct, D > >{
+		using type = d_t;
 	};
-
-	template < bool Dct, dim_t D > struct dim_type< Dct, dim_t, D >{
-		using type = dim< Dct, D >;
-	};
-
-	template < bool Nct, typename CT, CT N >
-	using dim_type_t = typename dim_type< Nct, CT, N >::type;
+	template < typename CT > using index_type_t =
+		typename index_type< CT >::type;
 
 
 	template < typename CT, CT N >
-	struct dim_base< true, CT, N >{
+	struct dim_type< true, CT, N >{
 		static_assert(N != CT(0));
 
 		static constexpr CT value = N;
 
 		using value_type = CT;
+		using index_type = index_type_t< CT >;
 
-		constexpr dim_base()noexcept = default;
+		constexpr dim_type()noexcept = default;
 
-		explicit constexpr operator CT()const noexcept{ return value; }
-		explicit constexpr operator size_t()const noexcept{
-			return size_t(this->operator CT());
+		explicit constexpr operator value_type()const noexcept{ return value; }
+		explicit constexpr operator index_type()const noexcept{
+			return index_type(value);
 		}
-
+		explicit constexpr operator size_t()const noexcept{
+			return size_t(this->operator value_type());
+		}
 		constexpr auto as_col()const noexcept{
 			return col< true, col_t(N) >();
 		}
@@ -226,18 +297,22 @@ namespace mitrax{
 	};
 
 	template < typename CT, CT N >
-	struct dim_base< false, CT, N >{
+	struct dim_type< false, CT, N >{
 		static constexpr CT value = N;
 
 		using value_type = CT;
+		using index_type = index_type_t< CT >;
 
-		constexpr dim_base()noexcept = default;
-		constexpr dim_base(dim_base< true, CT, N >&&)noexcept{}
-		constexpr dim_base(dim_base< true, CT, N > const&)noexcept{}
+		constexpr dim_type()noexcept = default;
+		constexpr dim_type(dim_type< true, CT, N >&&)noexcept{}
+		constexpr dim_type(dim_type< true, CT, N > const&)noexcept{}
 
-		explicit constexpr operator CT()const noexcept{ return value; }
+		explicit constexpr operator value_type()const noexcept{ return value; }
+		explicit constexpr operator index_type()const noexcept{
+			return index_type(value);
+		}
 		explicit constexpr operator size_t()const noexcept{
-			return size_t(this->operator CT());
+			return size_t(this->operator value_type());
 		}
 
 		constexpr auto as_col()const noexcept{
@@ -255,26 +330,30 @@ namespace mitrax{
 
 
 	template < typename CT >
-	struct rt_dim_base{
+	struct rt_dim_type{
 	public:
 		static constexpr CT value = CT(0);
 
 		using value_type = CT;
+		using index_type = index_type_t< CT >;
 
-		explicit constexpr rt_dim_base(CT n = CT(0))noexcept: v_(n) {}
+		explicit constexpr rt_dim_type(CT n = CT(0))noexcept: v_(n) {}
 
 		template < bool Nct, CT N >
-		constexpr rt_dim_base(dim_base< Nct, CT, N >&& n)noexcept:
+		constexpr rt_dim_type(dim_type< Nct, CT, N >&& n)noexcept:
 			v_(CT(n)) {}
 
 		template < bool Nct, CT N >
-		constexpr rt_dim_base(dim_base< Nct, CT, N > const& n)noexcept:
+		constexpr rt_dim_type(dim_type< Nct, CT, N > const& n)noexcept:
 			v_(CT(n)) {}
 
 
-		explicit constexpr operator CT()const noexcept{ return v_; }
+		explicit constexpr operator value_type()const noexcept{ return v_; }
+		explicit constexpr operator index_type()const noexcept{
+			return index_type(v_);
+		}
 		explicit constexpr operator size_t()const noexcept{
-			return size_t(this->operator CT());
+			return size_t(this->operator value_type());
 		}
 
 		constexpr auto as_col()const noexcept{
@@ -290,23 +369,226 @@ namespace mitrax{
 		}
 
 	private:
-		CT v_;
+		value_type v_;
 	};
 
 	template <>
-	struct dim_base< false, col_t, 0_C >: rt_dim_base< col_t >{
-		using rt_dim_base< col_t >::rt_dim_base;
+	struct dim_type< false, col_t, 0_C >: rt_dim_type< col_t >{
+		using rt_dim_type< col_t >::rt_dim_type;
 	};
 
 	template <>
-	struct dim_base< false, row_t, 0_R >: rt_dim_base< row_t >{
-		using rt_dim_base< row_t >::rt_dim_base;
+	struct dim_type< false, row_t, 0_R >: rt_dim_type< row_t >{
+		using rt_dim_type< row_t >::rt_dim_type;
 	};
 
 	template <>
-	struct dim_base< false, dim_t, 0_D >: rt_dim_base< dim_t >{
-		using rt_dim_base< dim_t >::rt_dim_base;
+	struct dim_type< false, dim_t, 0_D >: rt_dim_type< dim_t >{
+		using rt_dim_type< dim_t >::rt_dim_type;
 	};
+
+
+	constexpr auto cols(col_t c)noexcept{ return col< false, 0_C >(c); }
+	constexpr auto rows(row_t r)noexcept{ return row< false, 0_R >(r); }
+	constexpr auto dims(dim_t d)noexcept{ return dim< false, 0_D >(d); }
+
+
+	template < col_t C >
+	constexpr auto cols()noexcept{ return col< true, C >(); }
+
+	template < row_t R >
+	constexpr auto rows()noexcept{ return row< true, R >(); }
+
+	template < dim_t D >
+	constexpr auto dims()noexcept{ return dim< true, D >(); }
+
+
+	template < col_t C >
+	constexpr auto cols_rt()noexcept{ return col< false, C >(); }
+
+	template < row_t R >
+	constexpr auto rows_rt()noexcept{ return row< false, R >(); }
+
+	template < dim_t D >
+	constexpr auto dims_rt()noexcept{ return dim< false, D >(); }
+
+
+}
+
+
+namespace mitrax::detail{
+
+
+	template < typename Op,
+		bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2 >
+	constexpr auto dim_op(
+		Op op, dim_type< Nct1, CT1, N1 > n1, dim_type< Nct2, CT2, N2 > n2
+	)noexcept{
+		static_assert(std::is_same_v< CT1, CT2 >,
+			"You must not mix col, row and dim.");
+
+		if constexpr(N1 != CT1(0) && N2 != CT2(0)){
+			return dim_type< Nct1 || Nct2, CT1,
+				CT1(op(size_t(n1), size_t(n2))) >();
+		}else{
+			return dim_type< false, CT1, CT1(0) >
+				(CT1(op(size_t(n1), size_t(n2))));
+		}
+	}
+
+
+	template < typename CT > struct is_a_dim: std::false_type{};
+	template < bool Cct, col_t C > struct is_a_dim< col< Cct, C > >:
+		std::true_type{};
+	template < bool Rct, row_t R > struct is_a_dim< row< Rct, R > >:
+		std::true_type{};
+	template < bool Dct, dim_t D > struct is_a_dim< dim< Dct, D > >:
+		std::true_type{};
+	template < typename CT > constexpr auto is_a_dim_v = is_a_dim< CT >();
+
+
+	template < typename CT1, typename CT2 >
+	struct is_dim_linked: std::false_type{};
+
+	template < bool Cct, col_t C >
+	struct is_dim_linked< c_t, col< Cct, C > >: std::true_type{};
+	template < bool Cct, col_t C >
+	struct is_dim_linked< col< Cct, C >, c_t >: std::true_type{};
+	template < bool Cct1, col_t C1, bool Cct2, col_t C2 >
+	struct is_dim_linked< col< Cct1, C1 >, col< Cct2, C2 > >: std::true_type{};
+
+	template < bool Rct, row_t R >
+	struct is_dim_linked< r_t, row< Rct, R > >: std::true_type{};
+	template < bool Rct, row_t R >
+	struct is_dim_linked< row< Rct, R >, r_t >: std::true_type{};
+	template < bool Rct1, row_t R1, bool Rct2, row_t R2 >
+	struct is_dim_linked< row< Rct1, R1 >, row< Rct2, R2 > >: std::true_type{};
+
+	template < bool Dct, dim_t D >
+	struct is_dim_linked< d_t, dim< Dct, D > >: std::true_type{};
+	template < bool Dct, dim_t D >
+	struct is_dim_linked< dim< Dct, D >, d_t >: std::true_type{};
+	template < bool Dct1, dim_t D1, bool Dct2, dim_t D2 >
+	struct is_dim_linked< dim< Dct1, D1 >, dim< Dct2, D2 > >: std::true_type{};
+
+	template <> struct is_dim_linked< c_t, c_t >: std::true_type{};
+	template <> struct is_dim_linked< c_t, col_t >: std::true_type{};
+	template <> struct is_dim_linked< col_t, c_t >: std::true_type{};
+	template <> struct is_dim_linked< col_t, col_t >: std::true_type{};
+	template <> struct is_dim_linked< r_t, r_t >: std::true_type{};
+	template <> struct is_dim_linked< r_t, row_t >: std::true_type{};
+	template <> struct is_dim_linked< row_t, r_t >: std::true_type{};
+	template <> struct is_dim_linked< row_t, row_t >: std::true_type{};
+	template <> struct is_dim_linked< d_t, d_t >: std::true_type{};
+	template <> struct is_dim_linked< d_t, dim_t >: std::true_type{};
+	template <> struct is_dim_linked< dim_t, d_t >: std::true_type{};
+	template <> struct is_dim_linked< dim_t, dim_t >: std::true_type{};
+
+	template < typename CT1, typename CT2 >
+	constexpr auto is_dim_linked_v = is_dim_linked< CT1, CT2 >();
+
+	template < typename CT1, typename CT2 >
+	using enable_dim_involved_t =
+		enable_if_t<
+			(is_a_dim_v< CT1 > && is_a_dim_v< CT2 >) ||
+			(is_a_d_t_v< CT1 > && is_a_dim_v< CT2 >) ||
+			(is_a_dim_v< CT1 > && is_a_d_t_v< CT2 >) ||
+			(is_a_dim_t_v< CT1 > && is_a_dim_t_v< CT2 >) ||
+			(is_a_d_t_v< CT1 > && is_a_dim_t_v< CT2 >) ||
+			(is_a_dim_t_v< CT1 > && is_a_d_t_v< CT2 >) ||
+			(is_a_d_t_v< CT1 > && is_a_d_t_v< CT2 >) >;
+
+	template < typename Op, typename CT1, typename CT2 >
+	constexpr auto dim_comp(Op op, CT1 n1, CT2 n2)noexcept{
+		static_assert(is_dim_linked_v< CT1, CT2 >,
+			"You must not mix col, row and dim.");
+
+		return op(size_t(n1), size_t(n2));
+	}
+
+
+}
+
+
+namespace mitrax{
+
+
+	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
+		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator+(
+		dim_type< Nct1, CT1, N1 > n1, dim_type< Nct2, CT2, N2 > n2
+	)noexcept{
+		return detail::dim_op(std::plus< size_t >(), n1, n2);
+	}
+
+	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
+		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator-(
+		dim_type< Nct1, CT1, N1 > n1, dim_type< Nct2, CT2, N2 > n2
+	)noexcept{
+		return detail::dim_op(std::minus< size_t >(), n1, n2);
+	}
+
+	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
+		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator*(
+		dim_type< Nct1, CT1, N1 > n1, dim_type< Nct2, CT2, N2 > n2
+	)noexcept{
+		return detail::dim_op(std::multiplies< size_t >(), n1, n2);
+	}
+
+	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
+		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator/(
+		dim_type< Nct1, CT1, N1 > n1, dim_type< Nct2, CT2, N2 > n2
+	)noexcept{
+		return detail::dim_op(std::divides< size_t >(), n1, n2);
+	}
+
+	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
+		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
+	constexpr auto operator%(
+		dim_type< Nct1, CT1, N1 > n1, dim_type< Nct2, CT2, N2 > n2
+	)noexcept{
+		return detail::dim_op(std::modulus< size_t >(), n1, n2);
+	}
+
+
+	template < typename CT1, typename CT2,
+		detail::enable_dim_involved_t< CT1, CT2 > = 0 >
+	constexpr auto operator==(CT1 n1, CT2 n2)noexcept{
+		return detail::dim_comp(std::equal_to< size_t >(), n1, n2);
+	}
+
+	template < typename CT1, typename CT2,
+		detail::enable_dim_involved_t< CT1, CT2 > = 0 >
+	constexpr auto operator!=(CT1 n1, CT2 n2)noexcept{
+		return detail::dim_comp(std::not_equal_to< size_t >(), n1, n2);
+	}
+
+	template < typename CT1, typename CT2,
+		detail::enable_dim_involved_t< CT1, CT2 > = 0 >
+	constexpr auto operator<(CT1 n1, CT2 n2)noexcept{
+		return detail::dim_comp(std::less< size_t >(), n1, n2);
+	}
+
+	template < typename CT1, typename CT2,
+		detail::enable_dim_involved_t< CT1, CT2 > = 0 >
+	constexpr auto operator>(CT1 n1, CT2 n2)noexcept{
+		return detail::dim_comp(std::greater< size_t >(), n1, n2);
+	}
+
+	template < typename CT1, typename CT2,
+		detail::enable_dim_involved_t< CT1, CT2 > = 0 >
+	constexpr auto operator<=(CT1 n1, CT2 n2)noexcept{
+		return detail::dim_comp(std::less_equal< size_t >(), n1, n2);
+	}
+
+	template < typename CT1, typename CT2,
+		detail::enable_dim_involved_t< CT1, CT2 > = 0 >
+	constexpr auto operator>=(CT1 n1, CT2 n2)noexcept{
+		return detail::dim_comp(std::greater_equal< size_t >(), n1, n2);
+	}
 
 
 	template < bool Cct, col_t C, bool Rct, row_t R >
@@ -381,7 +663,7 @@ namespace mitrax{
 		return dim_pair(d.as_col(), d.as_row());
 	}
 
-	// TODO; static_assert instead of deleting
+	// TODO: static_assert instead of deleting?
 	template < typename T, bool Cct, col_t C >
 	void dim_pair(T, col< Cct, C >) = delete;
 
@@ -396,162 +678,6 @@ namespace mitrax{
 
 	template < bool Cct, col_t C, bool Rct, row_t R >
 	void dim_pair(row< Rct, R >, row< Cct, C >) = delete;
-
-
-	constexpr auto cols(col_t c)noexcept{ return col< false, 0_C >(c); }
-	constexpr auto rows(row_t r)noexcept{ return row< false, 0_R >(r); }
-	constexpr auto dims(dim_t d)noexcept{ return dim< false, 0_D >(d); }
-
-
-	template < col_t C >
-	constexpr auto cols()noexcept{ return col< true, C >(); }
-
-	template < row_t R >
-	constexpr auto rows()noexcept{ return row< true, R >(); }
-
-	template < dim_t D >
-	constexpr auto dims()noexcept{ return dim< true, D >(); }
-
-
-	template < col_t C >
-	constexpr auto cols_rt()noexcept{ return col< false, C >(); }
-
-	template < row_t R >
-	constexpr auto rows_rt()noexcept{ return row< false, R >(); }
-
-	template < dim_t D >
-	constexpr auto dims_rt()noexcept{ return dim< false, D >(); }
-
-
-}
-
-
-namespace mitrax::detail{
-
-
-	template < typename Op,
-		bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2 >
-	constexpr auto dim_op(
-		Op op, dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
-	)noexcept{
-		static_assert(std::is_same_v< CT1, CT2 >,
-			"You must not mix col, row and dim.");
-
-		if constexpr(N1 != CT1(0) && N2 != CT2(0)){
-			return dim_type_t< Nct1 || Nct2, CT1,
-				CT1(op(size_t(n1), size_t(n2))) >();
-		}else{
-			return dim_type_t< false, CT1, CT1(0) >
-				(CT1(op(size_t(n1), size_t(n2))));
-		}
-	}
-
-	template < typename Op,
-		bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2 >
-	constexpr auto dim_comp(
-		Op op, dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
-	)noexcept{
-		static_assert(std::is_same_v< CT1, CT2 >,
-			"You must not mix col, row and dim.");
-
-		return op(size_t(n1), size_t(n2));
-	}
-
-
-}
-
-
-namespace mitrax{
-
-
-	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr auto operator+(
-		dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
-	)noexcept{
-		return detail::dim_op(std::plus< size_t >(), n1, n2);
-	}
-
-	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr auto operator-(
-		dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
-	)noexcept{
-		return detail::dim_op(std::minus< size_t >(), n1, n2);
-	}
-
-	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr auto operator*(
-		dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
-	)noexcept{
-		return detail::dim_op(std::multiplies< size_t >(), n1, n2);
-	}
-
-	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr auto operator/(
-		dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
-	)noexcept{
-		return detail::dim_op(std::divides< size_t >(), n1, n2);
-	}
-
-	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr auto operator%(
-		dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
-	)noexcept{
-		return detail::dim_op(std::modulus< size_t >(), n1, n2);
-	}
-
-
-	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr auto operator==(
-		dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
-	)noexcept{
-		return detail::dim_comp(std::equal_to< size_t >(), n1, n2);
-	}
-
-	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr auto operator!=(
-		dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
-	)noexcept{
-		return detail::dim_comp(std::not_equal_to< size_t >(), n1, n2);
-	}
-
-	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr auto operator<(
-		dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
-	)noexcept{
-		return detail::dim_comp(std::less< size_t >(), n1, n2);
-	}
-
-	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr auto operator>(
-		dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
-	)noexcept{
-		return detail::dim_comp(std::greater< size_t >(), n1, n2);
-	}
-
-	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr auto operator<=(
-		dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
-	)noexcept{
-		return detail::dim_comp(std::less_equal< size_t >(), n1, n2);
-	}
-
-	template < bool Nct1, typename CT1, CT1 N1, bool Nct2, typename CT2, CT2 N2,
-		detail::enable_if_dim_t_t< CT1, CT2 > = 0 >
-	constexpr auto operator>=(
-		dim_base< Nct1, CT1, N1 > n1, dim_base< Nct2, CT2, N2 > n2
-	)noexcept{
-		return detail::dim_comp(std::greater_equal< size_t >(), n1, n2);
-	}
 
 
 	template <
@@ -722,33 +848,33 @@ namespace mitrax::detail{
 
 	template < typename CT, bool Nct1, CT N1, bool Nct2, CT N2 >
 	constexpr auto get_ct_if_available(
-		dim_base< Nct1, CT, N1 > n1, dim_base< Nct2, CT, N2 > n2
+		dim_type< Nct1, CT, N1 > n1, dim_type< Nct2, CT, N2 > n2
 	){
 		if constexpr(N1 != CT(0) && N2 != CT(0)){
 			static_assert(N1 == N2, "dimensions are not the same");
-			return dim_type_t< Nct1 || Nct2, CT, N1 >();
+			return dim_type< Nct1 || Nct2, CT, N1 >();
 		}else{
 			if(n1 != n2) throw std::logic_error("dimensions are not the same");
 			if constexpr(N1 == CT(0) && N2 == CT(0)){
-				return dim_type_t< false, CT, CT(0) >(CT(n1));
+				return dim_type< false, CT, CT(0) >(CT(n1));
 			}else{
-				return dim_type_t< Nct1 || Nct2, CT, (N1 > N2 ? N1 : N2) >();
+				return dim_type< Nct1 || Nct2, CT, (N1 > N2 ? N1 : N2) >();
 			}
 		}
 	}
 
 
 	template < bool Nct, typename CT, CT N >
-	constexpr auto get_same(dim_base< Nct, CT, N > d){
-		return dim_type_t< Nct, CT, N >(d);
+	constexpr auto get_same(dim_type< Nct, CT, N > d){
+		return dim_type< Nct, CT, N >(d);
 	}
 
 	template < typename CT, bool Nct1, CT N1, bool Nct2, CT N2,
 		bool ... Nctn, CT ... Nn >
 	constexpr auto get_same(
-		dim_base< Nct1, CT, N1 > d1,
-		dim_base< Nct2, CT, N2 > d2,
-		dim_base< Nctn, CT, Nn > ... dn
+		dim_type< Nct1, CT, N1 > d1,
+		dim_type< Nct2, CT, N2 > d2,
+		dim_type< Nctn, CT, Nn > ... dn
 	){
 		return get_same(get_ct_if_available(d1, d2), dn ...);
 	}
@@ -761,7 +887,7 @@ namespace mitrax{
 
 
 	template < bool ... Nct, typename ... CT, CT ... N >
-	constexpr auto get(dim_base< Nct, CT, N > ... v){
+	constexpr auto get(dim_type< Nct, CT, N > ... v){
 		static_assert(is_all_v< std::is_same, CT ... >,
 			"You must not mix col, row and dim.");
 		return detail::get_same(v ...);

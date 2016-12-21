@@ -183,8 +183,8 @@ namespace mitrax{
 		static_assert(!std::is_reference_v< F >);
 
 		constexpr decltype(auto) operator()(size_t i)const
-		noexcept(noexcept(std::declval< F >()(size_t(), size_t()))){
-			return f(i % size_t(cols), i / size_t(cols));
+		noexcept(noexcept(std::declval< F >()(c_t(), r_t()))){
+			return f(c_t(i) % c_t(cols), r_t(i) / r_t(cols.as_row()));
 		}
 
 		F f;

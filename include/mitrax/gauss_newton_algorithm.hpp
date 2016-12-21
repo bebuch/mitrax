@@ -39,16 +39,16 @@ namespace mitrax{
 			std::cout << arg << std::endl;
 
 			auto r = make_vector_fn(rows(data.size()),
-				[&data, &arg, &f](size_t y){
-					return f(arg, data[y]);
+				[&data, &arg, &f](r_t r){
+					return f(arg, data[r]);
 				});
 
 			auto d = make_matrix_fn(dim_pair(arg.rows().as_col(), data.size()),
-				[&data, &arg, &f, &threshold](size_t x, size_t y){
+				[&data, &arg, &f, &threshold](c_t c, r_t r){
 					auto arg1 = arg;
-					arg1[x] += threshold / 128;
+					arg1[c] += threshold / 128;
 					return (
-						f(arg1, data[y]) - f(arg, data[y])
+						f(arg1, data[r]) - f(arg, data[r])
 					) / (threshold / 128);
 				}
 			);
@@ -87,19 +87,19 @@ namespace mitrax{
 		auto arg = start_value;
 
 		auto r = make_vector_fn(rows(data.size()),
-			[&data, &arg, &f](size_t y){
-				return f(arg, data[y]);
+			[&data, &arg, &f](r_t r){
+				return f(arg, data[r]);
 			});
 
 		for(;;){
 // 			std::cout << arg << std::endl;
 
 			auto d = make_matrix_fn(dim_pair(arg.rows().as_col(), data.size()),
-				[&data, &arg, &f, &threshold](size_t x, size_t y){
+				[&data, &arg, &f, &threshold](c_t c, r_t r){
 					auto arg1 = arg;
-					arg1[x] += threshold / 128;
+					arg1[c] += threshold / 128;
 					return (
-						f(arg1, data[y]) - f(arg, data[y])
+						f(arg1, data[r]) - f(arg, data[r])
 					) / (threshold / 128);
 				}
 			);
@@ -116,8 +116,8 @@ namespace mitrax{
 				);
 
 				auto r_new = make_vector_fn(rows(data.size()),
-					[&data, &arg, &s, &f](size_t y){
-						return f(arg + s, data[y]);
+					[&data, &arg, &s, &f](r_t r){
+						return f(arg + s, data[r]);
 					});
 
 				auto r_norm = vector_norm_2sqr(r);

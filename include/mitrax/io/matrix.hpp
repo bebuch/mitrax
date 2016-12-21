@@ -21,11 +21,11 @@ namespace mitrax{
 	std::ostream& operator<<(std::ostream& os, matrix< M, C, R > const& m){
 		os << '[' << m.cols() << ',' << m.rows() << ']';
 		os << '(';
-		for(size_t y = 0; y < size_t(m.rows()); ++y){
-			if(y > 0) os << ',';
+		for(auto y = 0_r; y < m.rows(); ++y){
+			if(y > 0_r) os << ',';
 			os << '(';
-			for(size_t x = 0; x < size_t(m.cols()); ++x){
-				if(x > 0) os << ',';
+			for(auto x = 0_c; x < m.cols(); ++x){
+				if(x > 0_c) os << ',';
 				os << m(x, y);
 			}
 			os << ')';

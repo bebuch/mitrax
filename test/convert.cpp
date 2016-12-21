@@ -25,10 +25,10 @@ constexpr bool check(M const& m){
 	return
 		m.cols() == 2_CS &&
 		m.rows() == 2_RS &&
-		m(0, 0) == 0 &&
-		m(1, 0) == 1 &&
-		m(0, 1) == 2 &&
-		m(1, 1) == 3;
+		m(0_c, 0_r) == 0 &&
+		m(1_c, 0_r) == 1 &&
+		m(0_c, 1_r) == 2 &&
+		m(1_c, 1_r) == 3;
 }
 
 

@@ -28,6 +28,7 @@ project mitrax_test
 	<toolset>clang:<cxxflags>-Wextra
 	<toolset>clang:<cxxflags>-stdlib=libc++
 	<toolset>clang:<cxxflags>-ftemplate-backtrace-limit=0
+	<toolset>clang:<cxxflags>-fcolor-diagnostics
 	<toolset>clang:<linkflags>-lpthread
 	<toolset>clang:<linkflags>-lc++abi
 	<toolset>clang:<linkflags>-stdlib=libc++

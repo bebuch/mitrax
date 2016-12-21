@@ -34,7 +34,7 @@ auto const id = type_id< T >();
 
 
 template < bool Nct, typename CT, size_t N >
-using DimT = mitrax::dim_type_t< Nct, CT, CT(N) >;
+using DimT = dim_type< Nct, CT, CT(N) >;
 
 
 template < typename CT >

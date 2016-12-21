@@ -19,13 +19,13 @@ namespace mitrax::detail{
 
 	template < typename M >
 	struct sub_matrix_t{
-		constexpr decltype(auto) operator()(size_t dx, size_t dy)const{
+		constexpr decltype(auto) operator()(c_t dx, r_t dy)const{
 			return m(x + dx, y + dy);
 		}
 
 		M m;
-		size_t x;
-		size_t y;
+		c_t x;
+		r_t y;
 	};
 
 	template <
@@ -33,17 +33,17 @@ namespace mitrax::detail{
 		typename M
 	> constexpr auto make_sub_matrix_t(
 		M&& m,
-		size_t x, size_t y, col< Cct1, C1 > c, row< Rct1, R1 > r
+		c_t x, r_t y, col< Cct1, C1 > c, row< Rct1, R1 > r
 	){
 		if(
-			x >= size_t(m.cols()) || x + size_t(c) > size_t(m.cols()) ||
-			y >= size_t(m.rows()) || y + size_t(r) > size_t(m.rows())
+			x >= m.cols() || x + c_t(c) > m.cols() ||
+			y >= m.rows() || y + r_t(r) > m.rows()
 		){
 			throw std::out_of_range("sub_matrix out of range (matrix: " +
 				std::to_string(size_t(m.cols())) + "x" +
 				std::to_string(size_t(m.rows())) + "; sub-pos: " +
-				std::to_string(x) + "x" +
-				std::to_string(y) + "; sub-dims: " +
+				std::to_string(size_t(x)) + "x" +
+				std::to_string(size_t(y)) + "; sub-dims: " +
 				std::to_string(size_t(c)) + "x" +
 				std::to_string(size_t(r)) + ")");
 		}
@@ -64,7 +64,7 @@ namespace mitrax{
 		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 > const& m,
-		size_t x, size_t y, col< Cct1, C1 > c, row< Rct1, R1 > r
+		c_t x, r_t y, col< Cct1, C1 > c, row< Rct1, R1 > r
  	){
 		return make_matrix_fn(c, r, detail::make_sub_matrix_t(m, x, y, c, r));
 	}
@@ -74,7 +74,7 @@ namespace mitrax{
 		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 >&& m,
-		size_t x, size_t y, col< Cct1, C1 > c, row< Rct1, R1 > r
+		c_t x, r_t y, col< Cct1, C1 > c, row< Rct1, R1 > r
  	){
 		return make_matrix_fn(c, r,
 			detail::make_sub_matrix_t(std::move(m), x, y, c, r));
@@ -85,7 +85,7 @@ namespace mitrax{
 		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 > const& m,
-		size_t x, size_t y, dim_pair_t< Cct1, C1, Rct1, R1 > const& dims
+		c_t x, r_t y, dim_pair_t< Cct1, C1, Rct1, R1 > const& dims
  	){
 		return sub_matrix(m, x, y, dims.cols(), dims.rows());
 	}
@@ -95,7 +95,7 @@ namespace mitrax{
 		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 >&& m,
-		size_t x, size_t y, dim_pair_t< Cct1, C1, Rct1, R1 > const& dims
+		c_t x, r_t y, dim_pair_t< Cct1, C1, Rct1, R1 > const& dims
  	){
 		return sub_matrix(std::move(m), x, y, dims.cols(), dims.rows());
 	}
@@ -105,7 +105,7 @@ namespace mitrax{
 		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 > const& m,
-		point< size_t > xy, col< Cct1, C1 > c, row< Rct1, R1 > r
+		point_t xy, col< Cct1, C1 > c, row< Rct1, R1 > r
  	){
 		return sub_matrix(m, xy.x(), xy.y(), c, r);
 	}
@@ -115,7 +115,7 @@ namespace mitrax{
 		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 >&& m,
-		point< size_t > xy, col< Cct1, C1 > c, row< Rct1, R1 > r
+		point_t xy, col< Cct1, C1 > c, row< Rct1, R1 > r
  	){
 		return sub_matrix(std::move(m), xy.x(), xy.y(), c, r);
 	}
@@ -125,7 +125,7 @@ namespace mitrax{
 		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 > const& m,
-		point< size_t > xy, dim_pair_t< Cct1, C1, Rct1, R1 > const& dims
+		point_t xy, dim_pair_t< Cct1, C1, Rct1, R1 > const& dims
  	){
 		return sub_matrix(m, xy.x(), xy.y(), dims.cols(), dims.rows());
 	}
@@ -135,7 +135,7 @@ namespace mitrax{
 		typename M, col_t C2, row_t R2
 	> constexpr auto sub_matrix(
 		matrix< M, C2, R2 >&& m,
-		point< size_t > xy, dim_pair_t< Cct1, C1, Rct1, R1 > const& dims
+		point_t xy, dim_pair_t< Cct1, C1, Rct1, R1 > const& dims
  	){
 		return
 			sub_matrix(std::move(m), xy.x(), xy.y(), dims.cols(), dims.rows());

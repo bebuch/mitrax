@@ -122,22 +122,22 @@ namespace mitrax{
 
 	template < typename M, col_t C, row_t R, typename T >
 	constexpr auto element_plus(matrix< M, C, R > const& m, T const& v){
-		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
-				return m(x, y) + v;
+		return make_matrix_fn(m.dims(), [&m, &v](c_t c, r_t r){
+				return m(c, r) + v;
 			});
 	}
 
 	template < typename M, col_t C, row_t R, typename T >
 	constexpr auto element_minus(matrix< M, C, R > const& m, T const& v){
-		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
-				return m(x, y) - v;
+		return make_matrix_fn(m.dims(), [&m, &v](c_t c, r_t r){
+				return m(c, r) - v;
 			});
 	}
 
 	template < typename M, col_t C, row_t R, typename T >
 	constexpr auto operator*(matrix< M, C, R > const& m, T const& v){
-		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
-				return m(x, y) * v;
+		return make_matrix_fn(m.dims(), [&m, &v](c_t c, r_t r){
+				return m(c, r) * v;
 			});
 	}
 
@@ -148,16 +148,16 @@ namespace mitrax{
 
 	template < typename M, col_t C, row_t R, typename T >
 	constexpr auto operator/(matrix< M, C, R > const& m, T const& v){
-		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
-				return m(x, y) / v;
+		return make_matrix_fn(m.dims(), [&m, &v](c_t c, r_t r){
+				return m(c, r) / v;
 			});
 
 	}
 
 	template < typename M, col_t C, row_t R, typename T >
 	constexpr auto operator%(matrix< M, C, R > const& m, T const& v){
-		return make_matrix_fn(m.dims(), [&m, &v](size_t x, size_t y){
-				return m(x, y) % v;
+		return make_matrix_fn(m.dims(), [&m, &v](c_t c, r_t r){
+				return m(c, r) % v;
 			});
 
 	}
@@ -170,8 +170,8 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](size_t x, size_t y){
-				return m1(x, y) + m2(x, y);
+		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](c_t c, r_t r){
+				return m1(c, r) + m2(c, r);
 			});
 	}
 
@@ -182,8 +182,8 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](size_t x, size_t y){
-				return m1(x, y) - m2(x, y);
+		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](c_t c, r_t r){
+				return m1(c, r) - m2(c, r);
 			});
 	}
 
@@ -194,8 +194,8 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](size_t x, size_t y){
-				return m1(x, y) * m2(x, y);
+		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](c_t c, r_t r){
+				return m1(c, r) * m2(c, r);
 			});
 	}
 
@@ -206,8 +206,8 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](size_t x, size_t y){
-				return m1(x, y) / m2(x, y);
+		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](c_t c, r_t r){
+				return m1(c, r) / m2(c, r);
 			});
 	}
 
@@ -218,8 +218,8 @@ namespace mitrax{
 		matrix< M1, C1, R1 > const& m1,
 		matrix< M2, C2, R2 > const& m2
 	){
-		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](size_t x, size_t y){
-				return m1(x, y) % m2(x, y);
+		return make_matrix_fn(get_dims(m1, m2), [&m1, &m2](c_t c, r_t r){
+				return m1(c, r) % m2(c, r);
 			});
 	}
 
@@ -232,12 +232,12 @@ namespace mitrax{
 		matrix< M2, C2, R2 > const& m2
 	){
 		static_assert(
-			C1 == 0_C || R2 == 0_R || size_t(C1) == size_t(R2),
+			C1 == 0_C || R2 == 0_R || dim_t(C1) == dim_t(R2),
 			"Matrix dimensions not compatible"
 		);
 
 		// Compiler should skip this for compile time dimensions
-		if(size_t(m1.cols()) != size_t(m2.rows())){
+		if(m1.cols().as_dim() != m2.rows().as_dim()){
 			throw std::logic_error(
 				"matrix dimensions not compatible while comparing"
 			);
@@ -247,15 +247,15 @@ namespace mitrax{
 			std::common_type_t< value_type_t< M1 >, value_type_t< M2 > >;
 
 		// Compiler may optimize with the compile time dimension
-		size_t const size = C1 == 0_C ? size_t(m2.rows()) : size_t(m1.cols());
+		auto const size = C1 == 0_C ? m2.rows().as_dim() : m1.cols().as_dim();
 
 		auto m = make_matrix_v< value_type >(m2.cols(), m1.rows());
 
-		for(size_t r1 = 0; r1 < size_t(m1.rows()); ++r1){
-			for(size_t c2 = 0; c2 < size_t(m2.cols()); ++c2){
-				for(size_t i = 0; i < size; ++i){
-					m(c2, r1) +=
-						static_cast< value_type >(m1(i, r1)) * m2(c2, i);
+		for(auto r1 = 0_r; r1 < m1.rows(); ++r1){
+			for(auto c2 = 0_c; c2 < m2.cols(); ++c2){
+				for(auto d = 0_d; d < size; ++d){
+					m(c2, r1) += static_cast< value_type >
+						(m1(c_t(d), r1)) * m2(c2, r_t(d));
 				}
 			}
 		}
@@ -268,7 +268,7 @@ namespace mitrax{
 	constexpr auto transpose(matrix< M, C, R > const& m){
 		return make_matrix_fn(
 			m.rows().as_col(), m.cols().as_row(),
-			[&m](size_t x, size_t y){ return m(y, x); }
+			[&m](c_t c, r_t r){ return m(c_t(r), r_t(c)); }
 		);
 	}
 
@@ -280,16 +280,16 @@ namespace mitrax{
 
 	template < typename M, col_t C, row_t R >
 	constexpr auto operator-(matrix< M, C, R > const& m){
-		return make_matrix_fn(m.dims(), [&m](size_t x, size_t y){
-				return -m(x, y);
+		return make_matrix_fn(m.dims(), [&m](c_t c, r_t r){
+				return -m(c, r);
 			});
 	}
 
 	template < typename M, col_t C, row_t R >
 	constexpr auto abs(matrix< M, C, R > const& m){
-		return make_matrix_fn(m.dims(), [&m](size_t x, size_t y){
+		return make_matrix_fn(m.dims(), [&m](c_t c, r_t r){
 				using std::abs;
-				return abs(m(x, y));
+				return abs(m(c, r));
 			});
 	}
 
@@ -299,26 +299,15 @@ namespace mitrax{
 		col_vector< M1, R1 > const& m1,
 		col_vector< M2, R2 > const& m2
 	){
-		static_assert(
-			(R1 == 3_R || R1 == 0_R) && (R2 == 3_R || R2 == 0_R),
-			"Matrix dimensions not compatible"
-		);
-
-		// Compiler should skip this for compile time dimensions
-		if(m1.rows() != m2.rows() || m1.rows() != 3_RS){
-			throw std::logic_error(
-				"matrix dimensions not compatible while comparing"
-			);
-		}
-
 		using value_type =
 			std::common_type_t< value_type_t< M1 >, value_type_t< M2 > >;
 
-		// TODO: Use the compile time size from m1 or m2, if one is ct
-		return make_vector< value_type >(3_RS, {
-			m1[1] * m2[2] - m1[2] * m2[1],
-			m1[2] * m2[0] - m1[0] * m2[2],
-			m1[0] * m2[1] - m1[1] * m2[0]
+		auto size = get_dim(dim_pair(1_CS, 3_RS), m1, m2);
+
+		return make_matrix< value_type >(size, {
+			{ m1(0_c, 1_r) * m2(0_c, 2_r) - m1(0_c, 2_r) * m2(0_c, 1_r) },
+			{ m1(0_c, 2_r) * m2(0_c, 0_r) - m1(0_c, 0_r) * m2(0_c, 2_r) },
+			{ m1(0_c, 0_r) * m2(0_c, 1_r) - m1(0_c, 1_r) * m2(0_c, 0_r) }
 		});
 	}
 
@@ -327,26 +316,16 @@ namespace mitrax{
 		row_vector< M1, C1 > const& m1,
 		row_vector< M2, C2 > const& m2
 	){
-		static_assert(
-			(C1 == 3_C || C1 == 0_C) && (C2 == 3_C || C2 == 0_C),
-			"Matrix dimensions not compatible"
-		);
-
-		// Compiler should skip this for compile time dimensions
-		if(m1.cols() != m2.cols() || m1.cols() != 3_RS){
-			throw std::logic_error(
-				"matrix dimensions not compatible while comparing"
-			);
-		}
-
 		using value_type =
 			std::common_type_t< value_type_t< M1 >, value_type_t< M2 > >;
 
-		return make_vector< value_type >(3_CS, {
-			m1[1] * m2[2] - m1[2] * m2[1],
-			m1[2] * m2[0] - m1[0] * m2[2],
-			m1[0] * m2[1] - m1[1] * m2[0]
-		});
+		auto size = get_dim(dim_pair(3_CS, 1_RS), m1, m2);
+
+		return make_matrix< value_type >(size, {{
+			m1(1_c, 0_r) * m2(2_c, 0_r) - m1(2_c, 0_r) * m2(1_c, 0_r),
+			m1(2_c, 0_r) * m2(0_c, 0_r) - m1(0_c, 0_r) * m2(2_c, 0_r),
+			m1(0_c, 0_r) * m2(1_c, 0_r) - m1(1_c, 0_r) * m2(0_c, 0_r)
+		}});
 	}
 
 
@@ -360,9 +339,9 @@ namespace mitrax{
 
 		auto rows = get_rows(m1, m2);
 
-		value_type res = 0;
-		for(size_t i = 0; i < size_t(rows); ++i){
-			res += m1[i] * m2[i];
+		auto res = value_type();
+		for(auto r = 0_r; r < rows; ++r){
+			res += m1(0_c, r) * m2(0_c, r);
 		}
 
 		return res;
@@ -378,9 +357,9 @@ namespace mitrax{
 
 		auto cols = get_cols(m1, m2);
 
-		value_type res = 0;
-		for(size_t i = 0; i < size_t(cols); ++i){
-			res += m1[i] * m2[i];
+		auto res = value_type();
+		for(auto c = 0_c; c < cols; ++c){
+			res += m1(c, 0_r) * m2(c, 0_r);
 		}
 
 		return res;
