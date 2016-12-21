@@ -68,14 +68,26 @@ void default_construct(){
 	BOOST_TEST((size_t(rrt) == 0));
 }
 
+void index_literal(){
+	BOOST_TEST((rt_id(3_c) == id< c_t >));
+	BOOST_TEST((rt_id(3_r) == id< r_t >));
+	BOOST_TEST((rt_id(3_d) == id< d_t >));
+}
+
+void dim_t_literal(){
+	BOOST_TEST((rt_id(3_C) == id< col_t >));
+	BOOST_TEST((rt_id(3_R) == id< row_t >));
+	BOOST_TEST((rt_id(3_D) == id< dim_t >));
+}
+
 void dim_literal(){
-	BOOST_TEST((rt_id(3_CS ) == id< col< true,  3_C > >));
+	BOOST_TEST((rt_id(3_CS) == id< col< true,  3_C > >));
 	BOOST_TEST((rt_id(3_CD) == id< col< false, 3_C > >));
 
-	BOOST_TEST((rt_id(3_RS ) == id< row< true,  3_R > >));
+	BOOST_TEST((rt_id(3_RS) == id< row< true,  3_R > >));
 	BOOST_TEST((rt_id(3_RD) == id< row< false, 3_R > >));
 
-	BOOST_TEST((rt_id(3_DS ) == id< dim< true,  3_D > >));
+	BOOST_TEST((rt_id(3_DS) == id< dim< true,  3_D > >));
 	BOOST_TEST((rt_id(3_DD) == id< dim< false, 3_D > >));
 }
 
@@ -1099,6 +1111,8 @@ int main(int argc, char** argv, char** /*envp*/){
 	add_test< col_t >(ts);
 	add_test< row_t >(ts);
 	add_test< dim_t >(ts);
+	ts->add(BOOST_TEST_CASE(&index_literal));
+	ts->add(BOOST_TEST_CASE(&dim_t_literal));
 	ts->add(BOOST_TEST_CASE(&dim_literal));
 	ts->add(BOOST_TEST_CASE(&make_col));
 	ts->add(BOOST_TEST_CASE(&make_row));
