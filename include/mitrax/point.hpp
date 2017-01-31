@@ -64,7 +64,7 @@ namespace mitrax{
 
 
 		/// \brief Constructs a point by (0, 0)
-		constexpr point() = default;
+		constexpr point(): x_(), y_() {}
 
 		/// \brief Copy constructor
 		constexpr point(point const&) = default;
