@@ -70,7 +70,7 @@ namespace mitrax{ namespace png{
 
 
 		template < typename T, typename PNG_Pixel >
-		T pngxx2mitrax(PNG_Pixel const& v){
+		T const& pngxx2mitrax(PNG_Pixel const& v){
 			static_assert(
 				sizeof(T) == sizeof(PNG_Pixel),
 				"Matrix pixel type T is not compatible with type PNG_Pixel"
@@ -87,7 +87,7 @@ namespace mitrax{ namespace png{
 		}
 
 		template < typename PNG_Pixel, typename T >
-		PNG_Pixel mitrax2pngxx(T const& v){
+		PNG_Pixel const& mitrax2pngxx(T const& v){
 			static_assert(
 				sizeof(T) == sizeof(PNG_Pixel),
 				"Matrix pixel type T is not compatible with type PNG_Pixel"
@@ -100,7 +100,7 @@ namespace mitrax{ namespace png{
 				"Type PNG_Pixel must be trivially copyable"
 			);
 
-			return *reinterpret_cast< T const* >(&v);
+			return *reinterpret_cast< PNG_Pixel const* >(&v);
 		}
 
 
