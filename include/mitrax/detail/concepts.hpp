@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Copyright (c) 2016 Benjamin Buch
+// Copyright (c) 2016-2018 Benjamin Buch
 //
 // Based on a blog post from:
 // https://foonathan.github.io/blog/2016/09/09/cpp14-concepts.html
